@@ -1,0 +1,16 @@
+{
+  "name": "winlrt",
+  "version": "0.1.0",
+  "private": true,
+  "description": "winlrt — sıkıştırma ve açma programı (Windows, macOS; mobil yol haritası)",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev -w @winlrt/web",
+    "build:web": "npm run build -w @winlrt/web"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

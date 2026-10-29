@@ -1,0 +1,9 @@
+{
+  "name": "@winlrt/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx --yes serve public -p 3020",
+    "build": "node scripts/sync-public.js"
+  }
+}

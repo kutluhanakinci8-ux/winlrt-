@@ -1,0 +1,16 @@
+node_modules/
+dist/
+target/
+.tauri/
+*.log
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+*.exe
+*.msi
+*.dmg
+*.AppImage
+releases/*.zip
+!releases/.gitkeep
