@@ -30,7 +30,7 @@ pub fn run(archive: &Path, password: Option<&str>, op: &Op<'_>) -> Result<Vec<St
     }
 }
 
-fn archive_for(path: &Path, password: Option<&str>) -> Archive<'_> {
+fn archive_for<'a>(path: &'a Path, password: Option<&'a str>) -> Archive<'a> {
     if let Some(pw) = password.filter(|p| !p.is_empty()) {
         Archive::with_password(path, pw.as_bytes())
     } else {
