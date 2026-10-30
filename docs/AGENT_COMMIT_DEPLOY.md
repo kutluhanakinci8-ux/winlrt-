@@ -10,12 +10,12 @@ Kullanıcıdan **ayrı commit/push/deploy istenmez.**
 
 ## Dalga 2 (Explorer QA)
 
-- Pilot Windows’ta test eder; sonucu chat’e yazar veya signoff alanlarını doldurur.  
-- **Agent:** `docs/qa/EXPLORER_QA_SIGNOFF.md` günceller → commit → push → deploy.
+- Pilot Windows’ta test eder; chat’e **QA bitti** + SHA256 + OS yazar.  
+- **Agent:** `scripts/agent-explorer-signoff.sh` → commit → push → deploy → Dalga 3.
 
 ## Dalga 3 (kurumsal)
 
-Explorer PASS sonrası pilot ADMX/.reg test eder → chat sonucu → agent `KURUMSAL_PILOT_SIGNOFF.md` → commit · push · deploy.
+Explorer PASS sonrası pilot ADMX/.reg test eder → chat **kurumsal pilot bitti** → agent `scripts/agent-corporate-signoff.sh` → commit · push · deploy.
 
 ## Dalga 4+
 

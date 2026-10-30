@@ -9,6 +9,6 @@
 | 3 | [DALGA2_EXPLORER_QA_KOPYA.md](./DALGA2_EXPLORER_QA_KOPYA.md) tüm kutular |
 | 4 | Chat: **QA bitti** + SHA256 + OS sürümü + varsa FAIL notu |
 
-Agent: [EXPLORER_QA_SIGNOFF.md](./EXPLORER_QA_SIGNOFF.md) → commit · push · deploy → **Dalga 3**.
+Agent: `scripts/agent-explorer-signoff.sh` (ortam: `EXPLORER_QA_OS`, `EXPLORER_QA_SHA256`, `EXPLORER_QA_BY`) → commit · push · deploy → **Dalga 3**.
 
 **Dalga 3 hazır:** [DALGA3_KURUMSAL_KOPYA.md](./DALGA3_KURUMSAL_KOPYA.md) (Explorer PASS sonrası).

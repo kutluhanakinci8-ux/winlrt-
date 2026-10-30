@@ -21,4 +21,4 @@ Otomatik takip: [WINLRTRAR_ROADMAP_TO_100.md](./WINLRTRAR_ROADMAP_TO_100.md)
 | **1** Deploy | **Agent VPS deploy OK** (yetkili kimlik) · CI `auth=skip` = token 403, opsiyonel panel | [DALGA1_GITHUB_VPS_SECRET.md](./DALGA1_GITHUB_VPS_SECRET.md) |
 | **2** Explorer QA | **Aktif** — Windows pilot + `explorer-qa-preflight.ps1` | CI: `verify-dalga2-prereqs.sh` |
 | **3** Kurumsal + imza | **Paket canlı** — saha pilot (Dalga 2 sonrası) | ZIP vitrin · [qa/DALGA3_PILOT_OTURUM.md](./qa/DALGA3_PILOT_OTURUM.md) |
-| **4** v1.0 | Faz 3 sonrası | [qa/FAZ6_V1_KAPOR.md](./qa/FAZ6_V1_KAPOR.md) |
+| **4** v1.0 | Signoff’lar sonrası | [qa/DALGA4_V1_OTURUM.md](./qa/DALGA4_V1_OTURUM.md) · `check-v1-gate-status.sh` |

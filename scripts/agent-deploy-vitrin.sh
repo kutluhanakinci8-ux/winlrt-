@@ -58,4 +58,10 @@ fi
 echo "==> Deploy → ${VPS_USER}@${VPS_HOST}:${VPS_WEB_ROOT}"
 "${RSYNC_SSH[@]}" "${VPS_USER}@${VPS_HOST}" "mkdir -p '${VPS_WEB_ROOT}'"
 rsync -av --delete -e "${RSYNC_SSH[*]}" apps/web/dist/ "${VPS_USER}@${VPS_HOST}:${VPS_WEB_ROOT}/"
+
+if [ -x "$ROOT/scripts/verify-live-vitrin.sh" ]; then
+  echo "==> Canlı vitrin smoke"
+  bash "$ROOT/scripts/verify-live-vitrin.sh"
+fi
+
 echo "Tamam."
