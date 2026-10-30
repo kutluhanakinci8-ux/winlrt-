@@ -138,7 +138,7 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 - [x] Explorer sağ tık (temel) — [MADDE_W4](./qa/MADDE_W4_WINLRTZIP_EXPLORER.md)
 - [x] winlrt.com.tr indirme kanalı — W3 vitrin
 
-**Kapı:** Windows pilot (KOBİ) en az 1 senaryo.
+**Kapı:** Windows pilot (KOBİ) en az 1 senaryo — [MADDE_W13](./qa/MADDE_W13_WINLRTZIP_KOBI_PILOT.md) ✅
 
 ---
 

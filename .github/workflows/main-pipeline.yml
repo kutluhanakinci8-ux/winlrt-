@@ -104,6 +104,9 @@ jobs:
           cargo test -p winlrt-archive --test winlrtzip_interop i1_
           cargo test -p winlrt-archive --test winlrtzip_interop i2_
 
+      - name: winlrtZIP KOBİ pilot proxy (W13)
+        run: cargo test -p winlrt-archive --test winlrtzip_interop kobi_
+
       - name: Faz 1 benchmark raporu
         run: |
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json

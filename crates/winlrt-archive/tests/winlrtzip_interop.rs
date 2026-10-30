@@ -1,4 +1,4 @@
-//! winlrtZIP interop — I6 (W7), I4 AES (W8), I1/I2 Explorer proxy (W12).
+//! winlrtZIP interop — I6 (W7), I4 AES (W8), I1/I2 Explorer proxy (W12), KOBİ pilot (W13).
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -570,4 +570,83 @@ fn i2_winlrt_zip_cli_create_unzip_roundtrip() {
         .or_else(|_| fs::read(dest.join("i2.txt")))
         .unwrap();
     assert_eq!(content, b"cli-i2");
+}
+
+/// KOBİ: fatura/evrak klasörü → e-posta profili ZIP (≤10 MB) → alıcı test/çıkar (W13 proxy).
+#[test]
+fn kobi_invoice_bundle_email_profile_under_cap() {
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("FaturaPaketi");
+    fs::create_dir_all(&src).unwrap();
+    for i in 0..4 {
+        fs::write(
+            src.join(format!("fatura_{i:03}.pdf.txt")),
+            vec![b'F'; 512 * 1024],
+        )
+        .unwrap();
+    }
+    fs::write(src.join("ozet.txt"), b"KOBI W13 pilot").unwrap();
+    let zip = base.path().join("mail-eki.zip");
+    zip_io::create_with_profile(&src, &zip, CompressionProfile::EmailAttachment, None).unwrap();
+    let size = fs::metadata(&zip).unwrap().len();
+    assert!(
+        CompressionProfile::email_attachment_size_ok(size),
+        "KOBİ ZIP {size} B > {EMAIL_ATTACHMENT_MAX_ZIP_BYTES} B"
+    );
+    zip_io::test(&zip, None).unwrap();
+    let out = base.path().join("alici");
+    zip_io::extract(&zip, &out, None).unwrap();
+    assert_eq!(
+        fs::read(out.join("FaturaPaketi/ozet.txt")).unwrap_or_else(|_| {
+            fs::read(out.join("ozet.txt")).unwrap()
+        }),
+        b"KOBI W13 pilot"
+    );
+}
+
+#[test]
+fn kobi_winlrt_zip_cli_email_workflow() {
+    let bin = env!("CARGO_BIN_EXE_winlrt-zip");
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("Evrak");
+    fs::create_dir_all(&src).unwrap();
+    fs::write(src.join("teklif.txt"), vec![b'T'; 256 * 1024]).unwrap();
+    let zip = base.path().join("gonder.zip");
+    let create = Command::new(bin)
+        .args([
+            "create",
+            src.to_str().unwrap(),
+            zip.to_str().unwrap(),
+            "--profile",
+            "email",
+        ])
+        .output()
+        .unwrap();
+    assert!(
+        create.status.success(),
+        "create: {}",
+        String::from_utf8_lossy(&create.stderr)
+    );
+    let size = fs::metadata(&zip).unwrap().len();
+    assert!(CompressionProfile::email_attachment_size_ok(size));
+    let test = Command::new(bin)
+        .args(["test", zip.to_str().unwrap()])
+        .output()
+        .unwrap();
+    assert!(test.status.success());
+    let dest = base.path().join("inbox");
+    fs::create_dir_all(&dest).unwrap();
+    let extract = Command::new(bin)
+        .args([
+            "extract",
+            zip.to_str().unwrap(),
+            dest.to_str().unwrap(),
+        ])
+        .output()
+        .unwrap();
+    assert!(extract.status.success());
+    let body = fs::read(dest.join("Evrak/teklif.txt"))
+        .or_else(|_| fs::read(dest.join("teklif.txt")))
+        .unwrap();
+    assert_eq!(body.len(), 256 * 1024);
 }

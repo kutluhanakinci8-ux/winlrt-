@@ -15,5 +15,6 @@
 | **W10** | ZIP64 (I3) | **%100** ✅ | [MADDE_W10](./MADDE_W10_WINLRTZIP_ZIP64.md) |
 | **W11** | Bozuk CRC (I7) | **%100** ✅ | [MADDE_W11](./MADDE_W11_WINLRTZIP_CRC_I7.md) |
 | **W12** | Explorer I1/I2 interop | **%100** ✅ | [MADDE_W12](./MADDE_W12_WINLRTZIP_EXPLORER_I1_I2.md) |
+| **W13** | Faz 2 KOBİ pilot (e-posta eki) | **%100** ✅ | [MADDE_W13](./MADDE_W13_WINLRTZIP_KOBI_PILOT.md) |
 
 RAR hattı: [POST_V2_SIRA.md](./POST_V2_SIRA.md) (Q2 tamam).
