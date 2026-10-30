@@ -1,5 +1,7 @@
 # Dalga 1 — GitHub VPS secret (isteğe bağlı: CI deploy)
 
+**Canlı deploy (v1.0 sonrası):** Agent `post-phase-deploy.sh` — **birincil yol**; GitHub secret zorunlu değil.
+
 **Canlı deploy:** Cloud Agent zaten yetkili `VPS_*` ile `post-phase-deploy.sh` çalıştırır — şifre repoya yazılmaz.
 
 **CI (push → Actions deploy):** Agent token **403** ile GitHub Secret yazamaz. İsterseniz **bir kez** kendi GitHub oturumunuzdan:
