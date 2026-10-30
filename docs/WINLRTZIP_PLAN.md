@@ -61,7 +61,7 @@ winlrtRAR ile **aynı KPI ailesi** (hepsi **P0**, Faz 3’te ölçüm):
 
 ### Güvenlik
 
-- [ ] AES-256 şifreli ZIP (WinZip uyumlu interop testleri)
+- [x] AES-256 şifreli ZIP (WinZip uyumlu interop testleri) — [MADDE_W8](./qa/MADDE_W8_WINLRTZIP_AES_INTEROP.md)
 - [ ] Kurumsal parola politikası (Faz 4)
 - [ ] İmzalı arşiv (Faz 4)
 

@@ -76,6 +76,11 @@ jobs:
       - name: winlrtZIP e-posta profili (I6 / W7)
         run: cargo test -p winlrt-archive --test winlrtzip_interop i6_email_profile_mixed -- --ignored
 
+      - name: winlrtZIP AES interop (I4 / W8)
+        run: |
+          sudo apt-get install -y -qq p7zip-full
+          cargo test -p winlrt-archive --test winlrtzip_interop i4_
+
       - name: Faz 1 benchmark raporu
         run: |
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json
