@@ -1,0 +1,69 @@
+{
+  "v": 1,
+  "product": "winlrtZIP",
+  "app_version": "0.1.0",
+  "bundle_identifier": "com.winlrt.zip",
+  "all_pass": true,
+  "items": [
+    {
+      "id": "bundle_identifier",
+      "platform": "both",
+      "pass": true,
+      "note": "Tauri identifier com.winlrt.zip"
+    },
+    {
+      "id": "short_description",
+      "platform": "both",
+      "pass": true,
+      "note": "NSIS / mağaza kısa açıklama"
+    },
+    {
+      "id": "macos_min_os",
+      "platform": "app_store",
+      "pass": true,
+      "note": "macOS minimumSystemVersion"
+    },
+    {
+      "id": "privacy_audit_doc",
+      "platform": "both",
+      "pass": true,
+      "note": "KVKK denetim dokümantasyonu"
+    },
+    {
+      "id": "mobile_reader_contract",
+      "platform": "both",
+      "pass": true,
+      "note": "Mobil okuyucu sözleşmesi (W26)"
+    },
+    {
+      "id": "kvkk_secure_share",
+      "platform": "both",
+      "pass": true,
+      "note": "Güvenli paylaşım / KVKK (W25)"
+    },
+    {
+      "id": "ci_windows_release",
+      "platform": "both",
+      "pass": true,
+      "note": "Windows güncelleme hattı workflow"
+    },
+    {
+      "id": "ci_macos_release",
+      "platform": "app_store",
+      "pass": true,
+      "note": "macOS dmg hattı (W14)"
+    },
+    {
+      "id": "update_channel_github",
+      "platform": "both",
+      "pass": true,
+      "note": "GitHub release / dispatch kanalı"
+    },
+    {
+      "id": "play_data_safety_note",
+      "platform": "play",
+      "pass": true,
+      "note": "Play Data safety özet şablonu"
+    }
+  ]
+}

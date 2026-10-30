@@ -10,6 +10,7 @@ use crate::profile::CompressionProfile;
 use crate::archive_sign;
 use crate::mobile_reader;
 use crate::secure_share;
+use crate::store_gate;
 use crate::{zip_io, Result};
 
 #[derive(Parser)]
@@ -66,6 +67,10 @@ pub enum ZipCommands {
     VerifyShare { pack_zip: PathBuf },
     MobileCapabilities,
     MobileInspect { archive: PathBuf },
+    StoreGate {
+        #[arg(long)]
+        workspace: Option<PathBuf>,
+    },
     Bench {
         #[arg(long)]
         fixture: Option<PathBuf>,
@@ -320,6 +325,31 @@ pub fn run() -> Result<()> {
                     "mobil: {} girdi, sifreli={}, split={}",
                     report.entry_count, report.encryption_detected, report.split_zip
                 );
+            }
+        }
+        ZipCommands::StoreGate { workspace } => {
+            let root = workspace.unwrap_or_else(store_gate::default_workspace_root);
+            let report = store_gate::evaluate_store_gate(&root)?;
+            if !json_out {
+                for line in &report.items {
+                    println!(
+                        "[{}] {} — {}",
+                        if line.pass { "OK" } else { "FAIL" },
+                        line.id,
+                        line.note
+                    );
+                }
+                println!(
+                    "store gate: all_pass={} version={}",
+                    report.all_pass, report.app_version
+                );
+            } else {
+                print_json(&report)?;
+            }
+            if !report.all_pass {
+                return Err(crate::ArchiveError::Zip(
+                    "magaza kapisi: eksik maddeler var".into(),
+                ));
             }
         }
         ZipCommands::Bench {

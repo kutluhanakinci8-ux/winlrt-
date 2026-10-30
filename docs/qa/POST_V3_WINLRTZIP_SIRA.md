@@ -29,5 +29,6 @@
 | **W24** | Info-ZIP span (`PK\x07\x08`) | **%100** ✅ | [MADDE_W24](./MADDE_W24_WINLRTZIP_INFOZIP_SPAN.md) |
 | **W25** | Güvenli paylaşım (KVKK smoke) | **%100** ✅ | [MADDE_W25](./MADDE_W25_WINLRTZIP_SECURE_SHARE.md) |
 | **W26** | Mobil okuyucu smoke (Faz 6) | **%100** ✅ | [MADDE_W26](./MADDE_W26_WINLRTZIP_MOBILE_READER.md) |
+| **W27** | Mağaza / güncelleme kapısı (Faz 7) | **%100** ✅ | [MADDE_W27](./MADDE_W27_WINLRTZIP_STORE_GATE.md) |
 
 RAR hattı: [POST_V2_SIRA.md](./POST_V2_SIRA.md) (Q2 tamam).

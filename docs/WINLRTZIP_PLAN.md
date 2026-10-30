@@ -180,7 +180,8 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 
 ### Faz 7 — Mağaza olgunluğu
 
-- [ ] Play / App Store politikaları, güncelleme hattı
+- [x] Play / App Store repo kapısı + Data safety şablonu — [MADDE_W27](./qa/MADDE_W27_WINLRTZIP_STORE_GATE.md)
+- [ ] Gerçek Play / App Store yükleme + inceleme
 
 ---
 

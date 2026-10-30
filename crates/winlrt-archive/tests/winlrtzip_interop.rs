@@ -755,6 +755,14 @@ fn w23_signed_archive_extract() {
 }
 
 #[test]
+fn w27_store_gate_all_pass_in_repo() {
+    let root = winlrt_archive::store_gate::default_workspace_root();
+    let report = winlrt_archive::store_gate::evaluate_store_gate(&root).unwrap();
+    assert!(report.all_pass, "store gate: {:?}", report.items);
+    assert_eq!(report.bundle_identifier.as_deref(), Some("com.winlrt.zip"));
+}
+
+#[test]
 fn w26_mobile_inspect_read_only_capabilities() {
     let caps = mobile_reader::capabilities();
     assert!(!caps.create_archive);

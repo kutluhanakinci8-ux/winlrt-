@@ -146,6 +146,9 @@ jobs:
       - name: winlrtZIP mobil okuyucu smoke (W26)
         run: bash scripts/verify-madde-w26.sh
 
+      - name: winlrtZIP mağaza kapısı (W27)
+        run: bash scripts/verify-madde-w27.sh
+
       - name: Faz 1 benchmark raporu
         run: |
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json
