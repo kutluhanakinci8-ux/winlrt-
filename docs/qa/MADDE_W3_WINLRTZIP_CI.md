@@ -17,3 +17,5 @@
 3. `bash scripts/verify-madde-w3.sh`
 
 Imza: `TAURI_SIGNING_*` yoksa imzasız (winlrtRAR ile aynı politika).
+
+**Doğrulandı:** [winlrt-zip-beta.1](https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-zip-beta.1) · run `41097691073` · `winlrtZIP_0.1.0_x64-setup.exe`

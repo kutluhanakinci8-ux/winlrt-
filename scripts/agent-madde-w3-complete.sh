@@ -9,7 +9,21 @@ wait_workflow() {
   local RUN
   RUN="$(gh run list --workflow=winlrt-zip-windows.yml --repo "$REPO" --branch main --limit 1 --json databaseId --jq '.[0].databaseId')"
   echo "==> winlrtZIP Windows run $RUN"
-  gh run watch "$RUN" --repo "$REPO" --exit-status
+  if ! gh run watch "$RUN" --repo "$REPO" --exit-status; then
+    echo "gh run watch uyarı — poll ile bekleniyor..."
+    for _ in $(seq 1 60); do
+      local ST CO
+      ST="$(gh run view "$RUN" --repo "$REPO" --json status --jq '.status')"
+      CO="$(gh run view "$RUN" --repo "$REPO" --json conclusion --jq '.conclusion')"
+      if [ "$ST" = "completed" ]; then
+        [ "$CO" = "success" ] || exit 1
+        return 0
+      fi
+      sleep 20
+    done
+    echo "Zaman aşımı: run $RUN" >&2
+    exit 1
+  fi
 }
 
 cd "$ROOT"
