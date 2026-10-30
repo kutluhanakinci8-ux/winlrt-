@@ -1,6 +1,6 @@
 # winlrtRAR — durum özeti (Cloud Agent)
 
-**Son güncelleme:** `main` @ `4dc609f+` · Canlı: [winlrt.com.tr](https://winlrt.com.tr/) (deploy smoke OK)
+**Son güncelleme:** `main` @ `8ea6f22+` · Canlı: [winlrt.com.tr](https://winlrt.com.tr/) · Pilot: [/pilot/](https://winlrt.com.tr/pilot/)
 
 ## Ne oldu?
 

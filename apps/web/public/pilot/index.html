@@ -23,7 +23,7 @@
       <div id="waves" style="display: grid; gap: 1rem; margin: 1.5rem 0"></div>
       <p class="meta" id="meta"></p>
       <p>
-        <a class="btn btn-primary" href="/downloads/">Beta indir</a>
+        <a class="btn btn-primary" id="beta-link" href="/downloads/">Beta indir</a>
         <a class="btn btn-ghost" id="doc-link" href="#">Aktif dalga rehberi</a>
         <a
           class="btn btn-ghost"
@@ -67,6 +67,9 @@
         }
         document.getElementById("meta").textContent =
           "Güncelleme: " + (data.generated_at || "") + " · Agent deploy sonrası yenilenir.";
+        if (data.links && data.links.beta_release) {
+          document.getElementById("beta-link").href = data.links.beta_release;
+        }
         const doc =
           w === 3
             ? data.links.corporate_zip

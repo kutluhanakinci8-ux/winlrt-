@@ -12,7 +12,8 @@ for f in \
   scripts/windows/explorer-qa-preflight.ps1 \
   apps/web/public/pilot/index.html \
   scripts/generate-pilot-status-json.sh \
-  scripts/agent-parse-pilot-chat.sh
+  scripts/agent-parse-pilot-chat.sh \
+  scripts/windows/pilot-dalga2-start.ps1
 do
   test -f "$ROOT/$f" || { echo "Eksik: $f" >&2; exit 1; }
 done
