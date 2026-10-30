@@ -10,6 +10,6 @@ Checklist: [WINLRTRAR_EXPLORER_QA.md](../WINLRTRAR_EXPLORER_QA.md)
 | Kurulum dosyası SHA256 | |
 | QA yapan | |
 
-Tüm maddeler PASS ise bu dosyayı doldurup `main`’e commit edin → agent **post-phase-deploy** çalıştırır.
+Tüm maddeler PASS ise pilot chat’e yazar veya bu tabloyu doldurur → **agent** `main`’e commit · push · **post-phase-deploy** yapar.
 
 **Durum:** [ ] PASS · [ ] FAIL (notlar: )

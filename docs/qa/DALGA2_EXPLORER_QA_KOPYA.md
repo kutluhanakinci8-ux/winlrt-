@@ -26,4 +26,4 @@ Tam liste: [WINLRTRAR_EXPLORER_QA.md](../WINLRTRAR_EXPLORER_QA.md)
 ## Temizlik
 - [ ] Kaldırma → Explorer menüleri gitti
 
-**Bitti mi?** [EXPLORER_QA_SIGNOFF.md](./EXPLORER_QA_SIGNOFF.md) doldur → commit → agent deploy.
+**Bitti mi?** Chat’e “QA bitti” + notlar → agent signoff commit · push · deploy.

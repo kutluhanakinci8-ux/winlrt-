@@ -12,7 +12,7 @@ Otomatik takip: [WINLRTRAR_ROADMAP_TO_100.md](./WINLRTRAR_ROADMAP_TO_100.md)
 | 5 | K | **Hazır** | Rehber: [qa/FAZ5_KURUMSAL_BASLANGIC.md](./qa/FAZ5_KURUMSAL_BASLANGIC.md) (Faz 4 signoff sonrası) |
 | 6 | L | **Siz** | §7 üç kapı + tag `v1.0.0` |
 
-**Deploy:** Her faz sonrası `scripts/post-phase-deploy.sh` (VPS ortam değişkenleri).
+**Her agent turu:** commit → `push origin main` → `scripts/post-phase-deploy.sh` ([AGENT_COMMIT_DEPLOY.md](./AGENT_COMMIT_DEPLOY.md)).
 
 ## Dalga planı (sıra)
 
