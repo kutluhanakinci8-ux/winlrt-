@@ -1,4 +1,4 @@
-//! winlrtZIP interop — I6 (W7), I4 AES (W8), I1/I2 Explorer proxy (W12), KOBİ pilot (W13).
+//! winlrtZIP interop — I6 (W7), I4 AES (W8), I1/I2 Explorer proxy (W12), KOBİ pilot (W13), split ZIP (W20).
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -649,4 +649,36 @@ fn kobi_winlrt_zip_cli_email_workflow() {
         .or_else(|_| fs::read(dest.join("teklif.txt")))
         .unwrap();
     assert_eq!(body.len(), 256 * 1024);
+}
+
+#[test]
+fn w20_split_zip_eocd_smoke_detected() {
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("vol.txt");
+    fs::write(&src, b"w20-split").unwrap();
+    let zip = base.path().join("w20.zip");
+    zip_io::create_with_profile(&src, &zip, CompressionProfile::Balanced, None).unwrap();
+    zip_io::mark_split_zip_eocd_smoke_for_test(&zip).unwrap();
+    assert!(zip_io::archive_indicates_split_zip(&zip).unwrap());
+}
+
+#[test]
+fn w20_split_zip_companion_z01_on_disk() {
+    let base = tempfile::tempdir().unwrap();
+    let zip = base.path().join("set.zip");
+    fs::write(&zip, b"PK\x03\x04").unwrap();
+    fs::write(base.path().join("set.z01"), b"part2").unwrap();
+    let vols = zip_io::split_zip_volumes_on_disk(&zip);
+    assert!(vols.len() >= 2);
+    assert!(zip_io::archive_indicates_split_zip(&zip).unwrap());
+}
+
+#[test]
+fn w20_normal_zip_not_split() {
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("n.txt");
+    fs::write(&src, b"1").unwrap();
+    let zip = base.path().join("n.zip");
+    zip_io::create_with_profile(&src, &zip, CompressionProfile::Fast, None).unwrap();
+    assert!(!zip_io::archive_indicates_split_zip(&zip).unwrap());
 }

@@ -125,6 +125,9 @@ jobs:
       - name: winlrtZIP kurumsal pilot signoff kapısı (W19)
         run: bash scripts/verify-madde-w19.sh
 
+      - name: winlrtZIP Split ZIP smoke (W20)
+        run: bash scripts/verify-madde-w20.sh
+
       - name: Faz 1 benchmark raporu
         run: |
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json

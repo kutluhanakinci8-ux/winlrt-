@@ -163,7 +163,7 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 
 ### Faz 5 — Gelişmiş ZIP
 
-- [ ] Split ZIP, onarım, solid benzeri optimizasyonlar
+- [x] Split ZIP algılama smoke — [MADDE_W20](./qa/MADDE_W20_WINLRTZIP_SPLIT_ZIP.md) · [ ] birleştirme/yazma
 - [ ] Opsiyonel güvenli paylaşım (self-hosted / KVKK; WinZip Share alternatifi)
 
 ---

@@ -172,6 +172,82 @@ pub fn create_from_paths(
 /// Zip64 eşiği (zip crate `ZIP64_BYTES_THR` ile uyumlu).
 pub const ZIP64_SIZE_THRESHOLD: u64 = u32::MAX as u64;
 
+/// WinZip tarzı split ZIP: `arsiv.zip` + `arsiv.z01`, `arsiv.z02`, …
+pub const SPLIT_ZIP_MAX_VOLUMES: u32 = 999;
+
+fn eocd_indicates_spanning(bytes: &[u8]) -> bool {
+    let Some(max_start) = bytes.len().checked_sub(22) else {
+        return false;
+    };
+    for i in (0..=max_start).rev() {
+        if bytes[i..i + 4] != [0x50, 0x4b, 0x05, 0x06] {
+            continue;
+        }
+        let disk = u16::from_le_bytes([bytes[i + 4], bytes[i + 5]]);
+        let cd_disk = u16::from_le_bytes([bytes[i + 6], bytes[i + 7]]);
+        return disk != 0 || cd_disk != 0;
+    }
+    false
+}
+
+/// Birinci cilt yolu (`*.zip`) için olası split cilt yolları (W20).
+pub fn split_zip_expected_companion_paths(first_volume: &Path) -> Vec<PathBuf> {
+    let Some(stem) = first_volume.file_stem().and_then(|s| s.to_str()) else {
+        return Vec::new();
+    };
+    let parent = first_volume.parent().unwrap_or_else(|| Path::new("."));
+    (1..=SPLIT_ZIP_MAX_VOLUMES)
+        .map(|n| parent.join(format!("{stem}.z{n:02}")))
+        .collect()
+}
+
+/// Diskte mevcut ciltler (ilk cilt dahil).
+pub fn split_zip_volumes_on_disk(first_volume: &Path) -> Vec<PathBuf> {
+    let mut out = Vec::new();
+    if first_volume.is_file() {
+        out.push(first_volume.to_path_buf());
+    }
+    for p in split_zip_expected_companion_paths(first_volume) {
+        if p.is_file() {
+            out.push(p);
+        } else if !out.is_empty() && out.len() > 1 {
+            break;
+        } else if out.len() == 1 {
+            continue;
+        } else {
+            break;
+        }
+    }
+    out
+}
+
+/// Split / spanned ZIP göstergesi (EOCD disk alanları veya `.zNN` ciltleri).
+pub fn archive_indicates_split_zip(archive: &Path) -> Result<bool> {
+    if split_zip_volumes_on_disk(archive).len() > 1 {
+        return Ok(true);
+    }
+    let bytes = std::fs::read(archive).map_err(ArchiveError::Io)?;
+    Ok(eocd_indicates_spanning(&bytes))
+}
+
+/// Test: EOCD disk numaralarını span simülasyonu için yazar (gerçek çoklu cilt değil).
+pub fn mark_split_zip_eocd_smoke_for_test(archive: &Path) -> Result<()> {
+    let mut bytes = std::fs::read(archive).map_err(ArchiveError::Io)?;
+    let pos = bytes
+        .windows(4)
+        .rposition(|w| w == [0x50, 0x4b, 0x05, 0x06])
+        .ok_or_else(|| ArchiveError::Zip("EOCD bulunamadi".into()))?;
+    if pos + 8 > bytes.len() {
+        return Err(ArchiveError::Zip("EOCD cok kisa".into()));
+    }
+    bytes[pos + 4] = 1;
+    bytes[pos + 5] = 0;
+    bytes[pos + 6] = 1;
+    bytes[pos + 7] = 0;
+    std::fs::write(archive, bytes).map_err(ArchiveError::Io)?;
+    Ok(())
+}
+
 /// Arşivde Zip64 EOCD (`PK\x06\x06`) veya Zip64 yerel başlık biti (I3 doğrulama).
 pub fn archive_indicates_zip64(archive: &Path) -> Result<bool> {
     let bytes = std::fs::read(archive).map_err(|e| ArchiveError::Io(e))?;
@@ -390,5 +466,28 @@ mod tests {
             std::fs::read(out.join("zip64-smoke.txt")).unwrap(),
             b"zip64"
         );
+    }
+
+    #[test]
+    fn split_zip_eocd_smoke_marker() {
+        let dir = tempdir().unwrap();
+        let src = dir.path().join("a.txt");
+        std::fs::write(&src, b"split").unwrap();
+        let archive = dir.path().join("split.zip");
+        create_with_profile(&src, &archive, CompressionProfile::Balanced, None).unwrap();
+        assert!(!archive_indicates_split_zip(&archive).unwrap());
+        mark_split_zip_eocd_smoke_for_test(&archive).unwrap();
+        assert!(archive_indicates_split_zip(&archive).unwrap());
+    }
+
+    #[test]
+    fn split_zip_companion_volume_detection() {
+        let dir = tempdir().unwrap();
+        let first = dir.path().join("paket.zip");
+        std::fs::write(&first, b"PK").unwrap();
+        std::fs::write(dir.path().join("paket.z01"), b"vol2").unwrap();
+        let vols = split_zip_volumes_on_disk(&first);
+        assert_eq!(vols.len(), 2);
+        assert!(archive_indicates_split_zip(&first).unwrap());
     }
 }

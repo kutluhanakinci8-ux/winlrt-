@@ -22,5 +22,6 @@
 | **W17** | Resmi Windows KPI → vitrin import | **%100** ✅ | [MADDE_W17](./MADDE_W17_WINLRTZIP_WINDOWS_KPI_VITRIN.md) |
 | **W18** | Kurumsal GPO + denetim | **%100** ✅ | [MADDE_W18](./MADDE_W18_WINLRTZIP_CORPORATE.md) |
 | **W19** | Kurumsal pilot signoff kapısı | **%100** ✅ | [MADDE_W19](./MADDE_W19_WINLRTZIP_CORPORATE_SIGNOFF.md) |
+| **W20** | Split ZIP smoke (Faz 5) | **%100** ✅ | [MADDE_W20](./MADDE_W20_WINLRTZIP_SPLIT_ZIP.md) |
 
 RAR hattı: [POST_V2_SIRA.md](./POST_V2_SIRA.md) (Q2 tamam).
