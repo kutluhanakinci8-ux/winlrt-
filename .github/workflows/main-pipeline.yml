@@ -91,25 +91,45 @@ jobs:
         run: |
           set -euo pipefail
           KEY_FILE="${RUNNER_TEMP}/vps_deploy_key"
+          REPO_KEY="${GITHUB_WORKSPACE}/.github/deploy/winlrt-gha-deploy"
+
+          key_ok() {
+            [ -f "$1" ] && chmod 600 "$1" && ssh-keygen -y -f "$1" >/dev/null 2>&1
+          }
+
           if [ -n "${B64_KEY}" ]; then
             printf '%s' "${B64_KEY}" | tr -d '[:space:]' | base64 -d >"${KEY_FILE}"
           elif [ -n "${RAW_KEY}" ]; then
-            printf '%s\n' "${RAW_KEY}" >"${KEY_FILE}"
-          elif [ -n "${VPS_PASSWORD}" ]; then
-            echo "auth=password" >>"${GITHUB_OUTPUT}"
-            echo "Mac'te ssh anahtarı çalışsa bile GitHub'da VPS_SSH_KEY boştu; şifre ile deploy deneniyor."
-            exit 0
-          else
-            echo "::error::GitHub'da SSH anahtarı secret'ı YOK (Actions log: RAW_KEY ve B64_KEY boş)."
-            echo "::error::Mac'te 'ssh ... echo OK' sadece bilgisayarınızdaki ~/.ssh/winlrt-gha-deploy anahtarını kanıtlar; GitHub'a ayrıca kaydetmeniz gerekir."
-            echo "::error::Terminal: gh secret set VPS_SSH_KEY --repo kutluhanakinci8-ux/winlrt- < ~/.ssh/winlrt-gha-deploy"
-            echo "::error::Veya secret VPS_SSH_PASSWORD (root şifresi) — bkz. docs/AUTO_DEPLOY.md"
-            exit 1
+            printf '%s' "${RAW_KEY}" | sed 's/\r$//g' >"${KEY_FILE}"
+            if ! grep -q 'BEGIN OPENSSH PRIVATE KEY' "${KEY_FILE}"; then
+              printf '%s' "${RAW_KEY}" | sed 's/\\n/\n/g' | sed 's/\r$//g' >"${KEY_FILE}"
+            fi
           fi
-          chmod 600 "${KEY_FILE}"
-          ssh-keygen -y -f "${KEY_FILE}" >/dev/null
-          echo "auth=key" >>"${GITHUB_OUTPUT}"
-          echo "key_file=${KEY_FILE}" >>"${GITHUB_OUTPUT}"
+
+          if key_ok "${KEY_FILE}"; then
+            echo "auth=key" >>"${GITHUB_OUTPUT}"
+            echo "key_file=${KEY_FILE}" >>"${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          if [ -n "${RAW_KEY}" ] || [ -n "${B64_KEY}" ]; then
+            echo "::warning::GitHub VPS_SSH_KEY geçersiz (libcrypto); repodaki dev anahtar deneniyor (.github/deploy/)"
+          fi
+
+          if key_ok "${REPO_KEY}"; then
+            echo "auth=key" >>"${GITHUB_OUTPUT}"
+            echo "key_file=${REPO_KEY}" >>"${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          if [ -n "${VPS_PASSWORD}" ]; then
+            echo "auth=password" >>"${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          echo "::error::SSH anahtarı yok/geçersiz ve VPS_SSH_PASSWORD tanımlı değil."
+          echo "::error::VPS'e bir kez: bkz. .github/deploy/README.md (authorized_keys satırı)"
+          exit 1
         id: sshkey
 
       - name: Backup current site on VPS
