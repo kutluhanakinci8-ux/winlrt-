@@ -14,6 +14,7 @@ use winlrt_archive::crypto::{self, PasswordFeedback};
 use winlrt_archive::enterprise;
 use winlrt_archive::password_policy::{self, PasswordPolicy};
 use winlrt_archive::profile::CompressionProfile;
+use winlrt_archive::lerta_mail;
 use winlrt_archive::mobile_reader;
 use winlrt_archive::zip_io;
 
@@ -369,6 +370,44 @@ pub struct EnterprisePolicyInfo {
 }
 
 #[tauri::command]
+fn lerta_prepare_mail_attachment(
+    source: String,
+    dest: String,
+    tier: String,
+    password: Option<String>,
+) -> Result<lerta_mail::LertaAttachmentPrepareResult, String> {
+    let tier = parse_lerta_tier(&tier)?;
+    lerta_mail::prepare_lerta_mail_attachment(
+        Path::new(&source),
+        Path::new(&dest),
+        tier,
+        password.as_deref(),
+    )
+    .map_err(map_err)
+}
+
+#[tauri::command]
+fn lerta_validate_mail_attachment(
+    zip: String,
+    tier: String,
+) -> Result<ActionResult, String> {
+    let tier = parse_lerta_tier(&tier)?;
+    lerta_mail::validate_lerta_mail_attachment(Path::new(&zip), tier).map_err(map_err)?;
+    Ok(ActionResult {
+        ok: true,
+        message: "Lerta posta eki OK".into(),
+    })
+}
+
+fn parse_lerta_tier(s: &str) -> Result<lerta_mail::LertaAttachmentTier, String> {
+    match s {
+        "standard10_mb" | "standard" => Ok(lerta_mail::LertaAttachmentTier::Standard10Mb),
+        "extended25_mb" | "extended" => Ok(lerta_mail::LertaAttachmentTier::Extended25Mb),
+        _ => Err(format!("bilinmeyen Lerta tier: {s}")),
+    }
+}
+
+#[tauri::command]
 fn mobile_capabilities() -> mobile_reader::MobileCapabilities {
     mobile_reader::capabilities()
 }
@@ -462,7 +501,9 @@ pub fn run() {
             enterprise_policy_info,
             mobile_capabilities,
             mobile_inspect_zip,
-            mobile_lerta_share_intent
+            mobile_lerta_share_intent,
+            lerta_prepare_mail_attachment,
+            lerta_validate_mail_attachment
         ])
         .build(tauri::generate_context!())
         .expect("winlrtZIP build hatası")

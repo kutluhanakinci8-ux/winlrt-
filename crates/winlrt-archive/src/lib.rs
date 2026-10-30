@@ -2,6 +2,7 @@
 
 pub mod archive_sign;
 pub mod audit;
+pub mod lerta_mail;
 pub mod mobile_reader;
 pub mod secure_share;
 pub mod store_gate;

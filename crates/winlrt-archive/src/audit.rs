@@ -147,6 +147,19 @@ pub fn event_secure_prompt(channel: &str, outcome: &str) {
     });
 }
 
+pub fn event_lerta_mail(channel: &str, ok: bool, detail: &str) {
+    log(AuditRecord {
+        ts_unix: now_unix(),
+        event: "lerta_mail_attachment",
+        channel: channel.into(),
+        ok,
+        path_hint: None,
+        format: Some("zip".into()),
+        policy_id: None,
+        detail: Some(detail.into()),
+    });
+}
+
 pub fn event_secure_share_pack(channel: &str, ok: bool, pack_id: &str) {
     log(AuditRecord {
         ts_unix: now_unix(),

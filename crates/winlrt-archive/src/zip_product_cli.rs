@@ -8,6 +8,7 @@ use serde::Serialize;
 use crate::bench::{self, BenchReport, BenchSuite};
 use crate::profile::CompressionProfile;
 use crate::archive_sign;
+use crate::lerta_mail;
 use crate::mobile_reader;
 use crate::secure_share;
 use crate::store_gate;
@@ -71,6 +72,17 @@ pub enum ZipCommands {
         #[arg(long)]
         workspace: Option<PathBuf>,
     },
+    LertaMailPrepare {
+        source: PathBuf,
+        dest: PathBuf,
+        #[arg(long, value_enum, default_value_t = LertaTierArg::Standard10Mb)]
+        tier: LertaTierArg,
+    },
+    LertaMailValidate {
+        zip: PathBuf,
+        #[arg(long, value_enum, default_value_t = LertaTierArg::Standard10Mb)]
+        tier: LertaTierArg,
+    },
     Bench {
         #[arg(long)]
         fixture: Option<PathBuf>,
@@ -81,6 +93,22 @@ pub enum ZipCommands {
         #[arg(long)]
         markdown: bool,
     },
+}
+
+#[derive(Clone, Copy, ValueEnum, Default)]
+pub enum LertaTierArg {
+    #[default]
+    Standard10Mb,
+    Extended25Mb,
+}
+
+impl From<LertaTierArg> for lerta_mail::LertaAttachmentTier {
+    fn from(t: LertaTierArg) -> Self {
+        match t {
+            LertaTierArg::Standard10Mb => lerta_mail::LertaAttachmentTier::Standard10Mb,
+            LertaTierArg::Extended25Mb => lerta_mail::LertaAttachmentTier::Extended25Mb,
+        }
+    }
 }
 
 #[derive(Clone, Copy, ValueEnum, Default)]
@@ -350,6 +378,39 @@ pub fn run() -> Result<()> {
                 return Err(crate::ArchiveError::Zip(
                     "magaza kapisi: eksik maddeler var".into(),
                 ));
+            }
+        }
+        ZipCommands::LertaMailPrepare {
+            source,
+            dest,
+            tier,
+        } => {
+            let prep = lerta_mail::prepare_lerta_mail_attachment(
+                &source,
+                &dest,
+                tier.into(),
+                pw,
+            )?;
+            if json_out {
+                print_json(&lerta_mail::webhook_payload_from_prepare(&prep))?;
+            } else {
+                println!(
+                    "OK Lerta eki: {} ({} B, sha256={})",
+                    prep.filename,
+                    prep.size_bytes,
+                    &prep.sha256_hex[..16]
+                );
+            }
+        }
+        ZipCommands::LertaMailValidate { zip, tier } => {
+            lerta_mail::validate_lerta_mail_attachment(&zip, tier.into())?;
+            if json_out {
+                print_json(&OkJson {
+                    ok: true,
+                    action: "lerta-mail-validate",
+                })?;
+            } else {
+                println!("OK Lerta posta eki limiti");
             }
         }
         ZipCommands::Bench {

@@ -78,8 +78,8 @@ winlrtRAR ile **aynı KPI ailesi** (hepsi **P0**, Faz 3’te ölçüm):
 
 ### Lerta (Faz 8)
 
-- [ ] Posta eki: otomatik ZIP boyut hedefi (ör. 10 / 25 MB)
-- [ ] Mesaj eki: `.wlrt` veya AES-ZIP profili
+- [x] Posta eki: 10 / 25 MB tier — [MADDE_W28](./qa/MADDE_W28_WINLRTZIP_LERTA_MAIL.md)
+- [ ] Mesaj eki: `.wlrt` veya AES-ZIP profili (ortak RAR hattı)
 
 ---
 
@@ -187,7 +187,8 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 
 ### Faz 8 — Lerta entegrasyonu
 
-- [ ] Posta eki otomasyonu (winlrtRAR planı ile ortak)
+- [x] Posta eki otomasyonu (ZIP webhook) — [MADDE_W28](./qa/MADDE_W28_WINLRTZIP_LERTA_MAIL.md)
+- [ ] Lerta üretim API bağlantısı (canlı lerta.com.tr)
 
 ---
 

@@ -1,0 +1,12 @@
+{
+  "contract_version": "1",
+  "product": "winlrtZIP",
+  "tier": "standard10_mb",
+  "filename": "ek.zip",
+  "size_bytes": 129,
+  "sha256_hex": "3fa1fcb72eb71a6a4a0475ebdf2944c71154b0b46b3b7db1b5e24a39988fc0a6",
+  "mime": "application/zip",
+  "within_limit": true,
+  "kvkk_local_only": true,
+  "content_stays_on_device": true
+}
