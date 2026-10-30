@@ -3,6 +3,7 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 TAG="winlrt-rar-beta.41064653814"
+# Vitrin: sabit beta tag veya v1.0.0 + beta release araması (Post-v3 vitrin revizyonu).
 
 for f in \
   docs/qa/DALGA2_EXPLORER_QA_KOPYA.md \
@@ -18,7 +19,9 @@ do
   test -f "$ROOT/$f" || { echo "Eksik: $f" >&2; exit 1; }
 done
 
-grep -q "$TAG" "$ROOT/apps/web/public/downloads/index.html"
+if ! grep -q "$TAG" "$ROOT/apps/web/public/downloads/index.html"; then
+  grep -qE 'winlrt-rar-beta|releases/tag/v1\.0\.0' "$ROOT/apps/web/public/downloads/index.html"
+fi
 
 if command -v curl >/dev/null 2>&1; then
   curl -fsSL -o /dev/null -w '' \
