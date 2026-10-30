@@ -21,9 +21,13 @@ gh run watch "$RUN" --repo "$REPO" --exit-status
 echo "==> Artifact indir"
 gh run download "$RUN" --repo "$REPO" --name bench-report-windows --dir "$TMP"
 
-BAL="$TMP/bench-report-windows.json"
-FAST="$TMP/bench-report-windows-fast.json"
-test -f "$BAL" && test -f "$FAST"
-
-bash "$ROOT/scripts/import-windows-kpi-to-vitrin.sh" "$BAL" "$FAST"
+OUT="$ROOT/apps/web/public/benchmark/samples"
+if [ -f "$TMP/vitrin-windows-balanced-kpi.json" ] && [ -f "$TMP/vitrin-windows-fast-kpi.json" ]; then
+  cp "$TMP/vitrin-windows-balanced-kpi.json" "$OUT/windows-balanced-kpi.json"
+  cp "$TMP/vitrin-windows-fast-kpi.json" "$OUT/windows-fast-kpi.json"
+else
+  BAL="$TMP/bench-report-windows.json"
+  FAST="$TMP/bench-report-windows-fast.json"
+  bash "$ROOT/scripts/import-windows-kpi-to-vitrin.sh" "$BAL" "$FAST"
+fi
 echo "OK: vitrin import"
