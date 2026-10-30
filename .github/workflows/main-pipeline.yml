@@ -53,7 +53,9 @@ jobs:
   deploy:
     needs: web
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      github.event_name == 'workflow_dispatch'
     steps:
       - name: Skip deploy when VPS secrets missing
         id: check

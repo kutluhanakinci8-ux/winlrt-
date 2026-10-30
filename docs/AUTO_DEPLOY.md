@@ -3,7 +3,7 @@
 ## Akış
 
 1. Geliştirme **`main`** dalına merge + push (Cloud Agent bunu yapar).
-2. GitHub Actions **`Main pipeline`** çalışır:
+2. GitHub Actions **`Main pipeline`** çalışır (`main` push veya **Run workflow**):
    - `npm ci` + vitrin build
    - `cargo build` (winlrt-archive)
    - **main push** → VPS’te **yedek** + **dist deploy** + nginx reload
