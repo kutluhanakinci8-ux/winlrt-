@@ -16,6 +16,8 @@ Sırayla tamamlanacak maddeler; Cloud Agent ve sizin manuel adımlar birlikte.
 | `VPS_WEB_ROOT` | Örn. `/var/www/winlrt/apps/web/dist` |
 | `TAURI_SIGNING_PRIVATE_KEY`, `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` | İmzalı Windows beta / v1.0 |
 
+**Repository variable (isteğe bağlı):** `WINLRT_KPI_STRICT=1` → main/Linux ve Windows benchmark job KPI kapısında fail.
+
 Detay: [AUTO_DEPLOY.md](./AUTO_DEPLOY.md) · Mac: `scripts/mac-set-github-vps-secret.sh`
 
 **Güvenlik:** Eski repodaki deploy private key commit edildiyse VPS’te `authorized_keys`’ten kaldırın ve yeni anahtar kullanın.
@@ -36,13 +38,17 @@ Detay: [AUTO_DEPLOY.md](./AUTO_DEPLOY.md) · Mac: `scripts/mac-set-github-vps-se
 - [ ] Test build: *Yalnızca artifact* ile Release atlamak mümkün (`skip_release`)
 - [ ] GitHub Release artifact indir → pilot makinede kurulum + Explorer menü testi
 
-## 5. Kurumsal pilot
+## 5. Explorer pilot QA
+
+- [ ] [WINLRTRAR_EXPLORER_QA.md](./WINLRTRAR_EXPLORER_QA.md) maddeleri (NSIS beta kurulum)
+
+## 6. Kurumsal pilot
 
 - [ ] ADMX: `deploy/gpo/winlrtRAR.admx` → PolicyDefinitions
 - [ ] Örnek politika: `scripts/winlrt-corporate-policy-sample.reg`
 - [ ] Denetim mirror / HTTP forward test (isteğe bağlı)
 
-## 6. v1.0 kapısı
+## 7. v1.0 kapısı
 
 - [ ] KPI Windows’ta geçti (benchmark artifact)
 - [ ] İmzalı kurulum yayında

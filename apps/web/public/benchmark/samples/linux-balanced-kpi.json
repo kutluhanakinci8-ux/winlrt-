@@ -1,18 +1,22 @@
 {
   "profile": "Balanced",
   "platform": "linux / x86_64",
-  "generated_at": "1793356804 UTC",
+  "generated_at": "1793356996 UTC",
   "source": "local-refresh",
   "disclaimer": "Windows resmi KPI için bench-report-windows artifact.",
   "kpi": {
     "compression_gate": true,
-    "compression_pass_count": 5,
-    "compression_total": 5,
+    "compression_pass_count": 6,
+    "compression_total": 6,
     "speed_pass_count": 0,
     "speed_total": 0,
     "rows": [
       {
         "fixture": "binary",
+        "compression_ok": true
+      },
+      {
+        "fixture": "mixed",
         "compression_ok": true
       },
       {

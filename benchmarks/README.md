@@ -13,6 +13,7 @@
 - `fixtures/text/` — log + UTF-8 (**Faz 1 başladı**)
 - `fixtures/office/` — CSV örnek (UTF-8)
 - `fixtures/binary/` — 64 KiB tekrarlayan bayt deseni
+- `fixtures/mixed/` — ~3 MiB karışık set (`prepare.sh`; CI otomatik üretir)
 
 ## Çalıştırma
 
@@ -24,7 +25,7 @@ cargo run -p winlrt-archive -- bench --fixture benchmarks/fixtures/binary --prof
 
 CI: `main` push → rust job → artifact `bench-report.json` + `scripts/evaluate-bench-kpi.sh` özeti.
 
-**Strict KPI (Windows):** Actions → *winlrt Windows benchmark (resmi)* → Run → *KPI kapısı geçmezse job başarısız* işaretle. Yerel: `WINLRT_KPI_STRICT=1 ./scripts/evaluate-bench-kpi.sh bench-report.json`.
+**Strict KPI (Windows):** Actions → *winlrt Windows benchmark (resmi)* → Run → *KPI kapısı geçmezse job başarısız* işaretle; veya repo **Variable** `WINLRT_KPI_STRICT=1` (Linux main pipeline dahil). Yerel: `WINLRT_KPI_STRICT=1 ./scripts/evaluate-bench-kpi.sh bench-report.json`.
 
 **Vitrin örnekleri:** `bash scripts/refresh-benchmark-vitrin-samples.sh` → `apps/web/public/benchmark/samples/`.
 

@@ -174,7 +174,7 @@ Taslak: [WINLRTRAR_FAZ3_TRANSITION.md](./WINLRTRAR_FAZ3_TRANSITION.md)
 - [x] Parola + şifreleme UI (beta: ZIP ZipCrypto, .wlrt v1 AES-GCM)
 - [x] Argon2id + AES-ZIP (WinZip AE-2) — kurumsal kapı (`RequireModernCrypto` / GPO)
 - [x] Çok ciltli RAR (ilk cilt çözümleme) + onarım (UnRAR `r`, beta)
-- [x] Benchmark vitrin özeti (`/benchmark/`, CI artifact)
+- [x] Benchmark vitrin özeti (`/benchmark/`, CI artifact, `fixtures/mixed` ~10 MiB)
 - [x] Resmi Windows rakip benchmark CI (7-Zip + markdown artifact)
 - [ ] v1.0 imzalı kurulum (iskelet + CI verify; secret kurumda — WINLRTRAR_CODE_SIGNING.md, PRODUCTION_CHECKLIST)
 

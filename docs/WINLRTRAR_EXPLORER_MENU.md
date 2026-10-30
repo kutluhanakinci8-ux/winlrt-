@@ -33,3 +33,5 @@ Kaldırma: Program kaldırıldığında `NSIS_HOOK_POSTUNINSTALL` anahtarları s
 Şifreli sıkıştırma (`--secure`): uygulama açılır → **parola sihirbazı** (kurumsal politika varsayılan).
 
 Parolalı RAR/7z için «buraya aç» henüz parola sormaz; uygulama içinden parola girin.
+
+Pilot test listesi: [WINLRTRAR_EXPLORER_QA.md](./WINLRTRAR_EXPLORER_QA.md)

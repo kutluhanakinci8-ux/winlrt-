@@ -726,4 +726,10 @@ mod tests {
         assert!(speed_row_ok(&report(100, 70)));
         assert!(!speed_row_ok(&report(100, 71)));
     }
+
+    #[test]
+    fn speed_kpi_mixed_fixture_like() {
+        assert!(speed_row_ok(&report(5, 3)));
+        assert!(speed_row_ok(&report(7, 3)));
+    }
 }

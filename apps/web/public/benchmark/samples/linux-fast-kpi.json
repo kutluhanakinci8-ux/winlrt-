@@ -1,21 +1,26 @@
 {
   "profile": "Fast",
   "platform": "linux / x86_64",
-  "generated_at": "1793356805 UTC",
+  "generated_at": "1793356997 UTC",
   "source": "local-refresh",
   "disclaimer": "Hız kapısı Windows resmi workflow ile doğrulanır.",
   "kpi": {
     "compression_gate": true,
-    "speed_gate": true,
-    "compression_pass_count": 5,
-    "compression_total": 5,
+    "speed_gate": false,
+    "compression_pass_count": 6,
+    "compression_total": 6,
     "speed_pass_count": 5,
-    "speed_total": 5,
+    "speed_total": 6,
     "rows": [
       {
         "fixture": "binary",
         "compression_ok": true,
         "speed_ok": true
+      },
+      {
+        "fixture": "mixed",
+        "compression_ok": true,
+        "speed_ok": false
       },
       {
         "fixture": "office",
