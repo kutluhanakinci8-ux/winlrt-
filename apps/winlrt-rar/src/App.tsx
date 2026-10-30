@@ -40,11 +40,13 @@ interface PlatformInfo {
 interface CompressFolderHint {
   folder: string;
   suggested_output: string;
+  secure_create?: boolean;
 }
 
 interface CompressSelectionHint {
   sources: string[];
   suggested_output: string;
+  secure_create?: boolean;
 }
 
 interface PasswordFeedback {
@@ -134,9 +136,12 @@ function App() {
     setCreateSource(hint.folder);
     setCreateOutput(hint.suggested_output);
     setFormat("wlrt");
+    setEncryptCreate(Boolean(hint.secure_create));
     setTab("archive");
     setStatus(
-      "Klasör sıkıştırma hazır: profili seçin, gerekirse Kaydet… ile yolu değiştirin, Oluştur.",
+      hint.secure_create
+        ? "Şifreli klasör sıkıştırma: parola girin, profili seçin, Oluştur."
+        : "Klasör sıkıştırma hazır: profili seçin, gerekirse Kaydet… ile yolu değiştirin, Oluştur.",
     );
     setTransitionStep((s) => Math.max(s, 4));
   }, []);
@@ -146,9 +151,12 @@ function App() {
     setCreateSource(hint.sources[0] ?? "");
     setCreateOutput(hint.suggested_output);
     setFormat("wlrt");
+    setEncryptCreate(Boolean(hint.secure_create));
     setTab("archive");
     setStatus(
-      `${hint.sources.length} öğe seçildi — profili seçin, gerekirse Kaydet… ile yolu değiştirin, Oluştur.`,
+      hint.secure_create
+        ? `${hint.sources.length} öğe — şifreli sıkıştırma: parola girin, Oluştur.`
+        : `${hint.sources.length} öğe seçildi — profili seçin, gerekirse Kaydet… ile yolu değiştirin, Oluştur.`,
     );
     setTransitionStep((s) => Math.max(s, 4));
   }, []);

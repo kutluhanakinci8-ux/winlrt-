@@ -42,8 +42,10 @@
   !insertmacro WinlrtArchiveVerb "7z"   "WinlrtOpen"         "winlrtRAR ile aç"        '"$INSTDIR\winlrtRAR.exe" "%1"'
   !insertmacro WinlrtArchiveVerb "7z"   "WinlrtExtractHere"  "winlrtRAR — buraya aç"   '"$INSTDIR\winlrtRAR.exe" --extract-here "%1"'
   !insertmacro WinlrtDirectoryVerb "WinlrtCompress"      "winlrtRAR ile sıkıştır"  '"$INSTDIR\winlrtRAR.exe" --compress-folder "%1"'
+  !insertmacro WinlrtDirectoryVerb "WinlrtCompressSecure" "winlrtRAR — şifreli sıkıştır" '"$INSTDIR\winlrtRAR.exe" --compress-folder "%1" --secure'
   !insertmacro WinlrtDirectoryVerb "WinlrtCompressQuick" "winlrtRAR — hızlı .wlrt" '"$INSTDIR\winlrtRAR.exe" --compress-folder-quick "%1"'
   !insertmacro WinlrtAllFilesVerb "WinlrtCompressSelection" "winlrtRAR — seçilenleri sıkıştır" '"$INSTDIR\winlrtRAR.exe" --compress-selection %*'
+  !insertmacro WinlrtAllFilesVerb "WinlrtCompressSelectionSecure" "winlrtRAR — seçilenler şifreli" '"$INSTDIR\winlrtRAR.exe" --compress-selection %* --secure'
   !insertmacro WinlrtAllFilesVerb "WinlrtCompressSelectionQuick" "winlrtRAR — seçilenler hızlı .wlrt" '"$INSTDIR\winlrtRAR.exe" --compress-selection-quick %*'
 !macroend
 
@@ -57,7 +59,9 @@
   !insertmacro WinlrtArchiveVerbRemove "7z"   "WinlrtOpen"
   !insertmacro WinlrtArchiveVerbRemove "7z"   "WinlrtExtractHere"
   !insertmacro WinlrtDirectoryVerbRemove "WinlrtCompress"
+  !insertmacro WinlrtDirectoryVerbRemove "WinlrtCompressSecure"
   !insertmacro WinlrtDirectoryVerbRemove "WinlrtCompressQuick"
   !insertmacro WinlrtAllFilesVerbRemove "WinlrtCompressSelection"
+  !insertmacro WinlrtAllFilesVerbRemove "WinlrtCompressSelectionSecure"
   !insertmacro WinlrtAllFilesVerbRemove "WinlrtCompressSelectionQuick"
 !macroend

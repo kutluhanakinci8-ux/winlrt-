@@ -56,12 +56,18 @@ fn parse_profile(profile: &str) -> Result<CompressionProfile, String> {
 pub struct CompressFolderHint {
     pub folder: String,
     pub suggested_output: String,
+    pub secure_create: bool,
 }
 
 #[derive(Clone, Serialize)]
 pub struct CompressSelectionHint {
     pub sources: Vec<String>,
     pub suggested_output: String,
+    pub secure_create: bool,
+}
+
+fn cli_secure_create() -> bool {
+    std::env::args().any(|a| a == "--secure")
 }
 
 fn emit_startup_events(app: &AppHandle) {
@@ -76,6 +82,7 @@ fn emit_startup_events(app: &AppHandle) {
                     CompressFolderHint {
                         folder: folder.clone(),
                         suggested_output: suggested,
+                        secure_create: cli_secure_create(),
                     },
                 );
             }
@@ -87,6 +94,7 @@ fn emit_startup_events(app: &AppHandle) {
                     CompressSelectionHint {
                         sources: sources.clone(),
                         suggested_output: suggested,
+                        secure_create: cli_secure_create(),
                     },
                 );
             }
@@ -120,6 +128,7 @@ fn startup_compress_folder() -> Option<CompressFolderHint> {
             Some(CompressFolderHint {
                 folder,
                 suggested_output,
+                secure_create: cli_secure_create(),
             })
         }
         _ => None,
@@ -134,6 +143,7 @@ fn startup_compress_selection() -> Option<CompressSelectionHint> {
             Some(CompressSelectionHint {
                 sources,
                 suggested_output,
+                secure_create: cli_secure_create(),
             })
         }
         _ => None,

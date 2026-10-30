@@ -8,6 +8,7 @@
 | 7z | Evet; parolalı dosyada `7z` CLI yedek |
 | ZIP | ZipCrypto veya AES (okuma) |
 | `.wlrt` v1 | AES-256-GCM + PBKDF2 (salt arşiv başlığında) |
+| `.wlrt` v2 | AES-256-GCM + **Argon2id** (yeni oluşturma) |
 
 Explorer «buraya aç» parolasız; parolalı arşivlerde uygulamadan parola girin.
 
@@ -15,8 +16,12 @@ Explorer «buraya aç» parolasız; parolalı arşivlerde uygulamadan parola gir
 
 | Format | Şifreleme |
 |--------|-----------|
-| ZIP | ZipCrypto (beta, `zip` crate unstable) — kurumsal hedef: WinZip AE-2 |
-| `.wlrt` | v1 şifreli arşiv (min. 8 karakter) |
+| ZIP | **AES-256** (WinZip AE-2, `zip` 2.x) |
+| `.wlrt` | v2 şifreli arşiv (min. 8 karakter, Argon2id) |
+
+Explorer:
+
+- `--secure` → UI’da «Arşivi parola ile şifrele» açık (klasör / çoklu seçim menüleri).
 
 CLI: `winlrt-archive create … --password '…'`
 
@@ -24,4 +29,4 @@ Tauri: «Arşivi parola ile şifrele» + güç göstergesi.
 
 ## Sonraki
 
-Argon2id türetme, ZIP AES yazma, kurumsal parola politikası (Faz 4).
+Kurumsal parola politikası (Faz 4), Explorer’dan doğrudan parola diyalogu (WinRAR tam parity).
