@@ -24,6 +24,8 @@ Repo → **Settings → Secrets and variables → Actions**
 
 Secrets tanımlı değilse deploy **atlanır** (uyarı log); CI yine çalışır.
 
+Manuel **Run workflow** her zaman **güncel `main`** commit’inde çalışır; `deploy` job’u gri (0s) ise eski workflow commit’i kullanılmış olabilir — sayfayı yenileyip tekrar deneyin.
+
 `VPS_DEPLOY_ENABLED` artık **gerekmez** — main push yeterli.
 
 ## VPS yedekleri
