@@ -1,31 +1,62 @@
 ; winlrtRAR — Explorer sağ tık (Faz 3 beta)
-; Kurulum sonrası SystemFileAssociations altına ek menüler (varsayılan uygulamayı değiştirmez).
 
-!macro WinlrtArchiveVerb EXT KEY LABEL CMD
+!macro WinlrtArchiveVerbOpen EXT KEY LABEL
   WriteRegStr SHCTX "Software\Classes\SystemFileAssociations\.${EXT}\shell\${KEY}" "" "${LABEL}"
   WriteRegStr SHCTX "Software\Classes\SystemFileAssociations\.${EXT}\shell\${KEY}" "Icon" "$INSTDIR\winlrtRAR.exe,0"
-  WriteRegStr SHCTX "Software\Classes\SystemFileAssociations\.${EXT}\shell\${KEY}\command" "" ${CMD}
+  WriteRegStr SHCTX "Software\Classes\SystemFileAssociations\.${EXT}\shell\${KEY}\command" "" '"$INSTDIR\winlrtRAR.exe" "%1"'
+!macroend
+
+!macro WinlrtArchiveVerbExtract EXT KEY LABEL
+  WriteRegStr SHCTX "Software\Classes\SystemFileAssociations\.${EXT}\shell\${KEY}" "" "${LABEL}"
+  WriteRegStr SHCTX "Software\Classes\SystemFileAssociations\.${EXT}\shell\${KEY}" "Icon" "$INSTDIR\winlrtRAR.exe,0"
+  WriteRegStr SHCTX "Software\Classes\SystemFileAssociations\.${EXT}\shell\${KEY}\command" "" '"$INSTDIR\winlrtRAR.exe" --extract-here "%1"'
 !macroend
 
 !macro WinlrtArchiveVerbRemove EXT KEY
   DeleteRegKey SHCTX "Software\Classes\SystemFileAssociations\.${EXT}\shell\${KEY}"
 !macroend
 
-!macro WinlrtDirectoryVerb KEY LABEL CMD
+!macro WinlrtDirectoryVerbCompress KEY LABEL
   WriteRegStr SHCTX "Software\Classes\Directory\shell\${KEY}" "" "${LABEL}"
   WriteRegStr SHCTX "Software\Classes\Directory\shell\${KEY}" "Icon" "$INSTDIR\winlrtRAR.exe,0"
-  WriteRegStr SHCTX "Software\Classes\Directory\shell\${KEY}\command" "" ${CMD}
+  WriteRegStr SHCTX "Software\Classes\Directory\shell\${KEY}\command" "" '"$INSTDIR\winlrtRAR.exe" --compress-folder "%1"'
+!macroend
+
+!macro WinlrtDirectoryVerbCompressSecure KEY LABEL
+  WriteRegStr SHCTX "Software\Classes\Directory\shell\${KEY}" "" "${LABEL}"
+  WriteRegStr SHCTX "Software\Classes\Directory\shell\${KEY}" "Icon" "$INSTDIR\winlrtRAR.exe,0"
+  WriteRegStr SHCTX "Software\Classes\Directory\shell\${KEY}\command" "" '"$INSTDIR\winlrtRAR.exe" --compress-folder "%1" --secure'
+!macroend
+
+!macro WinlrtDirectoryVerbCompressQuick KEY LABEL
+  WriteRegStr SHCTX "Software\Classes\Directory\shell\${KEY}" "" "${LABEL}"
+  WriteRegStr SHCTX "Software\Classes\Directory\shell\${KEY}" "Icon" "$INSTDIR\winlrtRAR.exe,0"
+  WriteRegStr SHCTX "Software\Classes\Directory\shell\${KEY}\command" "" '"$INSTDIR\winlrtRAR.exe" --compress-folder-quick "%1"'
 !macroend
 
 !macro WinlrtDirectoryVerbRemove KEY
   DeleteRegKey SHCTX "Software\Classes\Directory\shell\${KEY}"
 !macroend
 
-!macro WinlrtAllFilesVerb KEY LABEL CMD
+!macro WinlrtAllFilesVerbSelection KEY LABEL
   WriteRegStr SHCTX "Software\Classes\*\shell\${KEY}" "" "${LABEL}"
   WriteRegStr SHCTX "Software\Classes\*\shell\${KEY}" "Icon" "$INSTDIR\winlrtRAR.exe,0"
   WriteRegStr SHCTX "Software\Classes\*\shell\${KEY}" "MultiSelectModel" "Document"
-  WriteRegStr SHCTX "Software\Classes\*\shell\${KEY}\command" "" ${CMD}
+  WriteRegStr SHCTX "Software\Classes\*\shell\${KEY}\command" "" '"$INSTDIR\winlrtRAR.exe" --compress-selection %*'
+!macroend
+
+!macro WinlrtAllFilesVerbSelectionSecure KEY LABEL
+  WriteRegStr SHCTX "Software\Classes\*\shell\${KEY}" "" "${LABEL}"
+  WriteRegStr SHCTX "Software\Classes\*\shell\${KEY}" "Icon" "$INSTDIR\winlrtRAR.exe,0"
+  WriteRegStr SHCTX "Software\Classes\*\shell\${KEY}" "MultiSelectModel" "Document"
+  WriteRegStr SHCTX "Software\Classes\*\shell\${KEY}\command" "" '"$INSTDIR\winlrtRAR.exe" --compress-selection %* --secure'
+!macroend
+
+!macro WinlrtAllFilesVerbSelectionQuick KEY LABEL
+  WriteRegStr SHCTX "Software\Classes\*\shell\${KEY}" "" "${LABEL}"
+  WriteRegStr SHCTX "Software\Classes\*\shell\${KEY}" "Icon" "$INSTDIR\winlrtRAR.exe,0"
+  WriteRegStr SHCTX "Software\Classes\*\shell\${KEY}" "MultiSelectModel" "Document"
+  WriteRegStr SHCTX "Software\Classes\*\shell\${KEY}\command" "" '"$INSTDIR\winlrtRAR.exe" --compress-selection-quick %*'
 !macroend
 
 !macro WinlrtAllFilesVerbRemove KEY
@@ -34,20 +65,20 @@
 
 !macro NSIS_HOOK_POSTINSTALL
   WriteRegStr HKLM "Software\winlrt\winlrtRAR" "ProductVersion" "0.1.0"
-  !insertmacro WinlrtArchiveVerb "zip"  "WinlrtOpen"         "winlrtRAR ile ac" "$\"$INSTDIR\winlrtRAR.exe\" \"$\"%1$\"\""
-  !insertmacro WinlrtArchiveVerb "zip"  "WinlrtExtractHere"  "winlrtRAR - buraya ac" "$\"$INSTDIR\winlrtRAR.exe\" --extract-here \"$\"%1$\"\""
-  !insertmacro WinlrtArchiveVerb "wlrt" "WinlrtOpen"         "winlrtRAR ile ac" "$\"$INSTDIR\winlrtRAR.exe\" \"$\"%1$\"\""
-  !insertmacro WinlrtArchiveVerb "wlrt" "WinlrtExtractHere"  "winlrtRAR - buraya ac" "$\"$INSTDIR\winlrtRAR.exe\" --extract-here \"$\"%1$\"\""
-  !insertmacro WinlrtArchiveVerb "rar"  "WinlrtOpen"         "winlrtRAR ile ac" "$\"$INSTDIR\winlrtRAR.exe\" \"$\"%1$\"\""
-  !insertmacro WinlrtArchiveVerb "rar"  "WinlrtExtractHere"  "winlrtRAR - buraya ac" "$\"$INSTDIR\winlrtRAR.exe\" --extract-here \"$\"%1$\"\""
-  !insertmacro WinlrtArchiveVerb "7z"   "WinlrtOpen"         "winlrtRAR ile ac" "$\"$INSTDIR\winlrtRAR.exe\" \"$\"%1$\"\""
-  !insertmacro WinlrtArchiveVerb "7z"   "WinlrtExtractHere"  "winlrtRAR - buraya ac" "$\"$INSTDIR\winlrtRAR.exe\" --extract-here \"$\"%1$\"\""
-  !insertmacro WinlrtDirectoryVerb "WinlrtCompress"      "winlrtRAR ile sikistir" "$\"$INSTDIR\winlrtRAR.exe\" --compress-folder \"$\"%1$\"\""
-  !insertmacro WinlrtDirectoryVerb "WinlrtCompressSecure" "winlrtRAR - sifreli sikistir" "$\"$INSTDIR\winlrtRAR.exe\" --compress-folder \"$\"%1$\"\" --secure"
-  !insertmacro WinlrtDirectoryVerb "WinlrtCompressQuick" "winlrtRAR - hizli .wlrt" "$\"$INSTDIR\winlrtRAR.exe\" --compress-folder-quick \"$\"%1$\"\""
-  !insertmacro WinlrtAllFilesVerb "WinlrtCompressSelection" "winlrtRAR - secilenleri sikistir" "$\"$INSTDIR\winlrtRAR.exe\" --compress-selection %*"
-  !insertmacro WinlrtAllFilesVerb "WinlrtCompressSelectionSecure" "winlrtRAR - secilenler sifreli" "$\"$INSTDIR\winlrtRAR.exe\" --compress-selection %* --secure"
-  !insertmacro WinlrtAllFilesVerb "WinlrtCompressSelectionQuick" "winlrtRAR - secilenler hizli .wlrt" "$\"$INSTDIR\winlrtRAR.exe\" --compress-selection-quick %*"
+  !insertmacro WinlrtArchiveVerbOpen "zip"  "WinlrtOpen"        "winlrtRAR ile ac"
+  !insertmacro WinlrtArchiveVerbExtract "zip"  "WinlrtExtractHere" "winlrtRAR - buraya ac"
+  !insertmacro WinlrtArchiveVerbOpen "wlrt" "WinlrtOpen"        "winlrtRAR ile ac"
+  !insertmacro WinlrtArchiveVerbExtract "wlrt" "WinlrtExtractHere" "winlrtRAR - buraya ac"
+  !insertmacro WinlrtArchiveVerbOpen "rar"  "WinlrtOpen"        "winlrtRAR ile ac"
+  !insertmacro WinlrtArchiveVerbExtract "rar"  "WinlrtExtractHere" "winlrtRAR - buraya ac"
+  !insertmacro WinlrtArchiveVerbOpen "7z"   "WinlrtOpen"        "winlrtRAR ile ac"
+  !insertmacro WinlrtArchiveVerbExtract "7z"   "WinlrtExtractHere" "winlrtRAR - buraya ac"
+  !insertmacro WinlrtDirectoryVerbCompress "WinlrtCompress" "winlrtRAR ile sikistir"
+  !insertmacro WinlrtDirectoryVerbCompressSecure "WinlrtCompressSecure" "winlrtRAR - sifreli sikistir"
+  !insertmacro WinlrtDirectoryVerbCompressQuick "WinlrtCompressQuick" "winlrtRAR - hizli .wlrt"
+  !insertmacro WinlrtAllFilesVerbSelection "WinlrtCompressSelection" "winlrtRAR - secilenleri sikistir"
+  !insertmacro WinlrtAllFilesVerbSelectionSecure "WinlrtCompressSelectionSecure" "winlrtRAR - secilenler sifreli"
+  !insertmacro WinlrtAllFilesVerbSelectionQuick "WinlrtCompressSelectionQuick" "winlrtRAR - secilenler hizli .wlrt"
 !macroend
 
 !macro NSIS_HOOK_POSTUNINSTALL
