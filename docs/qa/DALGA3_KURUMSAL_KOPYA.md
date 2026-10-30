@@ -2,14 +2,16 @@
 
 **Önkoşul:** [EXPLORER_QA_SIGNOFF.md](./EXPLORER_QA_SIGNOFF.md) PASS.
 
-**Preflight (politika sonrası):** `scripts/windows/corporate-pilot-preflight.ps1`
+**Preflight (politika sonrası):** `scripts/windows/corporate-pilot-preflight.ps1`  
+**Hızlı akış:** [DALGA3_PILOT_OTURUM.md](./DALGA3_PILOT_OTURUM.md)
 
 ## Paket
 
 | Dosya | Kullanım |
 |-------|----------|
-| `deploy/gpo/winlrtRAR.admx` | PolicyDefinitions |
-| `scripts/winlrt-corporate-policy-sample.reg` | Çift tık veya `reg import` (test OU) |
+| [winlrtRAR-corporate-gpo.zip](https://winlrt.com.tr/downloads/winlrtRAR-corporate-gpo.zip) | ADMX + ADML + örnek `.reg` |
+| `deploy/gpo/winlrtRAR.admx` | PolicyDefinitions (ZIP içinde) |
+| `scripts/winlrt-corporate-policy-sample.reg` | veya `apply-corporate-sample.ps1` (HKLM test) |
 
 ## Senaryolar
 

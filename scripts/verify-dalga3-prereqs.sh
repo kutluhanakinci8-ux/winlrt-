@@ -7,6 +7,9 @@ for f in \
   deploy/gpo/winlrtRAR.admx \
   scripts/winlrt-corporate-policy-sample.reg \
   scripts/windows/corporate-pilot-preflight.ps1 \
+  scripts/windows/apply-corporate-sample.ps1 \
+  deploy/gpo/README.md \
+  scripts/package-corporate-gpo-zip.sh \
   docs/qa/DALGA3_KURUMSAL_KOPYA.md \
   docs/qa/KURUMSAL_PILOT_SIGNOFF.md \
   docs/qa/FAZ5_KURUMSAL_BASLANGIC.md
@@ -17,4 +20,10 @@ done
 grep -q 'PasswordPolicy' "$ROOT/deploy/gpo/winlrtRAR.admx"
 grep -q 'corporate' "$ROOT/scripts/winlrt-corporate-policy-sample.reg"
 
-echo "OK: Dalga 3 kurumsal paket (ADMX + .reg + QA docs)"
+ZIP="$ROOT/apps/web/public/downloads/winlrtRAR-corporate-gpo.zip"
+if [ ! -f "$ZIP" ]; then
+  bash "$ROOT/scripts/package-corporate-gpo-zip.sh"
+fi
+test -f "$ZIP"
+
+echo "OK: Dalga 3 kurumsal paket (ADMX + ZIP + QA docs)"
