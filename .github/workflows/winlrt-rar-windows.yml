@@ -7,6 +7,11 @@ on:
         description: Yalnızca artifact yükle (GitHub Release oluşturma)
         type: boolean
         default: false
+  push:
+    branches: [main]
+    paths:
+      - .github/flags/trigger-beta-build
+      - .github/workflows/winlrt-rar-windows.yml
 
 permissions:
   contents: write
@@ -32,14 +37,22 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: npm run tauri build -w @winlrt/rar -- --features unrar-embedded
 
-      - name: İmza secret yok (beta uyarısı)
-        if: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY == '' }}
+      - name: İmza durumu
+        id: signing
+        shell: bash
+        env:
+          TAURI_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
         run: |
-          echo "::warning::TAURI_SIGNING_PRIVATE_KEY tanımlı değil — kurulum imzasız; SmartScreen uyarısı beklenir."
-          echo "Bkz. docs/WINLRTRAR_CODE_SIGNING.md"
+          if [ -z "${TAURI_KEY}" ]; then
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::TAURI_SIGNING_PRIVATE_KEY tanımlı değil — kurulum imzasız; SmartScreen uyarısı beklenir."
+            echo "Bkz. docs/WINLRTRAR_CODE_SIGNING.md"
+          else
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Verify Authenticode (imza secret tanımlıysa)
-        if: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY != '' }}
+        if: steps.signing.outputs.present == 'true'
         shell: pwsh
         run: ./scripts/verify-windows-signature.ps1
 
@@ -53,7 +66,7 @@ jobs:
           if-no-files-found: warn
 
       - name: GitHub Release (beta)
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_release != true }}
+        if: github.event_name == 'workflow_dispatch' && inputs.skip_release != true
         uses: softprops/action-gh-release@v2
         with:
           tag_name: winlrt-rar-beta.${{ github.run_number }}
