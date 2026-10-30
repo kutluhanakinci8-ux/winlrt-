@@ -1,0 +1,24 @@
+# winlrt vitrin — nginx site (HTTP; certbot --nginx SSL ekler)
+# Kurulum: deploy/scripts/install-nginx-site.sh
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name __WINLRT_DOMAIN__;
+
+    root __WINLRT_WEB_ROOT__;
+    index index.html;
+
+    access_log /var/log/nginx/winlrt.access.log;
+    error_log /var/log/nginx/winlrt.error.log;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location ~* \.(css|js|svg|png|jpg|jpeg|gif|ico|webp|woff2?)$ {
+        expires 7d;
+        add_header Cache-Control "public, immutable";
+        try_files $uri =404;
+    }
+}

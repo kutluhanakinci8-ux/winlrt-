@@ -22,7 +22,8 @@ npm run build:web  # apps/web/dist
 ## CI / deploy
 
 - **CI:** GitHub Actions `ci.yml` — vitrin build doğrulaması
-- **VPS:** `deploy-vps.yml` — Turhost hazır olunca (bkz. `docs/WINLRT_VPS.md`)
+- **Canlı site:** [docs/CANLI_SITE.md](docs/CANLI_SITE.md) (DNS, VPS, SSL, GitHub Secrets)
+- **VPS notları:** [docs/WINLRT_VPS.md](docs/WINLRT_VPS.md)
 
 ## Dokümantasyon
 

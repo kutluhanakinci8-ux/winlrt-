@@ -2,6 +2,8 @@
 
 Sunucu panelde **Aktif** + IP geldikten sonra.
 
+**Adım adım canlı site:** [CANLI_SITE.md](./CANLI_SITE.md)
+
 ## DNS
 
 `winlrt.lerta.com.tr` (veya `get.lerta.com.tr`) → **A** → Turhost IP
