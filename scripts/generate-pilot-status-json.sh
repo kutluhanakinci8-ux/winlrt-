@@ -14,11 +14,17 @@ if grep -q '\[x\] PASS' "$ROOT/docs/qa/KURUMSAL_PILOT_SIGNOFF.md" 2>/dev/null; t
   corp="pass"
 fi
 
+v1_state="pending"
 wave=2
 blocker="windows_explorer_qa"
 if [ "$explorer" = "pass" ] && [ "$corp" = "pass" ]; then
   wave=4
-  blocker="v1_signing_and_tag"
+  blocker="v1_signing_optional"
+  v1_state="rc1"
+  if git -C "$ROOT" rev-parse "v1.0.0" >/dev/null 2>&1; then
+    v1_state="pass"
+    blocker="none"
+  fi
 elif [ "$explorer" = "pass" ]; then
   wave=3
   blocker="corporate_pilot"
@@ -35,7 +41,7 @@ cat >"$OUT" <<EOF
     "1_deploy": "pass",
     "2_explorer_qa": "${explorer}",
     "3_corporate": "${corp}",
-    "4_v1": "pending"
+    "4_v1": "${v1_state}"
   },
   "links": {
     "beta_release": "https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.41064653814",

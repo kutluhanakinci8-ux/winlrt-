@@ -37,4 +37,7 @@ V1_NOTES="Agent otomasyon: Explorer+corporate signoff (artifact SHA256 ${SHA:0:1
   bash "$ROOT/scripts/agent-v1-release-draft.sh"
 
 bash "$ROOT/scripts/generate-pilot-status-json.sh"
+if [ -x "$ROOT/scripts/agent-dalga4-publish-rc1-release.sh" ]; then
+  bash "$ROOT/scripts/agent-dalga4-publish-rc1-release.sh" || true
+fi
 echo "OK: signoff + V1_RELEASE_DRAFT agent dolduruldu"

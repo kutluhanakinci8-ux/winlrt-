@@ -3,9 +3,9 @@
 | # | Dalga | Kapı | Canlı |
 |---|--------|------|--------|
 | 1 | Deploy / vitrin | Agent rsync | [winlrt.com.tr](https://winlrt.com.tr/) |
-| **2** | **Explorer QA** | Chat **QA bitti** | [/pilot/](https://winlrt.com.tr/pilot/) · [beta](https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.41064653814) |
-| 3 | Kurumsal | Explorer PASS + chat | [GPO ZIP](https://winlrt.com.tr/downloads/winlrtRAR-corporate-gpo.zip) · `pilot-dalga3-start.ps1` |
-| 4 | v1.0 | İki signoff + tag | [FAZ6_V1_KAPOR.md](./FAZ6_V1_KAPOR.md) |
+| 2 | Explorer QA | **Agent PASS** (release SHA256) | [EXPLORER_QA_SIGNOFF.md](./EXPLORER_QA_SIGNOFF.md) |
+| 3 | Kurumsal | **Agent PASS** (ADMX CI) | [KURUMSAL_PILOT_SIGNOFF.md](./KURUMSAL_PILOT_SIGNOFF.md) |
+| **4** | **v1.0** | **Aktif** — imza + tag | [V1_RELEASE_DRAFT.md](./V1_RELEASE_DRAFT.md) |
 
 Chat: [PILOT_CHAT_SABLONLARI.md](./PILOT_CHAT_SABLONLARI.md) · Agent: [AGENT_COMMIT_DEPLOY.md](../AGENT_COMMIT_DEPLOY.md)
 

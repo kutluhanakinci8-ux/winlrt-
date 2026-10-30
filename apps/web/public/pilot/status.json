@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-10-30T15:25:49Z",
+  "generated_at": "2026-10-30T15:43:33Z",
   "active_wave": 4,
-  "blocker": "v1_signing_and_tag",
+  "blocker": "v1_signing_optional",
   "waves": {
     "1_deploy": "pass",
     "2_explorer_qa": "pass",
     "3_corporate": "pass",
-    "4_v1": "pending"
+    "4_v1": "rc1"
   },
   "links": {
     "beta_release": "https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.41064653814",
