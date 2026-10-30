@@ -35,8 +35,7 @@ certbot --nginx -d winlrt.com.tr -d www.winlrt.com.tr
 
 | Workflow | Açıklama |
 |----------|----------|
-| `.github/workflows/ci.yml` | Her PR / `main` push: `npm ci` + `build:web`, `web-dist` artifact |
-| `.github/workflows/deploy-vps.yml` | VPS’e `apps/web/dist` kopyalar (aşağıdaki secrets + isteğe bağlı variable) |
+| `.github/workflows/main-pipeline.yml` | `main` push: CI + otomatik deploy (secrets varsa) + VPS yedek |
 
 ### Repo secrets (Settings → Secrets and variables → Actions)
 
@@ -48,7 +47,7 @@ certbot --nginx -d winlrt.com.tr -d www.winlrt.com.tr
 | `VPS_WEB_ROOT` | `/var/www/winlrt/apps/web/dist` |
 | `VPS_PORT` | (isteğe bağlı) SSH portu, varsayılan 22 |
 
-Otomatik deploy için **Variables** → `VPS_DEPLOY_ENABLED` = `true` yapın. Aksi halde yalnızca **Actions → Deploy vitrin to VPS → Run workflow** ile manuel tetiklenir.
+**main** dalına her push otomatik deploy dener (secrets tanımlıysa). Ayrıntı: [AUTO_DEPLOY.md](./AUTO_DEPLOY.md).
 
 ### Cloud Agent ortamı
 

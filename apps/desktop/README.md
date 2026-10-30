@@ -1,15 +1,5 @@
-# winlrt masaüstü
+# apps/desktop (yönlendirme)
 
-Windows ve macOS istemcisi burada geliştirilecek.
+Masaüstü uygulama geliştirmesi **`apps/winlrt-rar`** altında.
 
-Önerilen stack (Turhost Ubuntu + GitHub):
-
-- **Tauri 2** + TypeScript/React (küçük kurulum paketi)
-- CI: GitHub Actions → `.exe` / `.dmg` → `apps/web/public/downloads/` veya VPS `releases/`
-
-Kurulum (geliştirici makinesi veya VPS):
-
-```bash
-npm create tauri-app@latest
-# veya mevcut monorepo'ya tauri init
-```
+Eski notlar: [archive/deprecated-apps/desktop/README.md](../../archive/deprecated-apps/desktop/README.md)

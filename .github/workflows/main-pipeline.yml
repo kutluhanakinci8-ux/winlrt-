@@ -1,0 +1,135 @@
+name: Main pipeline
+
+# main push: CI + (secrets varsa) otomatik vitrin deploy + VPS yedek
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: main-pipeline-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build vitrin
+        run: npm run build:web
+
+      - name: Upload web dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-dist
+          path: apps/web/dist
+          if-no-files-found: error
+
+  rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: crates/winlrt-archive
+
+      - name: Build winlrt-archive
+        run: cargo build -p winlrt-archive --release
+
+  deploy:
+    needs: web
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Skip deploy when VPS secrets missing
+        id: check
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+        run: |
+          if [ -z "$VPS_HOST" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::VPS secrets yok — deploy atlandı (bkz. docs/AUTO_DEPLOY.md)"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.check.outputs.skip == 'false'
+
+      - uses: actions/setup-node@v4
+        if: steps.check.outputs.skip == 'false'
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Build vitrin for deploy
+        if: steps.check.outputs.skip == 'false'
+        run: npm ci && npm run build:web
+
+      - name: Backup current site on VPS
+        if: steps.check.outputs.skip == 'false'
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT != '' && secrets.VPS_PORT || '22' }}
+          script: |
+            set -euo pipefail
+            WEB_ROOT="${{ secrets.VPS_WEB_ROOT }}"
+            BACKUP_BASE="/var/backups/winlrt/web-dist"
+            mkdir -p "$BACKUP_BASE"
+            if [ -d "$WEB_ROOT" ] && [ "$(ls -A "$WEB_ROOT" 2>/dev/null || true)" ]; then
+              STAMP="$(date -u +%Y%m%dT%H%M%SZ)-${{ github.sha }}"
+              STAMP="${STAMP:0:48}"
+              DEST="$BACKUP_BASE/$STAMP"
+              cp -a "$WEB_ROOT" "$DEST"
+              echo "Yedek: $DEST"
+              ls -dt "$BACKUP_BASE"/* 2>/dev/null | tail -n +6 | xargs -r rm -rf
+            else
+              echo "Yedeklenecek dist yok (ilk deploy)"
+            fi
+
+      - name: Deploy dist to VPS
+        if: steps.check.outputs.skip == 'false'
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT != '' && secrets.VPS_PORT || '22' }}
+          source: "apps/web/dist/**"
+          target: ${{ secrets.VPS_WEB_ROOT }}
+          strip_components: 3
+          rm: true
+
+      - name: Reload nginx
+        if: steps.check.outputs.skip == 'false'
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT != '' && secrets.VPS_PORT || '22' }}
+          script: |
+            if command -v nginx >/dev/null 2>&1; then
+              if [ "$(id -u)" -eq 0 ]; then
+                nginx -t && systemctl reload nginx
+              else
+                sudo nginx -t && sudo systemctl reload nginx
+              fi
+            fi

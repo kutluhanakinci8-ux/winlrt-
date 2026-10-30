@@ -28,9 +28,10 @@ cargo run -p winlrt-archive -- --help
 
 ## CI / deploy
 
-- **CI:** GitHub Actions `ci.yml` — vitrin build doğrulaması
-- **Canlı site:** [docs/CANLI_SITE.md](docs/CANLI_SITE.md) (DNS, VPS, SSL, GitHub Secrets)
-- **VPS notları:** [docs/WINLRT_VPS.md](docs/WINLRT_VPS.md)
+- **Otomatik:** `main` push → [Main pipeline](.github/workflows/main-pipeline.yml) (build + VPS deploy + yedek)
+- **Kurulum:** [docs/AUTO_DEPLOY.md](docs/AUTO_DEPLOY.md)
+- **Canlı site:** [docs/CANLI_SITE.md](docs/CANLI_SITE.md)
+- **Arşiv:** [archive/README.md](archive/README.md)
 
 ## Dokümantasyon
 

@@ -1,71 +1,13 @@
-name: Deploy vitrin to VPS
+# Geriye dönük: manuel tetikleme için main-pipeline kullanın
+name: Deploy vitrin (manuel)
 
-# Turhost VPS aktif olunca repo Secrets tanımlayın (bkz. docs/WINLRT_VPS.md).
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - "apps/web/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/deploy-vps.yml"
 
 jobs:
-  deploy:
+  trigger:
     runs-on: ubuntu-latest
-    if: >-
-      github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'push' && vars.VPS_DEPLOY_ENABLED == 'true')
     steps:
-      - name: Require VPS secrets
-        env:
-          VPS_HOST: ${{ secrets.VPS_HOST }}
-          VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
-          VPS_WEB_ROOT: ${{ secrets.VPS_WEB_ROOT }}
-        run: |
-          for v in VPS_HOST VPS_USER VPS_SSH_KEY VPS_WEB_ROOT; do
-            if [ -z "${!v}" ]; then
-              echo "::error::Missing secret $v — bkz. docs/CANLI_SITE.md"
-              exit 1
-            fi
-          done
-
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: npm
-
-      - name: Install and build
-        run: npm ci && npm run build:web
-
-      - name: Sync dist to VPS
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_PORT != '' && secrets.VPS_PORT || '22' }}
-          source: "apps/web/dist/**"
-          target: ${{ secrets.VPS_WEB_ROOT }}
-          strip_components: 3
-          rm: true
-
-      - name: Reload nginx (optional)
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_PORT != '' && secrets.VPS_PORT || '22' }}
-          script: |
-            if command -v nginx >/dev/null 2>&1; then
-              if [ "$(id -u)" -eq 0 ]; then
-                nginx -t && systemctl reload nginx
-              else
-                sudo nginx -t && sudo systemctl reload nginx
-              fi
-            fi
+      - run: |
+          echo "Otomatik deploy: main dalına push → main-pipeline.yml"
+          echo "Manuel: Actions → Main pipeline → Run workflow"
