@@ -36,7 +36,23 @@ Mac’te `ssh -i ~/.ssh/winlrt-gha-deploy ... echo OK` **yalnızca** anahtarın 
 bash scripts/mac-set-github-vps-secret.sh
 ```
 
-Script gerekirse `brew install gh` yapar; `gh auth login` tarayıcı ile oturum açar; anahtarı **dosyadan** `VPS_SSH_KEY` olarak yükler.
+Script `gh` arar; yoksa önce portable kurulum: `bash scripts/mac-install-gh-portable.sh`  
+(Homebrew `gh` Monterey altı macOS’ta **kurulamaz** — portable binary kullanın.)
+
+`gh auth login` → ardından anahtarı **dosyadan** yükleyin:
+
+```bash
+~/.local/bin/gh secret set VPS_SSH_KEY --repo kutluhanakinci8-ux/winlrt- < ~/.ssh/winlrt-gha-deploy
+```
+
+**Homebrew olmadan şifre secret’ı (web kutusuna yapıştırma yok):**
+
+```bash
+~/.local/bin/gh auth login
+~/.local/bin/gh secret set VPS_SSH_PASSWORD --repo kutluhanakinci8-ux/winlrt-
+```
+
+Terminal şifreyi sorar (ekranda görünmez); yazıp Enter.
 
 **Alternatif (tek satır secret):**
 
