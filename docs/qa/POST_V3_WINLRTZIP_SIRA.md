@@ -18,5 +18,6 @@
 | **W13** | Faz 2 KOBİ pilot (e-posta eki) | **%100** ✅ | [MADDE_W13](./MADDE_W13_WINLRTZIP_KOBI_PILOT.md) |
 | **W14** | macOS dmg CI (Faz 3 build) | **%100** ✅ | [MADDE_W14](./MADDE_W14_WINLRTZIP_MACOS.md) |
 | **W15** | WinZip geçiş + macOS KPI vitrin | **%100** ✅ | [MADDE_W15](./MADDE_W15_WINLRTZIP_MIGRATION_MACOS_KPI.md) |
+| **W16** | P0×3 KPI kapısı (zip_kpi + güven) | **%100** ✅ | [MADDE_W16](./MADDE_W16_WINLRTZIP_P0_KPI_GATE.md) |
 
 RAR hattı: [POST_V2_SIRA.md](./POST_V2_SIRA.md) (Q2 tamam).

@@ -50,6 +50,10 @@
         </tbody>
       </table>
 
+      <h2 class="section-label">winlrtZIP P0×3 kapı özeti</h2>
+      <p class="meta" id="p0-gate-meta">P0 özeti yükleniyor…</p>
+      <article class="card" id="p0-gate-card" style="margin-bottom: 1.5rem"></article>
+
       <h2 class="section-label">Canlı KPI özeti (referans)</h2>
       <p class="meta" id="kpi-sample-meta">
         Repo örnekleri yükleniyor… (Linux CI referans; resmi kapı Windows workflow artifact).
@@ -141,6 +145,30 @@ cargo run -p winlrt-archive -- bench --all --profile fast --json --zip-kpi</code
         const text = passed === null || passed === undefined ? "ölçülmedi" : ok ? "GEÇTİ" : "henüz değil";
         return `<span class="status ${cls}" style="margin-left:0.5rem">${label}: ${text}</span>`;
       }
+      async function loadP0Gate() {
+        const meta = document.getElementById("p0-gate-meta");
+        const card = document.getElementById("p0-gate-card");
+        try {
+          const res = await fetch("/benchmark/samples/winlrtzip-p0-gate.json", {
+            cache: "no-store",
+          });
+          if (!res.ok) throw new Error(res.statusText);
+          const data = await res.json();
+          const p = data.p0 || {};
+          card.innerHTML = `<p>${gateBadge(p.compression?.gate, "Sıkıştırma (Balanced)")}${gateBadge(
+            p.speed?.gate,
+            "Hız (Fast)"
+          )}${gateBadge(p.security?.gate, "Güven (AES I4)")}</p>
+          <p class="meta">${data.disclaimer || ""}</p>
+          <p class="meta">Tümü: <strong>${data.all_pass ? "GEÇTİ" : "izleniyor"}</strong> · ${
+            data.generated_at || ""
+          }</p>`;
+          meta.textContent = "Kaynak: winlrtzip-p0-gate.json (W16).";
+        } catch (e) {
+          meta.textContent = "P0 kapı özeti yüklenemedi.";
+          card.innerHTML = `<p class="meta">${e}</p>`;
+        }
+      }
       async function loadKpiSamples() {
         const files = [
           {
@@ -211,6 +239,7 @@ cargo run -p winlrt-archive -- bench --all --profile fast --json --zip-kpi</code
         document.getElementById("kpi-sample-meta").textContent =
           "Kaynak: apps/web/public/benchmark/samples/ (merge/deploy sonrası winlrt.com.tr’de güncellenir).";
       }
+      loadP0Gate();
       loadKpiSamples();
     </script>
   </body>

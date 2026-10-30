@@ -113,10 +113,23 @@ jobs:
       - name: winlrtZIP geçiş + macOS KPI vitrin (W15)
         run: bash scripts/verify-madde-w15.sh
 
+      - name: winlrtZIP P0×3 kapı scriptleri (W16)
+        run: bash scripts/verify-madde-w16.sh
+
       - name: Faz 1 benchmark raporu
         run: |
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json
           cargo run -p winlrt-archive --release -- bench --all --markdown > BENCH_REPORT.md
+          cargo run -p winlrt-archive --release -- bench --all --json --zip-kpi > bench-zip-balanced.json
+          cargo run -p winlrt-archive --release -- bench --all --profile fast --json --zip-kpi > bench-zip-fast.json
+
+      - name: winlrtZIP P0×3 KPI kapısı (W16)
+        env:
+          WINLRT_ZIP_KPI_STRICT: ${{ vars.WINLRT_KPI_STRICT == '1' && '1' || '0' }}
+        run: |
+          command -v jq >/dev/null || sudo apt-get install -y -qq jq
+          chmod +x scripts/evaluate-winlrtzip-p0-gate.sh
+          ./scripts/evaluate-winlrtzip-p0-gate.sh bench-zip-balanced.json bench-zip-fast.json
 
       - name: KPI özeti (Linux Balanced, Madde C strict)
         env:

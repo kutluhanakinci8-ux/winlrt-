@@ -146,7 +146,7 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 
 - [x] macOS build CI (dmg) — [MADDE_W14](./qa/MADDE_W14_WINLRTZIP_MACOS.md) · [ ] notarization (`APPLE_*`)
 - [x] WinZip geçiş sihirbazı — [MADDE_W15](./qa/MADDE_W15_WINLRTZIP_MIGRATION_MACOS_KPI.md)
-- [ ] KPI kapısı: üç P0 metrik raporu (macOS resmi bench — W15 vitrin placeholder)
+- [x] KPI kapısı: üç P0 metrik raporu — [MADDE_W16](./qa/MADDE_W16_WINLRTZIP_P0_KPI_GATE.md) (Windows resmi import + macOS placeholder)
 
 **Kapı:** macOS + Windows benchmark yeşil.
 
