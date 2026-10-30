@@ -27,6 +27,11 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: npm run tauri build -w @winlrt/rar -- --features unrar-embedded
 
+      - name: Verify Authenticode (imza secret tanımlıysa)
+        if: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY != '' }}
+        shell: pwsh
+        run: ./scripts/verify-windows-signature.ps1
+
       - name: Upload Windows bundle (artifact)
         uses: actions/upload-artifact@v4
         with:

@@ -24,15 +24,22 @@ jobs:
       - name: Install 7-Zip (rakip referans)
         run: choco install 7zip -y
 
+      - name: Install WinRAR (rakip referans, deneme)
+        continue-on-error: true
+        run: choco install winrar -y
+
       - name: Build winlrt-archive
         run: cargo build -p winlrt-archive --release
 
-      - name: Benchmark (winlrt + 7-Zip ZIP)
+      - name: Benchmark (winlrt + 7-Zip + WinRAR ZIP)
         env:
           WINLRT_BENCH_INCLUDE_7Z: "1"
+          WINLRT_BENCH_INCLUDE_WINRAR: "1"
         run: |
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report-windows.json
           cargo run -p winlrt-archive --release -- bench --all --markdown > BENCH_REPORT.md
+          cargo run -p winlrt-archive --release -- bench --all --profile fast --json > bench-report-windows-fast.json
+          cargo run -p winlrt-archive --release -- bench --all --profile fast --markdown > BENCH_REPORT_FAST.md
 
       - name: Upload benchmark artifacts
         uses: actions/upload-artifact@v4
@@ -41,4 +48,6 @@ jobs:
           path: |
             bench-report-windows.json
             BENCH_REPORT.md
+            bench-report-windows-fast.json
+            BENCH_REPORT_FAST.md
           if-no-files-found: error

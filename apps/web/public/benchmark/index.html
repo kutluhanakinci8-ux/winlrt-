@@ -22,7 +22,7 @@
       <p class="lead">
         Linux CI (<em>bench-report</em>) ve Windows resmi workflow
         (<em>bench-report-windows</em>): ZIP, <strong>.wlrt</strong> ve Windows’ta
-        <strong>7-Zip</strong> referansı.
+        <strong>7-Zip</strong> ve <strong>WinRAR (ZIP)</strong> referansı; KPI özeti markdown/JSON’da.
       </p>
       <h2 class="section-label">Yerel çalıştırma</h2>
       <pre><code>cargo run -p winlrt-archive -- bench --all --json</code></pre>
@@ -32,8 +32,8 @@
       </p>
       <h2 class="section-label">KPI hedefi (P0)</h2>
       <ul>
-        <li>Hız: çok çekirdek <code>.wlrt</code> oluşturma</li>
-        <li>Boyut: profil <em>Maximum</em> vs ZIP referansı</li>
+        <li>Hız (P0): <code>--profile fast</code> — referans açmaya göre ≥ %30</li>
+        <li>Sıkıştırma (P0): <code>Balanced</code> — .wlrt vs ZIP (≥ %10 küçük veya eşit+hızlı)</li>
         <li>Windows: Actions → <em>winlrt Windows benchmark (resmi)</em> → Run workflow</li>
       </ul>
       <p>

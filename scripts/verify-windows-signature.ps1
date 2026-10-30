@@ -1,0 +1,35 @@
+# Authenticode doğrulama — imzalı CI artifact (Faz 3)
+param(
+    [Parameter(Mandatory = $false)]
+    [string[]]$Paths = @(
+        "apps/winlrt-rar/src-tauri/target/release/bundle/**/*.exe",
+        "apps/winlrt-rar/src-tauri/target/release/bundle/**/*.msi"
+    )
+)
+
+$ErrorActionPreference = "Stop"
+$signtool = "${env:ProgramFiles(x86)}\Windows Kits\10\bin\*\x64\signtool.exe"
+$resolved = Get-Item $signtool -ErrorAction SilentlyContinue | Sort-Object FullName -Descending | Select-Object -First 1
+if (-not $resolved) {
+    Write-Error "signtool.exe bulunamadı (Windows SDK)."
+}
+
+$files = @()
+foreach ($pattern in $Paths) {
+    $files += Get-ChildItem -Path $pattern -ErrorAction SilentlyContinue
+}
+$files = $files | Where-Object { $_.PSIsContainer -eq $false } | Sort-Object FullName -Unique
+if ($files.Count -eq 0) {
+    Write-Error "Doğrulanacak .exe/.msi bulunamadı."
+}
+
+$fail = 0
+foreach ($f in $files) {
+    Write-Host "signtool verify /pa $($f.FullName)"
+    & $resolved.FullName verify /pa $f.FullName
+    if ($LASTEXITCODE -ne 0) { $fail++ }
+}
+if ($fail -gt 0) {
+    Write-Error "$fail dosyada imza doğrulaması başarısız."
+}
+Write-Host "Tüm imzalar geçerli ($($files.Count) dosya)."

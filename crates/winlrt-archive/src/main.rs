@@ -246,12 +246,14 @@ fn run() -> Result<()> {
             let cwd = std::env::current_dir().unwrap_or_default();
             let (platform, generated_at) = bench::suite_metadata();
             if all {
-                let suite = BenchSuite {
+                let mut suite = BenchSuite {
                     profile: format!("{profile:?}"),
                     platform,
                     generated_at,
                     reports: bench::run_all(&cwd, profile)?,
+                    kpi: None,
                 };
+                suite.kpi = Some(bench::evaluate_kpi(&suite));
                 if markdown {
                     print!("{}", bench::suite_to_markdown(&suite));
                 } else if json_out {
@@ -266,12 +268,14 @@ fn run() -> Result<()> {
                 let fixture = fixture.unwrap_or_else(|| bench::default_fixture(&cwd));
                 let report = bench::run(&fixture, profile)?;
                 if markdown {
-                    let suite = BenchSuite {
+                    let mut suite = BenchSuite {
                         profile: format!("{profile:?}"),
                         platform,
                         generated_at,
                         reports: vec![report],
+                        kpi: None,
                     };
+                    suite.kpi = Some(bench::evaluate_kpi(&suite));
                     print!("{}", bench::suite_to_markdown(&suite));
                 } else if json_out {
                     print_json(&report)?;
@@ -318,5 +322,11 @@ fn print_bench_human(r: &BenchReport) {
     }
     if let Some(ms) = r.seven_zip_create_ms {
         println!("7-Zip create: {ms} ms");
+    }
+    if let Some(b) = r.winrar_bytes {
+        println!("WinRAR ZIP: {b} bytes");
+    }
+    if let Some(ms) = r.winrar_create_ms {
+        println!("WinRAR create: {ms} ms");
     }
 }

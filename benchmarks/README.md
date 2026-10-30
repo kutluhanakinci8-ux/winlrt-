@@ -24,4 +24,13 @@ cargo run -p winlrt-archive -- bench --fixture benchmarks/fixtures/binary --prof
 
 CI: `main` push → rust job → artifact `bench-report.json`.
 
-Rakip karşılaştırması aynı makinede manuel veya CI’da dokümante edilir (WinRAR/7-Zip yolu).
+Windows CI (`bench-windows.yml`):
+
+```powershell
+$env:WINLRT_BENCH_INCLUDE_7Z = "1"
+$env:WINLRT_BENCH_INCLUDE_WINRAR = "1"
+cargo run -p winlrt-archive --release -- bench --all --markdown
+cargo run -p winlrt-archive --release -- bench --all --profile fast --markdown
+```
+
+JSON çıktısında `kpi` alanı Faz 3 kapı özetini içerir.
