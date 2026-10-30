@@ -68,13 +68,18 @@ jobs:
           ./scripts/evaluate-bench-kpi.ps1 -JsonPath bench-report-windows-fast.json
 
       - name: Vitrin KPI snippet (artifact)
-        shell: bash
+        shell: pwsh
         run: |
-          sudo apt-get install -y -qq jq
-          jq '{profile, platform, generated_at, source: "windows-official-ci", disclaimer: "Resmi Faz 3 kapı.", kpi}' \
-            bench-report-windows.json > vitrin-windows-balanced-kpi.json
-          jq '{profile, platform, generated_at, source: "windows-official-ci", disclaimer: "Resmi hız kapısı.", kpi}' \
-            bench-report-windows-fast.json > vitrin-windows-fast-kpi.json
+          function Export-VitrinKpi($in, $out, $disclaimer) {
+            $raw = [System.IO.File]::ReadAllText($in).Trim()
+            $s = $raw.Substring($raw.IndexOf('{'), $raw.LastIndexOf('}') - $raw.IndexOf('{') + 1) | ConvertFrom-Json
+            [ordered]@{
+              profile = $s.profile; platform = $s.platform; generated_at = $s.generated_at
+              source = 'windows-official-ci'; disclaimer = $disclaimer; kpi = $s.kpi
+            } | ConvertTo-Json -Depth 12 | Set-Content -Path $out -Encoding utf8NoBOM
+          }
+          Export-VitrinKpi 'bench-report-windows.json' 'vitrin-windows-balanced-kpi.json' 'Resmi Faz 3 kapı.'
+          Export-VitrinKpi 'bench-report-windows-fast.json' 'vitrin-windows-fast-kpi.json' 'Resmi hız kapısı.'
 
       - name: Vitrin import komutu (özet)
         shell: bash
