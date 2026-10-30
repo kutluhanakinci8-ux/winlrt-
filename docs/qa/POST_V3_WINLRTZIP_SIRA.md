@@ -11,5 +11,6 @@
 | **W6** | ZIP benchmark / 7-Zip (+ WinZip) CI | **%100** ✅ | [MADDE_W6](./MADDE_W6_WINLRTZIP_BENCH.md) |
 | **W7** | E-posta eki profili (I6) | **%100** ✅ | [MADDE_W7](./MADDE_W7_WINLRTZIP_EMAIL.md) |
 | **W8** | AES-256 interop (I4) | **%100** ✅ | [MADDE_W8](./MADDE_W8_WINLRTZIP_AES_INTEROP.md) |
+| **W9** | Türkçe UTF-8 dosya adları (I5) | **%100** ✅ | [MADDE_W9](./MADDE_W9_WINLRTZIP_UTF8.md) |
 
 RAR hattı: [POST_V2_SIRA.md](./POST_V2_SIRA.md) (Q2 tamam).

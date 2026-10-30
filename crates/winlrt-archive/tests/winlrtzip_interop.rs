@@ -195,3 +195,78 @@ fn i4_winlrt_zip_cli_aes_roundtrip() {
         .unwrap();
     assert!(test.status.success());
 }
+
+const I5_TURKISH_REL: &str = "Şirket/iğüş/Özet_2026.txt";
+
+#[test]
+fn i5_turkish_utf8_filenames_roundtrip() {
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("src");
+    let file = src.join(I5_TURKISH_REL);
+    fs::create_dir_all(file.parent().unwrap()).unwrap();
+    fs::write(&file, b"istanbul").unwrap();
+    let zip = base.path().join("tr.zip");
+    zip_io::create_with_profile(&src, &zip, CompressionProfile::EmailAttachment, None).unwrap();
+    let entries = zip_io::list(&zip, None).unwrap();
+    assert!(
+        entries.iter().any(|e| e.contains("Özet_2026.txt")),
+        "liste: {entries:?}"
+    );
+    let out = base.path().join("out");
+    zip_io::extract(&zip, &out, None).unwrap();
+    assert_eq!(
+        fs::read(out.join(I5_TURKISH_REL)).unwrap(),
+        b"istanbul"
+    );
+}
+
+#[test]
+fn i5_winlrt_zip_cli_list_turkish() {
+    let bin = env!("CARGO_BIN_EXE_winlrt-zip");
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("src");
+    let file = src.join(I5_TURKISH_REL);
+    fs::create_dir_all(file.parent().unwrap()).unwrap();
+    fs::write(&file, b"1").unwrap();
+    let zip = base.path().join("tr-cli.zip");
+    let create = Command::new(bin)
+        .args([
+            "create",
+            src.to_str().unwrap(),
+            zip.to_str().unwrap(),
+            "--profile",
+            "fast",
+        ])
+        .output()
+        .unwrap();
+    assert!(create.status.success());
+    let list = Command::new(bin)
+        .args(["list", zip.to_str().unwrap()])
+        .output()
+        .unwrap();
+    assert!(list.status.success());
+    let out = String::from_utf8_lossy(&list.stdout);
+    assert!(out.contains("Özet_2026"), "stdout: {out}");
+}
+
+#[test]
+fn i5_7zip_extracts_turkish_paths() {
+    if !seven_zip_available() {
+        return;
+    }
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("src");
+    let file = src.join(I5_TURKISH_REL);
+    fs::create_dir_all(file.parent().unwrap()).unwrap();
+    fs::write(&file, b"7z-tr").unwrap();
+    let zip = base.path().join("tr-7z.zip");
+    zip_io::create_with_profile(&src, &zip, CompressionProfile::Balanced, None).unwrap();
+    let dest = base.path().join("7z-out");
+    fs::create_dir_all(&dest).unwrap();
+    let status = Command::new("7z")
+        .args(["x", "-y", &zip.to_string_lossy(), &format!("-o{}", dest.display())])
+        .status()
+        .unwrap();
+    assert!(status.success());
+    assert_eq!(fs::read(dest.join(I5_TURKISH_REL)).unwrap(), b"7z-tr");
+}

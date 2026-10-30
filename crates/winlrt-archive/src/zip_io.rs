@@ -98,19 +98,15 @@ pub fn create_with_profile(
     let mut writer = ZipWriter::new(out);
     let source = source.canonicalize()?;
     if source.is_file() {
-        add_file(
-            &mut writer,
-            &source,
-            &source.file_name().unwrap().to_string_lossy(),
-            profile,
-            password,
-        )?;
+        let name = zip_entry_name_from_path(source.file_name().unwrap().as_ref())?;
+        add_file(&mut writer, &source, &name, profile, password)?;
     } else {
         for entry in WalkDir::new(&source).into_iter().filter_map(|e| e.ok()) {
             let path = entry.path();
             if path.is_file() {
                 let rel = path.strip_prefix(&source).unwrap_or(path);
-                add_file(&mut writer, path, &rel.to_string_lossy(), profile, password)?;
+                let name = zip_entry_name_from_path(rel)?;
+                add_file(&mut writer, path, &name, profile, password)?;
             }
         }
     }
@@ -179,6 +175,14 @@ fn add_file(
     Ok(())
 }
 
+/// ZIP giriş adı — UTF-8 (I5 / Türkçe dosya adları).
+pub fn zip_entry_name_from_path(rel: &Path) -> Result<String> {
+    let s = rel
+        .to_str()
+        .ok_or_else(|| ArchiveError::Zip("dosya yolu UTF-8 olmalı (I5)".into()))?;
+    Ok(s.replace('\\', "/"))
+}
+
 fn sanitize_path(name: &str) -> PathBuf {
     PathBuf::from(
         name.split('/')
@@ -222,6 +226,26 @@ pub fn test(archive: &Path, password: Option<&str>) -> Result<()> {
 mod tests {
     use super::*;
     use tempfile::tempdir;
+
+    #[test]
+    fn zip_turkish_utf8_entry_names() {
+        let dir = tempdir().unwrap();
+        let src = dir.path().join("src");
+        let nested = src.join("Şirket").join("iğüş");
+        std::fs::create_dir_all(&nested).unwrap();
+        std::fs::write(nested.join("Özet_2026.txt"), b"turkce").unwrap();
+        let archive = dir.path().join("utf8.zip");
+        create_with_profile(&src, &archive, CompressionProfile::Balanced, None).unwrap();
+        let entries = list(&archive, None).unwrap();
+        assert!(entries.iter().any(|e| e.contains("Özet_2026.txt")));
+        assert!(entries.iter().any(|e| e.contains("Şirket")));
+        let out = dir.path().join("out");
+        extract(&archive, &out, None).unwrap();
+        assert_eq!(
+            std::fs::read(out.join("Şirket/iğüş/Özet_2026.txt")).unwrap(),
+            b"turkce"
+        );
+    }
 
     #[test]
     fn zip_roundtrip() {
