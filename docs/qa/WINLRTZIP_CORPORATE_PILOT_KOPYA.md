@@ -23,4 +23,6 @@ powershell -ExecutionPolicy Bypass -File scripts/windows/winlrtzip-corporate-pil
 - [ ] `AuditMirrorPath` hedefinde yeni satır
 - [ ] `AuditForwardUrl` test toplayıcısı (HTTP 2xx)
 
-**Bitti mi?** Chat: **winlrtZIP kurumsal pilot bitti** → agent signoff (isteğe).
+**Bitti mi?** Chat: **winlrtZIP kurumsal pilot bitti** + segment + PASS → `scripts/agent-winlrtzip-corporate-signoff.sh` → commit · push · deploy.
+
+Signoff şablonu: [WINLRTZIP_CORPORATE_PILOT_SIGNOFF.md](./WINLRTZIP_CORPORATE_PILOT_SIGNOFF.md) · [MADDE_W19](./MADDE_W19_WINLRTZIP_CORPORATE_SIGNOFF.md)

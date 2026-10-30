@@ -357,6 +357,36 @@ fn audit_log_path_hint() -> String {
     audit::audit_log_path().to_string_lossy().into_owned()
 }
 
+#[derive(Serialize)]
+pub struct EnterprisePolicyInfo {
+    pub source: String,
+    pub policy_id: Option<String>,
+    pub active_policy_id: String,
+    pub audit_mirror: Option<String>,
+    pub audit_forward_url: Option<String>,
+    pub require_modern_crypto: bool,
+}
+
+#[tauri::command]
+fn enterprise_policy_info() -> EnterprisePolicyInfo {
+    use winlrt_archive::enterprise::{self, PolicySource};
+    let (source, id) = enterprise::resolve_policy_source();
+    let source = match source {
+        PolicySource::Environment => "environment",
+        PolicySource::Registry => "registry",
+        PolicySource::Default => "default",
+    };
+    let active = password_policy::active_policy();
+    EnterprisePolicyInfo {
+        source: source.into(),
+        policy_id: id,
+        active_policy_id: active.id.into(),
+        audit_mirror: enterprise::audit_mirror_path().map(|p| p.to_string_lossy().into_owned()),
+        audit_forward_url: enterprise::audit_forward_url(),
+        require_modern_crypto: enterprise::require_modern_crypto_enabled(),
+    }
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     enterprise::init_registry_product("zip");
@@ -402,7 +432,8 @@ pub fn run() {
             extract_zip,
             create_zip,
             create_zip_from_paths,
-            audit_log_path_hint
+            audit_log_path_hint,
+            enterprise_policy_info
         ])
         .build(tauri::generate_context!())
         .expect("winlrtZIP build hatası")
