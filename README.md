@@ -35,6 +35,7 @@ cargo run -p winlrt-archive -- --help
 
 ## Dokümantasyon
 
+- [Suite yol haritası](docs/SUITE_ROADMAP.md) · [winlrtRAR plan](docs/WINLRTRAR_PLAN.md) · [winlrtZIP plan](docs/WINLRTZIP_PLAN.md)
 - [Cursor ↔ GitHub](docs/CURSOR_GITHUB.md)
 - [Turhost VPS](docs/WINLRT_VPS.md) (sunucu **Aktif** olunca)
 

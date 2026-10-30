@@ -228,7 +228,7 @@ benchmarks/                # Rakip karşılaştırma seti
 | Motor | Ortak `winlrt-archive` | Aynı |
 | Rekabet | WinRAR, 7-Zip | WinZip |
 
-**Öneri:** Önce **winlrtRAR motor + Windows** (rekabet odağı); winlrtZIP aynı motor, farklı varsayılan preset ile **Faz 2 sonrası** hızlandırılmış çıkar.
+**Onay:** Önce **winlrtRAR motor + Windows**; winlrtZIP aynı motor, ZIP odaklı preset — **Faz 2 kapısı sonrası** ([WINLRTZIP_PLAN.md](./WINLRTZIP_PLAN.md)).
 
 ---
 

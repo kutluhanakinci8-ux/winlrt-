@@ -1,20 +1,25 @@
 # winlrt — ürün yol haritası (özet)
 
-Vitrin metinleri `apps/web/public/` ile uyumludur.
+Vitrin: `apps/web/public/` · Birleşik fazlar: [SUITE_ROADMAP.md](./SUITE_ROADMAP.md)
 
 ## Vizyon
 
 - **winlrt.com.tr**: Yerli yazılım ailesi — arşiv, belge, sertifika ve kurumsal araçlar.
-- **lerta.com.tr** (ayrı ürün, gelişme aşamasında): Mesajlaşma ve posta; olgun winlrt modülleri ileride entegre edilecek.
+- **lerta.com.tr** (ayrı ürün): Mesajlaşma ve posta; olgun winlrt modülleri **Faz 8** entegrasyonu.
 
-## Öncelik sırası
+## Öncelik sırası (onaylı)
 
-1. **winlrtZIP** / **winlrtRAR** — tamamen yerli kod, Windows + macOS.  
-   - winlrtRAR detay plan: [WINLRTRAR_PLAN.md](./WINLRTRAR_PLAN.md)
-2. Mobil mağazalar (Google Play, App Store).
-3. PDF, imza/sertifika ve kurumsal modüller.
-4. Lerta mesaj + posta hattında üretim kullanımı.
+1. **winlrtRAR** — motor + masaüstü **önce** → [WINLRTRAR_PLAN.md](./WINLRTRAR_PLAN.md)  
+2. **winlrtZIP** — plan **Faz 0**; kod **winlrtRAR Faz 2 kapısı** sonrası → [WINLRTZIP_PLAN.md](./WINLRTZIP_PLAN.md)  
+3. Mobil (Google Play, App Store)  
+4. PDF, imza/sertifika, kurumsal modüller  
+5. Lerta mesaj + posta hattında üretim  
 
-## Kitle
+## KPI ve pilot (her iki arşiv ürünü)
 
-Bireysel; bankalar; sendikalar ve dernekler; ticari işletmeler; kamu — mevcut formatlarla uyumluluk hedefi.
+- **P0:** hız, sıkıştırma, kurumsal güven (üçü birlikte)  
+- **Pilot:** banka, sendika, KOBİ  
+
+## Operasyon
+
+- Geliştirme **`main`** → otomatik CI + vitrin deploy: [AUTO_DEPLOY.md](./AUTO_DEPLOY.md)
