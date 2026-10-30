@@ -176,7 +176,7 @@ Taslak: [WINLRTRAR_FAZ3_TRANSITION.md](./WINLRTRAR_FAZ3_TRANSITION.md)
 - [x] Çok ciltli RAR (ilk cilt çözümleme) + onarım (UnRAR `r`, beta)
 - [x] Benchmark vitrin özeti (`/benchmark/`, CI artifact)
 - [x] Resmi Windows rakip benchmark CI (7-Zip + markdown artifact)
-- [ ] v1.0 imzalı kurulum (iskelet: WINLRTRAR_CODE_SIGNING.md + Tauri thumbprint)
+- [ ] v1.0 imzalı kurulum (iskelet + CI verify; secret kurumda — WINLRTRAR_CODE_SIGNING.md, PRODUCTION_CHECKLIST)
 
 **Kapı:** Benchmark KPI (Bölüm 2) **Windows’ta** karşılandı; 1 kurumsal pilot.
 

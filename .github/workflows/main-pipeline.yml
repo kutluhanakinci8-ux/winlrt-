@@ -63,6 +63,12 @@ jobs:
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json
           cargo run -p winlrt-archive --release -- bench --all --markdown > BENCH_REPORT.md
 
+      - name: KPI özeti (Linux Balanced)
+        run: |
+          command -v jq >/dev/null || sudo apt-get install -y -qq jq
+          chmod +x scripts/evaluate-bench-kpi.sh
+          ./scripts/evaluate-bench-kpi.sh bench-report.json
+
       - name: Upload benchmark report
         uses: actions/upload-artifact@v4
         with:

@@ -26,6 +26,8 @@ Repo → **Settings → Secrets and variables → Actions**
 
 Kimlik doğrulama: **`VPS_SSH_KEY` veya `VPS_SSH_KEY_B64` veya `VPS_SSH_PASSWORD`** (en az biri).
 
+Repoda **deploy private key tutulmaz** (`.github/deploy/` kaldırıldı). Anahtar yalnızca GitHub Secrets ve sizin Mac/VPS `authorized_keys` kaydınızda olmalıdır.
+
 Mac’te `ssh -i ~/.ssh/winlrt-gha-deploy ... echo OK` **yalnızca** anahtarın VPS’te kayıtlı olduğunu gösterir. GitHub Actions ayrı bir ortamdır; aynı anahtar veya şifre **repo Secrets**’a kaydedilmeden deploy çalışmaz.
 
 ### Mac’te secret kutusuna yapıştırma çalışmıyorsa

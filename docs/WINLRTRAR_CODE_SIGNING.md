@@ -21,8 +21,8 @@ Workflow: `.github/workflows/winlrt-rar-windows.yml` — secret tanımlıysa `np
 
 - [ ] EV/OV kod imzalama sertifikası (kurum)
 - [ ] Thumbprint veya PFX secret GitHub’da
-- [ ] İmzalı artifact doğrulama (`scripts/verify-windows-signature.ps1` — CI’da secret varsa otomatik)
-- [ ] Vitrin: indirme sayfasında “imzalı sürüm” notu
+- [x] İmzalı artifact doğrulama (`scripts/verify-windows-signature.ps1` — CI’da secret varsa otomatik)
+- [x] Vitrin: indirme sayfasında SmartScreen / imza notu (`/downloads/`)
 
 ## Hukuk
 

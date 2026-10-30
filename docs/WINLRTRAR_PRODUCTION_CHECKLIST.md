@@ -1,0 +1,48 @@
+# winlrtRAR — production checklist (Faz 3 → v1.0)
+
+Sırayla tamamlanacak maddeler; Cloud Agent ve sizin manuel adımlar birlikte.
+
+## 1. Kod ve dal birleştirme
+
+- [ ] Feature dalları `main`’e merge (compare link veya PR)
+- [ ] `main` push sonrası **Main pipeline** yeşil (vitrin build + rust test)
+
+## 2. GitHub Secrets
+
+| Secret | Amaç |
+|--------|------|
+| `VPS_HOST`, `VPS_PORT`, `VPS_USER` | winlrt.com.tr deploy |
+| `VPS_SSH_KEY` veya `VPS_SSH_KEY_B64` veya `VPS_SSH_PASSWORD` | SSH (repoda **deploy anahtarı yok**) |
+| `VPS_WEB_ROOT` | Örn. `/var/www/winlrt/apps/web/dist` |
+| `TAURI_SIGNING_PRIVATE_KEY`, `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` | İmzalı Windows beta / v1.0 |
+
+Detay: [AUTO_DEPLOY.md](./AUTO_DEPLOY.md) · Mac: `scripts/mac-set-github-vps-secret.sh`
+
+**Güvenlik:** Eski repodaki deploy private key commit edildiyse VPS’te `authorized_keys`’ten kaldırın ve yeni anahtar kullanın.
+
+## 3. Windows benchmark (Faz 3 kapısı)
+
+- [ ] Actions → **winlrt Windows benchmark (resmi)** → Run workflow
+- [ ] Artifact `bench-report-windows`: `compression_gate` (Balanced) ve `speed_gate` (Fast JSON)
+- [ ] CI log: `scripts/evaluate-bench-kpi.ps1` özeti
+- [ ] Vitrin: [/benchmark/](https://winlrt.com.tr/benchmark/) açıklaması güncel
+
+## 4. winlrtRAR Windows beta
+
+- [ ] Actions → **winlrtRAR Windows beta build** → Run workflow
+- [ ] Secret varsa: `verify-windows-signature.ps1` geçer
+- [ ] GitHub Release artifact indir → pilot makinede kurulum + Explorer menü testi
+
+## 5. Kurumsal pilot
+
+- [ ] ADMX: `deploy/gpo/winlrtRAR.admx` → PolicyDefinitions
+- [ ] Örnek politika: `scripts/winlrt-corporate-policy-sample.reg`
+- [ ] Denetim mirror / HTTP forward test (isteğe bağlı)
+
+## 6. v1.0 kapısı
+
+- [ ] KPI Windows’ta geçti (benchmark artifact)
+- [ ] İmzalı kurulum yayında
+- [ ] En az 1 kurumsal pilot onayı
+
+İlgili: [WINLRTRAR_CODE_SIGNING.md](./WINLRTRAR_CODE_SIGNING.md) · [WINLRTRAR_PLAN.md](./WINLRTRAR_PLAN.md)

@@ -20,37 +20,91 @@
     <main class="container" style="padding: 2rem 1rem 4rem">
       <h1>Motor benchmark (Faz 1–3)</h1>
       <p class="lead">
-        Linux CI (<em>bench-report</em>) ve Windows resmi workflow
-        (<em>bench-report-windows</em>): ZIP, <strong>.wlrt</strong> ve Windows’ta
-        <strong>7-Zip</strong> ve <strong>WinRAR (ZIP)</strong> referansı; KPI özeti markdown/JSON’da.
+        Linux CI (<code>bench-report</code>) ve Windows resmi workflow
+        (<code>bench-report-windows</code>): ZIP, <strong>.wlrt</strong>, Windows’ta
+        <strong>7-Zip</strong> ve <strong>WinRAR (ZIP)</strong> referansı. Faz 3 kapısı
+        <strong>iki profil</strong> ile ölçülür.
       </p>
+
+      <h2 class="section-label">Profiller ve artifact’lar</h2>
+      <table class="meta" style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem">
+        <thead>
+          <tr>
+            <th style="text-align: left; padding: 0.35rem 0">Profil</th>
+            <th style="text-align: left; padding: 0.35rem 0">KPI</th>
+            <th style="text-align: left; padding: 0.35rem 0">Windows artifact</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Balanced</code></td>
+            <td>Sıkıştırma (P0): .wlrt ≥ %10 küçük veya eşit+hızlı (ZIP)</td>
+            <td><code>bench-report-windows.json</code>, <code>BENCH_REPORT.md</code></td>
+          </tr>
+          <tr>
+            <td><code>Fast</code></td>
+            <td>Hız (P0): .wlrt açma, en hızlı referanstan ≥ %30 hızlı</td>
+            <td><code>bench-report-windows-fast.json</code>, <code>BENCH_REPORT_FAST.md</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="section-label">JSON KPI alanları</h2>
+      <p>
+        <code>cargo run -p winlrt-archive -- bench --all --json</code> çıktısındaki
+        <code>kpi</code> nesnesi CI ve vitrin doğrulaması için kullanılır:
+      </p>
+      <pre><code>{
+  "profile": "Balanced",
+  "platform": "windows / x86_64",
+  "kpi": {
+    "compression_gate": true,
+    "speed_gate": null,
+    "compression_pass_count": 4,
+    "compression_total": 4,
+    "rows": [{ "fixture": "text", "compression_ok": true, "speed_ok": null }]
+  }
+}</code></pre>
+      <p class="meta">
+        Özet script: <code>scripts/evaluate-bench-kpi.ps1</code> (Windows) ·
+        <code>scripts/evaluate-bench-kpi.sh</code> (Linux, jq). Strict mod:
+        <code>WINLRT_KPI_STRICT=1</code>.
+      </p>
+
+      <h2 class="section-label">Kurumsal güven KPI (bench dışı)</h2>
+      <ul>
+        <li>Yeni şifreli <code>.wlrt</code> → v2 <strong>Argon2id</strong> + AES-GCM</li>
+        <li>Şifreli ZIP → <strong>AES-256</strong> (WinZip AE-2)</li>
+        <li>Denetim: <code>audit.jsonl</code> (parolasız) · GPO / ADMX</li>
+        <li>v1.0 kapısı: Authenticode imzalı kurulum — bkz. aşağı</li>
+      </ul>
+
       <h2 class="section-label">Yerel çalıştırma</h2>
-      <pre><code>cargo run -p winlrt-archive -- bench --all --json</code></pre>
+      <pre><code>cargo run -p winlrt-archive -- bench --all --json
+cargo run -p winlrt-archive -- bench --all --profile fast --json</code></pre>
       <p>
         Fixture seti: <code>benchmarks/fixtures/</code> · Detay:
-        <code>docs/COMPETITOR_MATRIX.md</code>
+        <code>docs/COMPETITOR_MATRIX.md</code> · Hedefler:
+        <code>docs/WINLRTRAR_PHASE0.md</code>
       </p>
-      <h2 class="section-label">KPI hedefi (P0)</h2>
-      <ul>
-        <li>Hız (P0): <code>--profile fast</code> — referans açmaya göre ≥ %30</li>
-        <li>Sıkıştırma (P0): <code>Balanced</code> — .wlrt vs ZIP (≥ %10 küçük veya eşit+hızlı)</li>
-        <li>Windows: Actions → <em>winlrt Windows benchmark (resmi)</em> → Run workflow</li>
-      </ul>
+
       <p>
-        <a class="btn btn-primary" href="https://github.com/kutluhanakinci8-ux/winlrt-/actions/workflows/bench-windows.yml"
+        <a
+          class="btn btn-primary"
+          href="https://github.com/kutluhanakinci8-ux/winlrt-/actions/workflows/bench-windows.yml"
           >Windows benchmark workflow</a
-        >
-        <span class="meta" style="display:block;margin-top:0.75rem"
-          >Resmi KPI: Actions → <em>winlrt Windows benchmark (resmi)</em> → Run workflow →
-          artifact <code>bench-report-windows</code> + <code>BENCH_REPORT_FAST.md</code></span
         >
         <a class="btn btn-ghost" href="https://github.com/kutluhanakinci8-ux/winlrt-/actions"
           >Tüm CI artifact’ları</a
         >
       </p>
       <p class="meta">
-        Markdown özet: <code>cargo run -p winlrt-archive -- bench --all --markdown</code>
-        · İmza: <code>docs/WINLRTRAR_CODE_SIGNING.md</code>
+        Resmi KPI: Actions → <em>winlrt Windows benchmark (resmi)</em> → Run workflow → artifact
+        <code>bench-report-windows</code>.
+      </p>
+      <p class="meta">
+        İmza ve prod: <code>docs/WINLRTRAR_CODE_SIGNING.md</code> ·
+        <code>docs/WINLRTRAR_PRODUCTION_CHECKLIST.md</code>
       </p>
     </main>
   </body>

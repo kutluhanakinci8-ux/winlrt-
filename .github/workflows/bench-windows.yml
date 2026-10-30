@@ -41,6 +41,12 @@ jobs:
           cargo run -p winlrt-archive --release -- bench --all --profile fast --json > bench-report-windows-fast.json
           cargo run -p winlrt-archive --release -- bench --all --profile fast --markdown > BENCH_REPORT_FAST.md
 
+      - name: KPI özeti (Balanced + Fast)
+        shell: pwsh
+        run: |
+          ./scripts/evaluate-bench-kpi.ps1 -JsonPath bench-report-windows.json
+          ./scripts/evaluate-bench-kpi.ps1 -JsonPath bench-report-windows-fast.json
+
       - name: Upload benchmark artifacts
         uses: actions/upload-artifact@v4
         with:
