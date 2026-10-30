@@ -12,7 +12,7 @@
 | **A** | Kod + `main` merge | **100** | Feature zinciri `main`’de |
 | **B** | Main pipeline (build/test) | **100** | `main` cancel-in-progress kapalı; bkz. [MADDE_B_MAIN_PIPELINE.md](./qa/MADDE_B_MAIN_PIPELINE.md) |
 | **C** | Windows resmi benchmark | **100** | Strict Balanced + resmi koşu [41085046603](https://github.com/kutluhanakinci8-ux/winlrt-/actions) · vitrin import |
-| **D** | Beta workflow | **90** | Push flag + CI; dispatch agent’ta 403 |
+| **D** | Beta workflow | **100** | Flag build+release · run 41089469694 · [winlrt-rar-beta.42](https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.42) |
 | **E** | GitHub Secrets VPS | **40** | Agent ortam `VPS_*` var; **repo secret yok** → CI deploy skip |
 | **F** | Deploy / canlı vitrin | **92** | Agent rsync OK; CI otomatik deploy eksik |
 | **G** | Vitrin KPI verisi | **100** | Linux + Windows samples canlı |

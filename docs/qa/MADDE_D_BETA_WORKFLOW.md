@@ -15,3 +15,5 @@
 3. `bash scripts/verify-madde-d.sh`
 
 Tetik: `bash scripts/agent-madde-d-complete.sh` (build, sonra release).
+
+**Doğrulandı:** run `41089469694` · release `winlrt-rar-beta.42`.
