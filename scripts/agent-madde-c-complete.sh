@@ -30,4 +30,9 @@ else
   FAST="$TMP/bench-report-windows-fast.json"
   bash "$ROOT/scripts/import-windows-kpi-to-vitrin.sh" "$BAL" "$FAST"
 fi
+git add "$OUT"/windows-*.json
+if ! git diff --staged --quiet; then
+  git commit -m "chore(vitrin): Windows resmi KPI import (madde C/N)"
+  git push origin main
+fi
 echo "OK: vitrin import"

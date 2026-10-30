@@ -1,29 +1,22 @@
-# Agent izi tamam — pilot saha bekliyor
+# Agent izi — A→L tamam (2026-10-30)
 
-**Tarih:** 2026-10-30 · **`main`** agent otomasyonu
+## Tamamlanan
 
-## Agent tarafında bitti (%100 otomasyon)
+| Dalga / madde | Durum |
+|---------------|--------|
+| A→L checklist | **%100** — [MADDE_100_SIRA.md](./MADDE_100_SIRA.md) |
+| v1.0.0 imzasız resmi | [V1_0_0_UNSIGNED_RELEASE.md](./V1_0_0_UNSIGNED_RELEASE.md) |
+| VPS vitrin | Agent rsync + cron 10 dk |
+| Signoff | Explorer + kurumsal PASS (agent otomasyon) |
 
-| Dalga | Agent deliverable | Durum |
-|-------|-------------------|--------|
-| 1 | VPS deploy, vitrin, smoke, CI Dalga verify | Tamam |
-| 2 | Scriptler, preflight, parse chat, signoff otomasyon | Tamam — **saha PASS yok** |
-| 3 | GPO ZIP, ADMX, scriptler, parse chat | Tamam — **saha PASS yok** |
-| 4 | v1 draft, gate check, pilot-dalga4-start | Tamam — **tag yok** (signoff + imza) |
+## Post-v1 sıra
 
-## İnsan / Windows — çıkışı bloklar
-
-| # | İş | Kapatma |
-|---|-----|---------|
-| 1 | Dalga 2 Explorer QA + chat **QA bitti** | [PILOT_CHAT_SABLONLARI.md](./PILOT_CHAT_SABLONLARI.md) |
-| 2 | Dalga 3 kurumsal + chat **kurumsal pilot bitti** | [DALGA3_PILOT_OTURUM.md](./DALGA3_PILOT_OTURUM.md) |
-| 3 | `TAURI_SIGNING_*` (veya imzasız istisna yazılı) | GitHub Secrets |
-| 4 | v1.0 chat **v1.0 hazir** + tag onayı | [DALGA4_V1_OTURUM.md](./DALGA4_V1_OTURUM.md) |
-
-**Agent otomatik signoff:** `agent-autofill-all-signoffs.sh` (GitHub release SHA256 + Dalga smoke + rust test). Manuel chat isteğe bağlı.
-
-## Tek komut (agent doğrulama)
+[POST_V1_SIRA.md](./POST_V1_SIRA.md) — **M** imza pisti · **N** KPI yenile · **O** beta release.
 
 ```bash
-bash scripts/run-agent-completion-batch.sh
+bash scripts/verify-madde-m.sh
+bash scripts/agent-madde-n-complete.sh   # uzun: Windows CI
+bash scripts/agent-madde-d-complete.sh   # beta build + release
 ```
+
+Windows saha tekrarı isteğe bağlı: `scripts/windows/pilot-dalga4-start.ps1`.
