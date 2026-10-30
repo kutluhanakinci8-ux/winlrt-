@@ -82,11 +82,12 @@ jobs:
         if: steps.check.outputs.skip == 'false'
         run: npm ci && npm run build:web
 
-      - name: Prepare deploy SSH key
+      - name: Prepare deploy auth (SSH key or password)
         if: steps.check.outputs.skip == 'false'
         env:
           RAW_KEY: ${{ secrets.VPS_SSH_KEY }}
           B64_KEY: ${{ secrets.VPS_SSH_KEY_B64 }}
+          VPS_PASSWORD: ${{ secrets.VPS_SSH_PASSWORD }}
         run: |
           set -euo pipefail
           KEY_FILE="${RUNNER_TEMP}/vps_deploy_key"
@@ -94,12 +95,20 @@ jobs:
             printf '%s' "${B64_KEY}" | tr -d '[:space:]' | base64 -d >"${KEY_FILE}"
           elif [ -n "${RAW_KEY}" ]; then
             printf '%s\n' "${RAW_KEY}" >"${KEY_FILE}"
+          elif [ -n "${VPS_PASSWORD}" ]; then
+            echo "auth=password" >>"${GITHUB_OUTPUT}"
+            echo "Mac'te ssh anahtarı çalışsa bile GitHub'da VPS_SSH_KEY boştu; şifre ile deploy deneniyor."
+            exit 0
           else
-            echo "::error::VPS_SSH_KEY veya VPS_SSH_KEY_B64 secret tanımlayın (docs/AUTO_DEPLOY.md)"
+            echo "::error::GitHub'da SSH anahtarı secret'ı YOK (Actions log: RAW_KEY ve B64_KEY boş)."
+            echo "::error::Mac'te 'ssh ... echo OK' sadece bilgisayarınızdaki ~/.ssh/winlrt-gha-deploy anahtarını kanıtlar; GitHub'a ayrıca kaydetmeniz gerekir."
+            echo "::error::Terminal: gh secret set VPS_SSH_KEY --repo kutluhanakinci8-ux/winlrt- < ~/.ssh/winlrt-gha-deploy"
+            echo "::error::Veya secret VPS_SSH_PASSWORD (root şifresi) — bkz. docs/AUTO_DEPLOY.md"
             exit 1
           fi
           chmod 600 "${KEY_FILE}"
           ssh-keygen -y -f "${KEY_FILE}" >/dev/null
+          echo "auth=key" >>"${GITHUB_OUTPUT}"
           echo "key_file=${KEY_FILE}" >>"${GITHUB_OUTPUT}"
         id: sshkey
 
@@ -109,7 +118,8 @@ jobs:
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
-          key_path: ${{ steps.sshkey.outputs.key_file }}
+          key_path: ${{ steps.sshkey.outputs.auth == 'key' && steps.sshkey.outputs.key_file || '' }}
+          password: ${{ steps.sshkey.outputs.auth == 'password' && secrets.VPS_SSH_PASSWORD || '' }}
           port: ${{ secrets.VPS_PORT != '' && secrets.VPS_PORT || '22' }}
           script: |
             set -euo pipefail
@@ -133,7 +143,8 @@ jobs:
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
-          key_path: ${{ steps.sshkey.outputs.key_file }}
+          key_path: ${{ steps.sshkey.outputs.auth == 'key' && steps.sshkey.outputs.key_file || '' }}
+          password: ${{ steps.sshkey.outputs.auth == 'password' && secrets.VPS_SSH_PASSWORD || '' }}
           port: ${{ secrets.VPS_PORT != '' && secrets.VPS_PORT || '22' }}
           source: "apps/web/dist/**"
           target: ${{ secrets.VPS_WEB_ROOT }}
@@ -146,7 +157,8 @@ jobs:
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
-          key_path: ${{ steps.sshkey.outputs.key_file }}
+          key_path: ${{ steps.sshkey.outputs.auth == 'key' && steps.sshkey.outputs.key_file || '' }}
+          password: ${{ steps.sshkey.outputs.auth == 'password' && secrets.VPS_SSH_PASSWORD || '' }}
           port: ${{ secrets.VPS_PORT != '' && secrets.VPS_PORT || '22' }}
           script: |
             if command -v nginx >/dev/null 2>&1; then

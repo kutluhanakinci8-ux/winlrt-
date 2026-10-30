@@ -20,10 +20,13 @@ Repo → **Settings → Secrets and variables → Actions**
 | `VPS_PORT` | `23422` |
 | `VPS_USER` | `root` |
 | `VPS_SSH_KEY` | OpenSSH private key (`~/.ssh/winlrt-gha-deploy`) — **veya** aşağıdaki Base64 |
-| `VPS_SSH_KEY_B64` | Aynı anahtarın **tek satır** Base64 hali (yapıştırma sorunluysa bunu kullanın) |
+| `VPS_SSH_KEY_B64` | Aynı anahtarın **tek satır** Base64 hali |
+| `VPS_SSH_PASSWORD` | root SSH **şifresi** (anahtar GitHub’a giremiyorsanız; Mac’teki `ssh -i` ile karıştırmayın) |
 | `VPS_WEB_ROOT` | `/var/www/winlrt/apps/web/dist` |
 
-İkisinden **biri** yeterli (`VPS_SSH_KEY` veya `VPS_SSH_KEY_B64`).
+Kimlik doğrulama: **`VPS_SSH_KEY` veya `VPS_SSH_KEY_B64` veya `VPS_SSH_PASSWORD`** (en az biri).
+
+Mac’te `ssh -i ~/.ssh/winlrt-gha-deploy ... echo OK` **yalnızca** anahtarın VPS’te kayıtlı olduğunu gösterir. GitHub Actions ayrı bir ortamdır; aynı anahtar veya şifre **repo Secrets**’a kaydedilmeden deploy çalışmaz.
 
 ### Mac’te secret kutusuna yapıştırma çalışmıyorsa
 
