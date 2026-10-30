@@ -165,6 +165,7 @@ jobs:
           echo "::error::SSH anahtarı yok/geçersiz ve VPS_SSH_PASSWORD tanımlı değil."
           echo "::error::VPS'e bir kez: bkz. .github/deploy/README.md (authorized_keys satırı)"
           echo "auth=skip" >>"${GITHUB_OUTPUT}"
+          echo "::notice::CI deploy atlandı — VPS cron winlrt-vitrin-sync (Madde E/F). Agent: post-phase-deploy.sh"
           exit 0
         id: sshkey
 
