@@ -62,7 +62,7 @@ winlrtRAR ile **aynı KPI ailesi** (hepsi **P0**, Faz 3’te ölçüm):
 ### Güvenlik
 
 - [x] AES-256 şifreli ZIP (WinZip uyumlu interop testleri) — [MADDE_W8](./qa/MADDE_W8_WINLRTZIP_AES_INTEROP.md)
-- [ ] Kurumsal parola politikası (Faz 4)
+- [x] Kurumsal parola politikası + GPO (W18) — [MADDE_W18](./qa/MADDE_W18_WINLRTZIP_CORPORATE.md)
 - [ ] İmzalı arşiv (Faz 4)
 
 ### Arayüz (winlrtZIP kabuğu)
@@ -154,7 +154,7 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 
 ### Faz 4 — Kurumsal
 
-- [ ] GPO/MDM, denetim günlüğü, imzalı arşiv
+- [x] GPO/MDM, denetim günlüğü (winlrtZIP W18) · [ ] imzalı arşiv
 - [ ] Banka + sendika pilot genişlemesi
 
 **Kapı:** Kurumsal checklist imzalı.

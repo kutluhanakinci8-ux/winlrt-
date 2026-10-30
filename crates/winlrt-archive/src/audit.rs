@@ -1,8 +1,16 @@
 use std::fs::OpenOptions;
 use std::io::Write;
 use std::path::PathBuf;
+use std::sync::OnceLock;
 
 use serde::Serialize;
+
+static AUDIT_PRODUCT: OnceLock<String> = OnceLock::new();
+
+/// `zip` veya `rar` (varsayılan rar) — audit dosya yolu.
+pub fn init_audit_product(product: &str) {
+    let _ = AUDIT_PRODUCT.set(product.to_string());
+}
 
 /// KVKK / kurumsal denetim — **parola ve anahtar metni asla loglanmaz**.
 #[derive(Debug, Serialize)]
@@ -76,19 +84,21 @@ pub fn audit_log_path() -> PathBuf {
             return PathBuf::from(p);
         }
     }
+    let folder = match AUDIT_PRODUCT.get().map(|s| s.as_str()).unwrap_or("rar") {
+        "zip" => "winlrtZIP",
+        _ => "winlrtRAR",
+    };
     #[cfg(windows)]
     {
         if let Ok(appdata) = std::env::var("APPDATA") {
-            return PathBuf::from(appdata)
-                .join("winlrtRAR")
-                .join("audit.jsonl");
+            return PathBuf::from(appdata).join(folder).join("audit.jsonl");
         }
     }
     if let Ok(home) = std::env::var("HOME") {
         return PathBuf::from(home)
-            .join(".local/share/winlrtRAR/audit.jsonl");
+            .join(format!(".local/share/{folder}/audit.jsonl"));
     }
-    std::env::temp_dir().join("winlrtRAR-audit.jsonl")
+    std::env::temp_dir().join(format!("{folder}-audit.jsonl"))
 }
 
 fn now_unix() -> u64 {

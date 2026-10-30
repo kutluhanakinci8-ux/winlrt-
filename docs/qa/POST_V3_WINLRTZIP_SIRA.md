@@ -20,5 +20,6 @@
 | **W15** | WinZip geçiş + macOS KPI vitrin | **%100** ✅ | [MADDE_W15](./MADDE_W15_WINLRTZIP_MIGRATION_MACOS_KPI.md) |
 | **W16** | P0×3 KPI kapısı (zip_kpi + güven) | **%100** ✅ | [MADDE_W16](./MADDE_W16_WINLRTZIP_P0_KPI_GATE.md) |
 | **W17** | Resmi Windows KPI → vitrin import | **%100** ✅ | [MADDE_W17](./MADDE_W17_WINLRTZIP_WINDOWS_KPI_VITRIN.md) |
+| **W18** | Kurumsal GPO + denetim | **%100** ✅ | [MADDE_W18](./MADDE_W18_WINLRTZIP_CORPORATE.md) |
 
 RAR hattı: [POST_V2_SIRA.md](./POST_V2_SIRA.md) (Q2 tamam).

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<policyDefinitionResources xmlns="http://schemas.microsoft.com/GroupPolicy/2006/07/PolicyDefinitions" revision="1.0" schemaVersion="1.0">
+  <displayName>winlrtZIP</displayName>
+  <description>winlrtZIP kurumsal ayarlari (parola, denetim, AES ZIP).</description>
+  <resources>
+    <stringTable>
+      <string id="SUPPORTED_Windows10_AndLater">Windows 10 ve sonrasi</string>
+      <string id="Category_winlrtZIP">winlrtZIP</string>
+      <string id="PasswordPolicy">Parola politikasi profili</string>
+      <string id="PasswordPolicy_Help">Kayit defteri uzerinden parola politikasi (consumer veya corporate).</string>
+      <string id="PasswordPolicy_Label">Politika kimligi</string>
+      <string id="AuditMirrorPath">Denetim aynalama yolu</string>
+      <string id="AuditMirrorPath_Help">Denetim satirlarinin kopyasi (parola yok).</string>
+      <string id="AuditMirrorPath_Label">Ayna dosya yolu</string>
+      <string id="AuditForwardUrl">Denetim HTTP URL</string>
+      <string id="AuditForwardUrl_Help">Istege bagli HTTPS toplayici.</string>
+      <string id="AuditForwardUrl_Label">Toplayici URL</string>
+      <string id="RequireModernCrypto">Modern sifreleme zorunlu</string>
+      <string id="RequireModernCrypto_Help">Kurumsal profilde sifreli ZIP yalnizca AES-256.</string>
+      <string id="RequireModernCrypto_Label">ZIP AES-256 zorunlu</string>
+    </stringTable>
+  </resources>
+</policyDefinitionResources>

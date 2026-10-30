@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<policyDefinitionResources xmlns="http://schemas.microsoft.com/GroupPolicy/2006/07/PolicyDefinitions" revision="1.0" schemaVersion="1.0">
+  <displayName>winlrtZIP</displayName>
+  <description>Enterprise settings for winlrtZIP (password policy, audit, AES ZIP).</description>
+  <resources>
+    <stringTable>
+      <string id="SUPPORTED_Windows10_AndLater">Windows 10 / Windows Server 2016 and later</string>
+      <string id="Category_winlrtZIP">winlrtZIP</string>
+      <string id="PasswordPolicy">Password policy profile</string>
+      <string id="PasswordPolicy_Help">Sets WINLRT password policy via registry. Use consumer or corporate.</string>
+      <string id="PasswordPolicy_Label">Policy id (consumer or corporate)</string>
+      <string id="AuditMirrorPath">Audit log mirror path</string>
+      <string id="AuditMirrorPath_Help">Append-only copy of each audit JSON line (no passwords).</string>
+      <string id="AuditMirrorPath_Label">Mirror file path</string>
+      <string id="AuditForwardUrl">Audit HTTP forward URL</string>
+      <string id="AuditForwardUrl_Help">Optional HTTPS endpoint for audit NDJSON lines.</string>
+      <string id="AuditForwardUrl_Label">Collector URL</string>
+      <string id="RequireModernCrypto">Require modern encryption (corporate)</string>
+      <string id="RequireModernCrypto_Help">With corporate policy: encrypted ZIP uses AES-256 only (WinZip-compatible).</string>
+      <string id="RequireModernCrypto_Label">Enforce ZIP AES-256 for encrypted archives</string>
+    </stringTable>
+  </resources>
+</policyDefinitionResources>

@@ -1,17 +1,38 @@
 //! Kurumsal politika — ortam + Windows kayıt defteri (GPO hedefi, Faz 4 beta).
 
 use std::path::PathBuf;
+use std::sync::OnceLock;
 
 /// Kayıt yolu: `HKLM` / `HKCU` → `Software\winlrt\winlrtRAR`
 pub const REG_KEY_PATH: &str = r"Software\winlrt\winlrtRAR";
+/// winlrtZIP kabuk (W18) — önce bu anahtar, yoksa winlrtRAR (ortak filo).
+pub const REG_KEY_PATH_ZIP: &str = r"Software\winlrt\winlrtZIP";
+
+static REGISTRY_PRODUCT: OnceLock<String> = OnceLock::new();
+
+/// `zip` veya `rar` (varsayılan rar).
+pub fn init_registry_product(product: &str) {
+    let _ = REGISTRY_PRODUCT.set(product.to_string());
+}
+
+fn registry_key_order() -> [&'static str; 2] {
+    match REGISTRY_PRODUCT
+        .get()
+        .map(|s| s.as_str())
+        .unwrap_or("rar")
+    {
+        "zip" => [REG_KEY_PATH_ZIP, REG_KEY_PATH],
+        _ => [REG_KEY_PATH, REG_KEY_PATH_ZIP],
+    }
+}
 
 #[cfg(windows)]
-fn registry_value(name: &str) -> Option<String> {
+fn registry_value_in_key(subkey: &str, name: &str) -> Option<String> {
     use winreg::enums::{HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE};
     use winreg::RegKey;
     for hive in [HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE] {
         let root = RegKey::predef(hive);
-        if let Ok(key) = root.open_subkey(REG_KEY_PATH) {
+        if let Ok(key) = root.open_subkey(subkey) {
             if let Ok(v) = key.get_value::<String, _>(name) {
                 if !v.trim().is_empty() {
                     return Some(v);
@@ -23,15 +44,35 @@ fn registry_value(name: &str) -> Option<String> {
 }
 
 #[cfg(windows)]
-fn registry_dword(name: &str) -> Option<u32> {
+fn registry_value(name: &str) -> Option<String> {
+    for subkey in registry_key_order() {
+        if let Some(v) = registry_value_in_key(subkey, name) {
+            return Some(v);
+        }
+    }
+    None
+}
+
+#[cfg(windows)]
+fn registry_dword_in_key(subkey: &str, name: &str) -> Option<u32> {
     use winreg::enums::{HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE};
     use winreg::RegKey;
     for hive in [HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE] {
         let root = RegKey::predef(hive);
-        if let Ok(key) = root.open_subkey(REG_KEY_PATH) {
+        if let Ok(key) = root.open_subkey(subkey) {
             if let Ok(v) = key.get_value::<u32, _>(name) {
                 return Some(v);
             }
+        }
+    }
+    None
+}
+
+#[cfg(windows)]
+fn registry_dword(name: &str) -> Option<u32> {
+    for subkey in registry_key_order() {
+        if let Some(v) = registry_dword_in_key(subkey, name) {
+            return Some(v);
         }
     }
     None
@@ -118,6 +159,22 @@ pub enum PolicySource {
     Environment,
     Registry,
     Default,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn zip_registry_path_defined() {
+        assert!(REG_KEY_PATH_ZIP.contains("winlrtZIP"));
+    }
+
+    #[test]
+    fn registry_key_order_zip_prefers_zip_key() {
+        init_registry_product("zip");
+        assert_eq!(registry_key_order()[0], REG_KEY_PATH_ZIP);
+    }
 }
 
 pub fn resolve_policy_source() -> (PolicySource, Option<String>) {

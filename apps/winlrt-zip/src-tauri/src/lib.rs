@@ -9,7 +9,9 @@ use cli::{
 };
 use serde::Serialize;
 use tauri::{AppHandle, Emitter, RunEvent};
+use winlrt_archive::audit;
 use winlrt_archive::crypto::{self, PasswordFeedback};
+use winlrt_archive::enterprise;
 use winlrt_archive::password_policy::{self, PasswordPolicy};
 use winlrt_archive::profile::CompressionProfile;
 use winlrt_archive::zip_io;
@@ -277,16 +279,23 @@ fn extract_zip(
     dest: String,
     password: Option<String>,
 ) -> Result<ActionResult, String> {
-    zip_io::extract(
+    match zip_io::extract(
         Path::new(&archive),
         Path::new(&dest),
         password.as_deref(),
-    )
-    .map_err(map_err)?;
-    Ok(ActionResult {
-        ok: true,
-        message: format!("Çıkarıldı → {dest}"),
-    })
+    ) {
+        Ok(()) => {
+            audit::event_extract("ui", true, &archive, "zip");
+            Ok(ActionResult {
+                ok: true,
+                message: format!("Çıkarıldı → {dest}"),
+            })
+        }
+        Err(e) => {
+            audit::event_extract("ui", false, &archive, "zip");
+            Err(map_err(e))
+        }
+    }
 }
 
 #[tauri::command]
@@ -297,17 +306,25 @@ fn create_zip(
     password: Option<String>,
 ) -> Result<ActionResult, String> {
     let profile = parse_profile(&profile)?;
-    zip_io::create_with_profile(
+    let policy = password_policy::active_policy();
+    match zip_io::create_with_profile(
         Path::new(&source),
         Path::new(&dest),
         profile,
         password.as_deref(),
-    )
-    .map_err(map_err)?;
-    Ok(ActionResult {
-        ok: true,
-        message: format!("Oluşturuldu → {dest}"),
-    })
+    ) {
+        Ok(()) => {
+            audit::event_create("ui", true, &dest, "zip", Some(policy.id));
+            Ok(ActionResult {
+                ok: true,
+                message: format!("Oluşturuldu → {dest}"),
+            })
+        }
+        Err(e) => {
+            audit::event_create("ui", false, &dest, "zip", Some(policy.id));
+            Err(map_err(e))
+        }
+    }
 }
 
 #[tauri::command]
@@ -319,16 +336,31 @@ fn create_zip_from_paths(
 ) -> Result<ActionResult, String> {
     let profile = parse_profile(&profile)?;
     let paths: Vec<PathBuf> = sources.iter().map(PathBuf::from).collect();
-    zip_io::create_from_paths(&paths, Path::new(&dest), profile, password.as_deref())
-        .map_err(map_err)?;
-    Ok(ActionResult {
-        ok: true,
-        message: format!("Oluşturuldu → {dest} ({})", sources.len()),
-    })
+    let policy = password_policy::active_policy();
+    match zip_io::create_from_paths(&paths, Path::new(&dest), profile, password.as_deref()) {
+        Ok(()) => {
+            audit::event_create("ui", true, &dest, "zip", Some(policy.id));
+            Ok(ActionResult {
+                ok: true,
+                message: format!("Oluşturuldu → {dest} ({})", sources.len()),
+            })
+        }
+        Err(e) => {
+            audit::event_create("ui", false, &dest, "zip", Some(policy.id));
+            Err(map_err(e))
+        }
+    }
+}
+
+#[tauri::command]
+fn audit_log_path_hint() -> String {
+    audit::audit_log_path().to_string_lossy().into_owned()
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    enterprise::init_registry_product("zip");
+    audit::init_audit_product("zip");
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
@@ -369,7 +401,8 @@ pub fn run() {
             test_zip,
             extract_zip,
             create_zip,
-            create_zip_from_paths
+            create_zip_from_paths,
+            audit_log_path_hint
         ])
         .build(tauri::generate_context!())
         .expect("winlrtZIP build hatası")
