@@ -17,10 +17,10 @@
 | **F** | Deploy / canlı vitrin | **100** | Agent rsync + VPS `winlrt-vitrin-sync` cron 10 dk |
 | **G** | Vitrin KPI verisi | **100** | Linux + Windows samples canlı |
 | **H** | TAURI imza | **100** | Hattı hazır; **imzasız resmi v1.0.0** — Authenticode secret opsiyonel (v1.0.1) |
-| **I** | Beta build + Release | **85** | Release [winlrt-rar-beta.41064653814](https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.41064653814); CI Release adımı flag ile henüz doğrulanmadı |
-| **J** | Explorer pilot QA | **28** | Preflight + oturum rehberi; **Windows saha signoff bekliyor** |
-| **K** | Kurumsal pilot | **18** | Dalga 3 verify + preflight.ps1; Explorer PASS sonrası saha |
-| **L** | v1.0 kapısı | **5** | Üç kapının hiçbiri resmen kapanmadı |
+| **I** | Beta build + Release | **100** | [winlrt-rar-beta.42](https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.42) · [MADDE_I](./qa/MADDE_I_BETA_RELEASE.md) |
+| **J** | Explorer pilot QA | **100** | Signoff PASS · [MADDE_J](./qa/MADDE_J_EXPLORER_QA.md) |
+| **K** | Kurumsal pilot | **100** | Signoff PASS · [MADDE_K](./qa/MADDE_K_KURUMSAL_PILOT.md) |
+| **L** | v1.0 kapısı | **100** | v1.0.0 imzasız resmi · [MADDE_L](./qa/MADDE_L_V1_GATE.md) |
 
 **Ağırlıksız ortalama (A–L):** ~**63%**  
 **Beta / canlı vitrin hattı (A–G + F agent):** ~**94%**  

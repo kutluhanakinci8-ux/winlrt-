@@ -8,7 +8,9 @@ FILE="$ROOT/docs/qa/EXPLORER_QA_SIGNOFF.md"
 : "${EXPLORER_QA_OS:?EXPLORER_QA_OS gerekli}"
 : "${EXPLORER_QA_SHA256:?EXPLORER_QA_SHA256 gerekli}"
 : "${EXPLORER_QA_BY:?EXPLORER_QA_BY gerekli}"
+: "${EXPLORER_QA_TAG:=winlrt-rar-beta.42}"
 NOTES="${EXPLORER_QA_NOTES:-}"
+REPO="${GITHUB_REPO:-kutluhanakinci8-ux/winlrt-}"
 
 cat >"$FILE" <<EOF
 # Explorer pilot QA — imza kaydı (Faz 4)
@@ -18,7 +20,7 @@ Checklist: [WINLRTRAR_EXPLORER_QA.md](../WINLRTRAR_EXPLORER_QA.md)
 | Alan | Değer |
 |------|--------|
 | Tarih | ${EXPLORER_QA_DATE} |
-| Beta sürüm / Release | [winlrt-rar-beta.41064653814](https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.41064653814) |
+| Beta sürüm / Release | [${EXPLORER_QA_TAG}](https://github.com/${REPO}/releases/tag/${EXPLORER_QA_TAG}) |
 | Pilot makine OS | ${EXPLORER_QA_OS} |
 | Kurulum dosyası SHA256 | ${EXPLORER_QA_SHA256} |
 | QA yapan | ${EXPLORER_QA_BY} |
