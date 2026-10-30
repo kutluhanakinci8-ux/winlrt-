@@ -10,8 +10,8 @@
 | Explorer | NSIS menüleri, çoklu seçim, şifreli sıkıştır, Win32 parola |
 | Kurumsal | GPO/ADMX, audit mirror + HTTP forward, `RequireModernCrypto` |
 | CI | Linux main pipeline + Windows benchmark **yeşil**; `winlrt-rar-windows` workflow adı/formatı ayrı kontrol |
-| Vitrin | winlrt.com.tr **200** — sunucudaki `dist` GitHub deploy ile güncellenmedi (aşağı) |
-| Deploy | **Blok:** `VPS_SSH_KEY`/`B64` libcrypto hatası, `VPS_SSH_PASSWORD` boş → pipeline `auth=skip` |
+| Vitrin | winlrt.com.tr **200** — Linux + **Windows** KPI samples canlı |
+| Deploy | Agent **rsync** (VPS şifre) OK; GitHub Actions hâlâ `auth=skip` → `VPS_SSH_PASSWORD` secret’ını siz ekleyin |
 | PR | GitHub token ile otomatik PR/secret yazılamıyor |
 
 ## Merge
