@@ -12,7 +12,7 @@
 | CI | Main pipeline + Windows benchmark + **beta build yeşil** |
 | Beta | Release [winlrt-rar-beta.41064653814](https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.41064653814) |
 | Vitrin | winlrt.com.tr — KPI samples + `/downloads/` beta link |
-| Deploy | Agent **rsync** (ortam `VPS_*`); GitHub CI deploy secret ayrı panel |
+| Deploy | **Agent otomatik rsync** (yetkili `VPS_*` — her push sonrası). GitHub CI: agent token secret yazamaz (403) |
 
 ## Merge
 
