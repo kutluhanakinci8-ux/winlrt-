@@ -9,7 +9,8 @@ Vitrin metinleri `apps/web/public/` ile uyumludur.
 
 ## Öncelik sırası
 
-1. **winlrtZIP** / **winlrtRAR** — tamamen yerli kod, Windows + macOS.
+1. **winlrtZIP** / **winlrtRAR** — tamamen yerli kod, Windows + macOS.  
+   - winlrtRAR detay plan: [WINLRTRAR_PLAN.md](./WINLRTRAR_PLAN.md)
 2. Mobil mağazalar (Google Play, App Store).
 3. PDF, imza/sertifika ve kurumsal modüller.
 4. Lerta mesaj + posta hattında üretim kullanımı.
