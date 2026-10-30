@@ -1,0 +1,88 @@
+name: winlrtZIP Windows beta build
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip_release:
+        description: Yalnızca artifact (Release oluşturma)
+        type: boolean
+        default: false
+  push:
+    branches: [main]
+    paths:
+      - .github/flags/trigger-zip-beta-build
+      - .github/flags/trigger-zip-beta-release
+      - .github/workflows/winlrt-zip-windows.yml
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - run: npm ci
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Build winlrtZIP (Tauri NSIS)
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: npm run tauri build -w @winlrt/zip -- --bundles nsis
+
+      - name: İmza durumu
+        id: signing
+        shell: bash
+        env:
+          TAURI_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+        run: |
+          if [ -z "${TAURI_KEY}" ]; then
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::TAURI_SIGNING_PRIVATE_KEY tanımlı değil — kurulum imzasız."
+          else
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Verify Authenticode (secret varsa)
+        if: steps.signing.outputs.present == 'true'
+        shell: pwsh
+        run: ./scripts/verify-windows-signature.ps1
+
+      - name: Upload Windows bundle (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: winlrt-zip-windows-bundle
+          path: target/release/bundle/nsis/*-setup.exe
+          if-no-files-found: error
+
+      - name: Release modu (push flag)
+        id: rel
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          FILES="$(git show --pretty='' --name-only HEAD || true)"
+          if echo "${FILES}" | tr '\\' '/' | grep -q 'trigger-zip-beta-release'; then
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: GitHub Release (beta)
+        if: |
+          (github.event_name == 'workflow_dispatch' && inputs.skip_release != true) ||
+          (github.event_name == 'push' && steps.rel.outputs.publish == 'true')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: winlrt-zip-beta.${{ github.run_number }}
+          name: winlrtZIP Beta ${{ github.run_number }}
+          prerelease: true
+          generate_release_notes: true
+          files: target/release/bundle/nsis/*-setup.exe
