@@ -64,4 +64,8 @@ if [ -x "$ROOT/scripts/verify-live-vitrin.sh" ]; then
   bash "$ROOT/scripts/verify-live-vitrin.sh"
 fi
 
+if [ -x "$ROOT/scripts/print-dalga-sira.sh" ]; then
+  bash "$ROOT/scripts/print-dalga-sira.sh"
+fi
+
 echo "Tamam."
