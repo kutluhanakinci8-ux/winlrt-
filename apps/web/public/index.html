@@ -3,200 +3,328 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>winlrt — Yerli yazılım platformu | Kurumsal ve bireysel</title>
+    <title>winlrt — Yerli yazılım platformu</title>
     <meta
       name="description"
-      content="winlrt: %100 yerli kod ile arşiv, belge ve güvenlik araçları. winlrtZIP ve winlrtRAR öncelikli; Windows ve macOS. Bireysel ve kurumsal kullanım."
+      content="winlrt: Global ölçekte yerli arşiv ve belge yazılımları. winlrtZIP, winlrtRAR — kurumsal ve bireysel. Windows, macOS, mobil yol haritası."
     />
+    <meta property="og:title" content="winlrt — Yerli yazılım platformu" />
+    <meta
+      property="og:description"
+      content="Kurumsal ve bireysel kullanım için %100 yerli kod. winlrtZIP ve winlrtRAR öncelikli."
+    />
+    <meta property="og:url" content="https://winlrt.com.tr/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="tr_TR" />
     <link rel="canonical" href="https://winlrt.com.tr/" />
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css?v=3" />
   </head>
   <body>
     <header class="site-header">
       <div class="site-header-inner">
-        <a class="logo" href="/"><span>win</span>lrt</a>
-        <nav class="nav" aria-label="Ana menü">
+        <a class="logo" href="/">
+          <span class="logo-mark" aria-hidden="true"></span>
+          winlrt
+        </a>
+        <button
+          type="button"
+          class="menu-toggle"
+          aria-expanded="false"
+          aria-controls="main-nav"
+        >
+          Menü
+        </button>
+        <nav class="nav" id="main-nav" aria-label="Ana menü">
           <a href="#urunler">Ürünler</a>
           <a href="#kurumsal">Kurumsal</a>
           <a href="#yol-haritasi">Yol haritası</a>
           <a href="#lerta">Lerta</a>
-          <a href="/downloads/">İndir</a>
+          <a class="nav-cta" href="/downloads/">İndir</a>
         </nav>
       </div>
     </header>
 
-    <header class="hero">
-      <div class="hero-grid">
+    <section class="hero">
+      <div class="container hero-grid">
         <div>
-          <p class="eyebrow">Yerli · Güvenilir · Çok platformlu</p>
-          <h1>Dijital işleriniz için yerli yazılım ailesi</h1>
+          <div class="hero-badge">
+            <span class="hero-badge-dot" aria-hidden="true"></span>
+            Yerli · Güvenilir · Global uyumlu formatlar
+          </div>
+          <h1>
+            Kurumsal ölçekte<br />
+            <span class="gradient-text">yerli yazılım ailesi</span>
+          </h1>
           <p class="tagline-en">
-            Domestic software platform for individuals and enterprises — globally compatible formats.
+            Enterprise-grade domestic software — built in Türkiye, ready for the world.
           </p>
           <p class="lead">
-            winlrt; arşivleme, belge ve güvenlik ihtiyaçlarını
-            <strong>tamamen kendi kod tabanımızla</strong> karşılayan ürünleri
-            geliştirir. Öncelik <strong>Windows</strong> ve <strong>macOS</strong>;
-            ardından mobil mağazalar ve Lerta mesajlaşma ile posta ekosistemi
-            entegrasyonu.
+            Arşivleme, belge ve güvenlik ihtiyaçlarını
+            <strong>tamamen kendi kod tabanımızla</strong> karşılıyoruz.
+            Öncelik <strong>winlrtZIP</strong> ve <strong>winlrtRAR</strong> —
+            Windows ve macOS; ardından mobil mağazalar ve Lerta mesajlaşma /
+            posta entegrasyonu.
           </p>
           <div class="actions">
             <a class="btn btn-primary" href="/downloads/">Sürümler ve indirme</a>
-            <a class="btn btn-ghost" href="#yol-haritasi">Yol haritası</a>
+            <a class="btn btn-ghost" href="#yol-haritasi">Yol haritasını gör</a>
           </div>
-          <div class="pills" aria-label="Hedef kitle">
-            <span class="pill">Bireysel</span>
-            <span class="pill">KOBİ</span>
-            <span class="pill">Bankalar</span>
-            <span class="pill">Sendikalar &amp; dernekler</span>
-            <span class="pill">Kamu &amp; ticari işletmeler</span>
+          <div class="trust-row">
+            <div class="trust-item">
+              <strong>%100</strong>
+              Yerli kod hedefi
+            </div>
+            <div class="trust-item">
+              <strong>2+</strong>
+              Öncelikli masaüstü ürün
+            </div>
+            <div class="trust-item">
+              <strong>4</strong>
+              Platform fazı
+            </div>
           </div>
         </div>
-        <aside class="hero-card">
-          <h2>İlk ürünler</h2>
-          <ul>
-            <li><strong>winlrtZIP</strong> — sıkıştırma / açma (WinZip sınıfı)</li>
-            <li><strong>winlrtRAR</strong> — arşiv (WinRAR sınıfı)</li>
-          </ul>
-          <p class="lead" style="margin: 1rem 0 0; font-size: 0.92rem">
-            Yaygın formatlarla uyumlu; kurumsal dağıtım ve toplu lisans için
-            hazırlanıyor.
-          </p>
-        </aside>
-      </div>
-    </header>
 
-    <section class="section" id="urunler">
-      <div class="section-head">
-        <h2>Ürün ailesi</h2>
-        <p>
-          Posta, mesajlaşma ve kurumsal süreçlerin ihtiyaç duyduğu araçlar
-          winlrt altında toplanır; lisans ve sertifika üretimi gibi yetenekler
-          aynı vizyonla planlanır.
-        </p>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="glass-stack">
+            <div class="glass-card glass-card-back">
+              <div class="glass-card-header">
+                <span class="glass-dots"
+                  ><span></span><span></span><span></span
+                ></span>
+                winlrt platform
+              </div>
+            </div>
+            <div class="glass-card glass-card-main">
+              <div class="glass-card-header">
+                <span class="glass-dots"
+                  ><span></span><span></span><span></span
+                ></span>
+                Ürün önizleme
+              </div>
+              <div class="product-preview">
+                <div class="preview-row">
+                  <div class="preview-icon zip">ZIP</div>
+                  <div>
+                    <strong>winlrtZIP</strong>
+                    <small>Windows · macOS — geliştirme</small>
+                    <div class="preview-bar"><span style="width: 72%"></span></div>
+                  </div>
+                </div>
+                <div class="preview-row">
+                  <div class="preview-icon rar">RAR</div>
+                  <div>
+                    <strong>winlrtRAR</strong>
+                    <small>Windows · macOS — geliştirme</small>
+                    <div class="preview-bar"><span style="width: 58%"></span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="grid-3">
-        <article class="card">
-          <span class="status status-dev">Geliştirme — öncelik</span>
-          <h3>winlrtZIP</h3>
+    </section>
+
+    <section class="section section-alt" id="urunler">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-label">Ürün ailesi</span>
+          <h2>İhtiyacınız olan her araç, tek ekosistem</h2>
           <p>
-            Yerli kod; Windows ve macOS istemcileri. Sıkıştırma, açma, güvenli
-            paylaşım. Bireysel ve kurumsal senaryolar.
+            Posta ve mesajlaşma hatlarının gerektirdiği arşiv, PDF ve sertifika
+            yetenekleri winlrt altında toplanır; önce bağımsız ürünler, sonra
+            Lerta ile birleşik deneyim.
           </p>
-        </article>
-        <article class="card">
-          <span class="status status-dev">Geliştirme — öncelik</span>
-          <h3>winlrtRAR</h3>
-          <p>
-            Yerli arşiv motoru ve arayüz. Mevcut arşiv alışkanlıklarıyla uyum
-            hedeflenir; bağımlılık ve lisans riski olmadan dağıtım.
-          </p>
-        </article>
-        <article class="card card-muted">
-          <span class="status status-plan">Planlanan</span>
-          <h3>Belge &amp; güven</h3>
-          <p>
-            PDF işleme, imza ve sertifika yaşam döngüsü, kurumsal politika
-            uyumu — posta ve mesajlaşma hatlarıyla entegre edilecek modüller.
-          </p>
-        </article>
+        </div>
+        <div class="grid-3">
+          <article class="card">
+            <span class="status status-dev">Öncelik · Geliştirme</span>
+            <div class="card-icon">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+              </svg>
+            </div>
+            <h3>winlrtZIP</h3>
+            <p>
+              WinZip sınıfı sıkıştırma ve açma — yerli motor, kurumsal dağıtım
+              ve bireysel kullanım için tasarlanıyor.
+            </p>
+          </article>
+          <article class="card">
+            <span class="status status-dev">Öncelik · Geliştirme</span>
+            <div class="card-icon">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776" />
+              </svg>
+            </div>
+            <h3>winlrtRAR</h3>
+            <p>
+              WinRAR sınıfı arşiv deneyimi — lisans bağımlılığı olmadan, global
+              format uyumu hedefiyle.
+            </p>
+          </article>
+          <article class="card">
+            <span class="status status-plan">Yol haritası</span>
+            <div class="card-icon">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+              </svg>
+            </div>
+            <h3>Belge &amp; güven</h3>
+            <p>
+              PDF, imza, sertifika üretimi ve kurumsal politika — posta /
+              mesajlaşma akışlarına entegre modüller.
+            </p>
+          </article>
+        </div>
       </div>
     </section>
 
     <section class="section" id="kurumsal">
-      <div class="section-head">
-        <h2>Kurumsal ve bireysel</h2>
-        <p>
-          Aynı ürün ailesi; ölçeklenebilir dağıtım. Küçük kullanıcıdan binlerce
-          çalışanlı yapıya kadar.
-        </p>
-      </div>
-      <div class="grid-2">
-        <article class="card">
-          <h3>Bireysel kullanıcı</h3>
+      <div class="container">
+        <div class="section-head">
+          <span class="section-label">Kitle</span>
+          <h2>Bireyselden kuruma, aynı kalite standardı</h2>
           <p>
-            Sade kurulum, tanıdık arşiv deneyimi, güncellemeler
-            winlrt.com.tr üzerinden. Kişisel dosya yedekleme ve paylaşım.
+            Bankalar, sendikalar, dernekler, ticari işletmeler ve bireysel
+            kullanıcılar — mevcut yazılımlarla uyumlu, ölçeklenebilir mimari.
           </p>
-        </article>
-        <article class="card">
-          <h3>Kurumsal kullanıcı</h3>
-          <p>
-            Bankalar, sendikalar, dernekler, ticari işletmeler ve kamu için
-            toplu dağıtım, uyumluluk odaklı sürüm yönetimi ve ileride merkezi
-            politika desteği. Diğer ofis ve güvenlik yazılımlarıyla birlikte
-            çalışabilir mimari.
-          </p>
-        </article>
+        </div>
+        <div class="audience-grid">
+          <div class="audience-tile">Bireysel</div>
+          <div class="audience-tile">KOBİ</div>
+          <div class="audience-tile">Bankalar</div>
+          <div class="audience-tile">Sendikalar</div>
+          <div class="audience-tile">Dernekler</div>
+          <div class="audience-tile">Ticari işletmeler</div>
+        </div>
+        <div class="grid-2" style="margin-top: 2rem">
+          <article class="card">
+            <h3>Bireysel deneyim</h3>
+            <p>
+              Sade kurulum, tanıdık arşiv arayüzü, winlrt.com.tr üzerinden
+              güvenilir güncellemeler ve resmi indirme kanalı.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Kurumsal dağıtım</h3>
+            <p>
+              Toplu lisans, sürüm yönetimi ve ileride merkezi politika desteği.
+              Ofis, güvenlik ve iletişim yazılımlarıyla birlikte çalışabilir
+              yapı.
+            </p>
+          </article>
+        </div>
       </div>
     </section>
 
-    <section class="section" id="yol-haritasi">
-      <div class="section-head">
-        <h2>Yol haritası</h2>
-        <p>Onayladığınız strateji ile uyumlu fazlar. Tarihler ürün olgunluğuna göre güncellenir.</p>
-      </div>
-      <div class="roadmap">
-        <div class="roadmap-step">
-          <strong>Faz 1</strong>
-          <span>winlrtZIP &amp; winlrtRAR — Windows ve macOS, yerli kod, beta → kararlı sürüm</span>
+    <section class="section section-alt" id="yol-haritasi">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-label">Strateji</span>
+          <h2>Yol haritası</h2>
+          <p>Onayladığınız fazlar — önce masaüstü olgunluğu, sonra mobil ve Lerta.</p>
         </div>
-        <div class="roadmap-step">
-          <strong>Faz 2</strong>
-          <span>Google Play ve App Store sürümleri; mobil arşiv ve yardımcı araçlar</span>
-        </div>
-        <div class="roadmap-step">
-          <strong>Faz 3</strong>
-          <span>PDF, sertifika ve kurumsal modüller; geniş format desteği</span>
-        </div>
-        <div class="roadmap-step">
-          <strong>Faz 4</strong>
-          <span>Lerta mesajlaşma ve posta sisteminde üretim kullanımı</span>
+        <div class="roadmap-track">
+          <div class="roadmap-step">
+            <div class="roadmap-num">1</div>
+            <h3>Masaüstü</h3>
+            <p>winlrtZIP &amp; winlrtRAR — Windows ve macOS, yerli kod</p>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-num">2</div>
+            <h3>Mobil</h3>
+            <p>Google Play ve App Store</p>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-num">3</div>
+            <h3>Belge &amp; güven</h3>
+            <p>PDF, sertifika, kurumsal modüller</p>
+          </div>
+          <div class="roadmap-step">
+            <div class="roadmap-num">4</div>
+            <h3>Lerta</h3>
+            <p>Mesajlaşma ve posta ekosisteminde üretim</p>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="section" id="lerta">
-      <div class="section-head">
-        <h2>Lerta ekosistemi</h2>
-        <p>
-          <a href="https://www.lerta.com.tr">lerta.com.tr</a> üzerinde mesajlaşma
-          ve posta altyapısı geliştirilmektedir. winlrt ürünleri önce bağımsız
-          olarak olgunlaştırılacak; ardından Lerta hatlarında mesaj ekleri,
-          arşiv ve belge iş akışları için entegre edilecektir.
-        </p>
+      <div class="container">
+        <div class="section-head">
+          <span class="section-label">Ekosistem</span>
+          <h2>Lerta ile gelecek faz</h2>
+          <p>
+            <a href="https://www.lerta.com.tr">lerta.com.tr</a> mesajlaşma ve posta
+            altyapısı geliştiriliyor. winlrt ürünleri önce bağımsız olgunlaşacak;
+            ardından entegre edilecek.
+          </p>
+        </div>
+        <article class="card" style="max-width: 720px; margin: 0 auto; text-align: center">
+          <h3>winlrt.com.tr</h3>
+          <p>
+            Resmi vitrin, sürüm duyuruları ve indirme merkezi. Açık geliştirme:
+            <a href="https://github.com/kutluhanakinci8-ux/winlrt-">GitHub</a>.
+          </p>
+        </article>
       </div>
-      <article class="card">
-        <h3>Bugün bu sitede</h3>
-        <p>
-          <strong>winlrt.com.tr</strong> resmi vitrin ve indirme merkezidir.
-          Geliştirme durumu, sürüm notları ve kurumsal iletişim kanalları buradan
-          yayımlanır. Teknik kaynak: açık geliştirme modeli ile
-          <a href="https://github.com/kutluhanakinci8-ux/winlrt-">GitHub</a>.
-        </p>
-      </article>
     </section>
 
     <div class="cta-band">
-      <div class="cta-inner">
-        <h2>İlk sürümler hazırlandığında</h2>
-        <p>
-          Windows ve macOS kurulum dosyaları indirme sayfasında listelenecek.
-          Kurumsal ön talep ve pilot kullanım için iletişim kanalları açılacaktır.
-        </p>
-        <a class="btn btn-primary" href="/downloads/">İndirme merkezi</a>
+      <div class="container">
+        <div class="cta-panel">
+          <h2>İlk sürümler yakında</h2>
+          <p>
+            Windows ve macOS kurulum dosyaları hazır olduğunda indirme merkezinde
+            yayınlanacak. Kurumsal pilot kullanım duyuruları bu siteden paylaşılacaktır.
+          </p>
+          <a class="btn btn-primary" href="/downloads/">İndirme merkezi</a>
+        </div>
       </div>
     </div>
 
-    <footer>
-      <div class="footer-inner">
-        <p>© winlrt — Yerli yazılım platformu</p>
-        <div class="footer-links">
-          <a href="https://www.lerta.com.tr">Lerta</a>
-          <a href="/downloads/">İndir</a>
-          <a href="https://github.com/kutluhanakinci8-ux/winlrt-">GitHub</a>
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a class="logo" href="/">
+              <span class="logo-mark" aria-hidden="true"></span>
+              winlrt
+            </a>
+            <p>Yerli yazılım platformu — kurumsal ve global ölçekte arşiv, belge ve güven.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Platform</h4>
+            <a href="#urunler">Ürünler</a>
+            <a href="/downloads/">İndir</a>
+            <a href="#yol-haritasi">Yol haritası</a>
+          </div>
+          <div class="footer-col">
+            <h4>Bağlantılar</h4>
+            <a href="https://www.lerta.com.tr">Lerta</a>
+            <a href="https://github.com/kutluhanakinci8-ux/winlrt-">GitHub</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© winlrt</span>
+          <span>Türkiye · Global uyumlu formatlar</span>
         </div>
       </div>
     </footer>
+
+    <script>
+      (function () {
+        var btn = document.querySelector(".menu-toggle");
+        var nav = document.getElementById("main-nav");
+        if (!btn || !nav) return;
+        btn.addEventListener("click", function () {
+          var open = nav.classList.toggle("is-open");
+          btn.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+      })();
+    </script>
   </body>
 </html>
