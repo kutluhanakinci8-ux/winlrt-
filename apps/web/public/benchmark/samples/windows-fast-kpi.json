@@ -1,15 +1,15 @@
 {
   "profile": "Fast",
   "platform": "windows / x86_64",
-  "generated_at": "1793380133 UTC",
+  "generated_at": "1793380372 UTC",
   "source": "windows-official-ci",
   "disclaimer": "Resmi hız kapısı.",
   "kpi": {
     "compression_gate": true,
-    "speed_gate": false,
+    "speed_gate": true,
     "compression_pass_count": 6,
     "compression_total": 6,
-    "speed_pass_count": 5,
+    "speed_pass_count": 6,
     "speed_total": 6,
     "rows": [
       {
@@ -20,7 +20,7 @@
       {
         "fixture": "mixed",
         "compression_ok": true,
-        "speed_ok": false
+        "speed_ok": true
       },
       {
         "fixture": "office",
