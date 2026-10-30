@@ -1,0 +1,121 @@
+(function () {
+  "use strict";
+
+  var STORAGE_THEME = "winlrt-theme";
+  var STORAGE_LANG = "winlrt-lang";
+
+  function dict(lang) {
+    var pack = window.WINLRT_I18N || {};
+    return pack[lang] || pack.tr || {};
+  }
+
+  function getLang() {
+    var stored = localStorage.getItem(STORAGE_LANG);
+    if (stored === "en" || stored === "tr") return stored;
+    var nav = (navigator.language || "tr").toLowerCase();
+    return nav.indexOf("en") === 0 ? "en" : "tr";
+  }
+
+  function getTheme() {
+    var stored = localStorage.getItem(STORAGE_THEME);
+    if (stored === "light" || stored === "dark") return stored;
+    return "dark";
+  }
+
+  function t(key, lang) {
+    var d = dict(lang || getLang());
+    return d[key] != null ? d[key] : key;
+  }
+
+  function applyI18n(lang) {
+    lang = lang || getLang();
+    document.documentElement.lang = lang === "en" ? "en" : "tr";
+    document.querySelectorAll("[data-i18n]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n");
+      var val = t(key, lang);
+      if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+        el.placeholder = val;
+      } else {
+        el.textContent = val;
+      }
+    });
+    document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
+      el.innerHTML = t(el.getAttribute("data-i18n-html"), lang);
+    });
+    document.querySelectorAll("[data-i18n-title]").forEach(function (el) {
+      el.setAttribute("title", t(el.getAttribute("data-i18n-title"), lang));
+    });
+    var metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc && t("meta.description", lang)) {
+      metaDesc.setAttribute("content", t("meta.description", lang));
+    }
+    if (document.title && document.body.dataset.pageTitleKey) {
+      document.title = t(document.body.dataset.pageTitleKey, lang);
+    } else if (document.body.dataset.page === "home") {
+      document.title = t("meta.title", lang);
+    }
+    document.querySelectorAll("[data-lang-btn]").forEach(function (btn) {
+      var active = btn.getAttribute("data-lang-btn") === lang;
+      btn.classList.toggle("is-active", active);
+      btn.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    var toggle = document.getElementById("theme-toggle");
+    if (toggle) {
+      var label = theme === "light" ? t("theme.dark") : t("theme.light");
+      toggle.setAttribute("aria-label", label);
+      toggle.setAttribute("title", label);
+      toggle.textContent = theme === "light" ? "☀" : "◐";
+    }
+  }
+
+  function initMenu() {
+    var btn = document.querySelector(".menu-toggle");
+    var nav = document.getElementById("main-nav");
+    if (!btn || !nav) return;
+    btn.addEventListener("click", function () {
+      var open = nav.classList.toggle("is-open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  }
+
+  function initTheme() {
+    applyTheme(getTheme());
+    var toggle = document.getElementById("theme-toggle");
+    if (!toggle) return;
+    toggle.addEventListener("click", function () {
+      var next = getTheme() === "light" ? "dark" : "light";
+      localStorage.setItem(STORAGE_THEME, next);
+      applyTheme(next);
+    });
+  }
+
+  function initLang() {
+    applyI18n(getLang());
+    document.querySelectorAll("[data-lang-btn]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var lang = btn.getAttribute("data-lang-btn");
+        if (lang !== "tr" && lang !== "en") return;
+        localStorage.setItem(STORAGE_LANG, lang);
+        applyI18n(lang);
+        applyTheme(getTheme());
+        window.dispatchEvent(new CustomEvent("winlrt:lang", { detail: { lang: lang } }));
+      });
+    });
+  }
+
+  window.WinlrtSite = {
+    t: t,
+    getLang: getLang,
+    applyI18n: applyI18n,
+  };
+
+  document.addEventListener("DOMContentLoaded", function () {
+    initMenu();
+    initTheme();
+    initLang();
+  });
+})();

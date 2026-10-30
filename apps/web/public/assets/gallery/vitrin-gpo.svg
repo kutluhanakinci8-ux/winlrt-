@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Kurumsal GPO önizlemesi">
+  <rect width="800" height="500" fill="#050816"/>
+  <text x="48" y="64" fill="#f1f5f9" font-size="24" font-weight="700" font-family="system-ui">Kurumsal da1t1m</text>
+  <rect x="48" y="96" width="340" height="340" rx="12" fill="#111827" stroke="#334155"/>
+  <text x="72" y="136" fill="#94a3b8" font-size="14" font-family="system-ui">ADMX / GPO</text>
+  <rect x="72" y="160" width="292" height="32" rx="6" fill="#1e293b"/>
+  <rect x="72" y="204" width="292" height="32" rx="6" fill="#1e3a5f"/>
+  <rect x="72" y="248" width="292" height="32" rx="6" fill="#1e293b"/>
+  <text x="72" y="310" fill="#64748b" font-size="12" font-family="system-ui">RequireSignedArchive · audit forward</text>
+  <rect x="412" y="96" width="340" height="340" rx="12" fill="#111827" stroke="#c4a962" stroke-opacity="0.5"/>
+  <text x="436" y="136" fill="#c4a962" font-size="14" font-weight="600" font-family="system-ui">Denetim (KVKK)</text>
+  <text x="436" y="180" fill="#94a3b8" font-size="13" font-family="monospace">audit.jsonl</text>
+  <text x="436" y="210" fill="#64748b" font-size="12" font-family="system-ui">Parola loglanmaz · metadata-only API</text>
+</svg>

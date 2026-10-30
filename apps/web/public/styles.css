@@ -114,12 +114,214 @@ svg {
   letter-spacing: -0.02em;
 }
 
-.logo-mark {
+.logo-mark,
+.logo-img {
   width: 36px;
   height: 36px;
   border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.logo-mark {
   background: var(--gradient-brand);
-  box-shadow: 0 4px 20px rgba(56, 189, 248, 0.35);
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.28);
+}
+
+.logo-img {
+  object-fit: cover;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.22);
+}
+
+.header-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: auto;
+}
+
+@media (min-width: 769px) {
+  .site-header-inner {
+    flex-wrap: wrap;
+  }
+
+  .header-tools {
+    order: 3;
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-end;
+    padding-top: 0.25rem;
+  }
+}
+
+@media (min-width: 960px) {
+  .header-tools {
+    order: 0;
+    width: auto;
+    margin-left: auto;
+    padding-top: 0;
+  }
+}
+
+.tool-btn {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid var(--border-strong);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  border-radius: 8px;
+  padding: 0.35rem 0.55rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.tool-btn:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.lang-switch {
+  display: inline-flex;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.lang-switch button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  padding: 0.35rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.lang-switch button.is-active {
+  background: var(--gradient-brand);
+  color: #f8fafc;
+}
+
+.gallery-grid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.gallery-item {
+  margin: 0;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 8 / 5;
+  object-fit: cover;
+}
+
+.gallery-item figcaption {
+  padding: 0.85rem 1rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.legal-prose {
+  max-width: 42rem;
+}
+
+.legal-prose h2 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  margin: 2rem 0 0.75rem;
+}
+
+.legal-prose p {
+  color: var(--muted);
+}
+
+.brand-swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.swatch {
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.swatch-color {
+  height: 64px;
+}
+
+.swatch-label {
+  padding: 0.5rem 0.65rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+  background: rgba(0, 0, 0, 0.15);
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f1f5f9;
+  --bg-subtle: #e2e8f0;
+  --surface: rgba(255, 255, 255, 0.92);
+  --surface-solid: #ffffff;
+  --border: rgba(15, 23, 42, 0.1);
+  --border-strong: rgba(15, 23, 42, 0.16);
+  --text: #0f172a;
+  --muted: #475569;
+  --muted-dim: #64748b;
+  --shadow-glow: 0 0 40px rgba(37, 99, 235, 0.08);
+}
+
+html[data-theme="light"] body::before {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(37, 99, 235, 0.1), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 0%, rgba(79, 70, 229, 0.06), transparent),
+    var(--bg);
+}
+
+html[data-theme="light"] body::after {
+  opacity: 0.2;
+}
+
+html[data-theme="light"] .site-header {
+  background: rgba(255, 255, 255, 0.88);
+}
+
+html[data-theme="light"] .site-topbar {
+  background: rgba(226, 232, 240, 0.95);
+}
+
+html[data-theme="light"] .btn-primary {
+  color: #fff;
+}
+
+html[data-theme="light"] .nav-cta {
+  color: #fff !important;
+}
+
+html[data-theme="light"] .card,
+html[data-theme="light"] .product-list li {
+  background: linear-gradient(165deg, #fff, #f8fafc);
+}
+
+html[data-theme="light"] .logo-full-on-light text {
+  fill: #0f172a;
 }
 
 .nav {
@@ -851,7 +1053,13 @@ h1 .gradient-text {
 
 @media (min-width: 768px) {
   .footer-grid {
-    grid-template-columns: 1.5fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 960px) {
+  .footer-grid {
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
   }
 }
 

@@ -10,7 +10,7 @@
     />
     <link rel="canonical" href="https://winlrt.com.tr/downloads/" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/styles.css?v=4" />
+    <link rel="stylesheet" href="/styles.css?v=5" />
   </head>
   <body>
     <div class="site-topbar">
@@ -23,9 +23,16 @@
     <header class="site-header">
       <div class="site-header-inner">
         <a class="logo" href="/">
-          <span class="logo-mark" aria-hidden="true"></span>
+          <img class="logo-img" src="/assets/logo-mark.svg" width="36" height="36" alt="" />
           winlrt
         </a>
+        <div class="header-tools">
+          <button type="button" class="tool-btn" id="theme-toggle" aria-label="Tema">◐</button>
+          <div class="lang-switch" role="group" aria-label="Dil">
+            <button type="button" data-lang-btn="tr">TR</button>
+            <button type="button" data-lang-btn="en">EN</button>
+          </div>
+        </div>
         <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="main-nav">
           Menü
         </button>
@@ -192,20 +199,12 @@
     <footer class="site-footer">
       <div class="container footer-bottom" style="border: none; padding-top: 0">
         <span>© winlrt</span>
-        <a href="/benchmark/">KPI</a>
+        <a href="/kvkk/">KVKK</a>
+        <a href="/hakkimizda/">Hakkımızda</a>
         <a href="/">Ana sayfa</a>
       </div>
     </footer>
-    <script>
-      (function () {
-        var btn = document.querySelector(".menu-toggle");
-        var nav = document.getElementById("main-nav");
-        if (!btn || !nav) return;
-        btn.addEventListener("click", function () {
-          var open = nav.classList.toggle("is-open");
-          btn.setAttribute("aria-expanded", open ? "true" : "false");
-        });
-      })();
-    </script>
+    <script src="/js/i18n.js"></script>
+    <script src="/js/site.js"></script>
   </body>
 </html>

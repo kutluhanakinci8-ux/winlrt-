@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="KPI vitrin önizlemesi">
+  <rect width="800" height="500" fill="#f1f5f9"/>
+  <rect x="32" y="32" width="736" height="436" rx="12" fill="#fff" stroke="#cbd5e1"/>
+  <text x="56" y="72" fill="#0f172a" font-size="22" font-weight="700" font-family="system-ui">Benchmark  P0 kap1lar1</text>
+  <rect x="56" y="96" width="220" height="100" rx="10" fill="#ecfdf5" stroke="#6ee7b7"/>
+  <text x="72" y="130" fill="#047857" font-size="13" font-weight="600" font-family="system-ui">S1k1_t1rma</text>
+  <text x="72" y="168" fill="#065f46" font-size="28" font-weight="800" font-family="system-ui">GEÇT0</text>
+  <rect x="292" y="96" width="220" height="100" rx="10" fill="#fffbeb" stroke="#fcd34d"/>
+  <text x="308" y="130" fill="#b45309" font-size="13" font-weight="600" font-family="system-ui">H1z (Fast)</text>
+  <text x="308" y="168" fill="#92400e" font-size="22" font-weight="700" font-family="system-ui">izleniyor</text>
+  <rect x="528" y="96" width="220" height="100" rx="10" fill="#ecfdf5" stroke="#6ee7b7"/>
+  <text x="544" y="130" fill="#047857" font-size="13" font-weight="600" font-family="system-ui">Güven AES</text>
+  <text x="544" y="168" fill="#065f46" font-size="28" font-weight="800" font-family="system-ui">GEÇT0</text>
+  <rect x="56" y="220" width="692" height="220" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+  <polyline points="80,400 180,340 280,360 380,280 480,300 580,220 680,250" fill="none" stroke="#2563eb" stroke-width="3"/>
+</svg>

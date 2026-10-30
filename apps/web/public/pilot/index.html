@@ -5,16 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Pilot durumu — winlrt</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/styles.css?v=4" />
+    <link rel="stylesheet" href="/styles.css?v=5" />
   </head>
   <body>
     <header class="site-header">
       <div class="site-header-inner">
         <a class="logo" href="/">
-          <span class="logo-mark" aria-hidden="true"></span>
+          <img class="logo-img" src="/assets/logo-mark.svg" width="36" height="36" alt="" />
           winlrt
         </a>
-        <nav class="nav" aria-label="Ana menü">
+        <div class="header-tools">
+          <button type="button" class="tool-btn" id="theme-toggle" aria-label="Tema">◐</button>
+          <div class="lang-switch" role="group" aria-label="Dil">
+            <button type="button" data-lang-btn="tr">TR</button>
+            <button type="button" data-lang-btn="en">EN</button>
+          </div>
+        </div>
+        <nav class="nav" id="main-nav" aria-label="Ana menü">
           <a href="/#durum">Durum</a>
           <a href="/downloads/">İndir</a>
           <a href="/benchmark/">KPI</a>
@@ -48,9 +55,12 @@
     <footer class="site-footer">
       <div class="container footer-bottom" style="border: none; padding-top: 0">
         <span>© winlrt</span>
+        <a href="/hakkimizda/">Hakkımızda</a>
         <a href="/">Ana sayfa</a>
       </div>
     </footer>
+    <script src="/js/i18n.js"></script>
+    <script src="/js/site.js"></script>
     <script>
       const labels = {
         1: "Dalga 1 — Deploy / vitrin",

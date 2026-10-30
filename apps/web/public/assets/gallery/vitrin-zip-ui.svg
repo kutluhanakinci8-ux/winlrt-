@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="winlrtZIP arayüz önizlemesi">
+  <rect width="800" height="500" fill="#0f172a"/>
+  <rect x="24" y="24" width="752" height="452" rx="12" fill="#111827" stroke="#334155"/>
+  <rect x="24" y="24" width="752" height="40" rx="12" fill="#1e293b"/>
+  <circle cx="48" cy="44" r="6" fill="#ef4444"/>
+  <circle cx="68" cy="44" r="6" fill="#eab308"/>
+  <circle cx="88" cy="44" r="6" fill="#22c55e"/>
+  <text x="120" y="50" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="14">winlrtZIP  Kurumsal ar_iv</text>
+  <rect x="48" y="88" width="200" height="360" rx="8" fill="#0c1224" stroke="#334155"/>
+  <text x="64" y="120" fill="#64748b" font-size="12" font-family="system-ui">Gezgin</text>
+  <rect x="64" y="136" width="168" height="28" rx="6" fill="#1e3a5f"/>
+  <rect x="64" y="176" width="168" height="24" rx="4" fill="#1e293b"/>
+  <rect x="64" y="208" width="168" height="24" rx="4" fill="#1e293b"/>
+  <rect x="272" y="88" width="480" height="360" rx="8" fill="#0c1224" stroke="#334155"/>
+  <text x="296" y="130" fill="#f1f5f9" font-size="18" font-weight="600" font-family="system-ui">E-posta eki profili (10 MiB)</text>
+  <rect x="296" y="160" width="432" height="120" rx="8" fill="#111827" stroke="#2563eb" stroke-width="2"/>
+  <text x="320" y="200" fill="#94a3b8" font-size="14" font-family="system-ui">AES-256 · denetim kayd1 · KVKK</text>
+  <rect x="296" y="300" width="140" height="36" rx="8" fill="#2563eb"/>
+  <text x="318" y="323" fill="#fff" font-size="13" font-weight="600" font-family="system-ui">S1k1_t1r</text>
+</svg>

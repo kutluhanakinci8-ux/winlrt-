@@ -18,41 +18,51 @@
     <meta property="og:locale" content="tr_TR" />
     <link rel="canonical" href="https://winlrt.com.tr/" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/styles.css?v=4" />
+    <link rel="stylesheet" href="/styles.css?v=5" />
   </head>
-  <body>
+  <body data-page="home">
     <div class="site-topbar">
       <div class="site-topbar-inner">
         <span
-          ><strong>Canlı vitrin</strong> — repo ile senkron · Post-v3 winlrtZIP W29 · winlrtRAR v1.0.0</span
+          ><strong data-i18n="topbar.live">Canlı vitrin</strong> —
+          <span data-i18n="topbar.sync">repo ile senkron · Post-v3 winlrtZIP W29 · winlrtRAR v1.0.0</span></span
         >
-        <span id="topbar-kpi">KPI yükleniyor…</span>
+        <span id="topbar-kpi" data-i18n="topbar.kpi.loading">KPI yükleniyor…</span>
       </div>
     </div>
 
     <header class="site-header">
       <div class="site-header-inner">
         <a class="logo" href="/">
-          <span class="logo-mark" aria-hidden="true"></span>
+          <img class="logo-img" src="/assets/logo-mark.svg" width="36" height="36" alt="" />
           winlrt
         </a>
+        <div class="header-tools">
+          <button type="button" class="tool-btn" id="theme-toggle" aria-label="Tema">◐</button>
+          <div class="lang-switch" role="group" aria-label="Dil">
+            <button type="button" data-lang-btn="tr">TR</button>
+            <button type="button" data-lang-btn="en">EN</button>
+          </div>
+        </div>
         <button
           type="button"
           class="menu-toggle"
           aria-expanded="false"
           aria-controls="main-nav"
+          data-i18n="nav.menu"
         >
           Menü
         </button>
         <nav class="nav" id="main-nav" aria-label="Ana menü">
-          <a href="#durum">Durum</a>
-          <a href="#urunler">Ürünler</a>
-          <a href="#cozumler">Çözümler</a>
-          <a href="#guven">Güven</a>
-          <a href="#lerta">Lerta</a>
-          <a href="/benchmark/">KPI</a>
-          <a href="/pilot/">Pilot</a>
-          <a class="nav-cta" href="/downloads/">İndir</a>
+          <a href="#durum" data-i18n="nav.status">Durum</a>
+          <a href="#urunler" data-i18n="nav.products">Ürünler</a>
+          <a href="#galeri" data-i18n="nav.gallery">Galeri</a>
+          <a href="#cozumler" data-i18n="nav.solutions">Çözümler</a>
+          <a href="#guven" data-i18n="nav.trust">Güven</a>
+          <a href="#lerta" data-i18n="nav.lerta">Lerta</a>
+          <a href="/benchmark/" data-i18n="nav.kpi">KPI</a>
+          <a href="/pilot/" data-i18n="nav.pilot">Pilot</a>
+          <a class="nav-cta" href="/downloads/" data-i18n="nav.download">İndir</a>
         </nav>
       </div>
     </header>
@@ -62,24 +72,18 @@
         <div>
           <div class="hero-badge">
             <span class="hero-badge-dot" aria-hidden="true"></span>
-            winlrtRAR <strong>v1.0.0</strong> · winlrtZIP <strong>beta</strong> (Post-v3)
+            <span data-i18n="hero.badge">winlrtRAR v1.0.0 · winlrtZIP beta (Post-v3)</span>
           </div>
           <h1>
-            Kurumsal arşiv<br />
-            <span class="gradient-text">tek yerli motor</span>
+            <span data-i18n="hero.title">Kurumsal arşiv</span><br />
+            <span class="gradient-text" data-i18n="hero.titleAccent">tek yerli motor</span>
           </h1>
-          <p class="tagline-en">
+          <p class="tagline-en" data-i18n="hero.tagline">
             Enterprise archive software — built in Türkiye, measured on Windows KPI gates.
           </p>
-          <p class="lead">
-            <strong>winlrtRAR</strong> resmi Windows sürümü yayında;
-            <strong>winlrtZIP</strong> WinZip sınıfı ZIP/ZIP64 hattında CLI, Tauri, Explorer,
-            kurumsal GPO, split ZIP, imzalı arşiv ve Lerta posta metadata entegrasyonuna kadar
-            <strong>Post-v3 (W0–W29)</strong> tamamlandı. Ortak motor:
-            <code style="font-size: 0.9em">winlrt-archive</code>.
-          </p>
+          <p class="lead" data-i18n="hero.lead"></p>
           <div class="actions">
-            <a class="btn btn-primary" href="/downloads/">İndirme merkezi</a>
+            <a class="btn btn-primary" href="/downloads/" data-i18n="hero.cta.download">İndirme merkezi</a>
             <a
               class="btn btn-ghost"
               href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.0"
@@ -90,21 +94,21 @@
               href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-zip-beta.1"
               >winlrtZIP beta</a
             >
-            <a class="btn btn-ghost" href="/benchmark/">KPI vitrin</a>
+            <a class="btn btn-ghost" href="/benchmark/" data-i18n="hero.cta.kpi">KPI vitrin</a>
           </div>
           <div id="kpi-hero-strip" class="meta kpi-strip" hidden></div>
           <div class="trust-row">
             <div class="trust-item">
               <strong>P0×3</strong>
-              Sıkıştırma · hız · güven kapıları
+              <span data-i18n="hero.trust.p0">Sıkıştırma · hız · güven kapıları</span>
             </div>
             <div class="trust-item">
               <strong>KVKK</strong>
-              Denetim günlüğü (parolasız)
+              <span data-i18n="hero.trust.kvkk">Denetim günlüğü (parolasız)</span>
             </div>
             <div class="trust-item">
               <strong>GPO</strong>
-              Kurumsal politika paketleri
+              <span data-i18n="hero.trust.gpo">Kurumsal politika paketleri</span>
             </div>
           </div>
         </div>
@@ -116,7 +120,7 @@
                 <span class="glass-dots"
                   ><span></span><span></span><span></span
                 ></span>
-                winlrt platform
+                <span data-i18n="preview.platform">winlrt platform</span>
               </div>
             </div>
             <div class="glass-card glass-card-main">
@@ -124,14 +128,14 @@
                 <span class="glass-dots"
                   ><span></span><span></span><span></span
                 ></span>
-                Ürün olgunluğu (repo)
+                <span data-i18n="preview.maturity">Ürün olgunluğu (repo)</span>
               </div>
               <div class="product-preview">
                 <div class="preview-row">
                   <div class="preview-icon zip">ZIP</div>
                   <div>
                     <strong>winlrtZIP</strong>
-                    <small>Post-v3 W0–W29 · beta Windows/macOS CI</small>
+                    <small data-i18n="preview.zip.sub">Post-v3 W0–W29 · beta Windows/macOS CI</small>
                     <div class="preview-bar"><span style="width: 96%"></span></div>
                   </div>
                 </div>
@@ -139,7 +143,7 @@
                   <div class="preview-icon rar">RAR</div>
                   <div>
                     <strong>winlrtRAR</strong>
-                    <small>Post-v2 · v1.0.0 Windows resmi</small>
+                    <small data-i18n="preview.rar.sub">Post-v2 · v1.0.0 Windows resmi</small>
                     <div class="preview-bar"><span style="width: 88%"></span></div>
                   </div>
                 </div>
@@ -153,12 +157,9 @@
     <section class="section section-alt" id="durum">
       <div class="container">
         <div class="section-head">
-          <span class="section-label">Senkronizasyon</span>
-          <h2>Vitrin ↔ geliştirme durumu</h2>
-          <p>
-            Aşağıdaki tablo GitHub <code>main</code> hattı ve bu sitedeki indirme / KPI
-            örnekleriyle hizalıdır (güncelleme: Post-v3 vitrin revizyonu).
-          </p>
+          <span class="section-label" data-i18n="status.label">Senkronizasyon</span>
+          <h2 data-i18n="status.title">Vitrin ↔ geliştirme durumu</h2>
+          <p data-i18n="status.lead"></p>
         </div>
         <div class="corp-table-wrap">
           <table class="corp-table">
@@ -224,12 +225,9 @@
     <section class="section" id="urunler">
       <div class="container">
         <div class="section-head">
-          <span class="section-label">Ürün ailesi</span>
-          <h2>İki masaüstü ürün, ortak güven modeli</h2>
-          <p>
-            winlrtZIP ZIP odaklı; winlrtRAR WinRAR sınıfı deneyim. İkisi de aynı motoru ve
-            kurumsal denetim hattını paylaşır.
-          </p>
+          <span class="section-label" data-i18n="products.label">Ürün ailesi</span>
+          <h2 data-i18n="products.title">İki masaüstü ürün, ortak güven modeli</h2>
+          <p data-i18n="products.lead"></p>
         </div>
         <div class="grid-3">
           <article class="card">
@@ -283,6 +281,33 @@
             </ul>
           </article>
         </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="galeri">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-label" data-i18n="gallery.label">Ürün vitrini</span>
+          <h2 data-i18n="gallery.title">Arayüz ve kurumsal kanıt önizlemeleri</h2>
+          <p data-i18n="gallery.lead"></p>
+        </div>
+        <div class="gallery-grid">
+          <figure class="gallery-item">
+            <img src="/assets/gallery/vitrin-zip-ui.svg" width="800" height="500" alt="" loading="lazy" />
+            <figcaption data-i18n="gallery.caption.zip">winlrtZIP — arşiv ve e-posta eki profili</figcaption>
+          </figure>
+          <figure class="gallery-item">
+            <img src="/assets/gallery/vitrin-kpi.svg" width="800" height="500" alt="" loading="lazy" />
+            <figcaption data-i18n="gallery.caption.kpi">KPI vitrin — P0 kapı özeti</figcaption>
+          </figure>
+          <figure class="gallery-item">
+            <img src="/assets/gallery/vitrin-gpo.svg" width="800" height="500" alt="" loading="lazy" />
+            <figcaption data-i18n="gallery.caption.gpo">Kurumsal GPO ve denetim hattı</figcaption>
+          </figure>
+        </div>
+        <p class="meta" style="margin-top: 1rem">
+          <a href="/marka/" data-i18n="nav.brand">Marka kiti</a>
+        </p>
       </div>
     </section>
 
@@ -426,11 +451,8 @@
     <div class="cta-band">
       <div class="container">
         <div class="cta-panel">
-          <h2>Resmi indirme ve kurumsal paketler</h2>
-          <p>
-            winlrtRAR v1.0.0 ve winlrtZIP beta installer’ları, GPO zip dosyaları ve pilot rehberleri
-            indirme merkezinde. KPI özetleri benchmark sayfasında.
-          </p>
+          <h2 data-i18n="cta.title">Resmi indirme ve kurumsal paketler</h2>
+          <p data-i18n="cta.lead"></p>
           <a class="btn btn-primary" href="/downloads/">İndirme merkezi</a>
           <a class="btn btn-ghost" href="/benchmark/" style="margin-left: 0.5rem">KPI vitrin</a>
         </div>
@@ -445,17 +467,24 @@
               <span class="logo-mark" aria-hidden="true"></span>
               winlrt
             </a>
-            <p>Yerli arşiv platformu — kurumsal KPI, denetim ve dağıtım odaklı vitrin.</p>
+            <p data-i18n="footer.tagline">Yerli arşiv platformu — kurumsal KPI, denetim ve dağıtım odaklı vitrin.</p>
           </div>
           <div class="footer-col">
-            <h4>Platform</h4>
-            <a href="#durum">Durum tablosu</a>
-            <a href="/downloads/">İndir</a>
-            <a href="/benchmark/">Benchmark</a>
-            <a href="/pilot/">Pilot</a>
+            <h4 data-i18n="footer.platform">Platform</h4>
+            <a href="#durum" data-i18n="nav.status">Durum</a>
+            <a href="/downloads/" data-i18n="nav.download">İndir</a>
+            <a href="/benchmark/" data-i18n="nav.kpi">KPI</a>
+            <a href="/pilot/" data-i18n="nav.pilot">Pilot</a>
           </div>
           <div class="footer-col">
-            <h4>Kaynak</h4>
+            <h4 data-i18n="footer.legal">Kurumsal</h4>
+            <a href="/hakkimizda/" data-i18n="nav.about">Hakkımızda</a>
+            <a href="/iletisim/" data-i18n="nav.contact">İletişim</a>
+            <a href="/kvkk/" data-i18n="nav.kvkk">KVKK</a>
+            <a href="/marka/" data-i18n="nav.brand">Marka</a>
+          </div>
+          <div class="footer-col">
+            <h4 data-i18n="footer.source">Kaynak</h4>
             <a href="https://www.lerta.com.tr">Lerta</a>
             <a href="https://github.com/kutluhanakinci8-ux/winlrt-">GitHub</a>
             <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/POST_V3_WINLRTZIP_SIRA.md"
@@ -464,23 +493,15 @@
           </div>
         </div>
         <div class="footer-bottom">
-          <span>© winlrt</span>
-          <span>Türkiye · KPI vitrin repo ile senkron</span>
+          <span data-i18n="footer.copy">© winlrt</span>
+          <span data-i18n="footer.region">Türkiye · KPI vitrin repo ile senkron</span>
         </div>
       </div>
     </footer>
 
+    <script src="/js/i18n.js"></script>
+    <script src="/js/site.js"></script>
     <script>
-      (function () {
-        var btn = document.querySelector(".menu-toggle");
-        var nav = document.getElementById("main-nav");
-        if (!btn || !nav) return;
-        btn.addEventListener("click", function () {
-          var open = nav.classList.toggle("is-open");
-          btn.setAttribute("aria-expanded", open ? "true" : "false");
-        });
-      })();
-
       function gateLabel(gate) {
         if (gate === true) return "GEÇTİ";
         if (gate === false) return "izleniyor";
@@ -534,14 +555,24 @@
             el.className = "meta kpi-strip";
             el.style.cssText =
               "margin-bottom:1rem;padding:0.65rem 1rem;border-radius:8px;border:1px solid var(--border, rgba(255,255,255,0.12));";
+            var prefix =
+              window.WinlrtSite && WinlrtSite.t
+                ? WinlrtSite.t("kpi.summary.prefix")
+                : "Canlı KPI özeti:";
+            var detail =
+              window.WinlrtSite && WinlrtSite.t ? WinlrtSite.t("kpi.detail") : "detay";
             el.innerHTML =
-              "<strong>Canlı KPI özeti:</strong> " +
+              "<strong>" +
+              prefix +
+              "</strong> " +
               parts.join(" · ") +
-              ' — <a href="/benchmark/">detay</a>';
+              ' — <a href="/benchmark/">' +
+              detail +
+              "</a>";
             if (top) top.textContent = parts[0];
           })
           .catch(function () {
-            if (top) top.textContent = "KPI örnekleri /benchmark/ sayfasında";
+            if (top && window.WinlrtSite) top.textContent = WinlrtSite.t("topbar.kpi.fallback");
           });
       })();
     </script>
