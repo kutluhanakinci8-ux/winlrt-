@@ -154,7 +154,8 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 
 ### Faz 4 — Kurumsal
 
-- [x] GPO/MDM, denetim günlüğü (winlrtZIP W18) · [ ] imzalı arşiv
+- [x] GPO/MDM, denetim günlüğü (winlrtZIP W18)
+- [x] Imzalı arşiv (Ed25519) — [MADDE_W23](./qa/MADDE_W23_WINLRTZIP_SIGNED_ARCHIVE.md)
 - [ ] Banka + sendika pilot genişlemesi
 
 **Kapı:** Kurumsal checklist imzalı.

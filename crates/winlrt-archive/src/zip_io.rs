@@ -8,9 +8,12 @@ use walkdir::WalkDir;
 use zip::write::SimpleFileOptions;
 use zip::{AesMode, CompressionMethod, ZipArchive, ZipWriter};
 
+use crate::archive_sign;
 use crate::crypto;
+use crate::enterprise;
 use crate::profile::CompressionProfile;
 use crate::{ArchiveError, Result};
+use ed25519_dalek::SigningKey;
 
 /// I7 — bozuk CRC / bütünlük hatası kullanıcı mesajı öneki.
 pub const ZIP_INTEGRITY_CRC_MSG: &str = "ZIP bütünlük hatası (CRC)";
@@ -65,6 +68,7 @@ fn open_zip_entry<'a>(
 }
 
 pub fn list(archive: &Path, password: Option<&str>) -> Result<Vec<String>> {
+    enforce_archive_signature_policy(archive)?;
     let opened = SplitZipOpen::resolve(archive)?;
     let file = File::open(&opened.path)?;
     let mut zip = ZipArchive::new(file).map_err(map_zip_err)?;
@@ -78,6 +82,7 @@ pub fn list(archive: &Path, password: Option<&str>) -> Result<Vec<String>> {
 }
 
 pub fn extract(archive: &Path, dest: &Path, password: Option<&str>) -> Result<()> {
+    enforce_archive_signature_policy(archive)?;
     let opened = SplitZipOpen::resolve(archive)?;
     let file = File::open(&opened.path)?;
     let mut zip = ZipArchive::new(file).map_err(map_zip_err)?;
@@ -411,6 +416,54 @@ pub fn split_zip_materialize_merged(entry: &Path) -> Result<Option<NamedTempFile
     Ok(Some(tmp))
 }
 
+/// İmza özeti için arşiv baytları (split ise ham birleştirme).
+pub fn archive_bytes_for_signature(entry: &Path) -> Result<Vec<u8>> {
+    let vols = split_zip_ordered_volumes(entry);
+    if vols.len() <= 1 {
+        return std::fs::read(entry).map_err(ArchiveError::Io);
+    }
+    let mut out = Vec::new();
+    for v in vols {
+        let mut f = File::open(v).map_err(ArchiveError::Io)?;
+        copy(&mut f, &mut out).map_err(ArchiveError::Io)?;
+    }
+    Ok(out)
+}
+
+/// Ed25519 yan dosyası yazar (`*.winlrtsig.json`).
+pub fn sign_zip_archive(archive: &Path, signing_key: &SigningKey) -> Result<PathBuf> {
+    let bytes = archive_bytes_for_signature(archive)?;
+    let manifest = archive_sign::sign_archive_bytes(&bytes, signing_key);
+    let sidecar = archive_sign::sidecar_path_for_archive(archive);
+    archive_sign::write_manifest(&sidecar, &manifest)?;
+    Ok(sidecar)
+}
+
+pub fn verify_zip_archive_signature(archive: &Path) -> Result<()> {
+    let bytes = archive_bytes_for_signature(archive)?;
+    let sidecar = archive_sign::sidecar_path_for_archive(archive);
+    archive_sign::verify_archive_bytes_with_sidecar(&bytes, &sidecar)
+}
+
+fn enforce_archive_signature_policy(archive: &Path) -> Result<()> {
+    let sidecar = archive_sign::sidecar_path_for_archive(archive);
+    if sidecar.is_file() {
+        verify_zip_archive_signature(archive).map_err(|e| {
+            crate::audit::event_archive_signature("zip", false, "verify_fail");
+            e
+        })?;
+        crate::audit::event_archive_signature("zip", true, "verify_ok");
+        return Ok(());
+    }
+    if enterprise::require_signed_archive_enabled() {
+        crate::audit::event_archive_signature("zip", false, "missing_sidecar");
+        return Err(ArchiveError::Zip(
+            "kurumsal politika: imza dosyasi (.winlrtsig.json) eksik".into(),
+        ));
+    }
+    Ok(())
+}
+
 /// Split / spanned ZIP göstergesi (EOCD disk alanları veya `.zNN` ciltleri).
 pub fn archive_indicates_split_zip(archive: &Path) -> Result<bool> {
     if split_zip_volumes_on_disk(archive).len() > 1 {
@@ -528,6 +581,7 @@ pub fn create_zip64_smoke(dest: &Path) -> Result<()> {
 }
 
 pub fn test(archive: &Path, password: Option<&str>) -> Result<()> {
+    enforce_archive_signature_policy(archive)?;
     let opened = SplitZipOpen::resolve(archive)?;
     let file = File::open(&opened.path)?;
     let mut zip = ZipArchive::new(file).map_err(map_zip_err)?;

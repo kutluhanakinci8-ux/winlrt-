@@ -25,5 +25,6 @@
 | **W20** | Split ZIP smoke (Faz 5) | **%100** ✅ | [MADDE_W20](./MADDE_W20_WINLRTZIP_SPLIT_ZIP.md) |
 | **W21** | Split ZIP birleştirme / açma | **%100** ✅ | [MADDE_W21](./MADDE_W21_WINLRTZIP_SPLIT_ZIP_MERGE.md) |
 | **W22** | Split ZIP yazma (Faz 5) | **%100** ✅ | [MADDE_W22](./MADDE_W22_WINLRTZIP_SPLIT_ZIP_WRITE.md) |
+| **W23** | Imzalı arşiv (Ed25519 yan dosya) | **%100** ✅ | [MADDE_W23](./MADDE_W23_WINLRTZIP_SIGNED_ARCHIVE.md) |
 
 RAR hattı: [POST_V2_SIRA.md](./POST_V2_SIRA.md) (Q2 tamam).

@@ -1,4 +1,4 @@
-//! winlrtZIP interop — I6 (W7), I4 AES (W8), I1/I2 Explorer proxy (W12), KOBİ pilot (W13), split ZIP (W20–W22).
+//! winlrtZIP interop — I6 (W7), I4 AES (W8), I1/I2 Explorer proxy (W12), KOBİ pilot (W13), split ZIP (W20–W22), imzalı arşiv (W23).
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -8,6 +8,7 @@ use std::time::Instant;
 use winlrt_archive::profile::{
     CompressionProfile, EMAIL_ATTACHMENT_MAX_ZIP_BYTES, EMAIL_ATTACHMENT_MIXED_MAX_CREATE_MS,
 };
+use winlrt_archive::archive_sign;
 use winlrt_archive::zip_io;
 
 /// Kurumsal politika ile uyumlu test parolası.
@@ -734,4 +735,32 @@ fn w21_split_zip_synthetic_merge_extract() {
     let out = base.path().join("out");
     zip_io::extract(&base.path().join("w21.z01"), &out, None).unwrap();
     assert_eq!(fs::read(out.join("w21.txt")).unwrap(), b"w21-interop-merge");
+}
+
+#[test]
+fn w23_signed_archive_extract() {
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("signed.txt");
+    fs::write(&src, b"w23-ed25519-sidecar").unwrap();
+    let zip = base.path().join("corp.zip");
+    zip_io::create_with_profile(&src, &zip, CompressionProfile::Fast, None).unwrap();
+    let key = archive_sign::signing_key_from_seed([0x23u8; 32]);
+    zip_io::sign_zip_archive(&zip, &key).unwrap();
+    zip_io::test(&zip, None).unwrap();
+    let out = base.path().join("out");
+    zip_io::extract(&zip, &out, None).unwrap();
+    assert_eq!(fs::read(out.join("signed.txt")).unwrap(), b"w23-ed25519-sidecar");
+}
+
+#[test]
+fn w23_require_signed_archive_policy_blocks_unsigned() {
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("u.txt");
+    fs::write(&src, b"unsigned").unwrap();
+    let zip = base.path().join("unsigned.zip");
+    zip_io::create_with_profile(&src, &zip, CompressionProfile::Fast, None).unwrap();
+    std::env::set_var("WINLRT_REQUIRE_SIGNED_ARCHIVE", "1");
+    let err = zip_io::extract(&zip, &base.path().join("out"), None).unwrap_err();
+    std::env::remove_var("WINLRT_REQUIRE_SIGNED_ARCHIVE");
+    assert!(err.to_string().contains("eksik"));
 }

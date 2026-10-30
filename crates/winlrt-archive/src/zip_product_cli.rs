@@ -7,6 +7,7 @@ use serde::Serialize;
 
 use crate::bench::{self, BenchReport, BenchSuite};
 use crate::profile::CompressionProfile;
+use crate::archive_sign;
 use crate::{zip_io, Result};
 
 #[derive(Parser)]
@@ -45,6 +46,13 @@ pub enum ZipCommands {
         volume_size: u64,
     },
     Test { archive: PathBuf },
+    Sign {
+        archive: PathBuf,
+        /// 32 bayt Ed25519 seed (hex); yoksa `WINLRT_SIGNING_SEED_HEX`.
+        #[arg(long)]
+        signing_seed_hex: Option<String>,
+    },
+    VerifySig { archive: PathBuf },
     Bench {
         #[arg(long)]
         fixture: Option<PathBuf>,
@@ -96,6 +104,21 @@ struct SplitCreateJson {
     action: &'static str,
     volume_count: u32,
     total_bytes: u64,
+}
+
+#[derive(Serialize)]
+struct SignJson {
+    ok: bool,
+    action: &'static str,
+    sidecar: String,
+}
+
+fn parse_seed_hex(hex: &str) -> Result<[u8; 32]> {
+    let bytes = hex::decode(hex.trim())
+        .map_err(|e| crate::ArchiveError::Zip(format!("seed hex: {e}")))?;
+    bytes
+        .try_into()
+        .map_err(|_| crate::ArchiveError::Zip("seed 32 bayt olmali".into()))
 }
 
 pub fn run() -> Result<()> {
@@ -167,6 +190,44 @@ pub fn run() -> Result<()> {
                 })?;
             } else {
                 println!("OK");
+            }
+        }
+        ZipCommands::Sign {
+            archive,
+            signing_seed_hex,
+        } => {
+            let seed_hex = signing_seed_hex.or_else(|| {
+                std::env::var("WINLRT_SIGNING_SEED_HEX")
+                    .ok()
+                    .filter(|s| !s.trim().is_empty())
+            });
+            let Some(seed_hex) = seed_hex else {
+                return Err(crate::ArchiveError::Zip(
+                    "imza seed gerekli (--signing-seed-hex veya WINLRT_SIGNING_SEED_HEX)".into(),
+                ));
+            };
+            let seed = parse_seed_hex(&seed_hex)?;
+            let key = archive_sign::signing_key_from_seed(seed);
+            let sidecar = zip_io::sign_zip_archive(&archive, &key)?;
+            if json_out {
+                print_json(&SignJson {
+                    ok: true,
+                    action: "sign",
+                    sidecar: sidecar.display().to_string(),
+                })?;
+            } else {
+                println!("OK imza: {}", sidecar.display());
+            }
+        }
+        ZipCommands::VerifySig { archive } => {
+            zip_io::verify_zip_archive_signature(&archive)?;
+            if json_out {
+                print_json(&OkJson {
+                    ok: true,
+                    action: "verify-sig",
+                })?;
+            } else {
+                println!("OK imza dogrulandi");
             }
         }
         ZipCommands::Bench {

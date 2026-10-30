@@ -134,6 +134,9 @@ jobs:
       - name: winlrtZIP Split ZIP yazma (W22)
         run: bash scripts/verify-madde-w22.sh
 
+      - name: winlrtZIP imzalı arşiv (W23)
+        run: bash scripts/verify-madde-w23.sh
+
       - name: Faz 1 benchmark raporu
         run: |
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json

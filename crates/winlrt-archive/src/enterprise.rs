@@ -147,6 +147,26 @@ pub fn modern_crypto_gate_active() -> bool {
         && crate::password_policy::active_policy().id == "corporate"
 }
 
+/// `RequireSignedArchive` = `1` — açma/test için `.winlrtsig.json` zorunlu (W23).
+pub fn registry_require_signed_archive() -> bool {
+    if let Some(v) = registry_dword("RequireSignedArchive") {
+        return v != 0;
+    }
+    registry_value("RequireSignedArchive")
+        .map(|v| v == "1" || v.eq_ignore_ascii_case("true"))
+        .unwrap_or(false)
+}
+
+pub fn require_signed_archive_enabled() -> bool {
+    if std::env::var("WINLRT_REQUIRE_SIGNED_ARCHIVE")
+        .map(|v| v == "1" || v.eq_ignore_ascii_case("true"))
+        .unwrap_or(false)
+    {
+        return true;
+    }
+    registry_require_signed_archive()
+}
+
 pub fn policy_id_from_env() -> Option<String> {
     std::env::var("WINLRT_PASSWORD_POLICY")
         .ok()

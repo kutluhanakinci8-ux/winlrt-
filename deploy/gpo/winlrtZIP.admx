@@ -78,6 +78,26 @@
         </boolean>
       </elements>
     </policy>
+    <policy
+      name="RequireSignedArchive"
+      class="Both"
+      displayName="$(string.RequireSignedArchive)"
+      explainText="$(string.RequireSignedArchive_Help)"
+      key="Software\winlrt\winlrtZIP"
+      presentation="$(presentation.RequireSignedArchive)">
+      <parentCategory ref="winlrtZIP" />
+      <supportedOn ref="SUPPORTED_Windows10_AndLater" />
+      <elements>
+        <boolean id="RequireSignedArchive" valueName="RequireSignedArchive">
+          <trueValue>
+            <decimal value="1" />
+          </trueValue>
+          <falseValue>
+            <decimal value="0" />
+          </falseValue>
+        </boolean>
+      </elements>
+    </policy>
   </policies>
   <presentationDefinitions>
     <presentation id="PasswordPolicy">
@@ -97,6 +117,9 @@
     </presentation>
     <presentation id="RequireModernCrypto">
       <checkBox refId="RequireModernCrypto">$(string.RequireModernCrypto_Label)</checkBox>
+    </presentation>
+    <presentation id="RequireSignedArchive">
+      <checkBox refId="RequireSignedArchive">$(string.RequireSignedArchive_Label)</checkBox>
     </presentation>
   </presentationDefinitions>
 </policyDefinitions>

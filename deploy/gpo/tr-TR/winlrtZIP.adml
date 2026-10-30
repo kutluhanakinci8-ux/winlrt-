@@ -18,6 +18,9 @@
       <string id="RequireModernCrypto">Modern sifreleme zorunlu</string>
       <string id="RequireModernCrypto_Help">Kurumsal profilde sifreli ZIP yalnizca AES-256.</string>
       <string id="RequireModernCrypto_Label">ZIP AES-256 zorunlu</string>
+      <string id="RequireSignedArchive">Imzali arsiv zorunlu</string>
+      <string id="RequireSignedArchive_Help">ZIP acma icin gecerli .winlrtsig.json (Ed25519) yan dosyasi gerekir.</string>
+      <string id="RequireSignedArchive_Label">Acilista arsiv imzasi zorunlu</string>
     </stringTable>
   </resources>
 </policyDefinitionResources>

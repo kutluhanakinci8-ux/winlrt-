@@ -18,6 +18,9 @@
       <string id="RequireModernCrypto">Require modern encryption (corporate)</string>
       <string id="RequireModernCrypto_Help">With corporate policy: encrypted ZIP uses AES-256 only (WinZip-compatible).</string>
       <string id="RequireModernCrypto_Label">Enforce ZIP AES-256 for encrypted archives</string>
+      <string id="RequireSignedArchive">Require signed ZIP sidecar</string>
+      <string id="RequireSignedArchive_Help">Opening ZIP requires a valid .winlrtsig.json Ed25519 sidecar next to the archive.</string>
+      <string id="RequireSignedArchive_Label">Require archive signature on open</string>
     </stringTable>
   </resources>
 </policyDefinitionResources>

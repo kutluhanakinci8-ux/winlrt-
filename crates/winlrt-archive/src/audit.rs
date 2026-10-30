@@ -147,6 +147,19 @@ pub fn event_secure_prompt(channel: &str, outcome: &str) {
     });
 }
 
+pub fn event_archive_signature(channel: &str, ok: bool, outcome: &str) {
+    log(AuditRecord {
+        ts_unix: now_unix(),
+        event: "archive_signature",
+        channel: channel.into(),
+        ok,
+        path_hint: None,
+        format: Some("zip".into()),
+        policy_id: None,
+        detail: Some(outcome.into()),
+    });
+}
+
 pub fn event_policy_reject(channel: &str, policy_id: &str) {
     log(AuditRecord {
         ts_unix: now_unix(),

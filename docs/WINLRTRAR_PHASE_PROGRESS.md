@@ -13,7 +13,7 @@ Otomatik takip: [WINLRTRAR_ROADMAP_TO_100.md](./WINLRTRAR_ROADMAP_TO_100.md) · 
 | 6 | L | **Tamam** — tag `v1.0.0` |
 | **Post-v1** | M, N, O, P | **Tamam** — [POST_V1_SIRA.md](./qa/POST_V1_SIRA.md) |
 | **Post-v2** | Q–U (imza yok) | **Tamam** — [POST_V2_SIRA.md](./qa/POST_V2_SIRA.md) |
-| **Post-v3** | W0–W22 winlrtZIP | **Tamam** — [POST_V3_WINLRTZIP_SIRA.md](./qa/POST_V3_WINLRTZIP_SIRA.md) |
+| **Post-v3** | W0–W23 winlrtZIP | **Tamam** — [POST_V3_WINLRTZIP_SIRA.md](./qa/POST_V3_WINLRTZIP_SIRA.md) |
 
 **Her agent turu:** commit → `push origin main` → `scripts/post-phase-deploy.sh` ([AGENT_COMMIT_DEPLOY.md](./AGENT_COMMIT_DEPLOY.md)).
 
