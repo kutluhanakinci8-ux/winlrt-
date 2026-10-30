@@ -9,7 +9,10 @@ for f in \
   docs/qa/EXPLORER_QA_SIGNOFF.md \
   docs/WINLRTRAR_EXPLORER_QA.md \
   docs/qa/FAZ4_PILOT_BASLANGIC.md \
-  scripts/windows/explorer-qa-preflight.ps1
+  scripts/windows/explorer-qa-preflight.ps1 \
+  apps/web/public/pilot/index.html \
+  scripts/generate-pilot-status-json.sh \
+  scripts/agent-parse-pilot-chat.sh
 do
   test -f "$ROOT/$f" || { echo "Eksik: $f" >&2; exit 1; }
 done

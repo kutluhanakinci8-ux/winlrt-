@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-10-30T15:17:20Z",
+  "active_wave": 2,
+  "waves": {
+    "1_deploy": "pass",
+    "2_explorer_qa": "pending",
+    "3_corporate": "pending",
+    "4_v1": "pending"
+  },
+  "links": {
+    "beta_release": "https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.41064653814",
+    "dalga2_doc": "https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/DALGA2_PILOT_OTURUM.md",
+    "corporate_zip": "/downloads/winlrtRAR-corporate-gpo.zip",
+    "chat_templates": "https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/PILOT_CHAT_SABLONLARI.md"
+  }
+}
