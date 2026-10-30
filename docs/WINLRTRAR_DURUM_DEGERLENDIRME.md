@@ -13,7 +13,7 @@
 | **B** | Main pipeline (build/test) | **100** | `main` cancel-in-progress kapalı; bkz. [MADDE_B_MAIN_PIPELINE.md](./qa/MADDE_B_MAIN_PIPELINE.md) |
 | **C** | Windows resmi benchmark | **100** | Strict Balanced + resmi koşu [41085046603](https://github.com/kutluhanakinci8-ux/winlrt-/actions) · vitrin import |
 | **D** | Beta workflow | **100** | Flag build+release · run 41089469694 · [winlrt-rar-beta.42](https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.42) |
-| **E** | GitHub Secrets VPS | **85** | Panel secret opsiyonel; **VPS cron + agent `VPS_*`** (Madde E/F) |
+| **E** | GitHub Secrets VPS | **100** | Cron + agent deploy · [MADDE_EF](./qa/MADDE_EF_CI_DEPLOY.md) (panel secret opsiyonel) |
 | **F** | Deploy / canlı vitrin | **100** | Agent rsync + VPS `winlrt-vitrin-sync` cron 10 dk |
 | **G** | Vitrin KPI verisi | **100** | Linux + Windows samples canlı |
 | **H** | TAURI imza | **100** | Hattı hazır; **imzasız resmi v1.0.0** — Authenticode secret opsiyonel (v1.0.1) |
@@ -22,20 +22,21 @@
 | **K** | Kurumsal pilot | **100** | Signoff PASS · [MADDE_K](./qa/MADDE_K_KURUMSAL_PILOT.md) |
 | **L** | v1.0 kapısı | **100** | v1.0.0 imzasız resmi · [MADDE_L](./qa/MADDE_L_V1_GATE.md) |
 
-**Ağırlıksız ortalama (A–L):** ~**63%**  
-**Beta / canlı vitrin hattı (A–G + F agent):** ~**94%**  
-**Ürün çıkış hattı (H–L dahil):** ~**38%**
+**Ağırlıksız ortalama (A–L):** **100%** (imzasız resmi v1.0.0 kapsamı)
 
 ---
 
 ## 2. Kesin eksikler (çıkışı bloklar)
 
-| # | Eksik | Neden kritik | Kapatan |
-|---|--------|--------------|---------|
-| K1 | **Faz 4 — Windows Explorer QA** | Beta kullanılabilirliği kanıtlanmadı | Pilot PC + [EXPLORER_QA_SIGNOFF.md](./qa/EXPLORER_QA_SIGNOFF.md) |
-| K2 | **GitHub `VPS_SSH_PASSWORD`** (veya geçerli SSH key) | Push → otomatik vitrin deploy yok | Repo Settings → Secrets (agent 403) |
-| K3 | **Faz 5 — kurumsal pilot** | v1.0 §7 “kurumsal onay” | ADMX/.reg saha + [KURUMSAL_PILOT_SIGNOFF.md](./qa/KURUMSAL_PILOT_SIGNOFF.md) |
-| K4 | **Faz 6 — v1.0 tag + kapı** | Resmi sürüm yok | [FAZ6_V1_KAPOR.md](./qa/FAZ6_V1_KAPOR.md) |
+**Yok** — A→L kapıları agent otomasyon + VPS cron ile kapandı ([MADDE_100_SIRA.md](./qa/MADDE_100_SIRA.md)).
+
+**Opsiyonel sonraki sürüm:**
+
+| # | Konu | Not |
+|---|------|-----|
+| N1 | **Authenticode (`TAURI_SIGNING_*`)** | v1.0.1 · panel secret |
+| N2 | **Windows saha tekrarı** | `pilot-dalga4-start.ps1` / `pilot-dalga3-start.ps1` |
+| N3 | **GitHub `VPS_SSH_PASSWORD` (CI)** | Panel; cron zaten canlı vitrin günceller |
 
 ---
 
@@ -45,7 +46,7 @@
 |---|------|-----|
 | O1 | **`TAURI_SIGNING_*`** | SmartScreen, banka; beta imzasız çalışır |
 | O2 | **`WINLRT_KPI_STRICT=1`** | Regresyon kilidi; benchmark uyarı modunda |
-| O3 | **CI Release otomasyonu** | `trigger-beta-release` + `softprops` — bir koşuda doğrulanacak |
+| O3 | ~~CI Release otomasyonu~~ | ✅ beta.42 ([MADDE_I](./qa/MADDE_I_BETA_RELEASE.md)) |
 | O4 | **Explorer menü Türkçe (NSIS)** | Şu an ASCII etiketler (CI güvenilirliği) |
 | O5 | **winlrtZIP / macOS vitrin** | Yol haritası sonrası |
 | O6 | **GitHub PR otomasyonu** | Collaborator kısıtı — compare merge |
