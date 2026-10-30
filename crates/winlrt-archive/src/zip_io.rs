@@ -108,6 +108,33 @@ pub fn create_with_profile(
     Ok(())
 }
 
+pub fn create_from_paths(
+    sources: &[PathBuf],
+    dest: &Path,
+    profile: CompressionProfile,
+    password: Option<&str>,
+) -> Result<()> {
+    if sources.is_empty() {
+        return Err(ArchiveError::Zip("sıkıştırılacak öğe yok".into()));
+    }
+    if password.is_some_and(|p| !p.is_empty()) {
+        let fb = crypto::evaluate_password(password.unwrap(), true);
+        if !fb.ok_for_create {
+            return Err(ArchiveError::Zip("parola çok kısa (min. 8)".into()));
+        }
+    }
+    let files = crate::wlrt::selection_file_list(sources)?;
+    let out = File::create(dest)?;
+    let mut writer = ZipWriter::new(out);
+    for (path, rel) in &files {
+        add_file(&mut writer, path, rel, profile, password)?;
+    }
+    writer
+        .finish()
+        .map_err(|e| ArchiveError::Zip(e.to_string()))?;
+    Ok(())
+}
+
 /// Zip64 eşiği (zip crate `ZIP64_BYTES_THR` ile uyumlu).
 const ZIP64_SIZE_THRESHOLD: u64 = u32::MAX as u64;
 

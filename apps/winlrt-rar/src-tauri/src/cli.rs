@@ -12,6 +12,8 @@ pub enum StartupMode {
     ExtractHere(String),
     CompressFolder(String),
     CompressFolderQuick(String),
+    CompressSelection(Vec<String>),
+    CompressSelectionQuick(Vec<String>),
 }
 
 pub fn is_archive_path(path: &str) -> bool {
@@ -49,6 +51,28 @@ fn flag_with_directory(args: &[String], flag: &str) -> Option<String> {
     None
 }
 
+fn collect_paths_after_flag(args: &[String], flag: &str) -> Vec<String> {
+    let mut out = Vec::new();
+    let mut after = false;
+    for arg in args {
+        if arg == flag {
+            after = true;
+            continue;
+        }
+        if !after {
+            continue;
+        }
+        if arg.starts_with('-') {
+            continue;
+        }
+        let path = Path::new(arg);
+        if path.is_file() || path.is_dir() {
+            out.push(arg.clone());
+        }
+    }
+    out
+}
+
 pub fn parse_startup_mode() -> StartupMode {
     let args: Vec<String> = std::env::args().skip(1).collect();
     for (i, arg) in args.iter().enumerate() {
@@ -62,6 +86,14 @@ pub fn parse_startup_mode() -> StartupMode {
                 return StartupMode::ExtractHere(p.clone());
             }
         }
+    }
+    let quick_sel = collect_paths_after_flag(&args, "--compress-selection-quick");
+    if !quick_sel.is_empty() {
+        return StartupMode::CompressSelectionQuick(quick_sel);
+    }
+    let sel = collect_paths_after_flag(&args, "--compress-selection");
+    if !sel.is_empty() {
+        return StartupMode::CompressSelection(sel);
     }
     if let Some(dir) = flag_with_directory(&args, "--compress-folder-quick") {
         return StartupMode::CompressFolderQuick(dir);
@@ -88,6 +120,35 @@ pub fn suggested_archive_path(folder_path: &str, ext: &str) -> Result<String, St
     let parent = folder.parent().unwrap_or(Path::new("."));
     Ok(parent
         .join(format!("{}.{}", name.to_string_lossy(), ext))
+        .to_string_lossy()
+        .into_owned())
+}
+
+pub fn suggested_selection_archive_path(paths: &[String], ext: &str) -> Result<String, String> {
+    if paths.is_empty() {
+        return Err("Seçim boş".into());
+    }
+    let first = PathBuf::from(&paths[0]);
+    let parent = first
+        .parent()
+        .ok_or_else(|| "Hedef klasör belirlenemedi".to_string())?;
+    if paths.len() == 1 {
+        if first.is_file() {
+            let stem = first
+                .file_stem()
+                .map(|s| s.to_string_lossy().into_owned())
+                .unwrap_or_else(|| "arsiv".into());
+            return Ok(parent
+                .join(format!("{stem}.{ext}"))
+                .to_string_lossy()
+                .into_owned());
+        }
+        if first.is_dir() {
+            return suggested_archive_path(&paths[0], ext);
+        }
+    }
+    Ok(parent
+        .join(format!("winlrt-secim.{ext}"))
         .to_string_lossy()
         .into_owned())
 }
@@ -130,8 +191,23 @@ pub fn compress_folder_quick(folder_path: &str) -> Result<ActionResult, String> 
         .map_err(|e| e.to_string())?;
     Ok(ActionResult {
         ok: true,
+        message: format!("Hızlı .wlrt oluşturuldu: {}", dest.display()),
+    })
+}
+
+pub fn compress_selection_quick(paths: &[String]) -> Result<ActionResult, String> {
+    let sources: Vec<PathBuf> = paths.iter().map(PathBuf::from).collect();
+    if sources.is_empty() {
+        return Err("Seçim boş".into());
+    }
+    let dest = PathBuf::from(suggested_selection_archive_path(paths, "wlrt")?);
+    wlrt::create_from_paths(&sources, &dest, CompressionProfile::Balanced, None)
+        .map_err(|e| e.to_string())?;
+    Ok(ActionResult {
+        ok: true,
         message: format!(
-            "Hızlı .wlrt oluşturuldu: {}",
+            "Hızlı .wlrt ({} öğe): {}",
+            paths.len(),
             dest.display()
         ),
     })
@@ -151,6 +227,43 @@ mod tests {
         fs::create_dir(&sub).unwrap();
         let s = suggested_archive_path(sub.to_str().unwrap(), "wlrt").unwrap();
         assert!(s.ends_with("Projem.wlrt"));
+        let _ = fs::remove_dir_all(&base);
+    }
+
+    #[test]
+    fn suggested_selection_multi_default_name() {
+        let base = std::env::temp_dir().join(format!("winlrt-cli-sel-{}", std::process::id()));
+        let _ = fs::remove_dir_all(&base);
+        fs::create_dir_all(&base).unwrap();
+        let a = base.join("a.txt");
+        let b = base.join("b.txt");
+        fs::write(&a, b"1").unwrap();
+        fs::write(&b, b"2").unwrap();
+        let s = suggested_selection_archive_path(
+            &[a.to_string_lossy().into(), b.to_string_lossy().into()],
+            "wlrt",
+        )
+        .unwrap();
+        assert!(s.ends_with("winlrt-secim.wlrt"));
+        let _ = fs::remove_dir_all(&base);
+    }
+
+    #[test]
+    fn parse_compress_selection_flag() {
+        let base = std::env::temp_dir().join(format!("winlrt-cli-flag-{}", std::process::id()));
+        let _ = fs::remove_dir_all(&base);
+        fs::create_dir_all(&base).unwrap();
+        let a = base.join("a.txt");
+        let b = base.join("b.txt");
+        fs::write(&a, b"1").unwrap();
+        fs::write(&b, b"2").unwrap();
+        let inner = vec![
+            "--compress-selection".into(),
+            a.to_string_lossy().into_owned(),
+            b.to_string_lossy().into_owned(),
+        ];
+        let sel = collect_paths_after_flag(&inner, "--compress-selection");
+        assert_eq!(sel.len(), 2);
         let _ = fs::remove_dir_all(&base);
     }
 }

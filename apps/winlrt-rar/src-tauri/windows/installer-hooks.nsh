@@ -21,6 +21,17 @@
   DeleteRegKey SHCTX "Software\Classes\Directory\shell\${KEY}"
 !macroend
 
+!macro WinlrtAllFilesVerb KEY LABEL CMD
+  WriteRegStr SHCTX "Software\Classes\*\shell\${KEY}" "" "${LABEL}"
+  WriteRegStr SHCTX "Software\Classes\*\shell\${KEY}" "Icon" "$INSTDIR\winlrtRAR.exe,0"
+  WriteRegStr SHCTX "Software\Classes\*\shell\${KEY}" "MultiSelectModel" "Document"
+  WriteRegStr SHCTX "Software\Classes\*\shell\${KEY}\command" "" "${CMD}"
+!macroend
+
+!macro WinlrtAllFilesVerbRemove KEY
+  DeleteRegKey SHCTX "Software\Classes\*\shell\${KEY}"
+!macroend
+
 !macro NSIS_HOOK_POSTINSTALL
   !insertmacro WinlrtArchiveVerb "zip"  "WinlrtOpen"         "winlrtRAR ile aç"        '"$INSTDIR\winlrtRAR.exe" "%1"'
   !insertmacro WinlrtArchiveVerb "zip"  "WinlrtExtractHere"  "winlrtRAR — buraya aç"   '"$INSTDIR\winlrtRAR.exe" --extract-here "%1"'
@@ -32,6 +43,8 @@
   !insertmacro WinlrtArchiveVerb "7z"   "WinlrtExtractHere"  "winlrtRAR — buraya aç"   '"$INSTDIR\winlrtRAR.exe" --extract-here "%1"'
   !insertmacro WinlrtDirectoryVerb "WinlrtCompress"      "winlrtRAR ile sıkıştır"  '"$INSTDIR\winlrtRAR.exe" --compress-folder "%1"'
   !insertmacro WinlrtDirectoryVerb "WinlrtCompressQuick" "winlrtRAR — hızlı .wlrt" '"$INSTDIR\winlrtRAR.exe" --compress-folder-quick "%1"'
+  !insertmacro WinlrtAllFilesVerb "WinlrtCompressSelection" "winlrtRAR — seçilenleri sıkıştır" '"$INSTDIR\winlrtRAR.exe" --compress-selection %*'
+  !insertmacro WinlrtAllFilesVerb "WinlrtCompressSelectionQuick" "winlrtRAR — seçilenler hızlı .wlrt" '"$INSTDIR\winlrtRAR.exe" --compress-selection-quick %*'
 !macroend
 
 !macro NSIS_HOOK_POSTUNINSTALL
@@ -45,4 +58,6 @@
   !insertmacro WinlrtArchiveVerbRemove "7z"   "WinlrtExtractHere"
   !insertmacro WinlrtDirectoryVerbRemove "WinlrtCompress"
   !insertmacro WinlrtDirectoryVerbRemove "WinlrtCompressQuick"
+  !insertmacro WinlrtAllFilesVerbRemove "WinlrtCompressSelection"
+  !insertmacro WinlrtAllFilesVerbRemove "WinlrtCompressSelectionQuick"
 !macroend

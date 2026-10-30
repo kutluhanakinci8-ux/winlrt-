@@ -17,6 +17,15 @@ Windows NSIS kurulumu sonrası **SystemFileAssociations** altına ek menüler ya
 Kaynak: `apps/winlrt-rar/src-tauri/windows/installer-hooks.nsh`  
 Yapılandırma: `tauri.conf.json` → `bundle.windows.nsis.installerHooks`
 
+## Çoklu dosya seçimi (`*`)
+
+| Menü | Komut |
+|------|--------|
+| winlrtRAR — seçilenleri sıkıştır | `winlrtRAR.exe --compress-selection %*` (UI: profil + kaydet) |
+| winlrtRAR — seçilenler hızlı .wlrt | `winlrtRAR.exe --compress-selection-quick %*` |
+
+`MultiSelectModel=Document` — WinRAR benzeri çoklu seçim.
+
 Kaldırma: Program kaldırıldığında `NSIS_HOOK_POSTUNINSTALL` anahtarları siler.
 
 Parolalı RAR/7z için Explorer menüsünden açma henüz parola sormaz; uygulama içinden parola girin.

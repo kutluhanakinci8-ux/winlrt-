@@ -76,6 +76,54 @@ pub fn create(
     Ok(())
 }
 
+/// Çoklu seçimde arşive girecek `(disk yolu, arşiv içi ad)` listesi.
+pub fn selection_file_list(sources: &[PathBuf]) -> Result<Vec<(PathBuf, String)>> {
+    collect_selection_files(sources)
+}
+
+/// Explorer çoklu seçim: dosya ve/veya klasörleri tek `.wlrt` içinde birleştirir.
+pub fn create_from_paths(
+    sources: &[PathBuf],
+    dest: &Path,
+    profile: CompressionProfile,
+    password: Option<&str>,
+) -> Result<()> {
+    if sources.is_empty() {
+        return Err(ArchiveError::Wlrt("sıkıştırılacak öğe yok".into()));
+    }
+    let encrypt = password.is_some_and(|p| !p.is_empty());
+    if encrypt {
+        let fb = crypto::evaluate_password(password.unwrap(), true);
+        if !fb.ok_for_create {
+            return Err(ArchiveError::Wlrt("parola çok kısa (min. 8)".into()));
+        }
+    }
+    let level = profile.zstd_level();
+    let files = collect_selection_files(sources)?;
+    let salt = if encrypt {
+        Some(random_salt())
+    } else {
+        None
+    };
+    let entries: Vec<EntryMeta> = files
+        .par_iter()
+        .map(|(path, rel)| compress_file(path, rel, level, password, salt.as_ref()))
+        .collect::<Result<Vec<_>>>()?;
+
+    let mut out = File::create(dest)?;
+    write_header(
+        &mut out,
+        entries.len() as u32,
+        if encrypt { VERSION_ENCRYPTED } else { VERSION },
+        salt.as_ref(),
+    )?;
+    for e in &entries {
+        write_entry(&mut out, e)?;
+    }
+    out.write_all(FOOTER)?;
+    Ok(())
+}
+
 pub fn extract(archive: &Path, dest: &Path, password: Option<&str>) -> Result<()> {
     let mut file = File::open(archive)?;
     let header = read_header(&mut file)?;
@@ -160,6 +208,60 @@ fn collect_files(source: &Path) -> Result<Vec<(PathBuf, String)>> {
         }
     }
     Ok(out)
+}
+
+fn collect_selection_files(sources: &[PathBuf]) -> Result<Vec<(PathBuf, String)>> {
+    let mut out = Vec::new();
+    for source in sources {
+        if !source.exists() {
+            return Err(ArchiveError::Io(std::io::Error::new(
+                std::io::ErrorKind::NotFound,
+                source.display().to_string(),
+            )));
+        }
+        let canonical = source.canonicalize()?;
+        if canonical.is_file() {
+            let name = canonical
+                .file_name()
+                .map(|s| s.to_string_lossy().into_owned())
+                .unwrap_or_else(|| "file".into());
+            let rel = uniquify_name(&out, &name);
+            out.push((canonical, rel));
+        } else {
+            for (path, rel) in collect_files(&canonical)? {
+                let entry = uniquify_name(&out, &rel);
+                out.push((path, entry));
+            }
+        }
+    }
+    if out.is_empty() {
+        return Err(ArchiveError::Wlrt("seçimde dosya yok".into()));
+    }
+    Ok(out)
+}
+
+fn uniquify_name(existing: &[(PathBuf, String)], rel: &str) -> String {
+    if !existing.iter().any(|(_, r)| r == rel) {
+        return rel.to_string();
+    }
+    let path = Path::new(rel);
+    let stem = path
+        .file_stem()
+        .map(|s| s.to_string_lossy().into_owned())
+        .unwrap_or_else(|| rel.into());
+    let ext = path.extension().map(|e| format!(".{}", e.to_string_lossy()));
+    let mut n = 2u32;
+    loop {
+        let candidate = if let Some(ref e) = ext {
+            format!("{stem}-{n}{e}")
+        } else {
+            format!("{stem}-{n}")
+        };
+        if !existing.iter().any(|(_, r)| r == &candidate) {
+            return candidate;
+        }
+        n += 1;
+    }
 }
 
 fn compress_file(

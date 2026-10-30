@@ -113,7 +113,6 @@ jobs:
         run: |
           set -euo pipefail
           KEY_FILE="${RUNNER_TEMP}/vps_deploy_key"
-          REPO_KEY="${GITHUB_WORKSPACE}/.github/deploy/winlrt-gha-deploy"
 
           key_ok() {
             [ -f "$1" ] && chmod 600 "$1" && ssh-keygen -y -f "$1" >/dev/null 2>&1
@@ -135,15 +134,7 @@ jobs:
           fi
 
           if [ -n "${RAW_KEY}" ] || [ -n "${B64_KEY}" ]; then
-            echo "::warning::GitHub VPS_SSH_KEY geçersiz (libcrypto); repodaki dev anahtar deneniyor (.github/deploy/)"
-          fi
-
-          if key_ok "${REPO_KEY}"; then
-            cp "${REPO_KEY}" "${KEY_FILE}"
-            chmod 600 "${KEY_FILE}"
-            echo "auth=key" >>"${GITHUB_OUTPUT}"
-            echo "key_file=${KEY_FILE}" >>"${GITHUB_OUTPUT}"
-            exit 0
+            echo "::warning::GitHub VPS_SSH_KEY / VPS_SSH_KEY_B64 geçersiz (libcrypto)"
           fi
 
           if [ -n "${VPS_PASSWORD}" ]; then

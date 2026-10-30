@@ -11,8 +11,8 @@ use winlrt_archive::crypto::{self, PasswordFeedback};
 use winlrt_archive::{rar, sevenz, volumes, wlrt, zip_io};
 
 use cli::{
-    compress_folder_quick, extract_here, is_archive_path, parse_startup_mode,
-    suggested_archive_path, StartupMode,
+    compress_folder_quick, compress_selection_quick, extract_here, is_archive_path,
+    parse_startup_mode, suggested_archive_path, suggested_selection_archive_path, StartupMode,
 };
 
 #[derive(Serialize)]
@@ -58,6 +58,12 @@ pub struct CompressFolderHint {
     pub suggested_output: String,
 }
 
+#[derive(Clone, Serialize)]
+pub struct CompressSelectionHint {
+    pub sources: Vec<String>,
+    pub suggested_output: String,
+}
+
 fn emit_startup_events(app: &AppHandle) {
     match parse_startup_mode() {
         StartupMode::OpenArchive(path) => {
@@ -74,7 +80,20 @@ fn emit_startup_events(app: &AppHandle) {
                 );
             }
         }
-        StartupMode::ExtractHere(_) | StartupMode::CompressFolderQuick(_) => {}
+        StartupMode::CompressSelection(sources) => {
+            if let Ok(suggested) = suggested_selection_archive_path(&sources, "wlrt") {
+                let _ = app.emit(
+                    "compress-selection",
+                    CompressSelectionHint {
+                        sources: sources.clone(),
+                        suggested_output: suggested,
+                    },
+                );
+            }
+        }
+        StartupMode::ExtractHere(_)
+        | StartupMode::CompressFolderQuick(_)
+        | StartupMode::CompressSelectionQuick(_) => {}
         StartupMode::Normal => {
             for arg in std::env::args().skip(1) {
                 if is_archive_path(&arg) && Path::new(&arg).is_file() {
@@ -108,6 +127,20 @@ fn startup_compress_folder() -> Option<CompressFolderHint> {
 }
 
 #[tauri::command]
+fn startup_compress_selection() -> Option<CompressSelectionHint> {
+    match parse_startup_mode() {
+        StartupMode::CompressSelection(sources) => {
+            let suggested_output = suggested_selection_archive_path(&sources, "wlrt").ok()?;
+            Some(CompressSelectionHint {
+                sources,
+                suggested_output,
+            })
+        }
+        _ => None,
+    }
+}
+
+#[tauri::command]
 fn engine_info() -> EngineInfo {
     EngineInfo {
         product: "winlrtRAR",
@@ -122,7 +155,7 @@ fn platform_info() -> PlatformInfo {
     PlatformInfo {
         os: std::env::consts::OS.into(),
         explorer_context_menu: if cfg!(target_os = "windows") {
-            "NSIS: arşiv aç/buraya aç + klasör sıkıştır / hızlı .wlrt"
+            "NSIS: arşiv aç/buraya aç · klasör/çoklu seçim sıkıştır · hızlı .wlrt"
         } else {
             "Yalnızca Windows kurulumunda"
         },
@@ -273,6 +306,34 @@ fn create_archive(
     })
 }
 
+#[tauri::command]
+fn create_archive_from_paths(
+    sources: Vec<String>,
+    dest: String,
+    format: String,
+    profile: String,
+    password: Option<String>,
+) -> Result<ActionResult, String> {
+    if sources.is_empty() {
+        return Err("Seçim boş".into());
+    }
+    let paths: Vec<std::path::PathBuf> = sources.iter().map(std::path::PathBuf::from).collect();
+    let dest = std::path::PathBuf::from(&dest);
+    let profile = parse_profile(&profile)?;
+    let pw = password.as_deref();
+    match format.as_str() {
+        "zip" => zip_io::create_from_paths(&paths, &dest, profile, pw).map_err(|e| e.to_string())?,
+        "wlrt" => wlrt::create_from_paths(&paths, &dest, profile, pw).map_err(|e| e.to_string())?,
+        "rar" => return Err("RAR yazma desteklenmiyor".into()),
+        "7z" => return Err("7z yazma henüz desteklenmiyor".into()),
+        _ => return Err("Desteklenmeyen format".into()),
+    }
+    Ok(ActionResult {
+        ok: true,
+        message: format!("Oluşturuldu ({} öğe): {}", sources.len(), dest.display()),
+    })
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -299,6 +360,16 @@ pub fn run() {
                         }
                     }
                 }
+                StartupMode::CompressSelectionQuick(paths) => {
+                    match compress_selection_quick(&paths) {
+                        Ok(res) => {
+                            let _ = handle.emit("cli-action-done", res.message);
+                        }
+                        Err(err) => {
+                            let _ = handle.emit("cli-action-error", err);
+                        }
+                    }
+                }
                 _ => {}
             }
             Ok(())
@@ -309,13 +380,15 @@ pub fn run() {
             open_windows_default_apps,
             startup_archives,
             startup_compress_folder,
+            startup_compress_selection,
             evaluate_password,
             inspect_archive,
             repair_archive,
             list_archive,
             test_archive,
             extract_archive,
-            create_archive
+            create_archive,
+            create_archive_from_paths
         ])
         .build(tauri::generate_context!())
         .expect("winlrtRAR build hatası")

@@ -42,6 +42,11 @@ interface CompressFolderHint {
   suggested_output: string;
 }
 
+interface CompressSelectionHint {
+  sources: string[];
+  suggested_output: string;
+}
+
 interface PasswordFeedback {
   length: number;
   strength: string;
@@ -82,6 +87,7 @@ function App() {
   const [archivePath, setArchivePath] = useState("");
   const [extractDir, setExtractDir] = useState("");
   const [createSource, setCreateSource] = useState("");
+  const [createSelection, setCreateSelection] = useState<string[]>([]);
   const [createOutput, setCreateOutput] = useState("");
   const [openPassword, setOpenPassword] = useState("");
   const [createPassword, setCreatePassword] = useState("");
@@ -124,12 +130,25 @@ function App() {
   }, []);
 
   const applyCompressFolder = useCallback((hint: CompressFolderHint) => {
+    setCreateSelection([]);
     setCreateSource(hint.folder);
     setCreateOutput(hint.suggested_output);
     setFormat("wlrt");
     setTab("archive");
     setStatus(
       "Klasör sıkıştırma hazır: profili seçin, gerekirse Kaydet… ile yolu değiştirin, Oluştur.",
+    );
+    setTransitionStep((s) => Math.max(s, 4));
+  }, []);
+
+  const applyCompressSelection = useCallback((hint: CompressSelectionHint) => {
+    setCreateSelection(hint.sources);
+    setCreateSource(hint.sources[0] ?? "");
+    setCreateOutput(hint.suggested_output);
+    setFormat("wlrt");
+    setTab("archive");
+    setStatus(
+      `${hint.sources.length} öğe seçildi — profili seçin, gerekirse Kaydet… ile yolu değiştirin, Oluştur.`,
     );
     setTransitionStep((s) => Math.max(s, 4));
   }, []);
@@ -155,6 +174,12 @@ function App() {
     invoke<CompressFolderHint | null>("startup_compress_folder")
       .then((hint) => {
         if (hint) applyCompressFolder(hint);
+      })
+      .catch(() => undefined);
+
+    invoke<CompressSelectionHint | null>("startup_compress_selection")
+      .then((hint) => {
+        if (hint) applyCompressSelection(hint);
       })
       .catch(() => undefined);
 
@@ -187,13 +212,21 @@ function App() {
       },
     );
 
+    const unlistenSelection = listen<CompressSelectionHint>(
+      "compress-selection",
+      (event) => {
+        if (event.payload) applyCompressSelection(event.payload);
+      },
+    );
+
     return () => {
       unlistenOpen.then((un) => un()).catch(() => undefined);
       unlistenDone.then((un) => un()).catch(() => undefined);
       unlistenErr.then((un) => un()).catch(() => undefined);
       unlistenCompress.then((un) => un()).catch(() => undefined);
+      unlistenSelection.then((un) => un()).catch(() => undefined);
     };
-  }, [applyArchivePath, applyCompressFolder]);
+  }, [applyArchivePath, applyCompressFolder, applyCompressSelection]);
 
   useEffect(() => {
     if (!encryptCreate || !createPassword) {
@@ -268,6 +301,7 @@ function App() {
   async function pickCreateSource() {
     const selected = await open({ directory: true, multiple: false });
     if (selected && typeof selected === "string") {
+      setCreateSelection([]);
       setCreateSource(selected);
     }
   }
@@ -387,8 +421,8 @@ function App() {
     setError("");
     setStatus("");
     const createFormat = CREATE_FORMATS.includes(format) ? format : "zip";
-    if (!createSource) {
-      setError("Kaynak klasör seçin.");
+    if (!createSource && createSelection.length === 0) {
+      setError("Kaynak klasör veya Explorer seçimi gerekli.");
       return;
     }
     if (!createOutput) {
@@ -407,13 +441,22 @@ function App() {
     }
     const jobId = pushJob(`Oluştur: ${createOutput.split(/[/\\]/).pop()}`);
     try {
-      const res = await invoke<{ message: string }>("create_archive", {
-        source: createSource,
-        dest: createOutput,
-        format: createFormat,
-        profile,
-        password: encryptCreate ? createPassword : null,
-      });
+      const res =
+        createSelection.length > 0
+          ? await invoke<{ message: string }>("create_archive_from_paths", {
+              sources: createSelection,
+              dest: createOutput,
+              format: createFormat,
+              profile,
+              password: encryptCreate ? createPassword : null,
+            })
+          : await invoke<{ message: string }>("create_archive", {
+              source: createSource,
+              dest: createOutput,
+              format: createFormat,
+              profile,
+              password: encryptCreate ? createPassword : null,
+            });
       setStatus(res.message);
       finishJob(jobId, true);
     } catch (e) {
@@ -440,7 +483,7 @@ function App() {
     "Kurulumu tamamlayın; Explorer’da arşive sağ tık → winlrtRAR menüleri görünür.",
     "Varsayılan uygulama: ZIP/RAR için winlrtRAR’ı seçin (isteğe bağlı).",
     "Çift tık veya «buraya aç» ile günlük iş akışını test edin.",
-    "Klasöre sağ tık → winlrtRAR ile sıkıştır veya hızlı .wlrt.",
+    "Klasöre sağ tık → sıkıştır / hızlı .wlrt; çoklu dosyada «seçilenleri sıkıştır».",
   ];
 
   return (
@@ -654,7 +697,15 @@ function App() {
             Oluştur
           </button>
         </div>
-        {createSource && <p className="path">Kaynak: {createSource}</p>}
+        {createSelection.length > 1 && (
+          <p className="path">
+            Explorer seçimi: {createSelection.length} öğe (ilk:{" "}
+            {createSelection[0]?.split(/[/\\]/).pop()})
+          </p>
+        )}
+        {createSource && createSelection.length <= 1 && (
+          <p className="path">Kaynak: {createSource}</p>
+        )}
         {createOutput && <p className="path">Çıktı: {createOutput}</p>}
 
         {status && <p className="status ok">{status}</p>}
