@@ -12,4 +12,4 @@ Agent otomasyon: Explorer+corporate signoff (artifact SHA256 c65bf2f61ac80918…
 - Kurumsal: PASS ([KURUMSAL_PILOT_SIGNOFF.md](./KURUMSAL_PILOT_SIGNOFF.md))
 - İmza/KPI: [DALGA4_V1_OTURUM.md](./DALGA4_V1_OTURUM.md)
 
-Tag oluşturma: onay sonrası `git tag v1.0.0-rc1` + GitHub Release + vitrin duyurusu.
+**Tag push:** `v1.0.0-rc1` (git, agent). Resmi `v1.0.0` + imzalı kurulum → `TAURI_SIGNING_*` secret sonrası.
