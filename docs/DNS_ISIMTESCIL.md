@@ -61,6 +61,8 @@ nslookup srv.winlrt.com.tr
 
 İkisi de **37.230.105.99** göstermeli.
 
+SSL sonrası nginx `server_name` hem kök hem **www** içermeli; yoksa certbot `www` için hata verir.
+
 SSH (sonraki adım, DNS değil):
 
 ```bash

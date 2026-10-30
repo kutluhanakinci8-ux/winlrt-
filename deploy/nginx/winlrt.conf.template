@@ -4,7 +4,7 @@
 server {
     listen 80;
     listen [::]:80;
-    server_name __WINLRT_DOMAIN__;
+    server_name __WINLRT_DOMAIN__ www.__WINLRT_DOMAIN__;
 
     root __WINLRT_WEB_ROOT__;
     index index.html;
