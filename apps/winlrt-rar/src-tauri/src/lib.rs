@@ -9,7 +9,10 @@ use tauri_plugin_opener::OpenerExt;
 use winlrt_archive::profile::CompressionProfile;
 use winlrt_archive::{rar, sevenz, wlrt, zip_io};
 
-use cli::{extract_here, is_archive_path, parse_startup_mode, StartupMode};
+use cli::{
+    compress_folder_quick, extract_here, is_archive_path, parse_startup_mode,
+    suggested_archive_path, StartupMode,
+};
 
 #[derive(Serialize)]
 pub struct ListResult {
@@ -47,12 +50,29 @@ fn parse_profile(profile: &str) -> Result<CompressionProfile, String> {
     }
 }
 
-fn emit_startup_archives(app: &AppHandle) {
+#[derive(Clone, Serialize)]
+pub struct CompressFolderHint {
+    pub folder: String,
+    pub suggested_output: String,
+}
+
+fn emit_startup_events(app: &AppHandle) {
     match parse_startup_mode() {
         StartupMode::OpenArchive(path) => {
             let _ = app.emit("open-archive", path);
         }
-        StartupMode::ExtractHere(_) => {}
+        StartupMode::CompressFolder(folder) => {
+            if let Ok(suggested) = suggested_archive_path(&folder, "wlrt") {
+                let _ = app.emit(
+                    "compress-folder",
+                    CompressFolderHint {
+                        folder: folder.clone(),
+                        suggested_output: suggested,
+                    },
+                );
+            }
+        }
+        StartupMode::ExtractHere(_) | StartupMode::CompressFolderQuick(_) => {}
         StartupMode::Normal => {
             for arg in std::env::args().skip(1) {
                 if is_archive_path(&arg) && Path::new(&arg).is_file() {
@@ -72,6 +92,20 @@ fn startup_archives() -> Vec<String> {
 }
 
 #[tauri::command]
+fn startup_compress_folder() -> Option<CompressFolderHint> {
+    match parse_startup_mode() {
+        StartupMode::CompressFolder(folder) => {
+            let suggested_output = suggested_archive_path(&folder, "wlrt").ok()?;
+            Some(CompressFolderHint {
+                folder,
+                suggested_output,
+            })
+        }
+        _ => None,
+    }
+}
+
+#[tauri::command]
 fn engine_info() -> EngineInfo {
     EngineInfo {
         product: "winlrtRAR",
@@ -85,7 +119,7 @@ fn platform_info() -> PlatformInfo {
     PlatformInfo {
         os: std::env::consts::OS.into(),
         explorer_context_menu: if cfg!(target_os = "windows") {
-            "NSIS kurulum: zip/rar/7z/wlrt sağ tık menüsü"
+            "NSIS: arşiv aç/buraya aç + klasör sıkıştır / hızlı .wlrt"
         } else {
             "Yalnızca Windows kurulumunda"
         },
@@ -203,16 +237,27 @@ pub fn run() {
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
         .setup(|app| {
-            if let StartupMode::ExtractHere(path) = parse_startup_mode() {
-                let handle = app.handle().clone();
-                match extract_here(&path) {
+            let handle = app.handle().clone();
+            match parse_startup_mode() {
+                StartupMode::ExtractHere(path) => match extract_here(&path) {
                     Ok(res) => {
                         let _ = handle.emit("cli-action-done", res.message);
                     }
                     Err(err) => {
                         let _ = handle.emit("cli-action-error", err);
                     }
+                },
+                StartupMode::CompressFolderQuick(folder) => {
+                    match compress_folder_quick(&folder) {
+                        Ok(res) => {
+                            let _ = handle.emit("cli-action-done", res.message);
+                        }
+                        Err(err) => {
+                            let _ = handle.emit("cli-action-error", err);
+                        }
+                    }
                 }
+                _ => {}
             }
             Ok(())
         })
@@ -221,6 +266,7 @@ pub fn run() {
             platform_info,
             open_windows_default_apps,
             startup_archives,
+            startup_compress_folder,
             list_archive,
             test_archive,
             extract_archive,
@@ -230,7 +276,7 @@ pub fn run() {
         .expect("winlrtRAR build hatası")
         .run(|app, event| {
             if let RunEvent::Ready = event {
-                emit_startup_archives(app);
+                emit_startup_events(app);
             }
         });
 }

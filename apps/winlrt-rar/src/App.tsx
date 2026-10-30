@@ -32,6 +32,11 @@ interface PlatformInfo {
   explorer_context_menu: string;
 }
 
+interface CompressFolderHint {
+  folder: string;
+  suggested_output: string;
+}
+
 type AppTab = "archive" | "transition";
 
 const CREATE_FORMATS: Format[] = ["zip", "wlrt"];
@@ -88,6 +93,17 @@ function App() {
     setEntries([]);
   }, []);
 
+  const applyCompressFolder = useCallback((hint: CompressFolderHint) => {
+    setCreateSource(hint.folder);
+    setCreateOutput(hint.suggested_output);
+    setFormat("wlrt");
+    setTab("archive");
+    setStatus(
+      "Klasör sıkıştırma hazır: profili seçin, gerekirse Kaydet… ile yolu değiştirin, Oluştur.",
+    );
+    setTransitionStep((s) => Math.max(s, 4));
+  }, []);
+
   useEffect(() => {
     invoke<EngineInfo>("engine_info")
       .then(setInfo)
@@ -103,6 +119,12 @@ function App() {
           applyArchivePath(paths[0]);
           setStatus("Arşiv çift tık / komut satırı ile açıldı.");
         }
+      })
+      .catch(() => undefined);
+
+    invoke<CompressFolderHint | null>("startup_compress_folder")
+      .then((hint) => {
+        if (hint) applyCompressFolder(hint);
       })
       .catch(() => undefined);
 
@@ -128,12 +150,20 @@ function App() {
       }
     });
 
+    const unlistenCompress = listen<CompressFolderHint>(
+      "compress-folder",
+      (event) => {
+        if (event.payload) applyCompressFolder(event.payload);
+      },
+    );
+
     return () => {
       unlistenOpen.then((un) => un()).catch(() => undefined);
       unlistenDone.then((un) => un()).catch(() => undefined);
       unlistenErr.then((un) => un()).catch(() => undefined);
+      unlistenCompress.then((un) => un()).catch(() => undefined);
     };
-  }, [applyArchivePath]);
+  }, [applyArchivePath, applyCompressFolder]);
 
   useEffect(() => {
     let unlisten: (() => void) | undefined;
@@ -317,7 +347,7 @@ function App() {
     "Kurulumu tamamlayın; Explorer’da arşive sağ tık → winlrtRAR menüleri görünür.",
     "Varsayılan uygulama: ZIP/RAR için winlrtRAR’ı seçin (isteğe bağlı).",
     "Çift tık veya «buraya aç» ile günlük iş akışını test edin.",
-    "Yeni arşivler: ZIP veya .wlrt oluşturun (profil + Kaydet).",
+    "Klasöre sağ tık → winlrtRAR ile sıkıştır veya hızlı .wlrt.",
   ];
 
   return (
