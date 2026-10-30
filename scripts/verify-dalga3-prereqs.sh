@@ -10,6 +10,7 @@ for f in \
   scripts/windows/apply-corporate-sample.ps1 \
   deploy/gpo/README.md \
   scripts/package-corporate-gpo-zip.sh \
+  scripts/windows/pilot-dalga3-start.ps1 \
   docs/qa/DALGA3_KURUMSAL_KOPYA.md \
   docs/qa/KURUMSAL_PILOT_SIGNOFF.md \
   docs/qa/FAZ5_KURUMSAL_BASLANGIC.md
