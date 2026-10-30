@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://winlrt.lerta.com.tr/sitemap.xml
+Sitemap: https://winlrt.com.tr/sitemap.xml

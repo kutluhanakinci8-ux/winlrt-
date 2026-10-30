@@ -2,7 +2,7 @@
 # Turhost Ubuntu — ilk kurulum (root veya sudo). DNS A kaydı sunucuya işaret etmeli.
 set -euo pipefail
 
-DOMAIN="${WINLRT_DOMAIN:-winlrt.lerta.com.tr}"
+DOMAIN="${WINLRT_DOMAIN:-winlrt.com.tr}"
 WEB_ROOT="${WINLRT_WEB_ROOT:-/var/www/winlrt/apps/web/dist}"
 REPO_URL="${WINLRT_REPO:-git@github.com:kutluhanakinci8-ux/winlrt-.git}"
 APP_DIR="${WINLRT_APP_DIR:-/var/www/winlrt}"

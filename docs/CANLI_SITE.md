@@ -1,16 +1,18 @@
 # Canlı site — winlrt vitrin (Turhost VPS)
 
-Hedef: **https://winlrt.lerta.com.tr** (veya seçtiğiniz alt alan adı) üzerinde statik vitrin.
+Hedef: **https://winlrt.com.tr** üzerinde statik vitrin (Turhost VPS **37.230.105.99**, SSH port **23422**).
+
+**isimtescil adım adım:** [DNS_ISIMTESCIL.md](./DNS_ISIMTESCIL.md)
 
 ## Kontrol listesi
 
 | # | Adım | Kim | Durum |
 |---|------|-----|--------|
 | 1 | Turhost VPS **Aktif** + public IP | Siz | ☐ |
-| 2 | DNS **A** kaydı → VPS IP (`winlrt.lerta.com.tr`) | Siz / domain panel | ☐ |
+| 2 | DNS: kök **A** → `37.230.105.99` (+ isteğe `srv`) | isimtescil | ☐ |
 | 3 | `main` dalında CI + deploy workflow’ları | GitHub merge | ☐ |
 | 4 | VPS bootstrap (`deploy/scripts/vps-bootstrap.sh`) | SSH ile sunucu | ☐ |
-| 5 | `certbot --nginx -d winlrt.lerta.com.tr` | SSH | ☐ |
+| 5 | `certbot --nginx -d winlrt.com.tr -d www.winlrt.com.tr` | SSH `-p 23422` | ☐ |
 | 6 | GitHub Actions **Secrets** + deploy anahtarı | GitHub repo ayarları | ☐ |
 | 7 | İlk deploy (manuel workflow veya push) | GitHub Actions | ☐ |
 | 8 | Tarayıcıda ana sayfa + `/downloads/` test | Siz | ☐ |
@@ -19,18 +21,7 @@ Hedef: **https://winlrt.lerta.com.tr** (veya seçtiğiniz alt alan adı) üzerin
 
 ## 1. DNS
 
-Domain yönetim panelinde:
-
-- **Tip:** A  
-- **Ad:** `winlrt` (veya tam host adınız)  
-- **Değer:** Turhost VPS IP  
-- TTL: 300–3600 (propagasyon 5–60 dk sürebilir)
-
-Doğrulama (kendi bilgisayarınızda):
-
-```bash
-dig +short winlrt.lerta.com.tr A
-```
+Bkz. **[DNS_ISIMTESCIL.md](./DNS_ISIMTESCIL.md)** — özet: kök `winlrt.com.tr` A kaydını **37.230.105.99** yapın; `srv` yoksa A `srv` → aynı IP.
 
 ---
 
@@ -55,7 +46,7 @@ git clone https://github.com/kutluhanakinci8-ux/winlrt-.git /tmp/winlrt-setup
 cd /tmp/winlrt-setup
 chmod +x deploy/scripts/*.sh
 
-export WINLRT_DOMAIN=winlrt.lerta.com.tr
+export WINLRT_DOMAIN=winlrt.com.tr
 # İsteğe bağlı: deploy kullanıcısı ile clone için deploy key ekleyin
 bash deploy/scripts/vps-bootstrap.sh
 ```
@@ -72,7 +63,7 @@ Script: paketler, `git clone` → `/var/www/winlrt`, `npm ci && npm run build:we
 DNS sunucuya işaret ettikten sonra:
 
 ```bash
-certbot --nginx -d winlrt.lerta.com.tr
+certbot --nginx -d winlrt.com.tr -d www.winlrt.com.tr
 ```
 
 Yenileme: certbot timer (paket kurulumunda gelir).
@@ -114,7 +105,8 @@ Private key dosyasının **tam içeriği** → GitHub **Settings → Secrets →
 
 | Secret | Değer |
 |--------|--------|
-| `VPS_HOST` | VPS IP veya `winlrt.lerta.com.tr` |
+| `VPS_HOST` | `37.230.105.99` veya `srv.winlrt.com.tr` |
+| `VPS_PORT` | `23422` |
 | `VPS_USER` | `winlrtdeploy` |
 | `VPS_SSH_KEY` | `winlrt-gha-deploy` private key (PEM) |
 | `VPS_WEB_ROOT` | `/var/www/winlrt/apps/web/dist` |
@@ -145,7 +137,7 @@ Reload adımını atlamak isterseniz workflow’daki “Reload nginx” adımın
 
 1. GitHub → **Actions** → **Deploy vitrin to VPS** → **Run workflow** (branch: `main`)
 2. Log’da SCP ve (varsa) nginx reload başarılı mı bakın
-3. https://winlrt.lerta.com.tr açın
+3. https://winlrt.com.tr açın
 
 ---
 

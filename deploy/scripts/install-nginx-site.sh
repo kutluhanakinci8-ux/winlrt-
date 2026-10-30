@@ -2,7 +2,7 @@
 # nginx site config — repo kökünden veya /var/www/winlrt içinden çalıştırın.
 set -euo pipefail
 
-DOMAIN="${WINLRT_DOMAIN:-winlrt.lerta.com.tr}"
+DOMAIN="${WINLRT_DOMAIN:-winlrt.com.tr}"
 WEB_ROOT="${WINLRT_WEB_ROOT:-/var/www/winlrt/apps/web/dist}"
 REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 TEMPLATE="${REPO_ROOT}/deploy/nginx/winlrt.conf.template"

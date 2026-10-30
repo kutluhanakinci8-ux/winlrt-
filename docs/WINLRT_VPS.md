@@ -6,7 +6,7 @@ Sunucu panelde **Aktif** + IP geldikten sonra.
 
 ## DNS
 
-`winlrt.lerta.com.tr` (veya `get.lerta.com.tr`) → **A** → Turhost IP
+`winlrt.com.tr` → **A** → `37.230.105.99` (Turhost VPS) · isteğe bağlı `srv` → aynı IP
 
 ## İlk kurulum (Ubuntu)
 
@@ -28,7 +28,7 @@ cd /var/www/winlrt && npm install && npm run build:web
 nginx `root` → `/var/www/winlrt/apps/web/dist`
 
 ```bash
-certbot --nginx -d winlrt.lerta.com.tr
+certbot --nginx -d winlrt.com.tr -d www.winlrt.com.tr
 ```
 
 ## GitHub Actions
