@@ -172,7 +172,7 @@ Taslak: [WINLRTRAR_FAZ3_TRANSITION.md](./WINLRTRAR_FAZ3_TRANSITION.md)
 - [x] GPO kayıt defteri iskeleti + audit mirror
 - [x] Tam WinRAR menü parity (karma klasör seçimi, ADMX) — beta: ilk seçim klasörü/adı, `deploy/gpo/*.admx`
 - [x] Parola + şifreleme UI (beta: ZIP ZipCrypto, .wlrt v1 AES-GCM)
-- [ ] Argon2id + AES-ZIP (WinZip AE-2) — kurumsal kapı
+- [x] Argon2id + AES-ZIP (WinZip AE-2) — kurumsal kapı (`RequireModernCrypto` / GPO)
 - [x] Çok ciltli RAR (ilk cilt çözümleme) + onarım (UnRAR `r`, beta)
 - [x] Benchmark vitrin özeti (`/benchmark/`, CI artifact)
 - [x] Resmi Windows rakip benchmark CI (7-Zip + markdown artifact)

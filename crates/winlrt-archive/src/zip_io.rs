@@ -88,7 +88,10 @@ pub fn create_with_profile(
     if password.is_some_and(|p| !p.is_empty()) {
         let fb = crypto::evaluate_password(password.unwrap(), true);
         if !fb.ok_for_create {
-            return Err(ArchiveError::Zip("parola çok kısa (min. 8)".into()));
+            return Err(ArchiveError::Zip("parola politikası karşılanmıyor".into()));
+        }
+        if crate::enterprise::modern_crypto_gate_active() {
+            // Yalnızca AES-256 (WinZip AE-2) yolu kullanılır; ZipCrypto desteklenmez.
         }
     }
     let out = File::create(dest)?;

@@ -46,6 +46,62 @@ fn env_flag(name: &str) -> bool {
         .unwrap_or(false)
 }
 
+fn is_bench_nested_archive(path: &Path) -> bool {
+    path.extension()
+        .and_then(|e| e.to_str())
+        .map(|e| {
+            matches!(
+                e.to_ascii_lowercase().as_str(),
+                "rar" | "zip" | "7z" | "wlrt" | "gz" | "bz2" | "xz" | "cab"
+            )
+        })
+        .unwrap_or(false)
+}
+
+/// KPI: yalnızca «sıkıştırılacak kullanıcı dosyaları»; fixture içindeki hazır arşivler hariç.
+fn prepare_bench_input(fixture: &Path, work: &Path) -> Result<PathBuf> {
+    let input_root = work.join("input");
+    let _ = std::fs::remove_dir_all(&input_root);
+    if fixture.is_file() {
+        if is_bench_nested_archive(fixture) {
+            return Err(crate::ArchiveError::Zip(
+                "benchmark: tek dosya arşiv fixture desteklenmiyor".into(),
+            ));
+        }
+        std::fs::create_dir_all(&input_root)?;
+        let name = fixture.file_name().ok_or_else(|| {
+            crate::ArchiveError::Zip("benchmark: geçersiz dosya adı".into())
+        })?;
+        std::fs::copy(fixture, input_root.join(name))?;
+        return Ok(input_root);
+    }
+    copy_bench_tree(fixture, &input_root)?;
+    Ok(input_root)
+}
+
+fn copy_bench_tree(from: &Path, to: &Path) -> Result<()> {
+    for entry in walkdir::WalkDir::new(from)
+        .into_iter()
+        .filter_map(|e| e.ok())
+    {
+        let path = entry.path();
+        let rel = path.strip_prefix(from).unwrap_or(path);
+        if path.is_dir() {
+            std::fs::create_dir_all(to.join(rel))?;
+        } else if path.is_file() {
+            if is_bench_nested_archive(path) {
+                continue;
+            }
+            let dest = to.join(rel);
+            if let Some(parent) = dest.parent() {
+                std::fs::create_dir_all(parent)?;
+            }
+            std::fs::copy(path, dest)?;
+        }
+    }
+    Ok(())
+}
+
 pub fn run(fixture: &Path, profile: CompressionProfile) -> Result<BenchReport> {
     let fixture = fixture.canonicalize()?;
     let work = std::env::temp_dir().join(format!(
@@ -55,19 +111,20 @@ pub fn run(fixture: &Path, profile: CompressionProfile) -> Result<BenchReport> {
     let _ = std::fs::remove_dir_all(&work);
     std::fs::create_dir_all(&work)?;
 
+    let input = prepare_bench_input(&fixture, &work)?;
     let zip_path = work.join("out.zip");
     let wlrt_path = work.join("out.wlrt");
     let zip_out = work.join("zip_extract");
     let wlrt_out = work.join("wlrt_extract");
 
-    let raw_bytes = dir_size(&fixture)?;
+    let raw_bytes = dir_size(&input)?;
 
     let t0 = Instant::now();
-    zip_io::create_with_profile(&fixture, &zip_path, profile, None)?;
+    zip_io::create_with_profile(&input, &zip_path, profile, None)?;
     let zip_create_ms = t0.elapsed().as_millis();
 
     let t1 = Instant::now();
-    wlrt::create(&fixture, &wlrt_path, profile, None)?;
+    wlrt::create(&input, &wlrt_path, profile, None)?;
     let wlrt_create_ms = t1.elapsed().as_millis();
 
     let zip_bytes = std::fs::metadata(&zip_path)?.len();
@@ -87,7 +144,7 @@ pub fn run(fixture: &Path, profile: CompressionProfile) -> Result<BenchReport> {
     let mut seven_zip_bytes = None;
     let mut seven_zip_extract_ms = None;
     if include_7zip_bench() {
-        if let Ok(m) = bench_7zip_zip(&fixture, &work, profile) {
+        if let Ok(m) = bench_7zip_zip(&input, &work, profile) {
             seven_zip_create_ms = Some(m.create_ms);
             seven_zip_bytes = Some(m.bytes);
             seven_zip_extract_ms = Some(m.extract_ms);
@@ -98,7 +155,7 @@ pub fn run(fixture: &Path, profile: CompressionProfile) -> Result<BenchReport> {
     let mut winrar_bytes = None;
     let mut winrar_extract_ms = None;
     if include_winrar_bench() {
-        if let Ok(m) = bench_winrar_zip(&fixture, &work, profile) {
+        if let Ok(m) = bench_winrar_zip(&input, &work, profile) {
             winrar_create_ms = Some(m.create_ms);
             winrar_bytes = Some(m.bytes);
             winrar_extract_ms = Some(m.extract_ms);

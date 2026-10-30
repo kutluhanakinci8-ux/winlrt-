@@ -513,6 +513,7 @@ pub struct EnterprisePolicyInfo {
     pub active_policy_id: String,
     pub audit_mirror: Option<String>,
     pub audit_forward_url: Option<String>,
+    pub require_modern_crypto: bool,
 }
 
 #[tauri::command]
@@ -531,6 +532,7 @@ fn enterprise_policy_info() -> EnterprisePolicyInfo {
         active_policy_id: active.id.into(),
         audit_mirror: enterprise::audit_mirror_path().map(|p| p.to_string_lossy().into_owned()),
         audit_forward_url: enterprise::audit_forward_url(),
+        require_modern_crypto: enterprise::require_modern_crypto_enabled(),
     }
 }
 

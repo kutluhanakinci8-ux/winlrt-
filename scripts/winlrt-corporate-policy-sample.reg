@@ -7,3 +7,4 @@ Windows Registry Editor Version 5.00
 "PasswordPolicy"="corporate"
 "AuditMirrorPath"="\\\\FILESERVER\\share\\winlrt-audit\\audit.jsonl"
 "AuditForwardUrl"=""
+"RequireModernCrypto"=dword:00000001

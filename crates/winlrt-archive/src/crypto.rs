@@ -87,7 +87,12 @@ pub fn decrypt_blob(
 }
 
 pub fn evaluate_password(password: &str, for_create: bool) -> PasswordFeedback {
-    evaluate_password_with_policy(password, for_create, password_policy::active_policy())
+    let policy = if for_create && crate::enterprise::modern_crypto_gate_active() {
+        password_policy::policy_for_secure_create()
+    } else {
+        password_policy::active_policy()
+    };
+    evaluate_password_with_policy(password, for_create, policy)
 }
 
 pub fn evaluate_password_with_policy(

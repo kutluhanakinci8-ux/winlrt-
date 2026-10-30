@@ -58,6 +58,26 @@
         <text id="AuditForwardUrl" valueName="AuditForwardUrl" required="false" maxLength="512" />
       </elements>
     </policy>
+    <policy
+      name="RequireModernCrypto"
+      class="Both"
+      displayName="$(string.RequireModernCrypto)"
+      explainText="$(string.RequireModernCrypto_Help)"
+      key="Software\winlrt\winlrtRAR"
+      presentation="$(presentation.RequireModernCrypto)">
+      <parentCategory ref="winlrtRAR" />
+      <supportedOn ref="SUPPORTED_Windows10_AndLater" />
+      <elements>
+        <boolean id="RequireModernCrypto" valueName="RequireModernCrypto">
+          <trueValue>
+            <decimal value="1" />
+          </trueValue>
+          <falseValue>
+            <decimal value="0" />
+          </falseValue>
+        </boolean>
+      </elements>
+    </policy>
   </policies>
   <presentationDefinitions>
     <presentation id="PasswordPolicy">
@@ -74,6 +94,9 @@
       <textBox refId="AuditForwardUrl">
         <label>$(string.AuditForwardUrl_Label)</label>
       </textBox>
+    </presentation>
+    <presentation id="RequireModernCrypto">
+      <checkBox refId="RequireModernCrypto">$(string.RequireModernCrypto_Label)</checkBox>
     </presentation>
   </presentationDefinitions>
 </policyDefinitions>

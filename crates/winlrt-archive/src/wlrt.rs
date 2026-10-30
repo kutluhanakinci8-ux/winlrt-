@@ -55,7 +55,14 @@ pub fn create(
     if encrypt {
         let fb = crypto::evaluate_password(password.unwrap(), true);
         if !fb.ok_for_create {
-            return Err(ArchiveError::Wlrt("parola çok kısa (min. 8)".into()));
+            return Err(ArchiveError::Wlrt("parola politikası karşılanmıyor".into()));
+        }
+        if crate::enterprise::modern_crypto_gate_active()
+            && encrypted_wlrt_version() != crypto::WLRT_KDF_ARGON2ID_V2
+        {
+            return Err(ArchiveError::Wlrt(
+                "kurumsal kapı: .wlrt v2 (Argon2id) gerekli".into(),
+            ));
         }
     }
     let level = profile.zstd_level();
@@ -117,7 +124,14 @@ pub fn create_from_paths(
     if encrypt {
         let fb = crypto::evaluate_password(password.unwrap(), true);
         if !fb.ok_for_create {
-            return Err(ArchiveError::Wlrt("parola çok kısa (min. 8)".into()));
+            return Err(ArchiveError::Wlrt("parola politikası karşılanmıyor".into()));
+        }
+        if crate::enterprise::modern_crypto_gate_active()
+            && encrypted_wlrt_version() != crypto::WLRT_KDF_ARGON2ID_V2
+        {
+            return Err(ArchiveError::Wlrt(
+                "kurumsal kapı: .wlrt v2 (Argon2id) gerekli".into(),
+            ));
         }
     }
     let level = profile.zstd_level();

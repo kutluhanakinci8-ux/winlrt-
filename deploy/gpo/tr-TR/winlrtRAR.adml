@@ -15,6 +15,9 @@
       <string id="AuditForwardUrl">Denetim HTTP iletim adresi</string>
       <string id="AuditForwardUrl_Help">İsteğe bağlı HTTPS uç noktası; her satır application/x-ndjson olarak POST edilir. Hatalar yok sayılır.</string>
       <string id="AuditForwardUrl_Label">Toplayıcı URL</string>
+      <string id="RequireModernCrypto">Modern şifreleme zorunlu (kurumsal)</string>
+      <string id="RequireModernCrypto_Help">Kurumsal parola politikası ile: şifreli .wlrt Argon2id; şifreli ZIP yalnız AES-256.</string>
+      <string id="RequireModernCrypto_Label">Şifreli arşivlerde Argon2id + ZIP AES-256 zorunlu</string>
     </stringTable>
   </resources>
 </policyDefinitionResources>

@@ -15,6 +15,9 @@
       <string id="AuditForwardUrl">Audit HTTP forward URL</string>
       <string id="AuditForwardUrl_Help">Optional HTTPS endpoint; each audit line is POSTed as application/x-ndjson. Failures are ignored.</string>
       <string id="AuditForwardUrl_Label">Collector URL</string>
+      <string id="RequireModernCrypto">Require modern encryption (corporate)</string>
+      <string id="RequireModernCrypto_Help">When enabled with corporate password policy: encrypted .wlrt uses Argon2id; encrypted ZIP uses AES-256 only.</string>
+      <string id="RequireModernCrypto_Label">Enforce Argon2id + ZIP AES-256 for encrypted archives</string>
     </stringTable>
   </resources>
 </policyDefinitionResources>

@@ -22,6 +22,26 @@ fn registry_value(name: &str) -> Option<String> {
     None
 }
 
+#[cfg(windows)]
+fn registry_dword(name: &str) -> Option<u32> {
+    use winreg::enums::{HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE};
+    use winreg::RegKey;
+    for hive in [HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE] {
+        let root = RegKey::predef(hive);
+        if let Ok(key) = root.open_subkey(REG_KEY_PATH) {
+            if let Ok(v) = key.get_value::<u32, _>(name) {
+                return Some(v);
+            }
+        }
+    }
+    None
+}
+
+#[cfg(not(windows))]
+fn registry_dword(_name: &str) -> Option<u32> {
+    None
+}
+
 #[cfg(not(windows))]
 fn registry_value(_name: &str) -> Option<String> {
     None
@@ -58,6 +78,32 @@ pub fn audit_forward_url() -> Option<String> {
         }
     }
     registry_audit_forward_url()
+}
+
+/// `RequireModernCrypto` = `1` — kurumsal şifreli arşivde Argon2id + ZIP AES-256 zorunlu (Faz 3 kapı).
+pub fn registry_require_modern_crypto() -> bool {
+    if let Some(v) = registry_dword("RequireModernCrypto") {
+        return v != 0;
+    }
+    registry_value("RequireModernCrypto")
+        .map(|v| v == "1" || v.eq_ignore_ascii_case("true"))
+        .unwrap_or(false)
+}
+
+pub fn require_modern_crypto_enabled() -> bool {
+    if std::env::var("WINLRT_REQUIRE_MODERN_CRYPTO")
+        .map(|v| v == "1" || v.eq_ignore_ascii_case("true"))
+        .unwrap_or(false)
+    {
+        return true;
+    }
+    registry_require_modern_crypto()
+}
+
+/// GPO + kurumsal politika: şifreli oluşturmada modern KDF/şifreleme ve kurumsal parola kuralları.
+pub fn modern_crypto_gate_active() -> bool {
+    require_modern_crypto_enabled()
+        && crate::password_policy::active_policy().id == "corporate"
 }
 
 pub fn policy_id_from_env() -> Option<String> {

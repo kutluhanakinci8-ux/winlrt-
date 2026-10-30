@@ -14,6 +14,7 @@ HKCU\Software\winlrt\winlrtRAR   (HKCU öncelikli okuma)
 | `PasswordPolicy` | REG_SZ | `corporate` | Parola politikası (`consumer` / `corporate`) |
 | `AuditMirrorPath` | REG_SZ | `\\fileserver\logs\winlrt\audit.jsonl` | Her denetim satırının kopyası |
 | `AuditForwardUrl` | REG_SZ | `https://siem.example/api/winlrt-audit` | Denetim satırını HTTP POST (beta) |
+| `RequireModernCrypto` | REG_DWORD | `1` | Kurumsal şifreli arşiv: Argon2id + ZIP AES-256 |
 | `ProductVersion` | REG_SZ | `0.1.0` | Envanter (kurulum yazar) |
 
 Ortam değişkenleri (`WINLRT_PASSWORD_POLICY`, `WINLRT_AUDIT_MIRROR`, `WINLRT_AUDIT_FORWARD_URL`) kayıt defterinden **önce** uygulanır.
