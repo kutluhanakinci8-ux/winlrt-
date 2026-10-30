@@ -12,13 +12,14 @@ corp_pass() {
 }
 
 echo "=== winlrtRAR dalga sırası ==="
-if ! explorer_pass; then
+if git -C "$ROOT" rev-parse v1.0.0 >/dev/null 2>&1; then
+  echo "→ TAMAM: v1.0.0 (imzasız resmi) — https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.0"
+  echo "   İsteğe bağlı: TAURI_SIGNING_* → imzalı v1.0.1"
+elif ! explorer_pass; then
   echo "→ AKTİF: Dalga 2 — Windows Explorer QA"
-  echo "   Chat: QA bitti + SHA256 (bkz. docs/qa/PILOT_CHAT_SABLONLARI.md)"
 elif ! corp_pass; then
   echo "→ AKTİF: Dalga 3 — Kurumsal pilot"
-  echo "   ZIP: https://winlrt.com.tr/downloads/winlrtRAR-corporate-gpo.zip"
 else
-  echo "→ AKTİF: Dalga 4 — v1.0 kapı / tag"
+  echo "→ AKTİF: Dalga 4 — v1.0"
   bash "$ROOT/scripts/check-v1-gate-status.sh" | tail -n +2
 fi
