@@ -324,10 +324,8 @@ fn winrar_exe() -> Option<PathBuf> {
         if !output.status.success() {
             return None;
         }
-        let first = String::from_utf8_lossy(&output.stdout)
-            .lines()
-            .next()?
-            .trim();
+        let stdout = String::from_utf8_lossy(&output.stdout);
+        let first = stdout.lines().next()?.trim();
         if first.is_empty() {
             return None;
         }
