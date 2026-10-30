@@ -49,6 +49,14 @@ interface CompressSelectionHint {
   secure_create: boolean;
 }
 
+interface WinzipMigrationGuide {
+  winzip_detected: boolean;
+  winzip_path: string | null;
+  recommended_profile: string;
+  steps: string[];
+  feature_notes: string[];
+}
+
 export default function App() {
   const [info, setInfo] = useState<EngineInfo | null>(null);
   const [archivePath, setArchivePath] = useState<string | null>(null);
@@ -63,6 +71,8 @@ export default function App() {
   const [wizardPassword, setWizardPassword] = useState("");
   const [wizardConfirm, setWizardConfirm] = useState("");
   const [wizardFeedback, setWizardFeedback] = useState<PasswordFeedback | null>(null);
+  const [migrationGuide, setMigrationGuide] = useState<WinzipMigrationGuide | null>(null);
+  const [migrationOpen, setMigrationOpen] = useState(false);
 
   const loadArchive = useCallback(
     async (picked: string, password?: string | null) => {
@@ -285,6 +295,22 @@ export default function App() {
     await runCreate(source, dest);
   }, [createPassword, encryptCreate, runCreate]);
 
+  const openMigrationWizard = useCallback(async () => {
+    setBusy(true);
+    try {
+      const guide = await invoke<WinzipMigrationGuide>("winzip_migration_guide");
+      setMigrationGuide(guide);
+      setMigrationOpen(true);
+      if (guide.recommended_profile === "email") {
+        setProfile("email");
+      }
+    } catch (e) {
+      setStatus(String(e));
+    } finally {
+      setBusy(false);
+    }
+  }, []);
+
   const testZip = useCallback(async () => {
     if (!archivePath) return;
     setBusy(true);
@@ -367,6 +393,9 @@ export default function App() {
         <button type="button" disabled={busy} onClick={() => void createZip()}>
           Klasörden ZIP
         </button>
+        <button type="button" disabled={busy} onClick={() => void openMigrationWizard()}>
+          WinZip geçiş
+        </button>
       </div>
       {archivePath && <p className="path">{archivePath}</p>}
       <ul className="entries">
@@ -375,6 +404,37 @@ export default function App() {
         ))}
       </ul>
       {status && <p className="status">{status}</p>}
+
+      {migrationOpen && migrationGuide && (
+        <div className="modal-overlay" role="dialog" aria-modal="true">
+          <div className="modal secure-wizard migration-wizard">
+            <h2>WinZip&apos;ten geçiş</h2>
+            <p className="muted">
+              {migrationGuide.winzip_detected
+                ? `WinZip algılandı${migrationGuide.winzip_path ? `: ${migrationGuide.winzip_path}` : ""}.`
+                : "WinZip kurulumu bu makinede algılanmadı — adımlar genel geçiş içindir."}
+            </p>
+            <p className="muted">
+              Önerilen profil: <strong>{migrationGuide.recommended_profile}</strong> (e-posta eki)
+            </p>
+            <ol className="migration-steps">
+              {migrationGuide.steps.map((step) => (
+                <li key={step}>{step}</li>
+              ))}
+            </ol>
+            <ul className="migration-notes">
+              {migrationGuide.feature_notes.map((note) => (
+                <li key={note}>{note}</li>
+              ))}
+            </ul>
+            <div className="modal-actions">
+              <button type="button" disabled={busy} onClick={() => setMigrationOpen(false)}>
+                Kapat
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {secureWizard && (
         <div className="modal-overlay" role="dialog" aria-modal="true">

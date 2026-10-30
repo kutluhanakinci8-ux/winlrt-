@@ -1,4 +1,5 @@
 mod cli;
+mod migration;
 
 use std::path::{Path, PathBuf};
 
@@ -162,6 +163,11 @@ fn emit_startup_events(app: &AppHandle) {
         | StartupMode::CompressFolderQuick(_)
         | StartupMode::Normal => {}
     }
+}
+
+#[tauri::command]
+fn winzip_migration_guide() -> migration::WinzipMigrationGuide {
+    migration::winzip_migration_guide()
 }
 
 #[tauri::command]
@@ -353,6 +359,7 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             engine_info,
+            winzip_migration_guide,
             startup_archives,
             startup_compress_folder,
             startup_compress_selection,

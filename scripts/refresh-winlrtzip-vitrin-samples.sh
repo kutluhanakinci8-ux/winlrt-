@@ -17,4 +17,12 @@ jq '{product: "winlrtZIP", profile, platform, generated_at, source: "local-refre
 jq '{product: "winlrtZIP", profile, platform, generated_at, source: "local-refresh", disclaimer: "Hız KPI Windows resmi workflow ile doğrulanır.", kpi: .zip_kpi}' \
   "$TMP/fast.json" >"$OUT/winlrtzip-linux-fast-kpi.json"
 
-echo "OK: $OUT/winlrtzip-linux-{balanced,fast}-kpi.json"
+for pair in balanced fast; do
+  src="$OUT/winlrtzip-linux-${pair}-kpi.json"
+  dst="$OUT/winlrtzip-macos-${pair}-kpi.json"
+  jq '.platform = "macos / CI-placeholder (motor Linux proxy; resmi macOS bench W15+)" 
+    | .disclaimer = "Resmi macOS zip_kpi: winlrt-zip-macos workflow artifact veya Mac agent bench --zip-kpi."' \
+    "$src" >"$dst"
+done
+
+echo "OK: $OUT/winlrtzip-linux-{balanced,fast}-kpi.json + winlrtzip-macos-{balanced,fast}-kpi.json"

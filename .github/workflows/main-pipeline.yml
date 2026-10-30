@@ -110,6 +110,9 @@ jobs:
       - name: winlrtZIP macOS kapı (W14)
         run: bash scripts/verify-madde-w14.sh
 
+      - name: winlrtZIP geçiş + macOS KPI vitrin (W15)
+        run: bash scripts/verify-madde-w15.sh
+
       - name: Faz 1 benchmark raporu
         run: |
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json

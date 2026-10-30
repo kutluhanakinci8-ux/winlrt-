@@ -163,6 +163,16 @@ cargo run -p winlrt-archive -- bench --all --profile fast --json --zip-kpi</code
             title: "winlrtZIP Fast (ZIP satırı)",
             fallback: null,
           },
+          {
+            url: "/benchmark/samples/winlrtzip-macos-balanced-kpi.json",
+            title: "winlrtZIP Balanced — macOS (placeholder)",
+            fallback: "/benchmark/samples/winlrtzip-linux-balanced-kpi.json",
+          },
+          {
+            url: "/benchmark/samples/winlrtzip-macos-fast-kpi.json",
+            title: "winlrtZIP Fast — macOS (placeholder)",
+            fallback: "/benchmark/samples/winlrtzip-linux-fast-kpi.json",
+          },
         ];
         const root = document.getElementById("kpi-cards");
         root.innerHTML = "";

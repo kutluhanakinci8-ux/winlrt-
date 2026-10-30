@@ -6,7 +6,8 @@ Referans: WinZip Standard / Pro (2024–2026 ürün ailesi). Lejant: ✅ · 🟡
 |---------|--------|-----------------|
 | ZIP / ZIP64 | ✅ | ✅ Faz 1 motor |
 | AES-256 şifre | ✅ | 🟡 Faz 1–2 |
-| Explorer entegrasyonu | ✅ | 🟡 Faz 2 kabuk |
+| Explorer entegrasyonu | ✅ | ✅ W4/W12 (Windows) |
+| WinZip geçiş sihirbazı | — | ✅ W15 kabuk |
 | WinZip Share (bulut) | ✅ | 🟡 Faz 5 opsiyonel (KVKK) |
 | Abonelik / Pro kilidi | ✅ | ❌ tek kurulum + kurumsal lisans |
 | PDF / görüntü araçları | Pro | ❌ (arşiv odak) |
