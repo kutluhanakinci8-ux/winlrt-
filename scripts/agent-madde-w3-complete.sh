@@ -39,7 +39,7 @@ git commit -m "ci(madde-w3): trigger-zip-beta-release"
 git push origin main
 wait_workflow
 
-bash "$ROOT/scripts/sync-vitrin-winlrtzip-beta.sh"
+bash "$ROOT/scripts/sync-vitrin-lertiva-zip-beta.sh"
 git add apps/web/public/downloads/index.html
 git diff --staged --quiet || git commit -m "chore(vitrin): Lertiva Zip beta indirme linki (madde W3)"
 git push origin main

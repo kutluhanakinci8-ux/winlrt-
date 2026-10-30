@@ -12,15 +12,15 @@ Faz 3 kapı: **hız + sıkıştırma + kurumsal güven** (Lertiva Zip ZIP hattı
 
 | Bileşen | Konum |
 |---------|--------|
-| Değerlendirme | `scripts/evaluate-winlrtzip-p0-gate.sh` |
+| Değerlendirme | `scripts/evaluate-lertiva-zip-p0-gate.sh` |
 | Windows → vitrin | `scripts/import-windows-zip-kpi-to-vitrin.sh` |
-| Yerel yenileme | `scripts/refresh-winlrtzip-p0-gate.sh` |
-| Özet JSON | `apps/web/public/benchmark/samples/winlrtzip-p0-gate.json` |
+| Yerel yenileme | `scripts/refresh-lertiva-zip-p0-gate.sh` |
+| Özet JSON | `apps/web/public/benchmark/samples/lertiva-zip-p0-gate.json` |
 | Windows CI | `evaluate-bench-zip-kpi.ps1` + strict (isteğe) |
 
 Strict: `WINLRT_ZIP_KPI_STRICT=1` veya `WINLRT_KPI_STRICT=1`.
 
-macOS resmi satır: W14 dmg CI / Mac agent bench → vitrin import (placeholder: `winlrtzip-macos-*`).
+macOS resmi satır: W14 dmg CI / Mac agent bench → vitrin import (placeholder: `lertiva-zip-macos-*`).
 
 ## W16 %100
 

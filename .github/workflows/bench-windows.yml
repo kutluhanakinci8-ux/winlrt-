@@ -82,8 +82,8 @@ jobs:
       - name: Lertiva Zip P0×3 özet (W16 artifact)
         shell: bash
         run: |
-          chmod +x scripts/evaluate-winlrtzip-p0-gate.sh
-          ./scripts/evaluate-winlrtzip-p0-gate.sh bench-report-windows.json bench-report-windows-fast.json vitrin-winlrtzip-p0-gate.json
+          chmod +x scripts/evaluate-lertiva-zip-p0-gate.sh
+          ./scripts/evaluate-lertiva-zip-p0-gate.sh bench-report-windows.json bench-report-windows-fast.json vitrin-lertiva-zip-p0-gate.json
 
       - name: Lertiva Zip P0×3 strict (W16, WINLRT_KPI_STRICT=1)
         if: vars.WINLRT_KPI_STRICT == '1' || (github.event_name == 'workflow_dispatch' && inputs.kpi_strict == true)
@@ -91,7 +91,7 @@ jobs:
         run: |
           ./scripts/evaluate-bench-zip-kpi.ps1 -JsonPath bench-report-windows.json -Strict
           ./scripts/evaluate-bench-zip-kpi.ps1 -JsonPath bench-report-windows-fast.json -Strict
-          WINLRT_ZIP_KPI_STRICT=1 bash ./scripts/evaluate-winlrtzip-p0-gate.sh bench-report-windows.json bench-report-windows-fast.json vitrin-winlrtzip-p0-gate.json
+          WINLRT_ZIP_KPI_STRICT=1 bash ./scripts/evaluate-lertiva-zip-p0-gate.sh bench-report-windows.json bench-report-windows-fast.json vitrin-lertiva-zip-p0-gate.json
 
       - name: Vitrin KPI snippet (artifact)
         shell: pwsh
@@ -114,8 +114,8 @@ jobs:
               source = 'windows-official-ci'; disclaimer = $disclaimer; kpi = $s.zip_kpi
             } | ConvertTo-Json -Depth 12 | Set-Content -Path $out -Encoding utf8NoBOM
           }
-          Export-VitrinZipKpi 'bench-report-windows.json' 'vitrin-winlrtzip-balanced-kpi.json' 'Lertiva Zip ZIP satırı (7-Zip / WinZip / WinRAR-ZIP).'
-          Export-VitrinZipKpi 'bench-report-windows-fast.json' 'vitrin-winlrtzip-fast-kpi.json' 'Lertiva Zip hız KPI (Fast).'
+          Export-VitrinZipKpi 'bench-report-windows.json' 'vitrin-lertiva-zip-balanced-kpi.json' 'Lertiva Zip ZIP satırı (7-Zip / WinZip / WinRAR-ZIP).'
+          Export-VitrinZipKpi 'bench-report-windows-fast.json' 'vitrin-lertiva-zip-fast-kpi.json' 'Lertiva Zip hız KPI (Fast).'
 
       - name: Vitrin import komutu (özet)
         shell: bash
@@ -140,7 +140,7 @@ jobs:
             BENCH_REPORT_FAST.md
             vitrin-windows-balanced-kpi.json
             vitrin-windows-fast-kpi.json
-            vitrin-winlrtzip-balanced-kpi.json
-            vitrin-winlrtzip-fast-kpi.json
-            vitrin-winlrtzip-p0-gate.json
+            vitrin-lertiva-zip-balanced-kpi.json
+            vitrin-lertiva-zip-fast-kpi.json
+            vitrin-lertiva-zip-p0-gate.json
           if-no-files-found: error

@@ -3,10 +3,10 @@
 use std::path::PathBuf;
 use std::sync::OnceLock;
 
-/// Kayıt yolu: `HKLM` / `HKCU` → `Software\winlrt\Lertiva Arc`
-pub const REG_KEY_PATH: &str = r"Software\winlrt\Lertiva Arc";
+/// Kayıt yolu: `HKLM` / `HKCU` → `Software\Lertiva\Lertiva Arc`
+pub const REG_KEY_PATH: &str = r"Software\Lertiva\Lertiva Arc";
 /// Lertiva Zip kabuk (W18) — önce bu anahtar, yoksa Lertiva Arc (ortak filo).
-pub const REG_KEY_PATH_ZIP: &str = r"Software\winlrt\Lertiva Zip";
+pub const REG_KEY_PATH_ZIP: &str = r"Software\Lertiva\Lertiva Zip";
 
 static REGISTRY_PRODUCT: OnceLock<String> = OnceLock::new();
 

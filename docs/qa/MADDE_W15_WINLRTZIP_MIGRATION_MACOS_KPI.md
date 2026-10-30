@@ -15,8 +15,8 @@ Faz 3: [WINLRTZIP_PLAN.md](../WINLRTZIP_PLAN.md) — geçiş sihirbazı + KPI vi
 
 | Bileşen | Konum |
 |---------|--------|
-| Örnek JSON | `apps/web/public/benchmark/samples/winlrtzip-macos-*-kpi.json` |
-| Yenileme | `bash scripts/refresh-winlrtzip-vitrin-samples.sh` |
+| Örnek JSON | `apps/web/public/benchmark/samples/lertiva-zip-macos-*-kpi.json` |
+| Yenileme | `bash scripts/refresh-lertiva-zip-vitrin-samples.sh` |
 | Vitrin | `/benchmark/` kartları |
 
 Placeholder: Linux motor proxy; resmi macOS satırı dmg CI / Mac agent ile güncellenir.

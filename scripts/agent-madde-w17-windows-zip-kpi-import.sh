@@ -18,8 +18,8 @@ gh run watch "$RUN" --repo "$REPO" --exit-status
 
 bash "$ROOT/scripts/import-windows-zip-kpi-from-run.sh" "$RUN"
 
-git add apps/web/public/benchmark/samples/winlrtzip-windows-*.json \
-  apps/web/public/benchmark/samples/winlrtzip-p0-gate.json 2>/dev/null || true
+git add apps/web/public/benchmark/samples/lertiva-zip-windows-*.json \
+  apps/web/public/benchmark/samples/lertiva-zip-p0-gate.json 2>/dev/null || true
 if ! git diff --staged --quiet; then
   git commit -m "chore(vitrin): Lertiva Zip resmi Windows KPI + P0 (W17)"
   git push origin main

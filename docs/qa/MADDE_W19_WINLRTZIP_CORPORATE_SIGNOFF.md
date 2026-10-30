@@ -8,7 +8,7 @@
 |---------|--------|
 | Checklist | [WINLRTZIP_CORPORATE_PILOT_KOPYA.md](./WINLRTZIP_CORPORATE_PILOT_KOPYA.md) |
 | Signoff | [WINLRTZIP_CORPORATE_PILOT_SIGNOFF.md](./WINLRTZIP_CORPORATE_PILOT_SIGNOFF.md) |
-| Agent | `scripts/agent-winlrtzip-corporate-signoff.sh` |
+| Agent | `scripts/agent-lertiva-zip-corporate-signoff.sh` |
 | UI politika | Tauri `enterprise_policy_info` |
 | Proxy | `cargo test audit::` |
 

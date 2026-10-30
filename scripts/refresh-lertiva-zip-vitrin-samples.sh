@@ -13,16 +13,16 @@ cargo run -p lertiva-archive --release -- bench --all --json --zip-kpi >"$TMP/ba
 cargo run -p lertiva-archive --release -- bench --all --profile fast --json --zip-kpi >"$TMP/fast.json"
 
 jq '{product: "Lertiva Zip", profile, platform, generated_at, source: "local-refresh", disclaimer: "Resmi Lertiva Zip satırı: Windows bench-report-windows artifact (zip_kpi).", kpi: .zip_kpi}' \
-  "$TMP/balanced.json" >"$OUT/winlrtzip-linux-balanced-kpi.json"
+  "$TMP/balanced.json" >"$OUT/lertiva-zip-linux-balanced-kpi.json"
 jq '{product: "Lertiva Zip", profile, platform, generated_at, source: "local-refresh", disclaimer: "Hız KPI Windows resmi workflow ile doğrulanır.", kpi: .zip_kpi}' \
-  "$TMP/fast.json" >"$OUT/winlrtzip-linux-fast-kpi.json"
+  "$TMP/fast.json" >"$OUT/lertiva-zip-linux-fast-kpi.json"
 
 for pair in balanced fast; do
-  src="$OUT/winlrtzip-linux-${pair}-kpi.json"
-  dst="$OUT/winlrtzip-macos-${pair}-kpi.json"
+  src="$OUT/lertiva-zip-linux-${pair}-kpi.json"
+  dst="$OUT/lertiva-zip-macos-${pair}-kpi.json"
   jq '.platform = "macos / CI-placeholder (motor Linux proxy; resmi macOS bench W15+)" 
     | .disclaimer = "Resmi macOS zip_kpi: winlrt-zip-macos workflow artifact veya Mac agent bench --zip-kpi."' \
     "$src" >"$dst"
 done
 
-echo "OK: $OUT/winlrtzip-linux-{balanced,fast}-kpi.json + winlrtzip-macos-{balanced,fast}-kpi.json"
+echo "OK: $OUT/lertiva-zip-linux-{balanced,fast}-kpi.json + lertiva-zip-macos-{balanced,fast}-kpi.json"

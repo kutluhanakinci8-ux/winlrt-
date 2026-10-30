@@ -15,7 +15,7 @@ Profil: `CompressionProfile::EmailAttachment` · CLI/Tauri: `--profile email` / 
 | Bileşen | Konum |
 |---------|--------|
 | Sabitler | `crates/lertiva-archive/src/profile.rs` |
-| Testler | `crates/lertiva-archive/tests/winlrtzip_interop.rs` |
+| Testler | `crates/lertiva-archive/tests/lertiva_zip_interop.rs` |
 | Rapor | `scripts/log-email-profile-i6.sh` |
 
 ## W7 %100

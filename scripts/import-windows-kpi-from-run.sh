@@ -14,10 +14,10 @@ cp "$TMP/vitrin-windows-fast-kpi.json" "$OUT/windows-fast-kpi.json"
 if [[ -f "$TMP/bench-report-windows.json" && -f "$TMP/bench-report-windows-fast.json" ]]; then
   bash "$ROOT/scripts/import-windows-zip-kpi-to-vitrin.sh" \
     "$TMP/bench-report-windows.json" "$TMP/bench-report-windows-fast.json"
-elif [[ -f "$TMP/vitrin-winlrtzip-balanced-kpi.json" ]]; then
-  cp "$TMP/vitrin-winlrtzip-balanced-kpi.json" "$OUT/winlrtzip-windows-balanced-kpi.json"
-  cp "$TMP/vitrin-winlrtzip-fast-kpi.json" "$OUT/winlrtzip-windows-fast-kpi.json"
-  [[ -f "$TMP/vitrin-winlrtzip-p0-gate.json" ]] && \
-    cp "$TMP/vitrin-winlrtzip-p0-gate.json" "$OUT/winlrtzip-p0-gate.json"
+elif [[ -f "$TMP/vitrin-lertiva-zip-balanced-kpi.json" ]]; then
+  cp "$TMP/vitrin-lertiva-zip-balanced-kpi.json" "$OUT/lertiva-zip-windows-balanced-kpi.json"
+  cp "$TMP/vitrin-lertiva-zip-fast-kpi.json" "$OUT/lertiva-zip-windows-fast-kpi.json"
+  [[ -f "$TMP/vitrin-lertiva-zip-p0-gate.json" ]] && \
+    cp "$TMP/vitrin-lertiva-zip-p0-gate.json" "$OUT/lertiva-zip-p0-gate.json"
 fi
 echo "OK: vitrin KPI run=$RUN_ID speed_gate=$(jq -r '.kpi.speed_gate' "$OUT/windows-fast-kpi.json")"

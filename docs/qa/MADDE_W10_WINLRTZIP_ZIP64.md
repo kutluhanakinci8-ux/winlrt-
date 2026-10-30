@@ -13,7 +13,7 @@
 | Bileşen | Konum |
 |---------|--------|
 | API | `zip_io::create_zip64_smoke`, `archive_indicates_zip64`, `ZIP64_SIZE_THRESHOLD` |
-| Testler | `winlrtzip_interop.rs` (`i3_*`), `zip_io::zip64_smoke_*` |
+| Testler | `lertiva_zip_interop.rs` (`i3_*`), `zip_io::zip64_smoke_*` |
 
 ## W10 %100
 

@@ -39,7 +39,7 @@ extract_json "$BALANCED" | jq '{
   source: "windows-official-ci",
   disclaimer: "Resmi Lertiva Zip Balanced — bench-report-windows (zip_kpi).",
   kpi: .zip_kpi
-}' >"$OUT/winlrtzip-windows-balanced-kpi.json"
+}' >"$OUT/lertiva-zip-windows-balanced-kpi.json"
 
 extract_json "$FAST" | jq '{
   product: "Lertiva Zip",
@@ -49,8 +49,8 @@ extract_json "$FAST" | jq '{
   source: "windows-official-ci",
   disclaimer: "Resmi Lertiva Zip Fast hız kapısı — bench-report-windows-fast.",
   kpi: .zip_kpi
-}' >"$OUT/winlrtzip-windows-fast-kpi.json"
+}' >"$OUT/lertiva-zip-windows-fast-kpi.json"
 
-bash "$ROOT/scripts/evaluate-winlrtzip-p0-gate.sh" "$BALANCED" "$FAST" "$OUT/winlrtzip-p0-gate.json"
+bash "$ROOT/scripts/evaluate-lertiva-zip-p0-gate.sh" "$BALANCED" "$FAST" "$OUT/lertiva-zip-p0-gate.json"
 
-echo "Yazıldı: winlrtzip-windows-{balanced,fast}-kpi.json + winlrtzip-p0-gate.json"
+echo "Yazıldı: lertiva-zip-windows-{balanced,fast}-kpi.json + lertiva-zip-p0-gate.json"

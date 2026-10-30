@@ -4,26 +4,26 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 for f in \
-  deploy/gpo/Lertiva Zip.admx \
-  deploy/gpo/en-US/Lertiva Zip.adml \
-  deploy/gpo/tr-TR/Lertiva Zip.adml \
-  deploy/gpo/README-Lertiva Zip.md \
-  scripts/winlrtzip-corporate-policy-sample.reg \
-  scripts/windows/winlrtzip-corporate-pilot-preflight.ps1 \
-  scripts/package-winlrtzip-corporate-gpo-zip.sh \
+  deploy/gpo/lertiva-zip.admx \
+  deploy/gpo/en-US/lertiva-zip.adml \
+  deploy/gpo/tr-TR/lertiva-zip.adml \
+  deploy/gpo/README-lertiva-zip.md \
+  scripts/lertiva-zip-corporate-policy-sample.reg \
+  scripts/windows/lertiva-zip-corporate-pilot-preflight.ps1 \
+  scripts/package-lertiva-zip-corporate-gpo-zip.sh \
   docs/qa/WINLRTZIP_CORPORATE_PILOT_KOPYA.md \
   docs/qa/MADDE_W18_WINLRTZIP_CORPORATE.md
 do
   test -f "$ROOT/$f" || { echo "Eksik: $f" >&2; exit 1; }
 done
 
-grep -q Lertiva Zip "$ROOT/deploy/gpo/Lertiva Zip.admx"
+grep -q Lertiva Zip "$ROOT/deploy/gpo/lertiva-zip.admx"
 grep -q REG_KEY_PATH_ZIP "$ROOT/crates/lertiva-archive/src/enterprise.rs"
 grep -q event_create "$ROOT/apps/lertiva-zip/src-tauri/src/lib.rs"
 
-ZIP="$ROOT/apps/web/public/downloads/Lertiva Zip-corporate-gpo.zip"
+ZIP="$ROOT/apps/web/public/downloads/lertiva-zip-corporate-gpo.zip"
 if [[ ! -f "$ZIP" ]]; then
-  bash "$ROOT/scripts/package-winlrtzip-corporate-gpo-zip.sh"
+  bash "$ROOT/scripts/package-lertiva-zip-corporate-gpo-zip.sh"
 fi
 test -f "$ZIP"
 

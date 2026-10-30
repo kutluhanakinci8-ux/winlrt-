@@ -17,7 +17,7 @@ Motor: `zip_entry_name_from_path` — yol **UTF-8 değilse** açık hata (I5).
 |---------|--------|
 | API | `zip_io::zip_entry_name_from_path` |
 | Unit | `zip_io::tests::zip_turkish_utf8_entry_names` |
-| Interop | `tests/winlrtzip_interop.rs` (`i5_*`) |
+| Interop | `tests/lertiva_zip_interop.rs` (`i5_*`) |
 
 ## W9 %100
 

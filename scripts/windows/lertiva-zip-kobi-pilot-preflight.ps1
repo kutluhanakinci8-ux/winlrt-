@@ -1,5 +1,5 @@
 # Lertiva Zip W13 — KOBİ e-posta eki preflight (kurulum + hizli ZIP boyut kapisi).
-# Kullanim: powershell -ExecutionPolicy Bypass -File winlrtzip-kobi-pilot-preflight.ps1
+# Kullanim: powershell -ExecutionPolicy Bypass -File lertiva-zip-kobi-pilot-preflight.ps1
 $ErrorActionPreference = 'Stop'
 
 $EmailMaxBytes = 10 * 1024 * 1024
@@ -18,7 +18,7 @@ if (-not $exe) {
   $fail += 'Lertiva Zip.exe bulunamadi — once NSIS beta kurulumu'
 } else {
   $ok += "exe=$exe"
-  $tmpRoot = Join-Path $env:TEMP ("winlrtzip-kobi-{0}" -f [guid]::NewGuid().ToString('N'))
+  $tmpRoot = Join-Path $env:TEMP ("lertiva-zip-kobi-{0}" -f [guid]::NewGuid().ToString('N'))
   New-Item -ItemType Directory -Path $tmpRoot | Out-Null
   $folder = Join-Path $tmpRoot 'FaturaPaketi'
   New-Item -ItemType Directory -Path $folder | Out-Null

@@ -1,10 +1,10 @@
 # Lertiva Zip W13 — KOBİ e-posta eki pilot baslangic.
-# Usage: powershell -ExecutionPolicy Bypass -File pilot-winlrtzip-kobi-start.ps1
+# Usage: powershell -ExecutionPolicy Bypass -File pilot-lertiva-zip-kobi-start.ps1
 $ErrorActionPreference = 'Stop'
 
 $release = 'https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-zip-beta.1'
-$preflight = Join-Path $PSScriptRoot 'winlrtzip-kobi-pilot-preflight.ps1'
-$explorerPreflight = Join-Path $PSScriptRoot 'winlrtzip-explorer-qa-preflight.ps1'
+$preflight = Join-Path $PSScriptRoot 'lertiva-zip-kobi-pilot-preflight.ps1'
+$explorerPreflight = Join-Path $PSScriptRoot 'lertiva-zip-explorer-qa-preflight.ps1'
 
 Write-Host '=== Lertiva Zip W13 — KOBİ pilot (e-posta eki) ==='
 Write-Host "1) Beta: $release"
@@ -20,12 +20,12 @@ if (Test-Path $preflight) {
     & $preflight
   }
 } else {
-  Write-Host '   winlrtzip-kobi-pilot-preflight.ps1 (repo scripts/windows/)'
+  Write-Host '   lertiva-zip-kobi-pilot-preflight.ps1 (repo scripts/windows/)'
 }
 
 Write-Host ''
 Write-Host '4) Checklist: docs/qa/WINLRTZIP_KOBI_PILOT_KOPYA.md'
-Write-Host '5) Explorer I1/I2 henuz yapilmadiysa: winlrtzip-explorer-qa-preflight.ps1'
+Write-Host '5) Explorer I1/I2 henuz yapilmadiysa: lertiva-zip-explorer-qa-preflight.ps1'
 if (Test-Path $explorerPreflight) {
   Write-Host "   `"$explorerPreflight`""
 }

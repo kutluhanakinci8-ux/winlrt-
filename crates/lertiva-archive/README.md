@@ -2,7 +2,7 @@
 
 Lertiva Arc / Lertiva Zip ortak Rust motoru.
 
-## winlrt-zip CLI (Faz 1)
+## lertiva-zip CLI (Faz 1)
 
 ```bash
 cargo run -p lertiva-archive --bin lertiva-zip -- create ./src ./out.zip --profile email

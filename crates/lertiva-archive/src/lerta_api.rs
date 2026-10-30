@@ -10,8 +10,8 @@ use crate::{ArchiveError, Result};
 pub const LERTA_API_CONTRACT_VERSION: &str = "1";
 pub const LERTA_PRODUCTION_HOST: &str = "lerta.com.tr";
 pub const LERTA_DEFAULT_API_BASE: &str = "https://u88.lerta.com.tr/api/v1";
-pub const LERTA_MAIL_REGISTER_PATH: &str = "/integrations/winlrt-zip/mail-attachment";
-pub const LERTA_MESSAGE_REGISTER_PATH: &str = "/integrations/winlrt-zip/message-attachment";
+pub const LERTA_MAIL_REGISTER_PATH: &str = "/integrations/lertiva-zip/mail-attachment";
+pub const LERTA_MESSAGE_REGISTER_PATH: &str = "/integrations/lertiva-zip/message-attachment";
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct LertaApiConfig {

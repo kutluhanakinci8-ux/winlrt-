@@ -14,8 +14,8 @@
       "id": "mail",
       "madde": "W28",
       "webhook_contract": "1",
-      "register_path": "/integrations/winlrt-zip/mail-attachment",
-      "register_url": "https://u88.lerta.com.tr/api/v1/integrations/winlrt-zip/mail-attachment",
+      "register_path": "/integrations/lertiva-zip/mail-attachment",
+      "register_url": "https://u88.lerta.com.tr/api/v1/integrations/lertiva-zip/mail-attachment",
       "max_bytes": 26214400,
       "mime_types": [
         "application/zip"
@@ -26,8 +26,8 @@
       "id": "message",
       "madde": "W30",
       "webhook_contract": "1",
-      "register_path": "/integrations/winlrt-zip/message-attachment",
-      "register_url": "https://u88.lerta.com.tr/api/v1/integrations/winlrt-zip/message-attachment",
+      "register_path": "/integrations/lertiva-zip/message-attachment",
+      "register_url": "https://u88.lerta.com.tr/api/v1/integrations/lertiva-zip/message-attachment",
       "max_bytes": 16777216,
       "mime_types": [
         "application/vnd.winlrt.wlrt",

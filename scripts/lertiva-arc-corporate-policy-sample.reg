@@ -3,7 +3,7 @@ Windows Registry Editor Version 5.00
 ; Lertiva Arc kurumsal pilot — GPO Preferences ile dağıtılabilir.
 ; HKLM: makine geneli; HKCU: kullanıcı (uygulama HKCU önce okur).
 
-[HKEY_LOCAL_MACHINE\Software\winlrt\Lertiva Arc]
+[HKEY_LOCAL_MACHINE\Software\Lertiva\Lertiva Arc]
 "PasswordPolicy"="corporate"
 "AuditMirrorPath"="\\\\FILESERVER\\share\\winlrt-audit\\audit.jsonl"
 "AuditForwardUrl"=""

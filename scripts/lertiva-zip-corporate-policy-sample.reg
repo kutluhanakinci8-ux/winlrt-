@@ -1,9 +1,9 @@
 Windows Registry Editor Version 5.00
 
 ; Lertiva Zip kurumsal pilot — GPO veya reg import.
-[HKEY_LOCAL_MACHINE\Software\winlrt\Lertiva Zip]
+[HKEY_LOCAL_MACHINE\Software\Lertiva\Lertiva Zip]
 "PasswordPolicy"="corporate"
-"AuditMirrorPath"="\\\\FILESERVER\\share\\winlrtzip-audit\\audit.jsonl"
+"AuditMirrorPath"="\\\\FILESERVER\\share\\lertiva-zip-audit\\audit.jsonl"
 "AuditForwardUrl"=""
 "RequireModernCrypto"=dword:00000001
 "RequireSignedArchive"=dword:00000000

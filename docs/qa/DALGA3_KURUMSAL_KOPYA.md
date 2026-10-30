@@ -9,9 +9,9 @@
 
 | Dosya | Kullanım |
 |-------|----------|
-| [Lertiva Arc-corporate-gpo.zip](https://winlrt.com.tr/downloads/Lertiva Arc-corporate-gpo.zip) | ADMX + ADML + örnek `.reg` |
-| `deploy/gpo/Lertiva Arc.admx` | PolicyDefinitions (ZIP içinde) |
-| `scripts/winlrt-corporate-policy-sample.reg` | veya `apply-corporate-sample.ps1` (HKLM test) |
+| [lertiva-arc-corporate-gpo.zip](https://winlrt.com.tr/downloads/lertiva-arc-corporate-gpo.zip) | ADMX + ADML + örnek `.reg` |
+| `deploy/gpo/lertiva-arc.admx` | PolicyDefinitions (ZIP içinde) |
+| `scripts/lertiva-arc-corporate-policy-sample.reg` | veya `apply-corporate-sample.ps1` (HKLM test) |
 
 ## Senaryolar
 

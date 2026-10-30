@@ -2,7 +2,7 @@
   "contract_version": "1",
   "product": "Lertiva Zip",
   "api_base": "https://u88.lerta.com.tr/api/v1",
-  "register_url": "https://u88.lerta.com.tr/api/v1/integrations/winlrt-zip/mail-attachment",
+  "register_url": "https://u88.lerta.com.tr/api/v1/integrations/lertiva-zip/mail-attachment",
   "bearer_configured": false,
   "dry_run": true,
   "production_host": "lerta.com.tr",

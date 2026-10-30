@@ -8,7 +8,7 @@
 | Lertiva Zip KPI | `evaluate_zip_product_kpi` → JSON `zip_kpi` |
 | CLI | `cargo run -p lertiva-archive -- bench --all --json --zip-kpi` |
 | Windows CI | `.github/workflows/bench-windows.yml` + `evaluate-bench-zip-kpi.ps1` |
-| Vitrin | `apps/web/public/benchmark/samples/winlrtzip-*.json` |
+| Vitrin | `apps/web/public/benchmark/samples/lertiva-zip-*.json` |
 
 ## Ortam
 
@@ -23,5 +23,5 @@ WinZip satırı agent’ta yoksa KPI yalnızca 7-Zip/WinRAR ile hesaplanır.
 ## W6 %100
 
 1. `bash scripts/verify-madde-w6.sh`
-2. Windows resmi bench artifact: `vitrin-winlrtzip-balanced-kpi.json`, `vitrin-winlrtzip-fast-kpi.json`
-3. Yerel örnek: `bash scripts/refresh-winlrtzip-vitrin-samples.sh`
+2. Windows resmi bench artifact: `vitrin-lertiva-zip-balanced-kpi.json`, `vitrin-lertiva-zip-fast-kpi.json`
+3. Yerel örnek: `bash scripts/refresh-lertiva-zip-vitrin-samples.sh`

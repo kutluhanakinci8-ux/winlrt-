@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 BALANCED="${1:?bench JSON (balanced, --zip-kpi)}"
 FAST="${2:?bench JSON (fast, --zip-kpi)}"
-OUT="${3:-$ROOT/apps/web/public/benchmark/samples/winlrtzip-p0-gate.json}"
+OUT="${3:-$ROOT/apps/web/public/benchmark/samples/lertiva-zip-p0-gate.json}"
 STRICT="${WINLRT_ZIP_KPI_STRICT:-${WINLRT_KPI_STRICT:-0}}"
 
 command -v jq >/dev/null || { echo "jq gerekli" >&2; exit 1; }
@@ -47,7 +47,7 @@ security_gate=true
 if ! grep -q 'AES-256' "$ROOT/crates/lertiva-archive/src/zip_io.rs"; then
   security_gate=false
 fi
-if ! (cd "$ROOT" && cargo test -p lertiva-archive --test winlrtzip_interop i4_aes256_roundtrip --quiet); then
+if ! (cd "$ROOT" && cargo test -p lertiva-archive --test lertiva_zip_interop i4_aes256_roundtrip --quiet); then
   security_gate=false
 fi
 

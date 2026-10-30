@@ -195,8 +195,8 @@
                   <a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-zip-beta.1"
                     >winlrt-zip-beta.1</a
                   >
-                  · <a href="/benchmark/samples/winlrtzip-p0-gate.json">P0 kapı</a> ·
-                  <a href="/benchmark/samples/winlrtzip-lerta-mail-v1.json">Lerta posta</a>
+                  · <a href="/benchmark/samples/lertiva-zip-p0-gate.json">P0 kapı</a> ·
+                  <a href="/benchmark/samples/lertiva-zip-lerta-mail-v1.json">Lerta posta</a>
                 </td>
               </tr>
               <tr>
@@ -204,9 +204,9 @@
                 <td><span class="status status-beta">Entegrasyon smoke</span></td>
                 <td>W28–W31: posta · API · mesaj eki · birleşik staging (metadata-only)</td>
                 <td>
-                  <a href="/benchmark/samples/winlrtzip-lerta-integration-v1.json">Staging JSON</a> ·
-                  <a href="/benchmark/samples/winlrtzip-lerta-message-v1.json">Mesaj eki</a> ·
-                  <a href="/benchmark/samples/winlrtzip-lerta-api-v1.json">API durum</a> ·
+                  <a href="/benchmark/samples/lertiva-zip-lerta-integration-v1.json">Staging JSON</a> ·
+                  <a href="/benchmark/samples/lertiva-zip-lerta-message-v1.json">Mesaj eki</a> ·
+                  <a href="/benchmark/samples/lertiva-zip-lerta-api-v1.json">API durum</a> ·
                   <a href="https://www.lerta.com.tr">lerta.com.tr</a>
                 </td>
               </tr>
@@ -215,7 +215,7 @@
                 <td><span class="status status-plan">Kapı / pilot</span></td>
                 <td>W26 okuyucu sözleşmesi · W27 store gate — gerçek Play/App yükleme sırada</td>
                 <td>
-                  <a href="/benchmark/samples/winlrtzip-store-gate.json">Store gate JSON</a>
+                  <a href="/benchmark/samples/lertiva-zip-store-gate.json">Store gate JSON</a>
                 </td>
               </tr>
             </tbody>
@@ -297,7 +297,7 @@
         <div class="gallery-grid">
           <figure class="gallery-item">
             <img
-              src="/assets/gallery/tauri-winlrtzip-main.png"
+              src="/assets/gallery/tauri-lertiva-zip-main.png"
               width="1024"
               height="720"
               alt=""
@@ -307,7 +307,7 @@
           </figure>
           <figure class="gallery-item">
             <img
-              src="/assets/gallery/tauri-winlrtrar-main.png"
+              src="/assets/gallery/tauri-lertiva-arc-main.png"
               width="1024"
               height="720"
               alt=""
@@ -317,7 +317,7 @@
           </figure>
           <figure class="gallery-item">
             <img
-              src="/assets/gallery/installer-winlrtrar-setup.png"
+              src="/assets/gallery/installer-lertiva-arc-setup.png"
               width="1024"
               height="720"
               alt=""
@@ -327,7 +327,7 @@
           </figure>
           <figure class="gallery-item">
             <img
-              src="/assets/gallery/installer-winlrtzip-setup.png"
+              src="/assets/gallery/installer-lertiva-zip-setup.png"
               width="1024"
               height="720"
               alt=""
@@ -337,7 +337,7 @@
           </figure>
           <figure class="gallery-item">
             <img
-              src="/assets/gallery/smartscreen-winlrt.png"
+              src="/assets/gallery/smartscreen-lertiva.png"
               width="1024"
               height="720"
               alt=""
@@ -386,8 +386,8 @@
               Dalga 3 pilot paketleri indirme merkezinde.
             </p>
             <p class="meta" style="margin-top: 0.75rem">
-              <a href="/downloads/Lertiva Arc-corporate-gpo.zip">Lertiva Arc GPO</a> ·
-              <a href="/downloads/Lertiva Zip-corporate-gpo.zip">Lertiva Zip GPO</a>
+              <a href="/downloads/lertiva-arc-corporate-gpo.zip">Lertiva Arc GPO</a> ·
+              <a href="/downloads/lertiva-zip-corporate-gpo.zip">Lertiva Zip GPO</a>
             </p>
           </article>
           <article class="card">
@@ -480,7 +480,7 @@
             <h3>Posta eki (W28)</h3>
             <p>10 / 25 MiB tier, SHA-256, webhook JSON — ZIP içeriği cihazda kalır.</p>
             <p class="meta">
-              <a href="/benchmark/samples/winlrtzip-lerta-mail-v1.json">Örnek JSON</a>
+              <a href="/benchmark/samples/lertiva-zip-lerta-mail-v1.json">Örnek JSON</a>
             </p>
           </article>
           <article class="card">
@@ -490,7 +490,7 @@
               onayı ile.
             </p>
             <p class="meta">
-              <a href="/benchmark/samples/winlrtzip-lerta-api-v1.json">API durum örneği</a>
+              <a href="/benchmark/samples/lertiva-zip-lerta-api-v1.json">API durum örneği</a>
             </p>
           </article>
         </div>
@@ -501,9 +501,9 @@
             mesaj URL’lerini ve canlı Bearer ön koşulunu özetler — içerik yüklenmez.
           </p>
           <p class="meta">
-            <a href="/benchmark/samples/winlrtzip-lerta-integration-v1.json">Birleşik staging örneği</a>
+            <a href="/benchmark/samples/lertiva-zip-lerta-integration-v1.json">Birleşik staging örneği</a>
             ·
-            <a href="/benchmark/samples/winlrtzip-lerta-message-v1.json">Mesaj webhook</a>
+            <a href="/benchmark/samples/lertiva-zip-lerta-message-v1.json">Mesaj webhook</a>
           </p>
         </article>
       </div>
@@ -575,7 +575,7 @@
         if (!el) return;
 
         Promise.all([
-          fetch("/benchmark/samples/winlrtzip-p0-gate.json").then(function (r) {
+          fetch("/benchmark/samples/lertiva-zip-p0-gate.json").then(function (r) {
             return r.ok ? r.json() : null;
           }),
           fetch("/benchmark/samples/windows-balanced-kpi.json")

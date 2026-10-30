@@ -4,8 +4,8 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 grep -q EMAIL_ATTACHMENT_MAX_ZIP_BYTES "$ROOT/crates/lertiva-archive/src/profile.rs"
-test -f "$ROOT/crates/lertiva-archive/tests/winlrtzip_interop.rs"
-cargo test -p lertiva-archive --test winlrtzip_interop i6_email_profile_small --quiet
+test -f "$ROOT/crates/lertiva-archive/tests/lertiva_zip_interop.rs"
+cargo test -p lertiva-archive --test lertiva_zip_interop i6_email_profile_small --quiet
 bash "$ROOT/benchmarks/fixtures/mixed/prepare.sh"
-cargo test -p lertiva-archive --test winlrtzip_interop i6_email_profile_mixed -- --ignored --quiet
+cargo test -p lertiva-archive --test lertiva_zip_interop i6_email_profile_mixed -- --ignored --quiet
 echo "OK: Madde W7 - Lertiva Zip e-posta profili (I6)"

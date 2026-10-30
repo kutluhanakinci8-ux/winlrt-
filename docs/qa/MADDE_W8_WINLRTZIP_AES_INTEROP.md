@@ -15,7 +15,7 @@ Parola örneği (kurumsal politika): `Winlrt-Pilot12` (test sabiti).
 
 | Bileşen | Konum |
 |---------|--------|
-| Testler | `crates/lertiva-archive/tests/winlrtzip_interop.rs` (`i4_*`) |
+| Testler | `crates/lertiva-archive/tests/lertiva_zip_interop.rs` (`i4_*`) |
 | Motor | `zip_io` — `AesMode::Aes256` |
 | CI | `main-pipeline` — `p7zip-full` + `i4_` test filtresi |
 

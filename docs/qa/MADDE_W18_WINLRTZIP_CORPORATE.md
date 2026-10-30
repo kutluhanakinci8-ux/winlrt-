@@ -7,10 +7,10 @@ Faz 4 başlangıç: [WINLRTZIP_PLAN.md](../WINLRTZIP_PLAN.md) — Lertiva Arc il
 | Bileşen | Konum |
 |---------|--------|
 | GPO ADMX/ADML | `deploy/gpo/Lertiva Zip.*` |
-| Kayıt defteri | `Software\winlrt\Lertiva Zip` (+ Lertiva Arc yedek okuma) |
+| Kayıt defteri | `Software\Lertiva\Lertiva Zip` (+ Lertiva Arc yedek okuma) |
 | Motor | `enterprise::init_registry_product("zip")`, `audit::init_audit_product("zip")` |
 | UI denetim | `create_zip` / `extract_zip` → `audit.jsonl` |
-| Vitrin ZIP | `Lertiva Zip-corporate-gpo.zip` |
+| Vitrin ZIP | `lertiva-zip-corporate-gpo.zip` |
 | Pilot | [WINLRTZIP_CORPORATE_PILOT_KOPYA.md](./WINLRTZIP_CORPORATE_PILOT_KOPYA.md) |
 
 ## W18 %100 (repo kapısı)

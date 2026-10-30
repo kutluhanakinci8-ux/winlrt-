@@ -175,8 +175,8 @@ Rehber: [WINLRTRAR_PILOT_KICKOFF.md](./WINLRTRAR_PILOT_KICKOFF.md)
 | Adım | Deliverable | Kabul |
 |------|-------------|--------|
 | Segment seçimi | Banka / sendika / KOBİ profili | 1 segment |
-| ADMX | `deploy/gpo/Lertiva Arc.admx` → PolicyDefinitions | GPO görünür |
-| Örnek politika | `scripts/winlrt-corporate-policy-sample.reg` | Test OU/makinede uygulandı |
+| ADMX | `deploy/gpo/lertiva-arc.admx` → PolicyDefinitions | GPO görünür |
+| Örnek politika | `scripts/lertiva-arc-corporate-policy-sample.reg` | Test OU/makinede uygulandı |
 | Denetim | Audit JSONL + isteğe HTTP forward | Örnek olay loglandı |
 | `RequireModernCrypto` | Politika açık senaryo test | Reddedilen zayıf işlem loglandı |
 

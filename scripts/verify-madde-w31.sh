@@ -11,7 +11,7 @@ test -f "$ROOT/docs/qa/MADDE_W31_WINLRTZIP_LERTA_INTEGRATION.md"
 test -f "$ROOT/docs/qa/lerta-integration-v1.schema.json"
 cargo test -p lertiva-archive lerta_integration:: --quiet
 bash "$ROOT/scripts/evaluate-lerta-integration-sample.sh"
-test -f "$ROOT/apps/web/public/benchmark/samples/winlrtzip-lerta-integration-v1.json"
-cargo test -p lertiva-archive --test winlrtzip_interop w31_ --quiet
+test -f "$ROOT/apps/web/public/benchmark/samples/lertiva-zip-lerta-integration-v1.json"
+cargo test -p lertiva-archive --test lertiva_zip_interop w31_ --quiet
 cargo check -p lertiva-zip --quiet
 echo "OK: Madde W31 — Lertiva Zip Lerta birleşik staging"

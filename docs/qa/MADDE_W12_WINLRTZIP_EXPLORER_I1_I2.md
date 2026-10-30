@@ -13,11 +13,11 @@ Explorer motoru CI’da yok; **Info-ZIP** ve **7-Zip** Windows Explorer davranı
 
 | Bileşen | Konum |
 |---------|--------|
-| Interop testleri | `crates/lertiva-archive/tests/winlrtzip_interop.rs` (`i1_*`, `i2_*`) |
+| Interop testleri | `crates/lertiva-archive/tests/lertiva_zip_interop.rs` (`i1_*`, `i2_*`) |
 | NSIS menüler | [MADDE_W4](./MADDE_W4_WINLRTZIP_EXPLORER.md) |
-| Preflight | `scripts/windows/winlrtzip-explorer-qa-preflight.ps1` |
+| Preflight | `scripts/windows/lertiva-zip-explorer-qa-preflight.ps1` |
 | Saha checklist | [WINLRTZIP_EXPLORER_QA_KOPYA.md](./WINLRTZIP_EXPLORER_QA_KOPYA.md) |
-| Signoff | `scripts/agent-winlrtzip-explorer-i1-i2-signoff.sh` → [WINLRTZIP_EXPLORER_QA_SIGNOFF.md](./WINLRTZIP_EXPLORER_QA_SIGNOFF.md) |
+| Signoff | `scripts/agent-lertiva-zip-explorer-i1-i2-signoff.sh` → [WINLRTZIP_EXPLORER_QA_SIGNOFF.md](./WINLRTZIP_EXPLORER_QA_SIGNOFF.md) |
 
 ## W12 %100 (repo kapısı)
 

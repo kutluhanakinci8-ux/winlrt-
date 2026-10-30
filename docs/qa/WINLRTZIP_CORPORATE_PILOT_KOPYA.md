@@ -1,16 +1,16 @@
 # Lertiva Zip — kurumsal pilot (≈30 dk)
 
-Paket: [Lertiva Zip-corporate-gpo.zip](/downloads/Lertiva Zip-corporate-gpo.zip) veya repo `deploy/gpo/`
+Paket: [lertiva-zip-corporate-gpo.zip](/downloads/lertiva-zip-corporate-gpo.zip) veya repo `deploy/gpo/`
 
 ## 0. Preflight
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts/windows/winlrtzip-corporate-pilot-preflight.ps1
+powershell -ExecutionPolicy Bypass -File scripts/windows/lertiva-zip-corporate-pilot-preflight.ps1
 ```
 
 ## 1. Politika
 
-- [ ] ADMX kurulumu veya `winlrtzip-corporate-policy-sample.reg` import
+- [ ] ADMX kurulumu veya `lertiva-zip-corporate-policy-sample.reg` import
 - [ ] `PasswordPolicy=corporate`, `RequireModernCrypto=1`
 
 ## 2. Uygulama
@@ -23,6 +23,6 @@ powershell -ExecutionPolicy Bypass -File scripts/windows/winlrtzip-corporate-pil
 - [ ] `AuditMirrorPath` hedefinde yeni satır
 - [ ] `AuditForwardUrl` test toplayıcısı (HTTP 2xx)
 
-**Bitti mi?** Chat: **Lertiva Zip kurumsal pilot bitti** + segment + PASS → `scripts/agent-winlrtzip-corporate-signoff.sh` → commit · push · deploy.
+**Bitti mi?** Chat: **Lertiva Zip kurumsal pilot bitti** + segment + PASS → `scripts/agent-lertiva-zip-corporate-signoff.sh` → commit · push · deploy.
 
 Signoff şablonu: [WINLRTZIP_CORPORATE_PILOT_SIGNOFF.md](./WINLRTZIP_CORPORATE_PILOT_SIGNOFF.md) · [MADDE_W19](./MADDE_W19_WINLRTZIP_CORPORATE_SIGNOFF.md)

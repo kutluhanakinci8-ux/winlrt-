@@ -9,7 +9,7 @@ grep -q lerta_api_status "$ROOT/apps/lertiva-zip/src-tauri/src/lib.rs"
 test -f "$ROOT/docs/qa/MADDE_W29_WINLRTZIP_LERTA_API.md"
 test -f "$ROOT/docs/qa/lerta-api-v1.schema.json"
 cargo test -p lertiva-archive lerta_api:: --quiet
-cargo test -p lertiva-archive --test winlrtzip_interop w29_ --quiet
+cargo test -p lertiva-archive --test lertiva_zip_interop w29_ --quiet
 bash "$ROOT/scripts/evaluate-lerta-api-sample.sh"
-test -f "$ROOT/apps/web/public/benchmark/samples/winlrtzip-lerta-api-v1.json"
+test -f "$ROOT/apps/web/public/benchmark/samples/lertiva-zip-lerta-api-v1.json"
 echo "OK: Madde W29 — Lertiva Zip Lerta API"

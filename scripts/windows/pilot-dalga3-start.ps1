@@ -2,7 +2,7 @@
 #Usage: powershell -ExecutionPolicy Bypass -File pilot-dalga3-start.ps1
 $ErrorActionPreference = 'Stop'
 
-$zipUrl = 'https://winlrt.com.tr/downloads/Lertiva Arc-corporate-gpo.zip'
+$zipUrl = 'https://winlrt.com.tr/downloads/lertiva-arc-corporate-gpo.zip'
 $doc = 'https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/DALGA3_PILOT_OTURUM.md'
 
 Write-Host '=== Lertiva Arc Dalga 3 (Kurumsal pilot) ==='

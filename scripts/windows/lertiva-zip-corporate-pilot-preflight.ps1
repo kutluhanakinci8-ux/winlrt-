@@ -2,10 +2,10 @@
 $ErrorActionPreference = 'Stop'
 
 $paths = @(
-  'HKCU:\Software\winlrt\Lertiva Zip',
-  'HKLM:\Software\winlrt\Lertiva Zip',
-  'HKCU:\Software\winlrt\Lertiva Arc',
-  'HKLM:\Software\winlrt\Lertiva Arc'
+  'HKCU:\Software\Lertiva\Lertiva Zip',
+  'HKLM:\Software\Lertiva\Lertiva Zip',
+  'HKCU:\Software\Lertiva\Lertiva Arc',
+  'HKLM:\Software\Lertiva\Lertiva Arc'
 )
 
 Write-Host '--- Lertiva Zip kurumsal politika ---'
@@ -21,13 +21,13 @@ foreach ($p in $paths) {
 }
 
 if (-not $zipFound) {
-  Write-Host '[INFO] Lertiva Zip anahtari yok — winlrtzip-corporate-policy-sample.reg veya GPO.'
+  Write-Host '[INFO] Lertiva Zip anahtari yok — lertiva-zip-corporate-policy-sample.reg veya GPO.'
   exit 2
 }
 
-$pp = (Get-ItemProperty -Path 'HKLM:\Software\winlrt\Lertiva Zip' -ErrorAction SilentlyContinue).PasswordPolicy
+$pp = (Get-ItemProperty -Path 'HKLM:\Software\Lertiva\Lertiva Zip' -ErrorAction SilentlyContinue).PasswordPolicy
 if (-not $pp) {
-  $pp = (Get-ItemProperty -Path 'HKCU:\Software\winlrt\Lertiva Zip' -ErrorAction SilentlyContinue).PasswordPolicy
+  $pp = (Get-ItemProperty -Path 'HKCU:\Software\Lertiva\Lertiva Zip' -ErrorAction SilentlyContinue).PasswordPolicy
 }
 if ($pp -ne 'corporate') {
   Write-Host '[WARN] PasswordPolicy=corporate beklenir.'

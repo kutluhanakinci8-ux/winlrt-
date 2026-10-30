@@ -9,7 +9,7 @@ if (-not $isAdmin) {
   Write-Error 'Yönetici olarak çalıştırın (HKLM yazımı).'
 }
 
-$regFile = Join-Path $PSScriptRoot '..\winlrt-corporate-policy-sample.reg'
+$regFile = Join-Path $PSScriptRoot '..\lertiva-arc-corporate-policy-sample.reg'
 $regFile = (Resolve-Path $regFile).Path
 if (-not (Test-Path $regFile)) {
   Write-Error "Bulunamadı: $regFile — repodan scripts/ altına kopyalayın veya ZIP indirin."

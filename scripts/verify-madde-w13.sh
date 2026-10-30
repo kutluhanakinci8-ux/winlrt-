@@ -4,6 +4,6 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-bash "$ROOT/scripts/verify-winlrtzip-kobi-prereqs.sh"
-cargo test -p lertiva-archive --test winlrtzip_interop kobi_ --quiet
+bash "$ROOT/scripts/verify-lertiva-zip-kobi-prereqs.sh"
+cargo test -p lertiva-archive --test lertiva_zip_interop kobi_ --quiet
 echo "OK: Madde W13 — Lertiva Zip KOBİ pilot (proxy)"

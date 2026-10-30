@@ -1,5 +1,5 @@
 # Lertiva Zip W12 — kurulum sonrasi Explorer kayit defteri / exe (Windows pilot).
-# Kullanim: powershell -ExecutionPolicy Bypass -File winlrtzip-explorer-qa-preflight.ps1
+# Kullanim: powershell -ExecutionPolicy Bypass -File lertiva-zip-explorer-qa-preflight.ps1
 $ErrorActionPreference = 'Stop'
 
 function Test-RegCommand($path, [string]$exeName) {
@@ -12,8 +12,8 @@ function Test-RegCommand($path, [string]$exeName) {
 $fail = @()
 $ok = @()
 
-$pv = (Get-ItemProperty -Path 'HKLM:\Software\winlrt\Lertiva Zip' -ErrorAction SilentlyContinue).ProductVersion
-if ($pv) { $ok += "ProductVersion=$pv" } else { $fail += 'HKLM\Software\winlrt\Lertiva Zip\ProductVersion yok' }
+$pv = (Get-ItemProperty -Path 'HKLM:\Software\Lertiva\Lertiva Zip' -ErrorAction SilentlyContinue).ProductVersion
+if ($pv) { $ok += "ProductVersion=$pv" } else { $fail += 'HKLM\Software\Lertiva\Lertiva Zip\ProductVersion yok' }
 
 $exeCandidates = @(
   "${env:ProgramFiles}\Lertiva Zip\Lertiva Zip.exe",

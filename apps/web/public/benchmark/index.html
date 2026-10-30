@@ -155,7 +155,7 @@ cargo run -p lertiva-archive -- bench --all --profile fast --json --zip-kpi</cod
         const meta = document.getElementById("p0-gate-meta");
         const card = document.getElementById("p0-gate-card");
         try {
-          const res = await fetch("/benchmark/samples/winlrtzip-p0-gate.json", {
+          const res = await fetch("/benchmark/samples/lertiva-zip-p0-gate.json", {
             cache: "no-store",
           });
           if (!res.ok) throw new Error(res.statusText);
@@ -169,7 +169,7 @@ cargo run -p lertiva-archive -- bench --all --profile fast --json --zip-kpi</cod
           <p class="meta">Tümü: <strong>${data.all_pass ? "GEÇTİ" : "izleniyor"}</strong> · ${
             data.generated_at || ""
           }</p>`;
-          meta.textContent = "Kaynak: winlrtzip-p0-gate.json (W16).";
+          meta.textContent = "Kaynak: lertiva-zip-p0-gate.json (W16).";
         } catch (e) {
           meta.textContent = "P0 kapı özeti yüklenemedi.";
           card.innerHTML = `<p class="meta">${e}</p>`;
@@ -188,34 +188,34 @@ cargo run -p lertiva-archive -- bench --all --profile fast --json --zip-kpi</cod
             fallback: "/benchmark/samples/linux-fast-kpi.json",
           },
           {
-            url: "/benchmark/samples/winlrtzip-windows-balanced-kpi.json",
+            url: "/benchmark/samples/lertiva-zip-windows-balanced-kpi.json",
             title: "Lertiva Zip Balanced — Windows (resmi)",
-            fallback: "/benchmark/samples/winlrtzip-linux-balanced-kpi.json",
+            fallback: "/benchmark/samples/lertiva-zip-linux-balanced-kpi.json",
           },
           {
-            url: "/benchmark/samples/winlrtzip-windows-fast-kpi.json",
+            url: "/benchmark/samples/lertiva-zip-windows-fast-kpi.json",
             title: "Lertiva Zip Fast — Windows (resmi)",
-            fallback: "/benchmark/samples/winlrtzip-linux-fast-kpi.json",
+            fallback: "/benchmark/samples/lertiva-zip-linux-fast-kpi.json",
           },
           {
-            url: "/benchmark/samples/winlrtzip-linux-balanced-kpi.json",
+            url: "/benchmark/samples/lertiva-zip-linux-balanced-kpi.json",
             title: "Lertiva Zip Balanced (Linux proxy)",
             fallback: null,
           },
           {
-            url: "/benchmark/samples/winlrtzip-linux-fast-kpi.json",
+            url: "/benchmark/samples/lertiva-zip-linux-fast-kpi.json",
             title: "Lertiva Zip Fast (Linux proxy)",
             fallback: null,
           },
           {
-            url: "/benchmark/samples/winlrtzip-macos-balanced-kpi.json",
+            url: "/benchmark/samples/lertiva-zip-macos-balanced-kpi.json",
             title: "Lertiva Zip Balanced — macOS (placeholder)",
-            fallback: "/benchmark/samples/winlrtzip-linux-balanced-kpi.json",
+            fallback: "/benchmark/samples/lertiva-zip-linux-balanced-kpi.json",
           },
           {
-            url: "/benchmark/samples/winlrtzip-macos-fast-kpi.json",
+            url: "/benchmark/samples/lertiva-zip-macos-fast-kpi.json",
             title: "Lertiva Zip Fast — macOS (placeholder)",
-            fallback: "/benchmark/samples/winlrtzip-linux-fast-kpi.json",
+            fallback: "/benchmark/samples/lertiva-zip-linux-fast-kpi.json",
           },
         ];
         const root = document.getElementById("kpi-cards");
@@ -260,23 +260,23 @@ cargo run -p lertiva-archive -- bench --all --profile fast --json --zip-kpi</cod
         if (!root) return;
         const items = [
           {
-            url: "/benchmark/samples/winlrtzip-lerta-mail-v1.json",
+            url: "/benchmark/samples/lertiva-zip-lerta-mail-v1.json",
             title: "Lerta posta eki (W28)",
           },
           {
-            url: "/benchmark/samples/winlrtzip-lerta-api-v1.json",
+            url: "/benchmark/samples/lertiva-zip-lerta-api-v1.json",
             title: "Lerta API durumu (W29)",
           },
           {
-            url: "/benchmark/samples/winlrtzip-lerta-message-v1.json",
+            url: "/benchmark/samples/lertiva-zip-lerta-message-v1.json",
             title: "Lerta mesaj eki (W30)",
           },
           {
-            url: "/benchmark/samples/winlrtzip-lerta-integration-v1.json",
+            url: "/benchmark/samples/lertiva-zip-lerta-integration-v1.json",
             title: "Lerta birleşik staging (W31)",
           },
           {
-            url: "/benchmark/samples/winlrtzip-store-gate.json",
+            url: "/benchmark/samples/lertiva-zip-store-gate.json",
             title: "Mağaza kapısı (W27)",
           },
         ];

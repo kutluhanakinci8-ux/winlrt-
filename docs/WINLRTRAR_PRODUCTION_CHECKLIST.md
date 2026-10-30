@@ -46,8 +46,8 @@ Detay: [AUTO_DEPLOY.md](./AUTO_DEPLOY.md) · Mac: `scripts/mac-set-github-vps-se
 ## 6. Kurumsal pilot
 
 - [ ] Segment rehberi: [WINLRTRAR_PILOT_KICKOFF.md](./WINLRTRAR_PILOT_KICKOFF.md) (banka / sendika / KOBİ)
-- [ ] ADMX: `deploy/gpo/Lertiva Arc.admx` → PolicyDefinitions
-- [ ] Örnek politika: `scripts/winlrt-corporate-policy-sample.reg`
+- [ ] ADMX: `deploy/gpo/lertiva-arc.admx` → PolicyDefinitions
+- [ ] Örnek politika: `scripts/lertiva-arc-corporate-policy-sample.reg`
 - [ ] Denetim mirror / HTTP forward test (isteğe bağlı)
 
 ## 7. v1.0 kapısı

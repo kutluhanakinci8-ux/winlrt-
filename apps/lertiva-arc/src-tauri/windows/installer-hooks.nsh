@@ -64,7 +64,7 @@
 !macroend
 
 !macro NSIS_HOOK_POSTINSTALL
-  WriteRegStr HKLM "Software\winlrt\Lertiva Arc" "ProductVersion" "0.1.0"
+  WriteRegStr HKLM "Software\Lertiva\Lertiva Arc" "ProductVersion" "0.1.0"
   !insertmacro WinlrtArchiveVerbOpen "zip"  "WinlrtOpen"        "Lertiva Arc ile ac"
   !insertmacro WinlrtArchiveVerbExtract "zip"  "WinlrtExtractHere" "Lertiva Arc - buraya ac"
   !insertmacro WinlrtArchiveVerbOpen "wlrt" "WinlrtOpen"        "Lertiva Arc ile ac"

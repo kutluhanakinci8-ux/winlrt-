@@ -7,7 +7,7 @@
 1. Actions → **winlrt Windows benchmark (resmi)** → yeşil koşu
 2. Artifact `bench-report-windows` (veya agent tetikleyici)
 3. `bash scripts/import-windows-zip-kpi-from-run.sh [run-id]`
-4. Vitrin: `winlrtzip-windows-{balanced,fast}-kpi.json`, `winlrtzip-p0-gate.json`
+4. Vitrin: `lertiva-zip-windows-{balanced,fast}-kpi.json`, `lertiva-zip-p0-gate.json`
 5. Deploy → [/benchmark/](https://winlrt.com.tr/benchmark/)
 
 Otomasyon: `bash scripts/agent-madde-w17-windows-zip-kpi-import.sh`

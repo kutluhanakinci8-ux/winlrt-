@@ -14,11 +14,11 @@
 
 | Bileşen | Konum |
 |---------|--------|
-| Proxy testler | `kobi_*` — `winlrtzip_interop.rs` |
-| Preflight | `scripts/windows/winlrtzip-kobi-pilot-preflight.ps1` |
-| Oturum | `scripts/windows/pilot-winlrtzip-kobi-start.ps1` |
+| Proxy testler | `kobi_*` — `lertiva_zip_interop.rs` |
+| Preflight | `scripts/windows/lertiva-zip-kobi-pilot-preflight.ps1` |
+| Oturum | `scripts/windows/pilot-lertiva-zip-kobi-start.ps1` |
 | Checklist | [WINLRTZIP_KOBI_PILOT_KOPYA.md](./WINLRTZIP_KOBI_PILOT_KOPYA.md) |
-| Signoff | `scripts/agent-winlrtzip-kobi-signoff.sh` |
+| Signoff | `scripts/agent-lertiva-zip-kobi-signoff.sh` |
 
 ## W13 %100 (repo kapısı)
 

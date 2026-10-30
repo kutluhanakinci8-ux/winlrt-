@@ -3,6 +3,6 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
-OUT="${1:-$ROOT/store-gate-winlrtzip.json}"
+OUT="${1:-$ROOT/store-gate-lertiva-zip.json}"
 cargo run -q -p lertiva-archive --bin lertiva-zip -- --json store-gate --workspace "$ROOT" > "$OUT"
 echo "OK: $OUT"

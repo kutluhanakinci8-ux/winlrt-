@@ -7,7 +7,7 @@ W28 webhook sözleşmesinin **lerta.com.tr** metadata kaydı (ZIP içeriği yük
 | Özellik | Durum |
 |---------|--------|
 | Varsayılan taban URL | `https://u88.lerta.com.tr/api/v1` |
-| Kayıt yolu | `/integrations/winlrt-zip/mail-attachment` |
+| Kayıt yolu | `/integrations/lertiva-zip/mail-attachment` |
 | Ortam | `LERTA_API_BASE`, `LERTA_API_BEARER`, `WINLRT_LERTA_API_DRY_RUN` |
 | CI güvenliği | `CI` veya dry-run → ağ çağrısı yok |
 | CLI | `lerta-api-status`, `lerta-mail-submit` |

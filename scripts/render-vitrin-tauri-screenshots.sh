@@ -23,8 +23,8 @@ shot() {
   echo "OK: $png"
 }
 
-shot "$SRC/winlrtzip-mock.html" "$OUT/tauri-winlrtzip-main.png"
-shot "$SRC/winlrtrar-mock.html" "$OUT/tauri-winlrtrar-main.png"
-shot "$SRC/winlrtrar-installer-mock.html" "$OUT/installer-winlrtrar-setup.png"
-shot "$SRC/winlrtzip-installer-mock.html" "$OUT/installer-winlrtzip-setup.png"
-shot "$SRC/smartscreen-mock.html" "$OUT/smartscreen-winlrt.png"
+shot "$SRC/lertiva-zip-mock.html" "$OUT/tauri-lertiva-zip-main.png"
+shot "$SRC/lertiva-arc-mock.html" "$OUT/tauri-lertiva-arc-main.png"
+shot "$SRC/lertiva-arc-installer-mock.html" "$OUT/installer-lertiva-arc-setup.png"
+shot "$SRC/lertiva-zip-installer-mock.html" "$OUT/installer-lertiva-zip-setup.png"
+shot "$SRC/smartscreen-mock.html" "$OUT/smartscreen-lertiva.png"

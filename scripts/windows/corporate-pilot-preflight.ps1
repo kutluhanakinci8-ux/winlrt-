@@ -3,8 +3,8 @@
 $ErrorActionPreference = 'Stop'
 
 $paths = @(
-  'HKCU:\Software\winlrt\Lertiva Arc',
-  'HKLM:\Software\winlrt\Lertiva Arc'
+  'HKCU:\Software\Lertiva\Lertiva Arc',
+  'HKLM:\Software\Lertiva\Lertiva Arc'
 )
 
 Write-Host '--- Lertiva Arc kurumsal politika (okuma) ---'
@@ -20,11 +20,11 @@ foreach ($p in $paths) {
 }
 
 if (-not $found) {
-  Write-Host '[INFO] Henüz politika yok — scripts/winlrt-corporate-policy-sample.reg veya GPO uygulayın.'
+  Write-Host '[INFO] Henüz politika yok — scripts/lertiva-arc-corporate-policy-sample.reg veya GPO uygulayın.'
   exit 2
 }
 
-$pp = (Get-ItemProperty -Path 'HKLM:\Software\winlrt\Lertiva Arc' -ErrorAction SilentlyContinue).PasswordPolicy
+$pp = (Get-ItemProperty -Path 'HKLM:\Software\Lertiva\Lertiva Arc' -ErrorAction SilentlyContinue).PasswordPolicy
 if ($pp -ne 'corporate') {
   Write-Host '[WARN] PasswordPolicy=corporate beklenir (HKLM veya HKCU).'
   exit 1

@@ -77,38 +77,38 @@ jobs:
         run: bash benchmarks/fixtures/mixed/prepare.sh
 
       - name: Lertiva Zip e-posta profili (I6 / W7)
-        run: cargo test -p lertiva-archive --test winlrtzip_interop i6_email_profile_mixed -- --ignored
+        run: cargo test -p lertiva-archive --test lertiva_zip_interop i6_email_profile_mixed -- --ignored
 
       - name: Lertiva Zip AES interop (I4 / W8)
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
           sudo apt-get install -y -qq -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold p7zip-full
-          cargo test -p lertiva-archive --test winlrtzip_interop i4_
+          cargo test -p lertiva-archive --test lertiva_zip_interop i4_
 
       - name: Lertiva Zip UTF-8 dosya adları (I5 / W9)
         run: |
           cargo test -p lertiva-archive --lib zip_turkish_utf8
-          cargo test -p lertiva-archive --test winlrtzip_interop i5_
+          cargo test -p lertiva-archive --test lertiva_zip_interop i5_
 
       - name: Lertiva Zip ZIP64 (I3 / W10)
         run: |
           cargo test -p lertiva-archive zip64_smoke
-          cargo test -p lertiva-archive --test winlrtzip_interop i3_
+          cargo test -p lertiva-archive --test lertiva_zip_interop i3_
 
       - name: Lertiva Zip bozuk CRC (I7 / W11)
         run: |
           cargo test -p lertiva-archive zip_corrupt_crc
-          cargo test -p lertiva-archive --test winlrtzip_interop i7_
+          cargo test -p lertiva-archive --test lertiva_zip_interop i7_
 
       - name: Lertiva Zip Explorer interop proxy (I1/I2 / W12)
         run: |
           sudo apt-get install -y -qq zip unzip
-          cargo test -p lertiva-archive --test winlrtzip_interop i1_
-          cargo test -p lertiva-archive --test winlrtzip_interop i2_
+          cargo test -p lertiva-archive --test lertiva_zip_interop i1_
+          cargo test -p lertiva-archive --test lertiva_zip_interop i2_
 
       - name: Lertiva Zip KOBİ pilot proxy (W13)
-        run: cargo test -p lertiva-archive --test winlrtzip_interop kobi_
+        run: cargo test -p lertiva-archive --test lertiva_zip_interop kobi_
 
       - name: Lertiva Zip macOS kapı (W14)
         run: bash scripts/verify-madde-w14.sh
@@ -179,8 +179,8 @@ jobs:
           WINLRT_ZIP_KPI_STRICT: ${{ vars.WINLRT_KPI_STRICT == '1' && '1' || '0' }}
         run: |
           command -v jq >/dev/null || sudo apt-get install -y -qq jq
-          chmod +x scripts/evaluate-winlrtzip-p0-gate.sh
-          ./scripts/evaluate-winlrtzip-p0-gate.sh bench-zip-balanced.json bench-zip-fast.json
+          chmod +x scripts/evaluate-lertiva-zip-p0-gate.sh
+          ./scripts/evaluate-lertiva-zip-p0-gate.sh bench-zip-balanced.json bench-zip-fast.json
 
       - name: KPI özeti (Linux Balanced, Madde C strict)
         env:

@@ -5,7 +5,7 @@ Hedef segmentler (Faz 0): **banka**, **sendika**, **KOBİ**. Her pilot için ayn
 ## Ortak paket
 
 1. **Kurulum:** GitHub Release beta veya imzalı build (Faz 3 kapısı)
-2. **Politika:** `scripts/winlrt-corporate-policy-sample.reg` veya ADMX `deploy/gpo/`
+2. **Politika:** `scripts/lertiva-arc-corporate-policy-sample.reg` veya ADMX `deploy/gpo/`
 3. **Denetim:** `AuditMirrorPath` / isteğe `AuditForwardUrl`
 4. **Modern crypto:** `RequireModernCrypto=1` + `PasswordPolicy=corporate`
 5. **QA:** [WINLRTRAR_EXPLORER_QA.md](./WINLRTRAR_EXPLORER_QA.md)

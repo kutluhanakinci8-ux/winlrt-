@@ -31,7 +31,7 @@ EXPLORER_QA_NOTES="Release asset SHA256 GitHub digest ile eşleşti; Dalga smoke
   bash "$ROOT/scripts/agent-explorer-signoff.sh"
 
 CORP_PILOT_SEGMENT="agent-ci (KOBİ simülasyon)" \
-CORP_PILOT_POLICY="ADMX+ADML repo; winlrt-corporate-policy-sample.reg; verify-dalga3-prereqs PASS" \
+CORP_PILOT_POLICY="ADMX+ADML repo; lertiva-arc-corporate-policy-sample.reg; verify-dalga3-prereqs PASS" \
 CORP_PILOT_AUDIT="cargo test audit:: — parola alanı yok (unit)" \
 CORP_PILOT_BY="Cloud Agent (otomatik)" \
   bash "$ROOT/scripts/agent-corporate-signoff.sh"

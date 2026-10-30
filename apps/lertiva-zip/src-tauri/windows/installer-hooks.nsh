@@ -57,7 +57,7 @@
 !macroend
 
 !macro NSIS_HOOK_POSTINSTALL
-  WriteRegStr HKLM "Software\winlrt\Lertiva Zip" "ProductVersion" "0.1.0"
+  WriteRegStr HKLM "Software\Lertiva\Lertiva Zip" "ProductVersion" "0.1.0"
   !insertmacro WinlrtZipVerbOpen "zip" "WinlrtZipOpen" "Lertiva Zip ile ac"
   !insertmacro WinlrtZipVerbExtract "zip" "WinlrtZipExtractHere" "Lertiva Zip - buraya ac"
   !insertmacro WinlrtZipDirectoryVerbCompress "WinlrtZipCompress" "Lertiva Zip ile sikistir"

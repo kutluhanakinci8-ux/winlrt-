@@ -12,8 +12,8 @@ function Test-RegCommand($path) {
 $fail = @()
 $ok = @()
 
-$pv = (Get-ItemProperty -Path 'HKLM:\Software\winlrt\Lertiva Arc' -ErrorAction SilentlyContinue).ProductVersion
-if ($pv) { $ok += "ProductVersion=$pv" } else { $fail += 'HKLM\Software\winlrt\Lertiva Arc\ProductVersion yok' }
+$pv = (Get-ItemProperty -Path 'HKLM:\Software\Lertiva\Lertiva Arc' -ErrorAction SilentlyContinue).ProductVersion
+if ($pv) { $ok += "ProductVersion=$pv" } else { $fail += 'HKLM\Software\Lertiva\Lertiva Arc\ProductVersion yok' }
 
 $exeCandidates = @(
   "${env:ProgramFiles}\Lertiva Arc\Lertiva Arc.exe",

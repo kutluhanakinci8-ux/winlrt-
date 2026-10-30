@@ -12,7 +12,7 @@ test -f "$ROOT/docs/qa/lerta-message-v1.schema.json"
 cargo test -p lertiva-archive lerta_message:: --quiet
 cargo test -p lertiva-archive lerta_api:: --quiet
 bash "$ROOT/scripts/evaluate-lerta-message-sample.sh"
-test -f "$ROOT/apps/web/public/benchmark/samples/winlrtzip-lerta-message-v1.json"
-cargo test -p lertiva-archive --test winlrtzip_interop w30_ --quiet
+test -f "$ROOT/apps/web/public/benchmark/samples/lertiva-zip-lerta-message-v1.json"
+cargo test -p lertiva-archive --test lertiva_zip_interop w30_ --quiet
 cargo check -p lertiva-zip --quiet
 echo "OK: Madde W30 — Lertiva Zip Lerta mesaj eki"

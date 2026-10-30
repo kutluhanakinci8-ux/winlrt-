@@ -4,9 +4,9 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <policyNamespaces>
-    <target prefix="winlrt" namespace="winlrt.Admx.Gpo.Zip" />
+    <target prefix="lertiva" namespace="lertiva.Admx.Gpo.Zip" />
   </policyNamespaces>
-  <supersededAdmx fileName="Lertiva Zip.admx" />
+  <supersededAdmx fileName="lertiva-zip.admx" />
   <resources minRequiredRevision="1.0.0.0" />
   <supportedOn>
     <definitions>
@@ -24,7 +24,7 @@
       class="Both"
       displayName="$(string.PasswordPolicy)"
       explainText="$(string.PasswordPolicy_Help)"
-      key="Software\winlrt\Lertiva Zip"
+      key="Software\Lertiva\Lertiva Zip"
       presentation="$(presentation.PasswordPolicy)">
       <parentCategory ref="Lertiva Zip" />
       <supportedOn ref="SUPPORTED_Windows10_AndLater" />
@@ -37,7 +37,7 @@
       class="Both"
       displayName="$(string.AuditMirrorPath)"
       explainText="$(string.AuditMirrorPath_Help)"
-      key="Software\winlrt\Lertiva Zip"
+      key="Software\Lertiva\Lertiva Zip"
       presentation="$(presentation.AuditMirrorPath)">
       <parentCategory ref="Lertiva Zip" />
       <supportedOn ref="SUPPORTED_Windows10_AndLater" />
@@ -50,7 +50,7 @@
       class="Both"
       displayName="$(string.AuditForwardUrl)"
       explainText="$(string.AuditForwardUrl_Help)"
-      key="Software\winlrt\Lertiva Zip"
+      key="Software\Lertiva\Lertiva Zip"
       presentation="$(presentation.AuditForwardUrl)">
       <parentCategory ref="Lertiva Zip" />
       <supportedOn ref="SUPPORTED_Windows10_AndLater" />
@@ -63,7 +63,7 @@
       class="Both"
       displayName="$(string.RequireModernCrypto)"
       explainText="$(string.RequireModernCrypto_Help)"
-      key="Software\winlrt\Lertiva Zip"
+      key="Software\Lertiva\Lertiva Zip"
       presentation="$(presentation.RequireModernCrypto)">
       <parentCategory ref="Lertiva Zip" />
       <supportedOn ref="SUPPORTED_Windows10_AndLater" />
@@ -83,7 +83,7 @@
       class="Both"
       displayName="$(string.RequireSignedArchive)"
       explainText="$(string.RequireSignedArchive_Help)"
-      key="Software\winlrt\Lertiva Zip"
+      key="Software\Lertiva\Lertiva Zip"
       presentation="$(presentation.RequireSignedArchive)">
       <parentCategory ref="Lertiva Zip" />
       <supportedOn ref="SUPPORTED_Windows10_AndLater" />

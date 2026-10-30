@@ -8,5 +8,5 @@ grep -q split_zip_ordered_volumes "$ROOT/crates/lertiva-archive/src/zip_io.rs"
 grep -q SplitZipOpen "$ROOT/crates/lertiva-archive/src/zip_io.rs"
 test -f "$ROOT/docs/qa/MADDE_W21_WINLRTZIP_SPLIT_ZIP_MERGE.md"
 cargo test -p lertiva-archive split_zip --quiet
-cargo test -p lertiva-archive --test winlrtzip_interop w21_ --quiet
+cargo test -p lertiva-archive --test lertiva_zip_interop w21_ --quiet
 echo "OK: Madde W21 — Lertiva Zip Split ZIP birleştirme"
