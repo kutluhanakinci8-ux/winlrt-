@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-test -f "$ROOT/.github/workflows/winlrt-zip-macos.yml"
+test -f "$ROOT/.github/workflows/lertiva-zip-macos.yml"
 test -f "$ROOT/apps/lertiva-zip/src-tauri/macos/Entitlements.plist"
 grep -q 'minimumSystemVersion' "$ROOT/apps/lertiva-zip/src-tauri/tauri.conf.json"
 grep -q 'icon.icns' "$ROOT/apps/lertiva-zip/src-tauri/tauri.conf.json"

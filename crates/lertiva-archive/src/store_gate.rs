@@ -95,7 +95,7 @@ pub fn evaluate_store_gate(workspace: &Path) -> Result<StoreGateReport> {
         "ci_windows_release",
         "both",
         workspace
-            .join(".github/workflows/winlrt-zip-windows.yml")
+            .join(".github/workflows/lertiva-zip-windows.yml")
             .is_file(),
         "Windows güncelleme hattı workflow",
     ));
@@ -103,11 +103,11 @@ pub fn evaluate_store_gate(workspace: &Path) -> Result<StoreGateReport> {
         "ci_macos_release",
         "app_store",
         workspace
-            .join(".github/workflows/winlrt-zip-macos.yml")
+            .join(".github/workflows/lertiva-zip-macos.yml")
             .is_file(),
         "macOS dmg hattı (W14)",
     ));
-    let win_ci = read_file(&workspace.join(".github/workflows/winlrt-zip-windows.yml"));
+    let win_ci = read_file(&workspace.join(".github/workflows/lertiva-zip-windows.yml"));
     items.push(item(
         "update_channel_github",
         "both",

@@ -7,7 +7,7 @@ REPO="${GITHUB_REPO:-kutluhanakinci8-ux/winlrt-}"
 wait_workflow() {
   sleep 25
   local RUN
-  RUN="$(gh run list --workflow=winlrt-zip-windows.yml --repo "$REPO" --branch main --limit 1 --json databaseId --jq '.[0].databaseId')"
+  RUN="$(gh run list --workflow=lertiva-zip-windows.yml --repo "$REPO" --branch main --limit 1 --json databaseId --jq '.[0].databaseId')"
   echo "==> Lertiva Zip Windows run $RUN"
   if ! gh run watch "$RUN" --repo "$REPO" --exit-status; then
     echo "gh run watch uyarı — poll ile bekleniyor..."

@@ -5,7 +5,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 test -f "$ROOT/docs/qa/MADDE_M_V1_0_1_SIGNING.md"
 test -f "$ROOT/scripts/mac-set-github-tauri-signing-secrets.sh"
-grep -q TAURI_SIGNING_PRIVATE_KEY "$ROOT/.github/workflows/winlrt-rar-windows.yml"
+grep -q TAURI_SIGNING_PRIVATE_KEY "$ROOT/.github/workflows/lertiva-arc-windows.yml"
 bash "$ROOT/scripts/verify-madde-h.sh"
 
 if gh secret list --repo "${GITHUB_REPO:-kutluhanakinci8-ux/winlrt-}" 2>/dev/null | grep -q TAURI_SIGNING_PRIVATE_KEY; then

@@ -8,7 +8,7 @@ GitHub’da **`TAURI_SIGNING_*` secret yok** (agent `gh secret set` → 403). Ge
 
 | Kapı | Durum |
 |------|--------|
-| CI imza hattı | `winlrt-rar-windows.yml` + `TAURI_SIGNING_*` env |
+| CI imza hattı | `lertiva-arc-windows.yml` + `TAURI_SIGNING_*` env |
 | Secret yokken | Uyarı + imzasız NSIS (beklenen) |
 | Secret varken | `verify-windows-signature.ps1` koşar |
 | Dokümantasyon | [WINLRTRAR_CODE_SIGNING.md](../WINLRTRAR_CODE_SIGNING.md) |

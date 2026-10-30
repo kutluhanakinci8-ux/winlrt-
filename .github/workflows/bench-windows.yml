@@ -1,4 +1,4 @@
-name: winlrt Windows benchmark (resmi)
+name: Lertiva Windows benchmark (resmi)
 
 on:
   workflow_dispatch:

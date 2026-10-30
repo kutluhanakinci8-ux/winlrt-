@@ -8,7 +8,7 @@ Lerta mesaj kanalı için `.wlrt` veya AES-ZIP profili; yalnızca metadata kayd�
 |---------|--------|
 | Formatlar | `wlrt_v0`, `aes_zip` |
 | Üst sınır | 16 MiB |
-| Kayıt yolu | `/integrations/winlrt-zip/message-attachment` |
+| Kayıt yolu | `/integrations/lertiva-zip/message-attachment` |
 | Ortam | `LERTA_API_BASE`, `LERTA_API_BEARER`, `WINLRT_LERTA_API_DRY_RUN` |
 | CI güvenliği | `CI` veya dry-run → ağ çağrısı yok |
 | CLI | `lerta-message-prepare`, `lerta-message-validate`, `lerta-message-submit` |

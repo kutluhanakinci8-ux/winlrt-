@@ -8,7 +8,7 @@ Authenticode **henüz yok**; agent GitHub secret yazamaz (403). **Prep %100** = 
 
 | Bileşen | Konum |
 |---------|--------|
-| CI env | `.github/workflows/winlrt-rar-windows.yml` → `TAURI_SIGNING_*` |
+| CI env | `.github/workflows/lertiva-arc-windows.yml` → `TAURI_SIGNING_*` |
 | Mac yükleme | `scripts/mac-set-github-tauri-signing-secrets.sh` |
 | Doğrulama | `scripts/verify-windows-signature.ps1` |
 | Rehber | [WINLRTRAR_CODE_SIGNING.md](../WINLRTRAR_CODE_SIGNING.md) |

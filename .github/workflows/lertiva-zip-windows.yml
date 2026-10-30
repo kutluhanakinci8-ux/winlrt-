@@ -12,7 +12,7 @@ on:
     paths:
       - .github/flags/trigger-zip-beta-build
       - .github/flags/trigger-zip-beta-release
-      - .github/workflows/winlrt-zip-windows.yml
+      - .github/workflows/lertiva-zip-windows.yml
 
 permissions:
   contents: write

@@ -7,7 +7,7 @@ REPO="${GITHUB_REPO:-kutluhanakinci8-ux/winlrt-}"
 wait_workflow() {
   sleep 20
   local RUN
-  RUN="$(gh run list --workflow=winlrt-rar-windows.yml --repo "$REPO" --branch main --limit 1 --json databaseId --jq '.[0].databaseId')"
+  RUN="$(gh run list --workflow=lertiva-arc-windows.yml --repo "$REPO" --branch main --limit 1 --json databaseId --jq '.[0].databaseId')"
   echo "==> Lertiva Arc Windows beta run $RUN"
   gh run watch "$RUN" --repo "$REPO" --exit-status
 }

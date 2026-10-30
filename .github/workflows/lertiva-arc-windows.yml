@@ -12,7 +12,7 @@ on:
     paths:
       - .github/flags/trigger-beta-build
       - .github/flags/trigger-beta-release
-      - .github/workflows/winlrt-rar-windows.yml
+      - .github/workflows/lertiva-arc-windows.yml
 
 permissions:
   contents: write

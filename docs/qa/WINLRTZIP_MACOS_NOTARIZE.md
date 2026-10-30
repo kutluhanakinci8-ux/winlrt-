@@ -11,6 +11,6 @@ Imzasiz **dmg** beta CI’da uretilir. Gatekeeper uyumu icin GitHub Actions secr
 | `APPLE_PASSWORD` | App-specific password |
 | `APPLE_TEAM_ID` | Team ID |
 
-Workflow: [winlrt-zip-macos.yml](../../.github/workflows/winlrt-zip-macos.yml)
+Workflow: [lertiva-zip-macos.yml](../../.github/workflows/lertiva-zip-macos.yml)
 
 Release (istege): `.github/flags/trigger-zip-macos-release` push → `winlrt-zip-macos-beta.<run>` tag.

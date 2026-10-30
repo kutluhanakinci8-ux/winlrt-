@@ -21,7 +21,7 @@ for pair in balanced fast; do
   src="$OUT/lertiva-zip-linux-${pair}-kpi.json"
   dst="$OUT/lertiva-zip-macos-${pair}-kpi.json"
   jq '.platform = "macos / CI-placeholder (motor Linux proxy; resmi macOS bench W15+)" 
-    | .disclaimer = "Resmi macOS zip_kpi: winlrt-zip-macos workflow artifact veya Mac agent bench --zip-kpi."' \
+    | .disclaimer = "Resmi macOS zip_kpi: lertiva-zip-macos workflow artifact veya Mac agent bench --zip-kpi."' \
     "$src" >"$dst"
 done
 

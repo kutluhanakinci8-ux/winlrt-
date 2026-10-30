@@ -7,7 +7,7 @@
 | Bileşen | Konum |
 |---------|--------|
 | Tauri macOS bundle | `tauri.conf.json` → `bundle.macOS`, `macos/Entitlements.plist` |
-| CI | `.github/workflows/winlrt-zip-macos.yml` |
+| CI | `.github/workflows/lertiva-zip-macos.yml` |
 | Tetikleyici | `.github/flags/trigger-zip-macos-build` |
 | Notarize rehberi | [WINLRTZIP_MACOS_NOTARIZE.md](./WINLRTZIP_MACOS_NOTARIZE.md) |
 | Platform metni | `engine_info` macOS ipucu |

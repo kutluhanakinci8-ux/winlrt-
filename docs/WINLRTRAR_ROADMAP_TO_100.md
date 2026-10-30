@@ -143,7 +143,7 @@ Mac / güvenli ortam: [WINLRTRAR_CODE_SIGNING.md](./WINLRTRAR_CODE_SIGNING.md), 
 
 **I %100 tanımı:** İmzalı kurulum **Release veya artifact** olarak indirilebilir; imza verify CI’da geçmiş.
 
-**Not:** Push’ta görünen `winlrt-rar-windows.yml` 0s kayıtları **dispatch-only** workflow için gürültü; kabul kriteri **manuel run success**’tir.
+**Not:** Push’ta görünen `lertiva-arc-windows.yml` 0s kayıtları **dispatch-only** workflow için gürültü; kabul kriteri **manuel run success**’tir.
 
 ---
 

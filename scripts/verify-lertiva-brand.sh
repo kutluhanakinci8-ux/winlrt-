@@ -33,5 +33,23 @@ if rg -q 'winlrtzip-|winlrtrar-|tauri-winlrt|smartscreen-winlrt' "$ROOT/apps/web
   FAIL=1
 fi
 
+# Tur 3: beta workflow dosya adları (release tag winlrt-* bilinçli kalabilir)
+for wf in lertiva-arc-windows.yml lertiva-zip-windows.yml lertiva-zip-macos.yml; do
+  if [[ ! -f "$ROOT/.github/workflows/$wf" ]]; then
+    echo "FAIL: eksik workflow $wf"
+    FAIL=1
+  fi
+done
+for old in winlrt-rar-windows.yml winlrt-zip-windows.yml winlrt-zip-macos.yml; do
+  if [[ -f "$ROOT/.github/workflows/$old" ]]; then
+    echo "FAIL: eski workflow hâlâ var: $old"
+    FAIL=1
+  fi
+done
+grep -q 'cargo check -p lertiva-zip' "$ROOT/.github/workflows/main-pipeline.yml" || {
+  echo "FAIL: main-pipeline lertiva-zip check"
+  FAIL=1
+}
+
 test "$FAIL" -eq 0 || exit 1
 echo "OK: Lertiva marka — ürün adı ve vitrin yolu kalıntısı yok"

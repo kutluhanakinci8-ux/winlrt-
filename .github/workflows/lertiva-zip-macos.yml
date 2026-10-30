@@ -12,7 +12,7 @@ on:
     paths:
       - .github/flags/trigger-zip-macos-build
       - .github/flags/trigger-zip-macos-release
-      - .github/workflows/winlrt-zip-macos.yml
+      - .github/workflows/lertiva-zip-macos.yml
 
 permissions:
   contents: write

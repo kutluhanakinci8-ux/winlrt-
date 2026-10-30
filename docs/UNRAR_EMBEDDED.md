@@ -9,7 +9,7 @@ cd apps/lertiva-arc
 npm run tauri build -- --features unrar-embedded
 ```
 
-GitHub Actions: `.github/workflows/winlrt-rar-windows.yml`
+GitHub Actions: `.github/workflows/lertiva-arc-windows.yml`
 
 Linux geliştirici CI (`cargo check -p lertiva-arc`) feature **kapalı**; RAR5 fixture `rar` crate + isteğe bağlı sistem `unrar`.
 
