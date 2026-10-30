@@ -196,6 +196,77 @@ fn i4_winlrt_zip_cli_aes_roundtrip() {
     assert!(test.status.success());
 }
 
+#[test]
+fn i3_zip64_smoke_archive_roundtrip() {
+    let base = tempfile::tempdir().unwrap();
+    let zip = base.path().join("z64.zip");
+    zip_io::create_zip64_smoke(&zip).unwrap();
+    assert!(
+        zip_io::archive_indicates_zip64(&zip).unwrap(),
+        "Zip64 EOCD bekleniyordu"
+    );
+    zip_io::test(&zip, None).unwrap();
+    let out = base.path().join("out");
+    zip_io::extract(&zip, &out, None).unwrap();
+    assert_eq!(
+        fs::read(out.join("zip64-smoke.txt")).unwrap(),
+        b"zip64"
+    );
+}
+
+#[test]
+fn i3_zip64_list_contains_smoke_entry() {
+    let base = tempfile::tempdir().unwrap();
+    let zip = base.path().join("z64.zip");
+    zip_io::create_zip64_smoke(&zip).unwrap();
+    let entries = zip_io::list(&zip, None).unwrap();
+    assert!(entries.iter().any(|e| e.contains("zip64-smoke.txt")));
+}
+
+#[test]
+fn i3_7zip_opens_zip64_smoke() {
+    if !seven_zip_available() {
+        return;
+    }
+    let base = tempfile::tempdir().unwrap();
+    let zip = base.path().join("z64.zip");
+    zip_io::create_zip64_smoke(&zip).unwrap();
+    let dest = base.path().join("7z");
+    fs::create_dir_all(&dest).unwrap();
+    let status = Command::new("7z")
+        .args(["x", "-y", &zip.to_string_lossy(), &format!("-o{}", dest.display())])
+        .status()
+        .unwrap();
+    assert!(status.success());
+    assert_eq!(fs::read(dest.join("zip64-smoke.txt")).unwrap(), b"zip64");
+}
+
+/// Gerçek >4 GiB seyrek dosya (yerel/CI `--ignored`; disk doldurmadan Zip64 yazma).
+#[test]
+#[ignore = "seyrek 4GiB+ dosya — yalnizca i3_sparse test kosusunda"]
+fn i3_sparse_over_4gib_zip_roundtrip() {
+    use std::io::Read;
+    let base = tempfile::tempdir().unwrap();
+    let big = base.path().join("large.bin");
+    {
+        let f = fs::File::create(&big).unwrap();
+        f.set_len(zip_io::ZIP64_SIZE_THRESHOLD + 1024)
+            .expect("set_len (seyrek dosya desteklenmeli)");
+        f.sync_all().ok();
+    }
+    let zip = base.path().join("large.zip");
+    zip_io::create_with_profile(&big, &zip, CompressionProfile::Fast, None).unwrap();
+    assert!(zip_io::archive_indicates_zip64(&zip).unwrap());
+    zip_io::test(&zip, None).unwrap();
+    let out = base.path().join("extract");
+    zip_io::extract(&zip, &out, None).unwrap();
+    let restored = out.join("large.bin");
+    assert_eq!(fs::metadata(&restored).unwrap().len(), big.metadata().unwrap().len());
+    let mut sample = fs::File::open(&restored).unwrap();
+    let mut buf = [0u8; 16];
+    sample.read_exact(&mut buf).ok();
+}
+
 const I5_TURKISH_REL: &str = "Şirket/iğüş/Özet_2026.txt";
 
 #[test]

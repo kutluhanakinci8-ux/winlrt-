@@ -88,6 +88,11 @@ jobs:
           cargo test -p winlrt-archive --lib zip_turkish_utf8
           cargo test -p winlrt-archive --test winlrtzip_interop i5_
 
+      - name: winlrtZIP ZIP64 (I3 / W10)
+        run: |
+          cargo test -p winlrt-archive zip64_smoke
+          cargo test -p winlrt-archive --test winlrtzip_interop i3_
+
       - name: Faz 1 benchmark raporu
         run: |
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json

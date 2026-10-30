@@ -144,7 +144,31 @@ pub fn create_from_paths(
 }
 
 /// Zip64 eşiği (zip crate `ZIP64_BYTES_THR` ile uyumlu).
-const ZIP64_SIZE_THRESHOLD: u64 = u32::MAX as u64;
+pub const ZIP64_SIZE_THRESHOLD: u64 = u32::MAX as u64;
+
+/// Arşivde Zip64 EOCD (`PK\x06\x06`) veya Zip64 yerel başlık biti (I3 doğrulama).
+pub fn archive_indicates_zip64(archive: &Path) -> Result<bool> {
+    let bytes = std::fs::read(archive).map_err(|e| ArchiveError::Io(e))?;
+    if bytes.windows(4).any(|w| w == [0x50, 0x4b, 0x06, 0x06]) {
+        return Ok(true);
+    }
+    for (i, w) in bytes.windows(4).enumerate() {
+        if w != [0x50, 0x4b, 0x03, 0x04] || i + 26 > bytes.len() {
+            continue;
+        }
+        let gp = u16::from_le_bytes([bytes[i + 6], bytes[i + 7]]);
+        if gp & 0x0800 != 0 {
+            return Ok(true);
+        }
+        let zip64_size_sentinel = [0xFF, 0xFF, 0xFF, 0xFF];
+        if bytes[i + 18..i + 22] == zip64_size_sentinel
+            || bytes[i + 22..i + 26] == zip64_size_sentinel
+        {
+            return Ok(true);
+        }
+    }
+    Ok(false)
+}
 
 fn add_file(
     writer: &mut ZipWriter<File>,
@@ -282,6 +306,14 @@ mod tests {
             std::fs::read(out.join("secret.txt")).unwrap(),
             b"zip aes"
         );
+    }
+
+    #[test]
+    fn zip64_smoke_has_zip64_marker() {
+        let dir = tempdir().unwrap();
+        let archive = dir.path().join("z64.zip");
+        create_zip64_smoke(&archive).unwrap();
+        assert!(archive_indicates_zip64(&archive).unwrap(), "zip64 smoke marker yok");
     }
 
     #[test]
