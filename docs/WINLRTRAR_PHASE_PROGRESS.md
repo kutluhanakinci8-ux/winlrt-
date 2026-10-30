@@ -4,7 +4,7 @@ Otomatik takip: [WINLRTRAR_ROADMAP_TO_100.md](./WINLRTRAR_ROADMAP_TO_100.md)
 
 | Faz | Maddeler | Agent durumu | Not |
 |-----|----------|--------------|-----|
-| 0 | A, B | Tamam | `main` + Main pipeline |
+| 0 | A, B | Tamam | `main` + Main pipeline ([MADDE_B](./qa/MADDE_B_MAIN_PIPELINE.md) %100) |
 | 1 | E, F | F agent / E kısmi | Agent rsync (ortam VPS_*); GitHub `VPS_SSH_PASSWORD` hâlâ yok → CI skip |
 | 2 | C, G | Tamam + yenileme | Flag push ile Windows bench tetiklenir |
 | 3 | H, D, I | **Kısmi (~I ok)** | Release: `winlrt-rar-beta.41064653814`; artifact path düzeltildi; H imza yok |

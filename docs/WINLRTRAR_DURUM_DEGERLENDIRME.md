@@ -10,7 +10,7 @@
 | Madde | Başlık | % | Durum |
 |-------|--------|---|--------|
 | **A** | Kod + `main` merge | **100** | Feature zinciri `main`’de |
-| **B** | Main pipeline (build/test) | **95** | Genelde yeşil; ara push’larda cancel olabilir |
+| **B** | Main pipeline (build/test) | **100** | `main` cancel-in-progress kapalı; bkz. [MADDE_B_MAIN_PIPELINE.md](./qa/MADDE_B_MAIN_PIPELINE.md) |
 | **C** | Windows resmi benchmark | **88** | Koşu yeşil; **KPI strict** kapısı isteğe bağlı açılmadı |
 | **D** | Beta workflow | **90** | Push flag + CI; dispatch agent’ta 403 |
 | **E** | GitHub Secrets VPS | **40** | Agent ortam `VPS_*` var; **repo secret yok** → CI deploy skip |

@@ -8,9 +8,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# main: hızlı push'larda iptal etme (Madde B %100). PR: eski koşuyu iptal et.
 concurrency:
   group: main-pipeline-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   web:
