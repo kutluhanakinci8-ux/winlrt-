@@ -25,6 +25,13 @@ aes-gcm = "0.10"
 pbkdf2 = "0.12"
 sha2 = "0.10"
 rand = "0.8"
+unrar-ng = { version = "0.7.7", optional = true, default-features = false, features = [
+  "linux-batch-extract-utf8",
+] }
 
 [dev-dependencies]
 tempfile = "3"
+
+[features]
+default = []
+unrar-embedded = ["dep:unrar-ng"]

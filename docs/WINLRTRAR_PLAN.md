@@ -141,7 +141,7 @@ benchmarks/                # Rakip karşılaştırma seti
 **Amaç:** WinRAR kullanıcısını **deneyimle kazanmak**.
 
 - [x] Tauri iskelet (`apps/winlrt-rar`), TR arayüz başlangıcı
-- [x] **RAR5 okuma** (beta) — `rar` crate + CLI/Tauri; RAR4 / UnRAR statik link sırada
+- [x] **RAR okuma** (beta) — libunrar (Win build) + UnRAR CLI + `rar` crate
 - [x] 7z okuma (`sevenz-rust`; parolalı → 7z CLI)
 - [x] Sürükle-bırak + iş kuyruğu (Tauri beta)
 - [x] Çift tık / dosya ilişkilendirme (beta: bundle `fileAssociations` + argv)

@@ -13,6 +13,11 @@ interface EngineInfo {
   product: string;
   phase: string;
   motor: string;
+  rar: {
+    order: string[];
+    embedded_libunrar: boolean;
+    sidecar_unrar: boolean;
+  };
 }
 
 interface ListResult {
@@ -419,6 +424,12 @@ function App() {
           <div className="meta">
             <span>{info.motor}</span>
             <span>{info.phase}</span>
+            <span title={info.rar.order.join(" → ")}>
+              RAR:{" "}
+              {info.rar.embedded_libunrar
+                ? "libunrar gömülü"
+                : "CLI / rar crate"}
+            </span>
           </div>
         )}
       </header>

@@ -27,6 +27,7 @@ pub struct EngineInfo {
     pub product: &'static str,
     pub phase: &'static str,
     pub motor: &'static str,
+    pub rar: winlrt_archive::rar::BackendInfo,
 }
 
 #[derive(Serialize)]
@@ -111,7 +112,8 @@ fn engine_info() -> EngineInfo {
     EngineInfo {
         product: "winlrtRAR",
         phase: "Faz 3 beta (geçiş)",
-        motor: "winlrt-archive 0.1.0 (ZIP · wlrt · RAR5 · 7z)",
+        motor: "winlrt-archive 0.1.0 (ZIP · wlrt · RAR4/5 · 7z)",
+        rar: rar::backend_info(),
     }
 }
 

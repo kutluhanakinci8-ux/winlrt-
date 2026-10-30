@@ -21,8 +21,8 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@stable
 
-      - name: Build winlrtRAR (Tauri)
-        run: npm run build:rar
+      - name: Build winlrtRAR (Tauri + libunrar)
+        run: npm run tauri build -w @winlrt/rar -- --features unrar-embedded
 
       - name: Upload Windows bundle (artifact)
         uses: actions/upload-artifact@v4

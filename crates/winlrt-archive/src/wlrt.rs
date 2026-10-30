@@ -249,7 +249,6 @@ fn read_header(r: &mut File) -> Result<WlrtHeader> {
         None
     };
     Ok(WlrtHeader {
-        version,
         file_count,
         salt,
     })
