@@ -9,7 +9,7 @@
 | Cilt sıralama | `split_zip_ordered_volumes` |
 | Birleştirme | `SplitZipOpen` / `split_zip_materialize_merged` |
 | list / extract / test | Otomatik birleştirme |
-| Split yazma (üretim) | Sonraki sprint |
+| Split yazma (üretim) | [W22](./MADDE_W22_WINLRTZIP_SPLIT_ZIP_WRITE.md) |
 | Info-ZIP `zip -s` (PK 07 08) | Birleştirme hazır; tam açma sonraki iyileştirme |
 
 ## Bileşenler

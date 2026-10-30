@@ -178,6 +178,15 @@ pub const ZIP64_SIZE_THRESHOLD: u64 = u32::MAX as u64;
 
 /// WinZip / Info-ZIP split: `arsiv.z01` … `arsiv.zNN` + son cilt `arsiv.zip`.
 pub const SPLIT_ZIP_MAX_VOLUMES: u32 = 999;
+/// Info-ZIP `zip -s` ile uyumlu minimum cilt boyutu (64 KiB).
+pub const SPLIT_ZIP_MIN_VOLUME_BYTES: u64 = 64 * 1024;
+
+/// Split yazma özeti (W22).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct SplitZipWriteResult {
+    pub volume_count: u32,
+    pub total_bytes: u64,
+}
 
 /// Birleştirilmiş geçici arşiv (W21); `_merged` kapanınca silinir.
 struct SplitZipOpen {
@@ -299,6 +308,89 @@ fn normalize_merged_split_eocd(bytes: &mut [u8]) {
 /// Diskte mevcut ciltler (birleştirme sırasıyla).
 pub fn split_zip_volumes_on_disk(entry: &Path) -> Vec<PathBuf> {
     split_zip_ordered_volumes(entry)
+}
+
+/// Aynı stem altındaki önceki split ciltlerini siler (`*.zNN`, hedef `*.zip`).
+pub fn split_zip_remove_existing_volumes(dest_zip: &Path) -> Result<()> {
+    let Some(stem) = dest_zip.file_stem().and_then(|s| s.to_str()) else {
+        return Ok(());
+    };
+    let parent = dest_zip.parent().unwrap_or_else(|| Path::new("."));
+    let Ok(read_dir) = std::fs::read_dir(parent) else {
+        return Ok(());
+    };
+    for ent in read_dir.flatten() {
+        let Some(name) = ent.file_name().to_str().map(|s| s.to_string()) else {
+            continue;
+        };
+        if name == format!("{stem}.zip") || split_zip_part_number(&name, stem).is_some() {
+            let _ = std::fs::remove_file(ent.path());
+        }
+    }
+    Ok(())
+}
+
+/// Tam ZIP baytlarını cilt dosyalarına yazar (W21 birleştirme ile uyumlu ham bölme).
+pub fn split_zip_write_volumes(
+    bytes: &[u8],
+    dest_zip: &Path,
+    volume_size: u64,
+) -> Result<SplitZipWriteResult> {
+    if volume_size < SPLIT_ZIP_MIN_VOLUME_BYTES {
+        return Err(ArchiveError::Zip(format!(
+            "split cilt boyutu en az {} B olmalı",
+            SPLIT_ZIP_MIN_VOLUME_BYTES
+        )));
+    }
+    if dest_zip.extension().is_none_or(|e| e != "zip") {
+        return Err(ArchiveError::Zip("split hedefi .zip uzantılı olmalı".into()));
+    }
+    let Some(stem) = dest_zip.file_stem().and_then(|s| s.to_str()) else {
+        return Err(ArchiveError::Zip("split hedef adı geçersiz".into()));
+    };
+    let parent = dest_zip.parent().unwrap_or_else(|| Path::new("."));
+    split_zip_remove_existing_volumes(dest_zip)?;
+    let total = bytes.len() as u64;
+    if total <= volume_size {
+        std::fs::write(dest_zip, bytes).map_err(ArchiveError::Io)?;
+        return Ok(SplitZipWriteResult {
+            volume_count: 1,
+            total_bytes: total,
+        });
+    }
+    let chunk_size = volume_size as usize;
+    let chunks: Vec<&[u8]> = bytes.chunks(chunk_size).collect();
+    if chunks.len() > SPLIT_ZIP_MAX_VOLUMES as usize {
+        return Err(ArchiveError::Zip(format!(
+            "çok fazla cilt (>{SPLIT_ZIP_MAX_VOLUMES})"
+        )));
+    }
+    for (i, chunk) in chunks.iter().enumerate() {
+        let path = if i + 1 == chunks.len() {
+            parent.join(format!("{stem}.zip"))
+        } else {
+            parent.join(format!("{stem}.z{:02}", i + 1))
+        };
+        std::fs::write(path, chunk).map_err(ArchiveError::Io)?;
+    }
+    Ok(SplitZipWriteResult {
+        volume_count: chunks.len() as u32,
+        total_bytes: total,
+    })
+}
+
+/// Kaynak → ZIP oluştur → ciltlere böl (W22).
+pub fn create_split_with_profile(
+    source: &Path,
+    dest: &Path,
+    profile: CompressionProfile,
+    password: Option<&str>,
+    volume_size: u64,
+) -> Result<SplitZipWriteResult> {
+    let tmp = NamedTempFile::new().map_err(ArchiveError::Io)?;
+    create_with_profile(source, tmp.path(), profile, password)?;
+    let bytes = std::fs::read(tmp.path()).map_err(ArchiveError::Io)?;
+    split_zip_write_volumes(&bytes, dest, volume_size)
 }
 
 /// Çok ciltli arşivi tek geçici dosyada birleştirir (W21); tek ciltte `Ok(None)`.
@@ -613,6 +705,53 @@ mod tests {
             std::fs::read(out.join("piece.txt")).unwrap(),
             b"w21-synthetic-split-merge"
         );
+    }
+
+    #[test]
+    fn split_zip_write_multivolume_roundtrip() {
+        let dir = tempdir().unwrap();
+        let src = dir.path().join("src");
+        std::fs::create_dir_all(&src).unwrap();
+        std::fs::write(src.join("chunk.bin"), vec![0xCDu8; 150 * 1024]).unwrap();
+        std::fs::write(src.join("note.txt"), b"w22-split-write").unwrap();
+        let dest = dir.path().join("out.zip");
+        let info = create_split_with_profile(
+            &src,
+            &dest,
+            CompressionProfile::Fast,
+            None,
+            SPLIT_ZIP_MIN_VOLUME_BYTES,
+        )
+        .unwrap();
+        assert!(info.volume_count >= 2, "volume_count={}", info.volume_count);
+        assert!(archive_indicates_split_zip(&dest).unwrap());
+        test(&dest, None).unwrap();
+        let extract_dir = dir.path().join("extracted");
+        extract(&dest, &extract_dir, None).unwrap();
+        assert_eq!(
+            std::fs::read(extract_dir.join("note.txt")).unwrap(),
+            b"w22-split-write"
+        );
+        assert_eq!(
+            std::fs::read(extract_dir.join("chunk.bin")).unwrap().len(),
+            150 * 1024
+        );
+    }
+
+    #[test]
+    fn split_zip_write_rejects_small_volume_size() {
+        let dir = tempdir().unwrap();
+        std::fs::write(dir.path().join("x.txt"), b"x").unwrap();
+        let err = create_split_with_profile(
+            &dir.path().join("x.txt"),
+            &dir.path().join("t.zip"),
+            CompressionProfile::Fast,
+            None,
+            1024,
+        )
+        .unwrap_err()
+        .to_string();
+        assert!(err.contains("en az"));
     }
 
     #[test]

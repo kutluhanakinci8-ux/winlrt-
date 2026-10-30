@@ -1,4 +1,4 @@
-//! winlrtZIP interop — I6 (W7), I4 AES (W8), I1/I2 Explorer proxy (W12), KOBİ pilot (W13), split ZIP (W20–W21).
+//! winlrtZIP interop — I6 (W7), I4 AES (W8), I1/I2 Explorer proxy (W12), KOBİ pilot (W13), split ZIP (W20–W22).
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -681,6 +681,41 @@ fn w20_normal_zip_not_split() {
     let zip = base.path().join("n.zip");
     zip_io::create_with_profile(&src, &zip, CompressionProfile::Fast, None).unwrap();
     assert!(!zip_io::archive_indicates_split_zip(&zip).unwrap());
+}
+
+#[test]
+fn w22_split_zip_create_and_extract() {
+    let base = tempfile::tempdir().unwrap();
+    fs::write(base.path().join("w22.txt"), b"w22-create-split").unwrap();
+    let dest = base.path().join("pkg.zip");
+    let info = zip_io::create_split_with_profile(
+        &base.path().join("w22.txt"),
+        &dest,
+        CompressionProfile::Fast,
+        None,
+        zip_io::SPLIT_ZIP_MIN_VOLUME_BYTES,
+    )
+    .unwrap();
+    assert_eq!(info.volume_count, 1);
+    zip_io::test(&dest, None).unwrap();
+    let out = base.path().join("out");
+    zip_io::extract(&dest, &out, None).unwrap();
+    assert_eq!(fs::read(out.join("w22.txt")).unwrap(), b"w22-create-split");
+
+    let big = base.path().join("large.bin");
+    fs::write(&big, vec![1u8; 140 * 1024]).unwrap();
+    let dest2 = base.path().join("big.zip");
+    let info2 = zip_io::create_split_with_profile(
+        &big,
+        &dest2,
+        CompressionProfile::Fast,
+        None,
+        zip_io::SPLIT_ZIP_MIN_VOLUME_BYTES,
+    )
+    .unwrap();
+    assert!(info2.volume_count >= 2);
+    zip_io::extract(&dest2, &base.path().join("out2"), None).unwrap();
+    assert_eq!(fs::read(base.path().join("out2/large.bin")).unwrap().len(), 140 * 1024);
 }
 
 #[test]

@@ -36,6 +36,14 @@ pub enum ZipCommands {
         #[arg(long, value_enum, default_value_t = ZipProfileArg::Email)]
         profile: ZipProfileArg,
     },
+    CreateSplit {
+        source: PathBuf,
+        dest: PathBuf,
+        #[arg(long, value_enum, default_value_t = ZipProfileArg::Balanced)]
+        profile: ZipProfileArg,
+        #[arg(long, default_value_t = zip_io::SPLIT_ZIP_MIN_VOLUME_BYTES)]
+        volume_size: u64,
+    },
     Test { archive: PathBuf },
     Bench {
         #[arg(long)]
@@ -82,6 +90,14 @@ struct OkJson {
     action: &'static str,
 }
 
+#[derive(Serialize)]
+struct SplitCreateJson {
+    ok: bool,
+    action: &'static str,
+    volume_count: u32,
+    total_bytes: u64,
+}
+
 pub fn run() -> Result<()> {
     let cli = ZipCli::parse();
     let json_out = cli.json;
@@ -113,6 +129,33 @@ pub fn run() -> Result<()> {
                     ok: true,
                     action: "create",
                 })?;
+            }
+        }
+        ZipCommands::CreateSplit {
+            source,
+            dest,
+            profile,
+            volume_size,
+        } => {
+            let info = zip_io::create_split_with_profile(
+                &source,
+                &dest,
+                profile.into(),
+                pw,
+                volume_size,
+            )?;
+            if json_out {
+                print_json(&SplitCreateJson {
+                    ok: true,
+                    action: "create-split",
+                    volume_count: info.volume_count,
+                    total_bytes: info.total_bytes,
+                })?;
+            } else {
+                println!(
+                    "OK split: {} cilt, {} B",
+                    info.volume_count, info.total_bytes
+                );
             }
         }
         ZipCommands::Test { archive } => {
