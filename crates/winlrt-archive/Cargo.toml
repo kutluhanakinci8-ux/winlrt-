@@ -3,6 +3,7 @@ name = "winlrt-archive"
 description = "winlrt arşiv motoru — winlrtRAR / winlrtZIP ortak çekirdek"
 version.workspace = true
 edition.workspace = true
+default-run = "winlrt-archive"
 
 [[bin]]
 name = "winlrt-archive"

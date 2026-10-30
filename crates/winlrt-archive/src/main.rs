@@ -76,6 +76,9 @@ enum Commands {
         /// Markdown tablo (vitrin / PR özeti)
         #[arg(long)]
         markdown: bool,
+        /// winlrtZIP ürün KPI (`zip_kpi` alanı)
+        #[arg(long)]
+        zip_kpi: bool,
     },
 }
 
@@ -241,6 +244,7 @@ fn run() -> Result<()> {
             all,
             profile,
             markdown,
+            zip_kpi,
         } => {
             let profile: CompressionProfile = profile.into();
             let cwd = std::env::current_dir().unwrap_or_default();
@@ -252,8 +256,12 @@ fn run() -> Result<()> {
                     generated_at,
                     reports: bench::run_all(&cwd, profile)?,
                     kpi: None,
+                    zip_kpi: None,
                 };
                 suite.kpi = Some(bench::evaluate_kpi(&suite));
+                if zip_kpi {
+                    suite.zip_kpi = Some(bench::evaluate_zip_product_kpi(&suite));
+                }
                 if markdown {
                     print!("{}", bench::suite_to_markdown(&suite));
                 } else if json_out {
@@ -274,8 +282,12 @@ fn run() -> Result<()> {
                         generated_at,
                         reports: vec![report],
                         kpi: None,
+                        zip_kpi: None,
                     };
                     suite.kpi = Some(bench::evaluate_kpi(&suite));
+                    if zip_kpi {
+                        suite.zip_kpi = Some(bench::evaluate_zip_product_kpi(&suite));
+                    }
                     print!("{}", bench::suite_to_markdown(&suite));
                 } else if json_out {
                     print_json(&report)?;
@@ -328,5 +340,11 @@ fn print_bench_human(r: &BenchReport) {
     }
     if let Some(ms) = r.winrar_create_ms {
         println!("WinRAR create: {ms} ms");
+    }
+    if let Some(b) = r.winzip_bytes {
+        println!("WinZip: {b} bytes");
+    }
+    if let Some(ms) = r.winzip_create_ms {
+        println!("WinZip create: {ms} ms");
     }
 }

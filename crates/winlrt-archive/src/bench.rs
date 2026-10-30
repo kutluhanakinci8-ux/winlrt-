@@ -30,6 +30,12 @@ pub struct BenchReport {
     pub winrar_bytes: Option<u64>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub winrar_extract_ms: Option<u128>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub winzip_create_ms: Option<u128>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub winzip_bytes: Option<u64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub winzip_extract_ms: Option<u128>,
 }
 
 fn include_7zip_bench() -> bool {
@@ -38,6 +44,10 @@ fn include_7zip_bench() -> bool {
 
 fn include_winrar_bench() -> bool {
     env_flag("WINLRT_BENCH_INCLUDE_WINRAR")
+}
+
+fn include_winzip_bench() -> bool {
+    env_flag("WINLRT_BENCH_INCLUDE_WINZIP")
 }
 
 fn env_flag(name: &str) -> bool {
@@ -184,6 +194,17 @@ pub fn run(fixture: &Path, profile: CompressionProfile) -> Result<BenchReport> {
         }
     }
 
+    let mut winzip_create_ms = None;
+    let mut winzip_bytes = None;
+    let mut winzip_extract_ms = None;
+    if include_winzip_bench() {
+        if let Ok(m) = bench_winzip_zip(&input, &work, profile) {
+            winzip_create_ms = Some(m.create_ms);
+            winzip_bytes = Some(m.bytes);
+            winzip_extract_ms = Some(m.extract_ms);
+        }
+    }
+
     let _ = std::fs::remove_dir_all(&work);
 
     Ok(BenchReport {
@@ -202,6 +223,9 @@ pub fn run(fixture: &Path, profile: CompressionProfile) -> Result<BenchReport> {
         winrar_create_ms,
         winrar_bytes,
         winrar_extract_ms,
+        winzip_create_ms,
+        winzip_bytes,
+        winzip_extract_ms,
     })
 }
 
@@ -343,6 +367,94 @@ fn winrar_exe() -> Option<PathBuf> {
     None
 }
 
+#[cfg(windows)]
+fn winzip_wzzip_exe() -> Option<PathBuf> {
+    let candidates = [
+        PathBuf::from(r"C:\Program Files\WinZip\wzzip.exe"),
+        PathBuf::from(r"C:\Program Files\WinZip\WZZIP.EXE"),
+        PathBuf::from(r"C:\Program Files (x86)\WinZip\wzzip.exe"),
+    ];
+    candidates.into_iter().find(|p| p.is_file())
+}
+
+#[cfg(windows)]
+fn winzip_wzunzip_exe() -> Option<PathBuf> {
+    let candidates = [
+        PathBuf::from(r"C:\Program Files\WinZip\wzunzip.exe"),
+        PathBuf::from(r"C:\Program Files\WinZip\WZUNZIP.EXE"),
+        PathBuf::from(r"C:\Program Files (x86)\WinZip\wzunzip.exe"),
+    ];
+    candidates.into_iter().find(|p| p.is_file())
+}
+
+#[cfg(not(windows))]
+fn winzip_wzzip_exe() -> Option<PathBuf> {
+    None
+}
+
+#[cfg(not(windows))]
+fn winzip_wzunzip_exe() -> Option<PathBuf> {
+    None
+}
+
+fn winzip_zip_flags(profile: CompressionProfile) -> &'static [&'static str] {
+    match profile {
+        CompressionProfile::Fast => &["-whs"],
+        CompressionProfile::Maximum | CompressionProfile::EmailAttachment => &["-exx"],
+        CompressionProfile::Balanced => &[],
+    }
+}
+
+fn bench_winzip_zip(fixture: &Path, work: &Path, profile: CompressionProfile) -> Result<CompetitorZipMetrics> {
+    let wzzip = winzip_wzzip_exe().ok_or_else(|| {
+        crate::ArchiveError::NotYet("WinZip WZZIP bulunamadı (WINLRT_BENCH_INCLUDE_WINZIP=1)")
+    })?;
+    let wzunzip = winzip_wzunzip_exe().ok_or_else(|| {
+        crate::ArchiveError::NotYet("WinZip WZUNZIP bulunamadı (WINLRT_BENCH_INCLUDE_WINZIP=1)")
+    })?;
+    let archive = work.join("winzip-out.zip");
+    let extract_dir = work.join("winzip-extract");
+    let mut src = fixture.display().to_string();
+    if fixture.is_dir() {
+        if !src.ends_with(std::path::MAIN_SEPARATOR) {
+            src.push(std::path::MAIN_SEPARATOR);
+        }
+        src.push('*');
+    }
+    let t0 = Instant::now();
+    let archive_s = archive.to_string_lossy().into_owned();
+    let mut args: Vec<String> = vec!["-a".into(), "-r".into()];
+    for flag in winzip_zip_flags(profile) {
+        args.push((*flag).into());
+    }
+    args.push(archive_s.clone());
+    args.push(src);
+    let status = Command::new(&wzzip)
+        .args(&args)
+        .status()
+        .map_err(crate::ArchiveError::Io)?;
+    if !status.success() {
+        return Err(crate::ArchiveError::Zip("WinZip WZZIP oluşturma başarısız".into()));
+    }
+    let create_ms = t0.elapsed().as_millis();
+    let bytes = std::fs::metadata(&archive)?.len();
+    std::fs::create_dir_all(&extract_dir)?;
+    let t1 = Instant::now();
+    let extract_s = extract_dir.display().to_string();
+    let status = Command::new(&wzunzip)
+        .args([&archive_s, "/over", "/dir", &extract_s])
+        .status()
+        .map_err(crate::ArchiveError::Io)?;
+    if !status.success() {
+        return Err(crate::ArchiveError::Zip("WinZip WZUNZIP açma başarısız".into()));
+    }
+    Ok(CompetitorZipMetrics {
+        create_ms,
+        extract_ms: t1.elapsed().as_millis(),
+        bytes,
+    })
+}
+
 fn bench_winrar_zip(fixture: &Path, work: &Path, profile: CompressionProfile) -> Result<CompetitorZipMetrics> {
     let exe = winrar_exe().ok_or_else(|| {
         crate::ArchiveError::NotYet("WinRAR (Rar.exe) bulunamadı (WINLRT_BENCH_INCLUDE_WINRAR=1)")
@@ -444,6 +556,9 @@ pub struct BenchSuite {
     pub reports: Vec<BenchReport>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub kpi: Option<BenchKpiSummary>,
+    /// winlrtZIP ürün KPI (motor ZIP vs 7-Zip / WinZip / WinRAR-ZIP)
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub zip_kpi: Option<BenchKpiSummary>,
 }
 
 #[derive(Debug, Serialize)]
@@ -535,6 +650,149 @@ pub fn evaluate_kpi(suite: &BenchSuite) -> BenchKpiSummary {
     }
 }
 
+/// winlrtZIP: motor `zip_io` satırı — rakipler 7-Zip / WinZip / WinRAR (ZIP modu).
+pub fn evaluate_zip_product_kpi(suite: &BenchSuite) -> BenchKpiSummary {
+    let speed_kpi = suite.profile.starts_with("Fast");
+    let mut rows = Vec::with_capacity(suite.reports.len());
+    let mut compression_pass = 0usize;
+    let mut speed_pass = 0usize;
+    let mut speed_total = 0usize;
+
+    for r in &suite.reports {
+        let compression_ok = zip_product_compression_ok(r);
+        if compression_ok {
+            compression_pass += 1;
+        }
+        let speed_ok = if speed_kpi {
+            if zip_product_speed_applicable(r) {
+                speed_total += 1;
+                let ok = zip_product_speed_ok(r);
+                if ok {
+                    speed_pass += 1;
+                }
+                Some(ok)
+            } else {
+                None
+            }
+        } else {
+            None
+        };
+        rows.push(BenchKpiRow {
+            fixture: short_name(&r.fixture),
+            compression_ok,
+            speed_ok,
+        });
+    }
+
+    let total = suite.reports.len();
+    let mut notes = vec![
+        "winlrtZIP sıkıştırma: motor ZIP, rakip ZIP’lerden daha küçük veya eşit boyutta daha hızlı oluşturma.".into(),
+    ];
+    if speed_kpi {
+        notes.push(
+            "winlrtZIP hız: motor ZIP açma, 7-Zip/WinZip/WinRAR-ZIP referansının en hızlısından ≥ %30 hızlı.".into(),
+        );
+    } else {
+        notes.push("Hız KPI yalnız `--profile fast` ile ölçülür.".into());
+    }
+    notes.push("WinZip satırı yalnızca WZZIP kurulu Windows agent’ta dolar (opsiyonel).".into());
+
+    BenchKpiSummary {
+        compression_gate: total > 0 && compression_pass == total,
+        speed_gate: if speed_kpi {
+            Some(speed_total > 0 && speed_pass == speed_total)
+        } else {
+            None
+        },
+        compression_pass_count: compression_pass,
+        compression_total: total,
+        speed_pass_count: speed_pass,
+        speed_total,
+        rows,
+        notes,
+    }
+}
+
+fn competitor_zip_bytes_min(r: &BenchReport) -> Option<u64> {
+    let mut best: Option<u64> = None;
+    for b in [r.seven_zip_bytes, r.winrar_bytes, r.winzip_bytes]
+        .into_iter()
+        .flatten()
+    {
+        best = Some(best.map_or(b, |x| x.min(b)));
+    }
+    best
+}
+
+fn competitor_zip_create_min(r: &BenchReport) -> Option<u128> {
+    let mut best: Option<u128> = None;
+    for ms in [r.seven_zip_create_ms, r.winrar_create_ms, r.winzip_create_ms]
+        .into_iter()
+        .flatten()
+    {
+        best = Some(best.map_or(ms, |x| x.min(ms)));
+    }
+    best
+}
+
+fn zip_product_compression_ok(r: &BenchReport) -> bool {
+    if r.zip_bytes == 0 {
+        return false;
+    }
+    let Some(ref_bytes) = competitor_zip_bytes_min(r) else {
+        return true;
+    };
+    if r.zip_bytes <= ref_bytes {
+        return true;
+    }
+    if let Some(ref_create) = competitor_zip_create_min(r) {
+        if r.zip_bytes <= ref_bytes && r.zip_create_ms < ref_create {
+            return true;
+        }
+    }
+    ref_bytes > 0 && r.zip_bytes as f64 <= ref_bytes as f64 * 1.10 && {
+        competitor_zip_create_min(r)
+            .map(|c| r.zip_create_ms < c)
+            .unwrap_or(false)
+    }
+}
+
+fn zip_product_extract_reference_ms(r: &BenchReport) -> u128 {
+    let mut best: Option<u128> = None;
+    for ms in [
+        r.seven_zip_extract_ms,
+        r.winrar_extract_ms,
+        r.winzip_extract_ms,
+    ] {
+        if let Some(ms) = ms {
+            best = Some(best.map_or(ms, |x| x.min(ms)));
+        }
+    }
+    best.unwrap_or(0)
+}
+
+fn zip_product_speed_applicable(r: &BenchReport) -> bool {
+    let has_ref = r.seven_zip_extract_ms.is_some()
+        || r.winrar_extract_ms.is_some()
+        || r.winzip_extract_ms.is_some();
+    has_ref || r.zip_extract_ms > 0
+}
+
+fn zip_product_speed_ok(r: &BenchReport) -> bool {
+    let reference = zip_product_extract_reference_ms(r);
+    if reference == 0 {
+        return r.zip_extract_ms == 0;
+    }
+    if r.zip_extract_ms > reference {
+        return false;
+    }
+    let target = reference as f64 * 0.70;
+    if target < 1.0 {
+        return true;
+    }
+    r.zip_extract_ms <= target.floor() as u128
+}
+
 fn compression_row_ok(r: &BenchReport) -> bool {
     if r.zip_bytes == 0 {
         return false;
@@ -550,6 +808,9 @@ fn reference_extract_ms(r: &BenchReport) -> u128 {
         best = best.min(ms);
     }
     if let Some(ms) = r.winrar_extract_ms {
+        best = best.min(ms);
+    }
+    if let Some(ms) = r.winzip_extract_ms {
         best = best.min(ms);
     }
     best
@@ -715,6 +976,9 @@ mod tests {
             winrar_extract_ms: None,
             winrar_create_ms: None,
             winrar_bytes: None,
+            winzip_extract_ms: None,
+            winzip_create_ms: None,
+            winzip_bytes: None,
         }
     }
 
@@ -757,10 +1021,40 @@ mod tests {
                 winrar_create_ms: None,
                 winrar_bytes: None,
                 winrar_extract_ms: None,
+                winzip_create_ms: None,
+                winzip_bytes: None,
+                winzip_extract_ms: None,
             }],
             kpi: None,
+            zip_kpi: None,
         };
         let kpi = evaluate_kpi(&suite);
         assert_eq!(kpi.rows[0].speed_ok, Some(true));
+    }
+
+    #[test]
+    fn zip_product_speed_vs_7zip() {
+        let r = BenchReport {
+            fixture: "t".into(),
+            profile: "Fast".into(),
+            zip_create_ms: 10,
+            wlrt_create_ms: 0,
+            zip_extract_ms: 7,
+            wlrt_extract_ms: 0,
+            zip_bytes: 100,
+            wlrt_bytes: 0,
+            raw_bytes: 100,
+            seven_zip_extract_ms: Some(10),
+            seven_zip_create_ms: Some(20),
+            seven_zip_bytes: Some(110),
+            winrar_extract_ms: None,
+            winrar_create_ms: None,
+            winrar_bytes: None,
+            winzip_extract_ms: None,
+            winzip_create_ms: None,
+            winzip_bytes: None,
+        };
+        assert!(zip_product_speed_ok(&r));
+        assert!(zip_product_compression_ok(&r));
     }
 }

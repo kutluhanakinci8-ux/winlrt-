@@ -142,8 +142,10 @@ pub fn run() -> Result<()> {
                     generated_at,
                     reports: bench::run_all(&cwd, profile)?,
                     kpi: None,
+                    zip_kpi: None,
                 };
                 suite.kpi = Some(bench::evaluate_kpi(&suite));
+                suite.zip_kpi = Some(bench::evaluate_zip_product_kpi(&suite));
                 emit_bench(&suite, markdown, json_out)?;
             } else {
                 let fixture = fixture.unwrap_or_else(|| bench::default_fixture(&cwd));
@@ -154,6 +156,7 @@ pub fn run() -> Result<()> {
                     generated_at,
                     reports: vec![report],
                     kpi: None,
+                    zip_kpi: None,
                 };
                 suite.kpi = Some(bench::evaluate_kpi(&suite));
                 if markdown {

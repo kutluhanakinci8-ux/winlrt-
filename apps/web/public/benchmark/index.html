@@ -22,7 +22,8 @@
       <p class="lead">
         Linux CI (<code>bench-report</code>) ve Windows resmi workflow
         (<code>bench-report-windows</code>): ZIP, <strong>.wlrt</strong>, Windows’ta
-        <strong>7-Zip</strong> ve <strong>WinRAR (ZIP)</strong> referansı. Faz 3 kapısı
+        <strong>7-Zip</strong>, <strong>WinRAR (ZIP)</strong> ve opsiyonel <strong>WinZip</strong> referansı.
+        <strong>winlrtZIP</strong> satırı: JSON <code>zip_kpi</code>. Faz 3 kapısı
         <strong>iki profil</strong> ile ölçülür.
       </p>
 
@@ -105,8 +106,8 @@
       </ul>
 
       <h2 class="section-label">Yerel çalıştırma</h2>
-      <pre><code>cargo run -p winlrt-archive -- bench --all --json
-cargo run -p winlrt-archive -- bench --all --profile fast --json</code></pre>
+      <pre><code>cargo run -p winlrt-archive -- bench --all --json --zip-kpi
+cargo run -p winlrt-archive -- bench --all --profile fast --json --zip-kpi</code></pre>
       <p>
         Fixture seti: <code>benchmarks/fixtures/</code> (6 set; büyük
         <code>mixed/</code> → <code>bash benchmarks/fixtures/mixed/prepare.sh</code>) · Detay:
@@ -151,6 +152,16 @@ cargo run -p winlrt-archive -- bench --all --profile fast --json</code></pre>
             url: "/benchmark/samples/windows-fast-kpi.json",
             title: "Fast — Windows (resmi)",
             fallback: "/benchmark/samples/linux-fast-kpi.json",
+          },
+          {
+            url: "/benchmark/samples/winlrtzip-linux-balanced-kpi.json",
+            title: "winlrtZIP Balanced (ZIP satırı)",
+            fallback: null,
+          },
+          {
+            url: "/benchmark/samples/winlrtzip-linux-fast-kpi.json",
+            title: "winlrtZIP Fast (ZIP satırı)",
+            fallback: null,
           },
         ];
         const root = document.getElementById("kpi-cards");

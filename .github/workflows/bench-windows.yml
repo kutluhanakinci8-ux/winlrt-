@@ -41,10 +41,11 @@ jobs:
         shell: bash
         run: bash benchmarks/fixtures/mixed/prepare.sh
 
-      - name: Benchmark (winlrt + 7-Zip + WinRAR ZIP)
+      - name: Benchmark (winlrt + 7-Zip + WinRAR ZIP + WinZip opsiyonel)
         env:
           WINLRT_BENCH_INCLUDE_7Z: "1"
           WINLRT_BENCH_INCLUDE_WINRAR: "1"
+          WINLRT_BENCH_INCLUDE_WINZIP: "1"
         shell: pwsh
         run: |
           function Write-BenchJson {
@@ -55,9 +56,9 @@ jobs:
             param([string[]]$CargoArgs, [string]$OutPath)
             cargo run -p winlrt-archive --release -- @CargoArgs 2>$null | Set-Content -Path $OutPath -Encoding utf8
           }
-          Write-BenchJson -CargoArgs @('bench','--all','--json') -OutPath 'bench-report-windows.json'
+          Write-BenchJson -CargoArgs @('bench','--all','--json','--zip-kpi') -OutPath 'bench-report-windows.json'
           Write-BenchMd -CargoArgs @('bench','--all','--markdown') -OutPath 'BENCH_REPORT.md'
-          Write-BenchJson -CargoArgs @('bench','--all','--profile','fast','--json') -OutPath 'bench-report-windows-fast.json'
+          Write-BenchJson -CargoArgs @('bench','--all','--profile','fast','--json','--zip-kpi') -OutPath 'bench-report-windows-fast.json'
           Write-BenchMd -CargoArgs @('bench','--all','--profile','fast','--markdown') -OutPath 'BENCH_REPORT_FAST.md'
 
       - name: KPI özeti — Balanced (strict kapı, Madde C)
@@ -72,6 +73,12 @@ jobs:
           WINLRT_KPI_STRICT: "0"
         run: ./scripts/evaluate-bench-kpi.ps1 -JsonPath bench-report-windows-fast.json -ReportOnly
 
+      - name: winlrtZIP KPI özeti (Madde W6 — ReportOnly)
+        shell: pwsh
+        run: |
+          ./scripts/evaluate-bench-zip-kpi.ps1 -JsonPath bench-report-windows.json -ReportOnly
+          ./scripts/evaluate-bench-zip-kpi.ps1 -JsonPath bench-report-windows-fast.json -ReportOnly
+
       - name: Vitrin KPI snippet (artifact)
         shell: pwsh
         run: |
@@ -85,6 +92,16 @@ jobs:
           }
           Export-VitrinKpi 'bench-report-windows.json' 'vitrin-windows-balanced-kpi.json' 'Resmi Faz 3 kapı.'
           Export-VitrinKpi 'bench-report-windows-fast.json' 'vitrin-windows-fast-kpi.json' 'Resmi hız kapısı.'
+          function Export-VitrinZipKpi($in, $out, $disclaimer) {
+            $raw = [System.IO.File]::ReadAllText($in).Trim()
+            $s = $raw.Substring($raw.IndexOf('{'), $raw.LastIndexOf('}') - $raw.IndexOf('{') + 1) | ConvertFrom-Json
+            [ordered]@{
+              product = 'winlrtZIP'; profile = $s.profile; platform = $s.platform; generated_at = $s.generated_at
+              source = 'windows-official-ci'; disclaimer = $disclaimer; kpi = $s.zip_kpi
+            } | ConvertTo-Json -Depth 12 | Set-Content -Path $out -Encoding utf8NoBOM
+          }
+          Export-VitrinZipKpi 'bench-report-windows.json' 'vitrin-winlrtzip-balanced-kpi.json' 'winlrtZIP ZIP satırı (7-Zip / WinZip / WinRAR-ZIP).'
+          Export-VitrinZipKpi 'bench-report-windows-fast.json' 'vitrin-winlrtzip-fast-kpi.json' 'winlrtZIP hız KPI (Fast).'
 
       - name: Vitrin import komutu (özet)
         shell: bash
@@ -109,4 +126,6 @@ jobs:
             BENCH_REPORT_FAST.md
             vitrin-windows-balanced-kpi.json
             vitrin-windows-fast-kpi.json
+            vitrin-winlrtzip-balanced-kpi.json
+            vitrin-winlrtzip-fast-kpi.json
           if-no-files-found: error
