@@ -13,6 +13,10 @@ Kullanıcıdan **ayrı commit/push/deploy istenmez.**
 - Pilot Windows’ta test eder; sonucu chat’e yazar veya signoff alanlarını doldurur.  
 - **Agent:** `docs/qa/EXPLORER_QA_SIGNOFF.md` günceller → commit → push → deploy.
 
-## Dalga 3+
+## Dalga 3 (kurumsal)
+
+Explorer PASS sonrası pilot ADMX/.reg test eder → chat sonucu → agent `KURUMSAL_PILOT_SIGNOFF.md` → commit · push · deploy.
+
+## Dalga 4+
 
 Aynı döngü: signoff / vitrin / docs → agent commit → push → deploy.

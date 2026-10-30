@@ -37,6 +37,11 @@ else
   exit 1
 fi
 
+if [ -x "$ROOT/scripts/run-dalga-smoke.sh" ]; then
+  echo "==> Dalga smoke"
+  bash "$ROOT/scripts/run-dalga-smoke.sh"
+fi
+
 echo "==> Vitrin build"
 npm ci
 npm run build:web

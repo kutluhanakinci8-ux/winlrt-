@@ -30,10 +30,7 @@ jobs:
         run: npm run build:web
 
       - name: Dalga 2/3 repo smoke
-        run: |
-          chmod +x scripts/verify-dalga2-prereqs.sh scripts/verify-corporate-assets.sh
-          ./scripts/verify-dalga2-prereqs.sh
-          ./scripts/verify-corporate-assets.sh
+        run: bash scripts/run-dalga-smoke.sh
 
       - name: Upload web dist
         uses: actions/upload-artifact@v4

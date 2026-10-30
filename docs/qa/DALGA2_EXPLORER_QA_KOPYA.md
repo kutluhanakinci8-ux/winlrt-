@@ -2,7 +2,7 @@
 
 **Kurulum:** https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.41064653814  
 
-Tam liste: [WINLRTRAR_EXPLORER_QA.md](../WINLRTRAR_EXPLORER_QA.md)
+Hızlı akış: [DALGA2_PILOT_OTURUM.md](./DALGA2_PILOT_OTURUM.md) · Tam liste: [WINLRTRAR_EXPLORER_QA.md](../WINLRTRAR_EXPLORER_QA.md)
 
 ## 0. Preflight (kurulumdan hemen sonra)
 

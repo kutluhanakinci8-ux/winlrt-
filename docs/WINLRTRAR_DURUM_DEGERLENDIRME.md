@@ -1,6 +1,6 @@
 # winlrtRAR — durum değerlendirmesi ve yeniden plan (2026-10-30)
 
-**Kaynak:** `main` @ `4d2cfd0` · Canlı: winlrt.com.tr **200**  
+**Kaynak:** `main` @ `c49a85c+` · Canlı: winlrt.com.tr **200**  
 **Referans:** [WINLRTRAR_ROADMAP_TO_100.md](./WINLRTRAR_ROADMAP_TO_100.md) · [WINLRTRAR_PHASE_PROGRESS.md](./WINLRTRAR_PHASE_PROGRESS.md)
 
 ---
@@ -18,8 +18,8 @@
 | **G** | Vitrin KPI verisi | **100** | Linux + Windows samples canlı |
 | **H** | TAURI imza secrets | **0** | Imzasız beta; SmartScreen / banka pilotu için gerekli |
 | **I** | Beta build + Release | **85** | Release [winlrt-rar-beta.41064653814](https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.41064653814); CI Release adımı flag ile henüz doğrulanmadı |
-| **J** | Explorer pilot QA | **15** | Linux smoke OK; **Windows checklist bekliyor** |
-| **K** | Kurumsal pilot | **10** | ADMX/.reg repo’da; saha yok |
+| **J** | Explorer pilot QA | **28** | Preflight + oturum rehberi; **Windows saha signoff bekliyor** |
+| **K** | Kurumsal pilot | **18** | Dalga 3 verify + preflight.ps1; Explorer PASS sonrası saha |
 | **L** | v1.0 kapısı | **5** | Üç kapının hiçbiri resmen kapanmadı |
 
 **Ağırlıksız ortalama (A–L):** ~**63%**  
