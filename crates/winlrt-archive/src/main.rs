@@ -4,7 +4,7 @@ use clap::{Parser, Subcommand, ValueEnum};
 use serde::Serialize;
 use winlrt_archive::bench::{self, BenchReport, BenchSuite};
 use winlrt_archive::profile::CompressionProfile;
-use winlrt_archive::{wlrt, zip_io, Result};
+use winlrt_archive::{rar, wlrt, zip_io, Result};
 
 #[derive(Parser)]
 #[command(name = "winlrt-archive", about = "winlrt arşiv CLI — winlrtRAR motoru")]
@@ -12,6 +12,10 @@ struct Cli {
     /// JSON çıktı (list / test / bench)
     #[arg(long, global = true)]
     json: bool,
+
+    /// RAR parolası (Faz 2)
+    #[arg(long, global = true)]
+    password: Option<String>,
 
     #[command(subcommand)]
     command: Commands,
@@ -63,6 +67,7 @@ enum Commands {
 enum FormatArg {
     Zip,
     Wlrt,
+    Rar,
 }
 
 #[derive(Clone, Copy, ValueEnum, Default)]
@@ -107,13 +112,17 @@ fn main() {
 
 fn run() -> Result<()> {
     let cli = Cli::parse();
+    let json_out = cli.json;
+    let password = cli.password.clone();
+    let pw = password.as_deref();
     match cli.command {
         Commands::List { archive, format } => {
             let entries = match format {
                 FormatArg::Zip => zip_io::list(&archive)?,
                 FormatArg::Wlrt => wlrt::list(&archive)?,
+                FormatArg::Rar => rar::list(&archive, pw)?,
             };
-            if cli.json {
+            if json_out {
                 print_json(&ListJson {
                     archive: archive.display().to_string(),
                     format: format_label(format),
@@ -128,6 +137,7 @@ fn run() -> Result<()> {
         Commands::Extract { archive, dest, format } => match format {
             FormatArg::Zip => zip_io::extract(&archive, &dest)?,
             FormatArg::Wlrt => wlrt::extract(&archive, &dest)?,
+            FormatArg::Rar => rar::extract(&archive, &dest, pw)?,
         },
         Commands::Create {
             source,
@@ -139,14 +149,20 @@ fn run() -> Result<()> {
             match format {
                 FormatArg::Zip => zip_io::create_with_profile(&source, &dest, profile)?,
                 FormatArg::Wlrt => wlrt::create(&source, &dest, profile)?,
+                FormatArg::Rar => {
+                    return Err(winlrt_archive::ArchiveError::Rar(
+                        "RAR yazma desteklenmiyor".into(),
+                    ))
+                }
             }
         }
         Commands::Test { archive, format } => {
             match format {
                 FormatArg::Zip => zip_io::test(&archive)?,
                 FormatArg::Wlrt => wlrt::test(&archive)?,
+                FormatArg::Rar => rar::test(&archive, pw)?,
             }
-            if cli.json {
+            if json_out {
                 print_json(&OkJson {
                     ok: true,
                     action: "test",
@@ -163,7 +179,7 @@ fn run() -> Result<()> {
                     profile: format!("{profile:?}"),
                     reports: bench::run_all(&cwd, profile)?,
                 };
-                if cli.json {
+                if json_out {
                     print_json(&suite)?;
                 } else {
                     for report in &suite.reports {
@@ -174,7 +190,7 @@ fn run() -> Result<()> {
             } else {
                 let fixture = fixture.unwrap_or_else(|| bench::default_fixture(&cwd));
                 let report = bench::run(&fixture, profile)?;
-                if cli.json {
+                if json_out {
                     print_json(&report)?;
                 } else {
                     print_bench_human(&report);
@@ -189,6 +205,7 @@ fn format_label(format: FormatArg) -> String {
     match format {
         FormatArg::Zip => "zip".into(),
         FormatArg::Wlrt => "wlrt".into(),
+        FormatArg::Rar => "rar".into(),
     }
 }
 

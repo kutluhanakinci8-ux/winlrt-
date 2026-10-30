@@ -4,6 +4,7 @@ import { open } from "@tauri-apps/plugin-dialog";
 import "./App.css";
 
 type Format = "zip" | "wlrt" | "rar";
+type Profile = "fast" | "balanced" | "maximum" | "email";
 
 interface EngineInfo {
   product: string;
@@ -20,29 +21,25 @@ interface ListResult {
 function App() {
   const [info, setInfo] = useState<EngineInfo | null>(null);
   const [format, setFormat] = useState<Format>("zip");
+  const [profile, setProfile] = useState<Profile>("balanced");
   const [path, setPath] = useState("");
+  const [destDir, setDestDir] = useState("");
+  const [password, setPassword] = useState("");
   const [entries, setEntries] = useState<string[]>([]);
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
 
-  async function loadInfo() {
-    setInfo(await invoke<EngineInfo>("engine_info"));
-  }
-
   useEffect(() => {
-    loadInfo().catch(() => undefined);
+    invoke<EngineInfo>("engine_info")
+      .then(setInfo)
+      .catch(() => undefined);
   }, []);
 
   async function pickArchive() {
     setError("");
     const selected = await open({
       multiple: false,
-      filters: [
-        {
-          name: "Arşiv",
-          extensions: ["zip", "wlrt", "rar"],
-        },
-      ],
+      filters: [{ name: "Arşiv", extensions: ["zip", "wlrt", "rar"] }],
     });
     if (selected && typeof selected === "string") {
       setPath(selected);
@@ -50,6 +47,20 @@ function App() {
       if (ext === "wlrt" || ext === "zip" || ext === "rar") {
         setFormat(ext);
       }
+    }
+  }
+
+  async function pickDest() {
+    const selected = await open({ directory: true, multiple: false });
+    if (selected && typeof selected === "string") {
+      setDestDir(selected);
+    }
+  }
+
+  async function pickSourceForCreate() {
+    const selected = await open({ directory: true, multiple: false });
+    if (selected && typeof selected === "string") {
+      setDestDir(selected);
     }
   }
 
@@ -61,7 +72,11 @@ function App() {
       return;
     }
     try {
-      const res = await invoke<ListResult>("list_archive", { path, format });
+      const res = await invoke<ListResult>("list_archive", {
+        path,
+        format,
+        password: password || null,
+      });
       setEntries(res.entries);
       setStatus(`${res.entries.length} girdi listelendi.`);
     } catch (e) {
@@ -78,8 +93,52 @@ function App() {
       return;
     }
     try {
-      await invoke("test_archive", { path, format });
+      await invoke("test_archive", {
+        path,
+        format,
+        password: password || null,
+      });
       setStatus("Bütünlük testi: OK");
+    } catch (e) {
+      setError(String(e));
+    }
+  }
+
+  async function extractArchive() {
+    setError("");
+    setStatus("");
+    if (!path || !destDir) {
+      setError("Arşiv ve hedef klasör gerekli.");
+      return;
+    }
+    try {
+      const res = await invoke<{ message: string }>("extract_archive", {
+        path,
+        dest: destDir,
+        format,
+        password: password || null,
+      });
+      setStatus(res.message);
+    } catch (e) {
+      setError(String(e));
+    }
+  }
+
+  async function createArchive() {
+    setError("");
+    setStatus("");
+    if (!destDir || !path) {
+      setError("Kaynak klasör (hedef alanı) ve çıktı dosya yolu gerekli.");
+      return;
+    }
+    try {
+      const res = await invoke<{ message: string }>("create_archive", {
+        source: destDir,
+        dest: path,
+        format,
+        profile,
+      });
+      setStatus(res.message);
     } catch (e) {
       setError(String(e));
     }
@@ -89,10 +148,11 @@ function App() {
     <main className="app">
       <header className="header">
         <div>
-          <p className="eyebrow">winlrt · Faz 2 beta iskelet</p>
+          <p className="eyebrow">winlrt · Faz 2 beta</p>
           <h1>winlrtRAR</h1>
           <p className="sub">
-            Yerli motor — ZIP ve .wlrt destekli; RAR okuma Faz 2 sprint’inde.
+            ZIP, .wlrt ve RAR5 açma; ZIP / .wlrt oluşturma. Profiller: hız,
+            sıkıştırma, e-posta eki.
           </p>
         </div>
         {info && (
@@ -113,11 +173,37 @@ function App() {
             >
               <option value="zip">ZIP</option>
               <option value="wlrt">.wlrt</option>
-              <option value="rar">RAR (yakında)</option>
+              <option value="rar">RAR (okuma)</option>
             </select>
           </label>
+          <label>
+            Profil (oluştur)
+            <select
+              value={profile}
+              onChange={(e) => setProfile(e.target.value as Profile)}
+            >
+              <option value="fast">Hızlı</option>
+              <option value="balanced">Dengeli</option>
+              <option value="maximum">Maksimum</option>
+              <option value="email">E-posta eki</option>
+            </select>
+          </label>
+          <label className="grow">
+            RAR parola
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Gerekirse"
+            />
+          </label>
+        </div>
+        <div className="row">
           <button type="button" className="btn primary" onClick={pickArchive}>
             Arşiv seç…
+          </button>
+          <button type="button" className="btn" onClick={pickDest}>
+            Hedef klasör…
           </button>
           <button type="button" className="btn" onClick={listArchive}>
             Listele
@@ -125,8 +211,20 @@ function App() {
           <button type="button" className="btn" onClick={testArchive}>
             Test
           </button>
+          <button type="button" className="btn" onClick={extractArchive}>
+            Aç
+          </button>
         </div>
-        {path && <p className="path">{path}</p>}
+        <div className="row">
+          <button type="button" className="btn" onClick={pickSourceForCreate}>
+            Oluştur — kaynak klasör…
+          </button>
+          <button type="button" className="btn primary" onClick={createArchive}>
+            Oluştur (çıktı = arşiv yolu)
+          </button>
+        </div>
+        {path && <p className="path">Arşiv / çıktı: {path}</p>}
+        {destDir && <p className="path">Klasör: {destDir}</p>}
         {status && <p className="status ok">{status}</p>}
         {error && <p className="status err">{error}</p>}
       </section>

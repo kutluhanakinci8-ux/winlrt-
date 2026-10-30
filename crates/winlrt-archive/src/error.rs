@@ -10,6 +10,8 @@ pub enum ArchiveError {
     Zip(String),
     #[error("WLRT: {0}")]
     Wlrt(String),
+    #[error("RAR: {0}")]
+    Rar(String),
     #[error("henüz desteklenmiyor: {0}")]
     NotYet(&'static str),
 }

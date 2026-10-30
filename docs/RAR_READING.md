@@ -9,7 +9,7 @@ winlrtRAR **RAR üretmez**; geçiş için **yalnızca açma / listeleme / test**
 | [WinRAR UnRAR kaynak lisansı](https://www.rarlab.com/rar_add.htm) | UnRAR kaynak kodu; türev eser koşulları — dağıtım öncesi hukuk onayı |
 | winlrt `.wlrt` yazma | Tamamen yerli; RAR formatına yazma **yok** |
 
-**Kapı (Faz 2):** UnRAR (veya eşdeğer) kullanım şartları imzalı/onaylı → `crates/winlrt-archive/src/rar.rs` implementasyonu.
+**Uygulama (Faz 2 beta):** `rar` crate (MIT, RAR5 odaklı) + isteğe bağlı sistem `unrar lb` büyük arşiv listesi için.
 
 ## Teknik seçenekler (değerlendirme)
 
@@ -34,6 +34,6 @@ CLI / Tauri: `--format rar` Faz 2 implementasyonu sonrası.
 
 ## Test planı
 
-- [ ] RAR4 küçük fixture (lisanssız sentetik veya üretilmiş test arşivi)
-- [ ] RAR5 parola / parolasız
-- [ ] Bozuk arşiv hata mesajı (TR)
+- [x] RAR5 fixture — `benchmarks/fixtures/rar/rar5-text.rar` (parola: `test`)
+- [ ] RAR4 genişletme
+- [ ] Bozuk arşiv hata mesajı (TR) — iyileştirme

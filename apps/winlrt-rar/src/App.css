@@ -67,6 +67,19 @@ label {
   color: #9aa8c4;
 }
 
+label.grow {
+  flex: 1;
+  min-width: 12rem;
+}
+
+input[type="password"] {
+  background: #141b28;
+  color: inherit;
+  border: 1px solid #2a3548;
+  border-radius: 8px;
+  padding: 0.45rem 0.6rem;
+}
+
 select {
   background: #141b28;
   color: inherit;
