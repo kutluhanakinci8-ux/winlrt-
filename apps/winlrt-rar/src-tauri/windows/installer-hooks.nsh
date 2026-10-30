@@ -33,6 +33,7 @@
 !macroend
 
 !macro NSIS_HOOK_POSTINSTALL
+  WriteRegStr HKLM "Software\winlrt\winlrtRAR" "ProductVersion" "0.1.0"
   !insertmacro WinlrtArchiveVerb "zip"  "WinlrtOpen"         "winlrtRAR ile aç"        '"$INSTDIR\winlrtRAR.exe" "%1"'
   !insertmacro WinlrtArchiveVerb "zip"  "WinlrtExtractHere"  "winlrtRAR — buraya aç"   '"$INSTDIR\winlrtRAR.exe" --extract-here "%1"'
   !insertmacro WinlrtArchiveVerb "wlrt" "WinlrtOpen"         "winlrtRAR ile aç"        '"$INSTDIR\winlrtRAR.exe" "%1"'

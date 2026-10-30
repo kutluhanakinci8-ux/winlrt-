@@ -125,32 +125,7 @@ pub fn suggested_archive_path(folder_path: &str, ext: &str) -> Result<String, St
 }
 
 pub fn suggested_selection_archive_path(paths: &[String], ext: &str) -> Result<String, String> {
-    if paths.is_empty() {
-        return Err("Seçim boş".into());
-    }
-    let first = PathBuf::from(&paths[0]);
-    let parent = first
-        .parent()
-        .ok_or_else(|| "Hedef klasör belirlenemedi".to_string())?;
-    if paths.len() == 1 {
-        if first.is_file() {
-            let stem = first
-                .file_stem()
-                .map(|s| s.to_string_lossy().into_owned())
-                .unwrap_or_else(|| "arsiv".into());
-            return Ok(parent
-                .join(format!("{stem}.{ext}"))
-                .to_string_lossy()
-                .into_owned());
-        }
-        if first.is_dir() {
-            return suggested_archive_path(&paths[0], ext);
-        }
-    }
-    Ok(parent
-        .join(format!("winlrt-secim.{ext}"))
-        .to_string_lossy()
-        .into_owned())
+    winlrt_archive::naming::suggested_selection_archive_path(paths, ext)
 }
 
 pub fn extract_here(archive_path: &str) -> Result<ActionResult, String> {
@@ -244,7 +219,7 @@ mod tests {
             "wlrt",
         )
         .unwrap();
-        assert!(s.ends_with("winlrt-secim.wlrt"));
+        assert!(s.ends_with("a.wlrt"));
         let _ = fs::remove_dir_all(&base);
     }
 

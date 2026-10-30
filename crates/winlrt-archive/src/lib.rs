@@ -3,6 +3,8 @@
 pub mod audit;
 pub mod bench;
 pub mod crypto;
+pub mod enterprise;
+pub mod naming;
 pub mod password_policy;
 pub mod error;
 pub mod profile;

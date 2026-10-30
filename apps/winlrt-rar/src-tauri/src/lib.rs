@@ -506,6 +506,32 @@ fn audit_log_path() -> String {
     audit::audit_log_path().to_string_lossy().into_owned()
 }
 
+#[derive(Serialize)]
+pub struct EnterprisePolicyInfo {
+    pub source: String,
+    pub policy_id: Option<String>,
+    pub active_policy_id: String,
+    pub audit_mirror: Option<String>,
+}
+
+#[tauri::command]
+fn enterprise_policy_info() -> EnterprisePolicyInfo {
+    use winlrt_archive::enterprise::{self, PolicySource};
+    let (source, id) = enterprise::resolve_policy_source();
+    let source = match source {
+        PolicySource::Environment => "environment",
+        PolicySource::Registry => "registry",
+        PolicySource::Default => "default",
+    };
+    let active = password_policy::active_policy();
+    EnterprisePolicyInfo {
+        source: source.into(),
+        policy_id: id,
+        active_policy_id: active.id.into(),
+        audit_mirror: enterprise::audit_mirror_path().map(|p| p.to_string_lossy().into_owned()),
+    }
+}
+
 #[tauri::command]
 fn password_policy_info(secure_create: bool) -> PasswordPolicyView {
     let policy = if secure_create {
@@ -681,6 +707,7 @@ pub fn run() {
             password_policy_info,
             prompt_native_password,
             audit_log_path,
+            enterprise_policy_info,
             startup_secure_wizard,
             inspect_archive,
             repair_archive,

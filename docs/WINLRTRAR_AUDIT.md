@@ -10,7 +10,8 @@ JSON Lines dosyası; **parola / anahtar metni asla yazılmaz**.
 | Linux/macOS | `~/.local/share/winlrtRAR/audit.jsonl` |
 
 Override: `WINLRT_AUDIT_LOG=/yol/audit.jsonl`  
-Kapatma: `WINLRT_AUDIT_DISABLE=1`
+Kapatma: `WINLRT_AUDIT_DISABLE=1`  
+**Merkezi kopya:** `WINLRT_AUDIT_MIRROR` veya GPO `AuditMirrorPath` (bkz. [WINLRTRAR_GPO.md](./WINLRTRAR_GPO.md))
 
 Tauri: `audit_log_path` komutu.
 

@@ -63,27 +63,33 @@ impl PasswordPolicy {
     }
 }
 
-/// `WINLRT_PASSWORD_POLICY=corporate` → kurumsal; aksi halde bireysel.
-pub fn active_policy() -> PasswordPolicy {
-    match std::env::var("WINLRT_PASSWORD_POLICY")
-        .unwrap_or_default()
-        .to_ascii_lowercase()
-        .as_str()
-    {
+fn policy_from_id(id: &str) -> PasswordPolicy {
+    match id.trim().to_ascii_lowercase().as_str() {
         "corporate" | "kurumsal" | "enterprise" => PasswordPolicy::corporate(),
         _ => PasswordPolicy::consumer(),
     }
 }
 
-/// Explorer `--secure` menüsü kurumsal politikayı varsayılan uygular (override: env).
-pub fn policy_for_secure_create() -> PasswordPolicy {
-    if std::env::var("WINLRT_PASSWORD_POLICY")
-        .map(|v| !v.trim().is_empty())
-        .unwrap_or(false)
-    {
-        return active_policy();
+/// Ortam → kayıt defteri (GPO) → bireysel varsayılan.
+pub fn active_policy() -> PasswordPolicy {
+    let (source, id) = crate::enterprise::resolve_policy_source();
+    match source {
+        crate::enterprise::PolicySource::Default => PasswordPolicy::consumer(),
+        _ => id
+            .map(|i| policy_from_id(&i))
+            .unwrap_or(PasswordPolicy::consumer()),
     }
-    PasswordPolicy::corporate()
+}
+
+/// Explorer `--secure`: ortam/registry tanımlıysa onu kullan; yoksa kurumsal varsayılan.
+pub fn policy_for_secure_create() -> PasswordPolicy {
+    let (source, id) = crate::enterprise::resolve_policy_source();
+    match source {
+        crate::enterprise::PolicySource::Default => PasswordPolicy::corporate(),
+        _ => id
+            .map(|i| policy_from_id(&i))
+            .unwrap_or(PasswordPolicy::corporate()),
+    }
 }
 
 #[cfg(test)]

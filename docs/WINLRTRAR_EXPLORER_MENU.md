@@ -22,7 +22,7 @@ Yapılandırma: `tauri.conf.json` → `bundle.windows.nsis.installerHooks`
 
 | Menü | Komut |
 |------|--------|
-| winlrtRAR — seçilenleri sıkıştır | `winlrtRAR.exe --compress-selection %*` (UI: profil + kaydet) |
+| winlrtRAR — seçilenleri sıkıştır | `winlrtRAR.exe --compress-selection %*` (aynı klasörde **ilk dosya adı**.wlrt — WinRAR gibi) |
 | winlrtRAR — seçilenler şifreli | `winlrtRAR.exe --compress-selection %* --secure` |
 | winlrtRAR — seçilenler hızlı .wlrt | `winlrtRAR.exe --compress-selection-quick %*` |
 

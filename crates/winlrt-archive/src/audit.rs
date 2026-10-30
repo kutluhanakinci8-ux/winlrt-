@@ -38,6 +38,23 @@ pub fn log(record: AuditRecord) {
     if let Ok(mut f) = OpenOptions::new().create(true).append(true).open(&path) {
         let _ = writeln!(f, "{line}");
     }
+    mirror_audit_line(&line);
+}
+
+fn mirror_audit_line(line: &str) {
+    let Some(mirror) = crate::enterprise::audit_mirror_path() else {
+        return;
+    };
+    if let Some(parent) = mirror.parent() {
+        let _ = std::fs::create_dir_all(parent);
+    }
+    if let Ok(mut f) = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(&mirror)
+    {
+        let _ = writeln!(f, "{line}");
+    }
 }
 
 pub fn audit_log_path() -> PathBuf {
