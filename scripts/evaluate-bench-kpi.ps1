@@ -5,6 +5,13 @@ param(
     [switch]$Strict
 )
 
+if (-not $Strict) {
+    $envStrict = $env:WINLRT_KPI_STRICT
+    if ($envStrict -eq "1" -or $envStrict -eq "true") {
+        $Strict = $true
+    }
+}
+
 $ErrorActionPreference = "Stop"
 if (-not (Test-Path -LiteralPath $JsonPath)) {
     Write-Error "Dosya yok: $JsonPath"

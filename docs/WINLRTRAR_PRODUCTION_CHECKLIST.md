@@ -23,9 +23,10 @@ Detay: [AUTO_DEPLOY.md](./AUTO_DEPLOY.md) · Mac: `scripts/mac-set-github-vps-se
 ## 3. Windows benchmark (Faz 3 kapısı)
 
 - [ ] Actions → **winlrt Windows benchmark (resmi)** → Run workflow
+- [ ] Kapı doğrulama: aynı ekranda **KPI kapısı geçmezse job başarısız** = açık
 - [ ] Artifact `bench-report-windows`: `compression_gate` (Balanced) ve `speed_gate` (Fast JSON)
 - [ ] CI log: `scripts/evaluate-bench-kpi.ps1` özeti
-- [ ] Vitrin: [/benchmark/](https://winlrt.com.tr/benchmark/) açıklaması güncel
+- [ ] Vitrin: [/benchmark/](https://winlrt.com.tr/benchmark/) canlı KPI kartları (samples JSON)
 
 ## 4. winlrtRAR Windows beta
 

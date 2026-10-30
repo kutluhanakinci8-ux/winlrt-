@@ -49,6 +49,12 @@
         </tbody>
       </table>
 
+      <h2 class="section-label">Canlı KPI özeti (referans)</h2>
+      <p class="meta" id="kpi-sample-meta">
+        Repo örnekleri yükleniyor… (Linux CI referans; resmi kapı Windows workflow artifact).
+      </p>
+      <div id="kpi-cards" style="display: grid; gap: 1rem; margin-bottom: 1.5rem"></div>
+
       <h2 class="section-label">JSON KPI alanları</h2>
       <p>
         <code>cargo run -p winlrt-archive -- bench --all --json</code> çıktısındaki
@@ -67,8 +73,11 @@
 }</code></pre>
       <p class="meta">
         Özet script: <code>scripts/evaluate-bench-kpi.ps1</code> (Windows) ·
-        <code>scripts/evaluate-bench-kpi.sh</code> (Linux, jq). Strict mod:
-        <code>WINLRT_KPI_STRICT=1</code>.
+        <code>scripts/evaluate-bench-kpi.sh</code> (Linux, jq).         Strict mod:
+        <code>WINLRT_KPI_STRICT=1</code> veya Windows workflow → Run →
+        <em>KPI kapısı geçmezse job başarısız</em>.
+        Vitrin örneklerini yenilemek:
+        <code>bash scripts/refresh-benchmark-vitrin-samples.sh</code>
       </p>
 
       <h2 class="section-label">Kurumsal güven KPI (bench dışı)</h2>
@@ -107,5 +116,53 @@ cargo run -p winlrt-archive -- bench --all --profile fast --json</code></pre>
         <code>docs/WINLRTRAR_PRODUCTION_CHECKLIST.md</code>
       </p>
     </main>
+    <script>
+      function gateBadge(passed, label) {
+        const ok = passed === true;
+        const cls = ok ? "status-dev" : "status-dev";
+        const text = passed === null || passed === undefined ? "ölçülmedi" : ok ? "GEÇTİ" : "henüz değil";
+        return `<span class="status ${cls}" style="margin-left:0.5rem">${label}: ${text}</span>`;
+      }
+      async function loadKpiSamples() {
+        const files = [
+          { url: "/benchmark/samples/linux-balanced-kpi.json", title: "Balanced (sıkıştırma)" },
+          { url: "/benchmark/samples/linux-fast-kpi.json", title: "Fast (hız)" },
+        ];
+        const root = document.getElementById("kpi-cards");
+        root.innerHTML = "";
+        for (const f of files) {
+          try {
+            const res = await fetch(f.url, { cache: "no-store" });
+            if (!res.ok) throw new Error(res.statusText);
+            const data = await res.json();
+            const k = data.kpi || {};
+            const rows = (k.rows || [])
+              .map(
+                (r) =>
+                  `<li><code>${r.fixture}</code> — sıkıştırma: ${r.compression_ok}${
+                    r.speed_ok != null ? `, hız: ${r.speed_ok}` : ""
+                  }</li>`
+              )
+              .join("");
+            root.insertAdjacentHTML(
+              "beforeend",
+              `<article class="card"><h3>${f.title}</h3>
+              <p class="meta">${data.platform || ""} · ${data.generated_at || ""}</p>
+              <p>${gateBadge(k.compression_gate, "Sıkıştırma")}${gateBadge(k.speed_gate, "Hız")}</p>
+              <p class="meta">${data.disclaimer || ""}</p>
+              <ul class="meta">${rows}</ul></article>`
+            );
+          } catch (e) {
+            root.insertAdjacentHTML(
+              "beforeend",
+              `<article class="card"><h3>${f.title}</h3><p class="meta">Örnek yüklenemedi: ${f.url}</p></article>`
+            );
+          }
+        }
+        document.getElementById("kpi-sample-meta").textContent =
+          "Kaynak: apps/web/public/benchmark/samples/ (merge/deploy sonrası winlrt.com.tr’de güncellenir).";
+      }
+      loadKpiSamples();
+    </script>
   </body>
 </html>

@@ -2,6 +2,11 @@ name: winlrtRAR Windows beta build
 
 on:
   workflow_dispatch:
+    inputs:
+      skip_release:
+        description: Yalnızca artifact yükle (GitHub Release oluşturma)
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -27,6 +32,12 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: npm run tauri build -w @winlrt/rar -- --features unrar-embedded
 
+      - name: İmza secret yok (beta uyarısı)
+        if: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY == '' }}
+        run: |
+          echo "::warning::TAURI_SIGNING_PRIVATE_KEY tanımlı değil — kurulum imzasız; SmartScreen uyarısı beklenir."
+          echo "Bkz. docs/WINLRTRAR_CODE_SIGNING.md"
+
       - name: Verify Authenticode (imza secret tanımlıysa)
         if: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY != '' }}
         shell: pwsh
@@ -42,6 +53,7 @@ jobs:
           if-no-files-found: warn
 
       - name: GitHub Release (beta)
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_release != true }}
         uses: softprops/action-gh-release@v2
         with:
           tag_name: winlrt-rar-beta.${{ github.run_number }}

@@ -1,0 +1,41 @@
+{
+  "profile": "Balanced",
+  "platform": "linux / x86_64",
+  "generated_at": "1793356665 UTC",
+  "source": "linux-ci-reference",
+  "disclaimer": "Windows resmi KPI için bench-report-windows artifact kullanın.",
+  "kpi": {
+    "compression_gate": true,
+    "compression_pass_count": 5,
+    "compression_total": 5,
+    "speed_pass_count": 0,
+    "speed_total": 0,
+    "rows": [
+      {
+        "fixture": "binary",
+        "compression_ok": true
+      },
+      {
+        "fixture": "office",
+        "compression_ok": true
+      },
+      {
+        "fixture": "rar",
+        "compression_ok": true
+      },
+      {
+        "fixture": "sevenz",
+        "compression_ok": true
+      },
+      {
+        "fixture": "text",
+        "compression_ok": true
+      }
+    ],
+    "notes": [
+      "Sıkıştırma (P0): .wlrt en az %10 daha küçük veya eşit boyutta daha hızlı oluşturma (ZIP referans).",
+      "Hız KPI yalnız `--profile fast` ile ölçülür; bu koşuda değerlendirilmedi.",
+      "Kurumsal güven KPI’si bench dışı (AES-GCM, imza) — bkz. WINLRTRAR_PHASE0.md."
+    ]
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "profile": "Fast",
+  "platform": "linux / x86_64",
+  "generated_at": "1793356665 UTC",
+  "source": "linux-ci-reference",
+  "disclaimer": "Hız kapısı Windows resmi workflow ile doğrulanır.",
+  "kpi": {
+    "compression_gate": true,
+    "speed_gate": false,
+    "compression_pass_count": 5,
+    "compression_total": 5,
+    "speed_pass_count": 0,
+    "speed_total": 5,
+    "rows": [
+      {
+        "fixture": "binary",
+        "compression_ok": true,
+        "speed_ok": false
+      },
+      {
+        "fixture": "office",
+        "compression_ok": true,
+        "speed_ok": false
+      },
+      {
+        "fixture": "rar",
+        "compression_ok": true,
+        "speed_ok": false
+      },
+      {
+        "fixture": "sevenz",
+        "compression_ok": true,
+        "speed_ok": false
+      },
+      {
+        "fixture": "text",
+        "compression_ok": true,
+        "speed_ok": false
+      }
+    ],
+    "notes": [
+      "Sıkıştırma (P0): .wlrt en az %10 daha küçük veya eşit boyutta daha hızlı oluşturma (ZIP referans).",
+      "Hız (P0): .wlrt açma, 7-Zip/WinRAR/ZIP referansının en hızlısından ≥ %30 daha hızlı.",
+      "Kurumsal güven KPI’si bench dışı (AES-GCM, imza) — bkz. WINLRTRAR_PHASE0.md."
+    ]
+  }
+}
