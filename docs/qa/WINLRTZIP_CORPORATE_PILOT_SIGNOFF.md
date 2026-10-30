@@ -1,4 +1,4 @@
-# winlrtZIP kurumsal pilot — imza kaydı (W19)
+# Lertiva Zip kurumsal pilot — imza kaydı (W19)
 
 Rehber: [WINLRTZIP_CORPORATE_PILOT_KOPYA.md](./WINLRTZIP_CORPORATE_PILOT_KOPYA.md) · GPO: [MADDE_W18](./MADDE_W18_WINLRTZIP_CORPORATE.md)
 

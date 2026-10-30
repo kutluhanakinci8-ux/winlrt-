@@ -1,4 +1,4 @@
-# Madde W31 — winlrtZIP Lerta birleşik staging kapısı (Faz 8) %100
+# Madde W31 — Lertiva Zip Lerta birleşik staging kapısı (Faz 8) %100
 
 W28 posta + W29 API + W30 mesaj eki hatlarının **tek durum özeti** ve canlı gönderim ön koşulları.
 
@@ -18,7 +18,7 @@ W28 posta + W29 API + W30 mesaj eki hatlarının **tek durum özeti** ve canlı 
 
 | Bileşen | Konum |
 |---------|--------|
-| Motor | `crates/winlrt-archive/src/lerta_integration.rs` |
+| Motor | `crates/lertiva-archive/src/lerta_integration.rs` |
 | Testler | `lerta_integration::*`, `w31_*` |
 | Doğrulama | `scripts/verify-madde-w31.sh` |
 

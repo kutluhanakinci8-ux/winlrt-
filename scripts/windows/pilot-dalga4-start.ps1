@@ -1,7 +1,7 @@
 # Dalga 4 — v1.0 kapı checklist (iki signoff sonrası).
 $ErrorActionPreference = 'Continue'
 
-Write-Host '=== winlrtRAR Dalga 4 (v1.0 kapı) ==='
+Write-Host '=== Lertiva Arc Dalga 4 (v1.0 kapı) ==='
 Write-Host 'Onkosul: EXPLORER_QA_SIGNOFF + KURUMSAL_PILOT_SIGNOFF = PASS (repo docs/qa/).'
 Write-Host ''
 Write-Host 'Kapilar:'

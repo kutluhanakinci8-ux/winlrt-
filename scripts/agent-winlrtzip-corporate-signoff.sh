@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# winlrtZIP W19 — kurumsal saha pilot → WINLRTZIP_CORPORATE_PILOT_SIGNOFF.md (PASS).
+# Lertiva Zip W19 — kurumsal saha pilot → WINLRTZIP_CORPORATE_PILOT_SIGNOFF.md (PASS).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 FILE="$ROOT/docs/qa/WINLRTZIP_CORPORATE_PILOT_SIGNOFF.md"
@@ -12,7 +12,7 @@ AUDIT="${WINLRTZIP_CORP_AUDIT:-cargo test audit:: — parola alanı yok}"
 NOTES="${WINLRTZIP_CORP_NOTES:-}"
 
 cat >"$FILE" <<EOF
-# winlrtZIP kurumsal pilot — imza kaydı (W19)
+# Lertiva Zip kurumsal pilot — imza kaydı (W19)
 
 Rehber: [WINLRTZIP_CORPORATE_PILOT_KOPYA.md](./WINLRTZIP_CORPORATE_PILOT_KOPYA.md) · GPO: [MADDE_W18](./MADDE_W18_WINLRTZIP_CORPORATE.md)
 

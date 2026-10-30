@@ -8,7 +8,7 @@ curl -fsSIL -o /dev/null "${BASE}/downloads/"
 curl -fsSIL -o /dev/null "${BASE}/pilot/"
 curl -fsSL "${BASE}/pilot/status.json" | grep -q '"active_wave":'
 curl -fsSL "${BASE}/pilot/status.json" | grep -q '"blocker":'
-curl -fsSIL -o /dev/null "${BASE}/downloads/winlrtRAR-corporate-gpo.zip"
+curl -fsSIL -o /dev/null "${BASE}/downloads/Lertiva Arc-corporate-gpo.zip"
 curl -fsSL "${BASE}/benchmark/samples/windows-balanced-kpi.json" | grep -q '"compression'
 curl -fsSL "${BASE}/benchmark/samples/windows-fast-kpi.json" | grep -q speed_gate
 

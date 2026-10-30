@@ -1,5 +1,5 @@
 {
-  "product": "winlrtZIP",
+  "product": "Lertiva Zip",
   "profile": "Fast",
   "platform": "linux / x86_64",
   "generated_at": "1793384973 UTC",
@@ -45,8 +45,8 @@
       }
     ],
     "notes": [
-      "winlrtZIP sıkıştırma: motor ZIP, rakip ZIP’lerden daha küçük veya eşit boyutta daha hızlı oluşturma.",
-      "winlrtZIP hız: motor ZIP açma, 7-Zip/WinZip/WinRAR-ZIP referansının en hızlısından ≥ %30 hızlı.",
+      "Lertiva Zip sıkıştırma: motor ZIP, rakip ZIP’lerden daha küçük veya eşit boyutta daha hızlı oluşturma.",
+      "Lertiva Zip hız: motor ZIP açma, 7-Zip/WinZip/WinRAR-ZIP referansının en hızlısından ≥ %30 hızlı.",
       "WinZip satırı yalnızca WZZIP kurulu Windows agent’ta dolar (opsiyonel)."
     ]
   }

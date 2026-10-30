@@ -1,4 +1,4 @@
-# winlrtZIP Explorer I1/I2 — imza kaydı (W12)
+# Lertiva Zip Explorer I1/I2 — imza kaydı (W12)
 
 Checklist: [WINLRTZIP_EXPLORER_QA_KOPYA.md](./WINLRTZIP_EXPLORER_QA_KOPYA.md) · Proxy otomasyon: [MADDE_W12](./MADDE_W12_WINLRTZIP_EXPLORER_I1_I2.md)
 

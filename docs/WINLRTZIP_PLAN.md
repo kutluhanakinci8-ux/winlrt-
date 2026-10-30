@@ -1,10 +1,10 @@
-# winlrtZIP — rekabet odaklı ürün planı (faz faz)
+# Lertiva Zip — rekabet odaklı ürün planı (faz faz)
 
-**Ürün adı:** winlrtZIP  
+**Ürün adı:** Lertiva Zip  
 **Hedef:** WinZip, Windows yerleşik ZIP, Bandizip “ZIP modu” ve kurumsal sıkıştırma araçlarıyla **doğrudan rekabet**; ZIP/ZIP64 paylaşımında **daha hızlı, daha güvenli, daha şeffaf** deneyim.  
-**Kod:** winlrtRAR ile **aynı Rust motoru** (`crates/winlrt-archive`); kabuk, varsayılan profiller ve pazarlama **ZIP odaklı**.
+**Kod:** Lertiva Arc ile **aynı Rust motoru** (`crates/lertiva-archive`); kabuk, varsayılan profiller ve pazarlama **ZIP odaklı**.
 
-**Başlangıç kuralı (onaylı):** Kod geliştirmesi **winlrtRAR Faz 2 kapısı** geçilene kadar yalnızca plan / motor paylaşımı; ayrı ürün kabuğu Faz 2 sonrası hızlandırılır.  
+**Başlangıç kuralı (onaylı):** Kod geliştirmesi **Lertiva Arc Faz 2 kapısı** geçilene kadar yalnızca plan / motor paylaşımı; ayrı ürün kabuğu Faz 2 sonrası hızlandırılır.  
 **Platform sırası:** Windows → macOS → mobil (Faz 6+) → Lerta posta eki (Faz 8).
 
 Vitrin: [winlrt.com.tr](https://winlrt.com.tr) · Kardeş ürün: [WINLRTRAR_PLAN.md](./WINLRTRAR_PLAN.md) · Özet: [PRODUCT_ROADMAP.md](./PRODUCT_ROADMAP.md)
@@ -19,9 +19,9 @@ Kullanıcı **her yerde açılan ZIP/ZIP64** üretsin ve açsın; kurum içi ve 
 
 ## 2. Rakiplere göre üstünlük hedefleri
 
-winlrtRAR ile **aynı KPI ailesi** (hepsi **P0**, Faz 3’te ölçüm):
+Lertiva Arc ile **aynı KPI ailesi** (hepsi **P0**, Faz 3’te ölçüm):
 
-| Alan | WinZip / tipik zayıflık | winlrtZIP hedefi |
+| Alan | WinZip / tipik zayıflık | Lertiva Zip hedefi |
 |------|-------------------------|------------------|
 | **Hız** (P0) | Arayüz ağırlığı, bulut upsell | Çok çekirdek ZIP aç/yaz; büyük arşivde **≥ %30 daha hızlı** (benchmark) |
 | **Sıkıştırma** (P0) | Eski deflate varsayılanları | ZIP64 + modern preset; aynı içerikte **≥ %10 daha küçük** veya eşit boyutta daha hızlı |
@@ -32,18 +32,18 @@ winlrtRAR ile **aynı KPI ailesi** (hepsi **P0**, Faz 3’te ölçüm):
 | **Paylaşım** | WinZip Share bulut kilidi | Önce **yerel + e-posta eki profili**; bulut opsiyonel (Faz 5, KVKK odaklı) |
 | **Lerta** (Faz 8) | Yok | Posta eki boyut limiti + optimum ZIP/`.wlrt` — rakipte yok |
 
-**Ölçüm:** winlrtRAR ile ortak `benchmarks/`; ZIP çıktıları ayrı rapor satırı.
+**Ölçüm:** Lertiva Arc ile ortak `benchmarks/`; ZIP çıktıları ayrı rapor satırı.
 
 ---
 
 ## 3. Format ve rekabet
 
-| Format | winlrtZIP rolü | Yaklaşım |
+| Format | Lertiva Zip rolü | Yaklaşım |
 |--------|----------------|----------|
 | **ZIP / ZIP64** | **Ana yazma / okuma** | Evrensel paylaşım, e-posta eki profili |
-| **`.wlrt`** | Kurum içi “en iyi” format | winlrtRAR ile aynı motor; ZIP ürününde “Güvenli arşiv” preset |
+| **`.wlrt`** | Kurum içi “en iyi” format | Lertiva Arc ile aynı motor; ZIP ürününde “Güvenli arşiv” preset |
 | **GZIP / TAR** | Geliştirici / sunucu | Okuma + sınırlı yazma |
-| **7z, RAR** | Geçiş | **Okuma** (motor winlrtRAR Faz 2–3’ten miras); winlrtZIP UI’da ikincil |
+| **7z, RAR** | Geçiş | **Okuma** (motor Lertiva Arc Faz 2–3’ten miras); Lertiva Zip UI’da ikincil |
 | **RAR yazma** | — | **Hayır** (tescilli) |
 
 **Pazarlama:** “WinZip kadar tanıdık ZIP, daha hızlı ve kurumsal güvene hazır.”
@@ -65,7 +65,7 @@ winlrtRAR ile **aynı KPI ailesi** (hepsi **P0**, Faz 3’te ölçüm):
 - [x] Kurumsal parola politikası + GPO (W18) — [MADDE_W18](./qa/MADDE_W18_WINLRTZIP_CORPORATE.md)
 - [ ] İmzalı arşiv (Faz 4)
 
-### Arayüz (winlrtZIP kabuğu)
+### Arayüz (Lertiva Zip kabuğu)
 
 - [ ] WinZip / Explorer alışkanlıkları: sürükle-bırak, sağ tık kabuk entegrasyonu (Faz 2–3)
 - [ ] “WinZip’ten geçiş” sihirbazı (Faz 3)
@@ -73,7 +73,7 @@ winlrtRAR ile **aynı KPI ailesi** (hepsi **P0**, Faz 3’te ölçüm):
 
 ### Kurumsal
 
-- [ ] Banka + sendika + KOBİ pilot paketi (winlrtRAR ile aynı segment)
+- [ ] Banka + sendika + KOBİ pilot paketi (Lertiva Arc ile aynı segment)
 - [ ] Denetim günlüğü, sessiz kurulum
 
 ### Lerta (Faz 8)
@@ -87,22 +87,22 @@ winlrtRAR ile **aynı KPI ailesi** (hepsi **P0**, Faz 3’te ölçüm):
 
 | Katman | Seçim |
 |--------|--------|
-| UI | Tauri 2 + React/TypeScript — `apps/winlrt-zip/` |
-| Motor | `crates/winlrt-archive` (winlrtRAR ile **aynı**) |
+| UI | Tauri 2 + React/TypeScript — `apps/lertiva-zip/` |
+| Motor | `crates/lertiva-archive` (Lertiva Arc ile **aynı**) |
 | CLI | `winlrt-zip` (clap) — Faz 1 |
 | Dağıtım | İmzalı Windows installer; notarized macOS |
 
 ```text
-apps/winlrt-zip/             # winlrtZIP kabuk (Faz 2+)
-apps/winlrt-rar/             # winlrtRAR kabuk
-crates/winlrt-archive/       # Ortak motor
+apps/lertiva-zip/             # Lertiva Zip kabuk (Faz 2+)
+apps/lertiva-arc/             # Lertiva Arc kabuk
+crates/lertiva-archive/       # Ortak motor
 benchmarks/                  # WinZip / 7-Zip ZIP karşılaştırma
 docs/WINLRTZIP_PLAN.md       # Bu dosya
 ```
 
 ---
 
-## 6. Faz planı (winlrtRAR Faz 2 sonrası hızlanır)
+## 6. Faz planı (Lertiva Arc Faz 2 sonrası hızlanır)
 
 ### Faz 0 — Plan ve KPI kilidi (**şimdi**)
 
@@ -110,7 +110,7 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 
 - [x] Rekabet hedefi (WinZip odaklı)
 - [x] KPI: hız / sıkıştırma / kurumsal güven — **üçü P0**
-- [x] Başlangıç kilidi: winlrtRAR **Faz 2 kapısı**
+- [x] Başlangıç kilidi: Lertiva Arc **Faz 2 kapısı**
 - [x] WinZip özellik matrisi — [WINZIP_FEATURE_MATRIX.md](./WINZIP_FEATURE_MATRIX.md)
 - [x] ZIP interop test listesi — [qa/WINLRTZIP_INTEROP_SCENARIOS.md](./qa/WINLRTZIP_INTEROP_SCENARIOS.md)
 
@@ -120,7 +120,7 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 
 ### Faz 1 — Motor: ZIP mükemmelliği (RAR F2 kapısı sonrası)
 
-**Ön koşul:** winlrtRAR Faz 2 tamam (RAR açma + Windows MVP motor entegrasyonu).
+**Ön koşul:** Lertiva Arc Faz 2 tamam (RAR açma + Windows MVP motor entegrasyonu).
 
 - [x] ZIP/ZIP64 yaz/oku (I3 smoke + seyrek >4GiB test) — [MADDE_W10](./qa/MADDE_W10_WINLRTZIP_ZIP64.md)
 - [x] CLI `winlrt-zip`: create, extract, list, test, bench — [MADDE_W1](./qa/MADDE_W1_WINLRTZIP_CLI.md)
@@ -131,9 +131,9 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 
 ---
 
-### Faz 2 — Windows winlrtZIP (Tauri)
+### Faz 2 — Windows Lertiva Zip (Tauri)
 
-- [x] `apps/winlrt-zip` MVP: liste, çıkar, sıkıştır — [MADDE_W2](./qa/MADDE_W2_WINLRTZIP_TAURI.md)
+- [x] `apps/lertiva-zip` MVP: liste, çıkar, sıkıştır — [MADDE_W2](./qa/MADDE_W2_WINLRTZIP_TAURI.md)
 - [x] Parola UI + Explorer `--secure` — [MADDE_W5](./qa/MADDE_W5_WINLRTZIP_PASSWORD.md)
 - [x] Explorer sağ tık (temel) — [MADDE_W4](./qa/MADDE_W4_WINLRTZIP_EXPLORER.md)
 - [x] winlrt.com.tr indirme kanalı — W3 vitrin
@@ -154,7 +154,7 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 
 ### Faz 4 — Kurumsal
 
-- [x] GPO/MDM, denetim günlüğü (winlrtZIP W18)
+- [x] GPO/MDM, denetim günlüğü (Lertiva Zip W18)
 - [x] Imzalı arşiv (Ed25519) — [MADDE_W23](./qa/MADDE_W23_WINLRTZIP_SIGNED_ARCHIVE.md)
 - [ ] Banka + sendika pilot genişlemesi
 
@@ -194,15 +194,15 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 
 ---
 
-## 7. winlrtRAR ile ilişki
+## 7. Lertiva Arc ile ilişki
 
-| | winlrtRAR | winlrtZIP |
+| | Lertiva Arc | Lertiva Zip |
 |---|-----------|-----------|
 | Birincil rakip | WinRAR, 7-Zip | **WinZip** |
 | Birincil yazma | `.wlrt` + ZIP | **ZIP / ZIP64** |
 | RAR açma | **Evet** (Faz 2) | Miras (motor) |
 | Geliştirme sırası | **Önce** (Faz 1–2 aktif) | **Faz 0 plan; kod F1 RAR F2 sonrası** |
-| Motor | `winlrt-archive` | **Aynı** |
+| Motor | `lertiva-archive` | **Aynı** |
 
 ---
 
@@ -217,13 +217,13 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 
 ---
 
-## 9. Onaylı kararlar (winlrtRAR ile hizalı, 2026-10-30)
+## 9. Onaylı kararlar (Lertiva Arc ile hizalı, 2026-10-30)
 
 | # | Konu | Karar |
 |---|------|--------|
 | 1 | KPI | **Hız + sıkıştırma + kurumsal güven — üçü P0** |
 | 2 | Pilot | **Banka + sendika + KOBİ** |
-| 3 | Kod başlangıcı | **winlrtRAR Faz 2 bitene kadar yalnızca plan + ortak motor** |
-| 4 | RAR | winlrtZIP **RAR üretmez**; açma motor mirası |
+| 3 | Kod başlangıcı | **Lertiva Arc Faz 2 bitene kadar yalnızca plan + ortak motor** |
+| 4 | RAR | Lertiva Zip **RAR üretmez**; açma motor mirası |
 
 Detay: [WINLRTZIP_PHASE0.md](./WINLRTZIP_PHASE0.md)

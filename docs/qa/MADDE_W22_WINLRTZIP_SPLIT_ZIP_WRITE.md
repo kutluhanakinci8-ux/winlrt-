@@ -1,4 +1,4 @@
-# Madde W22 — winlrtZIP Split ZIP yazma (Faz 5) %100
+# Madde W22 — Lertiva Zip Split ZIP yazma (Faz 5) %100
 
 [W21](./MADDE_W21_WINLRTZIP_SPLIT_ZIP_MERGE.md) birleştirme ile uyumlu **ham cilt bölme** (üretim yolu).
 
@@ -15,8 +15,8 @@
 
 | Bileşen | Konum |
 |---------|--------|
-| Motor | `crates/winlrt-archive/src/zip_io.rs` |
-| CLI | `crates/winlrt-archive/src/zip_product_cli.rs` |
+| Motor | `crates/lertiva-archive/src/zip_io.rs` |
+| CLI | `crates/lertiva-archive/src/zip_product_cli.rs` |
 | Testler | `split_zip_write_*`, `w22_*` |
 | Doğrulama | `scripts/verify-madde-w22.sh` |
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Madde W3: winlrtZIP beta build → release → vitrin link doğrula.
+# Madde W3: Lertiva Zip beta build → release → vitrin link doğrula.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 REPO="${GITHUB_REPO:-kutluhanakinci8-ux/winlrt-}"
@@ -8,7 +8,7 @@ wait_workflow() {
   sleep 25
   local RUN
   RUN="$(gh run list --workflow=winlrt-zip-windows.yml --repo "$REPO" --branch main --limit 1 --json databaseId --jq '.[0].databaseId')"
-  echo "==> winlrtZIP Windows run $RUN"
+  echo "==> Lertiva Zip Windows run $RUN"
   if ! gh run watch "$RUN" --repo "$REPO" --exit-status; then
     echo "gh run watch uyarı — poll ile bekleniyor..."
     for _ in $(seq 1 60); do
@@ -41,6 +41,6 @@ wait_workflow
 
 bash "$ROOT/scripts/sync-vitrin-winlrtzip-beta.sh"
 git add apps/web/public/downloads/index.html
-git diff --staged --quiet || git commit -m "chore(vitrin): winlrtZIP beta indirme linki (madde W3)"
+git diff --staged --quiet || git commit -m "chore(vitrin): Lertiva Zip beta indirme linki (madde W3)"
 git push origin main
 bash "$ROOT/scripts/verify-madde-w3.sh"

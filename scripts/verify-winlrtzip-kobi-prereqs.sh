@@ -15,6 +15,6 @@ do
 done
 
 grep -q 'EmailAttachment\|e-posta\|email' "$ROOT/docs/qa/WINLRTZIP_KOBI_PILOT_KOPYA.md"
-grep -q kobi_invoice_bundle "$ROOT/crates/winlrt-archive/tests/winlrtzip_interop.rs"
+grep -q kobi_invoice_bundle "$ROOT/crates/lertiva-archive/tests/winlrtzip_interop.rs"
 
-echo "OK: winlrtZIP KOBİ pilot paketi (W13)"
+echo "OK: Lertiva Zip KOBİ pilot paketi (W13)"

@@ -7,7 +7,7 @@ Sıradaki (sertifikasız): [POST_V2_SIRA.md](./qa/POST_V2_SIRA.md)
 
 - [x] **Main pipeline** — `main` push (web + rust)
 - [x] **Windows benchmark** — flag veya push; Balanced strict
-- [x] **winlrtRAR beta** — flag build + release ([beta.44+](https://github.com/kutluhanakinci8-ux/winlrt-/releases))
+- [x] **Lertiva Arc beta** — flag build + release ([beta.44+](https://github.com/kutluhanakinci8-ux/winlrt-/releases))
 
 ## 2. Secrets (isteğe bağlı)
 

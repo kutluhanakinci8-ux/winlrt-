@@ -1,4 +1,4 @@
-# winlrtRAR — durum özeti
+# Lertiva Arc — durum özeti
 
 **Güncelleme:** 2026-10-30 · **`main`** · **v1.0.0** (imzasız resmi)
 

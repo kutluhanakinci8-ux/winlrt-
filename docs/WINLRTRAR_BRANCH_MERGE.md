@@ -26,7 +26,7 @@ Merge sonrası:
 
 1. **Main pipeline** (push `main`)
 2. **winlrt Windows benchmark (resmi)** — isteğe `KPI strict` veya Variable `WINLRT_KPI_STRICT=1`
-3. **winlrtRAR Windows beta build**
+3. **Lertiva Arc Windows beta build**
 4. `bash scripts/import-windows-kpi-to-vitrin.sh` → commit → deploy
 5. [WINLRTRAR_EXPLORER_QA.md](./WINLRTRAR_EXPLORER_QA.md) pilot
 

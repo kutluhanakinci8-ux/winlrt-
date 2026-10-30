@@ -1,4 +1,4 @@
-# winlrtRAR — A→L yol haritası (%100 tamamlanma)
+# Lertiva Arc — A→L yol haritası (%100 tamamlanma)
 
 Bu plan, durum tablosundaki **A–L** maddelerini **sırayla %100**’e çıkarmak içindir.  
 Bağımlılıklar yukarıdan aşağıya: önce **E→F** (otomatik deploy), sonra **C→G** (resmi KPI vitrin), sonra **H→I** (imzalı beta), sonra **J→K→L** (saha + v1.0 kapısı).
@@ -130,11 +130,11 @@ Mac / güvenli ortam: [WINLRTRAR_CODE_SIGNING.md](./WINLRTRAR_CODE_SIGNING.md), 
 
 **Kabul (H %100):** Secrets tanımlı; beta workflow’da “imza secret yok” uyarısı **çıkmaz**.
 
-### 3.2 winlrtRAR Windows beta build (D + I → %100)
+### 3.2 Lertiva Arc Windows beta build (D + I → %100)
 
 | Sıra | Adım | Kabul |
 |------|------|--------|
-| 1 | Actions → **winlrtRAR Windows beta build** → `skip_release=true` (ilk duman) | Artifact **winlrt-rar-windows-bundle** |
+| 1 | Actions → **Lertiva Arc Windows beta build** → `skip_release=true` (ilk duman) | Artifact **winlrt-rar-windows-bundle** |
 | 2 | Log: **Verify Authenticode** geçer | İmza doğrulandı |
 | 3 | Aynı workflow `skip_release=false` | GitHub Release `winlrt-rar-beta.<run>` |
 | 4 | `/downloads/` veya vitrin linki Release URL ile güncel (commit gerekirse) | Pilot indirebilir |
@@ -175,7 +175,7 @@ Rehber: [WINLRTRAR_PILOT_KICKOFF.md](./WINLRTRAR_PILOT_KICKOFF.md)
 | Adım | Deliverable | Kabul |
 |------|-------------|--------|
 | Segment seçimi | Banka / sendika / KOBİ profili | 1 segment |
-| ADMX | `deploy/gpo/winlrtRAR.admx` → PolicyDefinitions | GPO görünür |
+| ADMX | `deploy/gpo/Lertiva Arc.admx` → PolicyDefinitions | GPO görünür |
 | Örnek politika | `scripts/winlrt-corporate-policy-sample.reg` | Test OU/makinede uygulandı |
 | Denetim | Audit JSONL + isteğe HTTP forward | Örnek olay loglandı |
 | `RequireModernCrypto` | Politika açık senaryo test | Reddedilen zayıf işlem loglandı |

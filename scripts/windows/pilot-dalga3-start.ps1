@@ -2,10 +2,10 @@
 #Usage: powershell -ExecutionPolicy Bypass -File pilot-dalga3-start.ps1
 $ErrorActionPreference = 'Stop'
 
-$zipUrl = 'https://winlrt.com.tr/downloads/winlrtRAR-corporate-gpo.zip'
+$zipUrl = 'https://winlrt.com.tr/downloads/Lertiva Arc-corporate-gpo.zip'
 $doc = 'https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/DALGA3_PILOT_OTURUM.md'
 
-Write-Host '=== winlrtRAR Dalga 3 (Kurumsal pilot) ==='
+Write-Host '=== Lertiva Arc Dalga 3 (Kurumsal pilot) ==='
 Write-Host 'Onkosul: Explorer QA signoff PASS (Dalga 2).'
 Write-Host ''
 Write-Host "1) GPO paketi: $zipUrl"

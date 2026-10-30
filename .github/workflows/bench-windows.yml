@@ -10,7 +10,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "crates/winlrt-archive/**"
+      - "crates/lertiva-archive/**"
       - "benchmarks/**"
       - ".github/workflows/bench-windows.yml"
       - ".github/flags/trigger-windows-bench"
@@ -25,7 +25,7 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
         with:
-          workspaces: crates/winlrt-archive
+          workspaces: crates/lertiva-archive
 
       - name: Install 7-Zip (rakip referans)
         run: choco install 7zip -y
@@ -34,8 +34,8 @@ jobs:
         continue-on-error: true
         run: choco install winrar -y
 
-      - name: Build winlrt-archive
-        run: cargo build -p winlrt-archive --release
+      - name: Build lertiva-archive
+        run: cargo build -p lertiva-archive --release
 
       - name: Prepare mixed benchmark fixture (~10 MiB)
         shell: bash
@@ -50,11 +50,11 @@ jobs:
         run: |
           function Write-BenchJson {
             param([string[]]$CargoArgs, [string]$OutPath)
-            cargo run -p winlrt-archive --release -- @CargoArgs 2>$null | Set-Content -Path $OutPath -Encoding utf8NoBOM
+            cargo run -p lertiva-archive --release -- @CargoArgs 2>$null | Set-Content -Path $OutPath -Encoding utf8NoBOM
           }
           function Write-BenchMd {
             param([string[]]$CargoArgs, [string]$OutPath)
-            cargo run -p winlrt-archive --release -- @CargoArgs 2>$null | Set-Content -Path $OutPath -Encoding utf8
+            cargo run -p lertiva-archive --release -- @CargoArgs 2>$null | Set-Content -Path $OutPath -Encoding utf8
           }
           Write-BenchJson -CargoArgs @('bench','--all','--json','--zip-kpi') -OutPath 'bench-report-windows.json'
           Write-BenchMd -CargoArgs @('bench','--all','--markdown') -OutPath 'BENCH_REPORT.md'
@@ -73,19 +73,19 @@ jobs:
           WINLRT_KPI_STRICT: "0"
         run: ./scripts/evaluate-bench-kpi.ps1 -JsonPath bench-report-windows-fast.json -ReportOnly
 
-      - name: winlrtZIP KPI özeti (Madde W6 — ReportOnly)
+      - name: Lertiva Zip KPI özeti (Madde W6 — ReportOnly)
         shell: pwsh
         run: |
           ./scripts/evaluate-bench-zip-kpi.ps1 -JsonPath bench-report-windows.json -ReportOnly
           ./scripts/evaluate-bench-zip-kpi.ps1 -JsonPath bench-report-windows-fast.json -ReportOnly
 
-      - name: winlrtZIP P0×3 özet (W16 artifact)
+      - name: Lertiva Zip P0×3 özet (W16 artifact)
         shell: bash
         run: |
           chmod +x scripts/evaluate-winlrtzip-p0-gate.sh
           ./scripts/evaluate-winlrtzip-p0-gate.sh bench-report-windows.json bench-report-windows-fast.json vitrin-winlrtzip-p0-gate.json
 
-      - name: winlrtZIP P0×3 strict (W16, WINLRT_KPI_STRICT=1)
+      - name: Lertiva Zip P0×3 strict (W16, WINLRT_KPI_STRICT=1)
         if: vars.WINLRT_KPI_STRICT == '1' || (github.event_name == 'workflow_dispatch' && inputs.kpi_strict == true)
         shell: pwsh
         run: |
@@ -110,12 +110,12 @@ jobs:
             $raw = [System.IO.File]::ReadAllText($in).Trim()
             $s = $raw.Substring($raw.IndexOf('{'), $raw.LastIndexOf('}') - $raw.IndexOf('{') + 1) | ConvertFrom-Json
             [ordered]@{
-              product = 'winlrtZIP'; profile = $s.profile; platform = $s.platform; generated_at = $s.generated_at
+              product = 'Lertiva Zip'; profile = $s.profile; platform = $s.platform; generated_at = $s.generated_at
               source = 'windows-official-ci'; disclaimer = $disclaimer; kpi = $s.zip_kpi
             } | ConvertTo-Json -Depth 12 | Set-Content -Path $out -Encoding utf8NoBOM
           }
-          Export-VitrinZipKpi 'bench-report-windows.json' 'vitrin-winlrtzip-balanced-kpi.json' 'winlrtZIP ZIP satırı (7-Zip / WinZip / WinRAR-ZIP).'
-          Export-VitrinZipKpi 'bench-report-windows-fast.json' 'vitrin-winlrtzip-fast-kpi.json' 'winlrtZIP hız KPI (Fast).'
+          Export-VitrinZipKpi 'bench-report-windows.json' 'vitrin-winlrtzip-balanced-kpi.json' 'Lertiva Zip ZIP satırı (7-Zip / WinZip / WinRAR-ZIP).'
+          Export-VitrinZipKpi 'bench-report-windows-fast.json' 'vitrin-winlrtzip-fast-kpi.json' 'Lertiva Zip hız KPI (Fast).'
 
       - name: Vitrin import komutu (özet)
         shell: bash

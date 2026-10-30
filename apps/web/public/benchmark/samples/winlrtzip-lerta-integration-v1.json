@@ -1,6 +1,6 @@
 {
   "contract_version": "1",
-  "product": "winlrtZIP",
+  "product": "Lertiva Zip",
   "api_base": "https://u88.lerta.com.tr/api/v1",
   "production_host": "lerta.com.tr",
   "bearer_configured": false,

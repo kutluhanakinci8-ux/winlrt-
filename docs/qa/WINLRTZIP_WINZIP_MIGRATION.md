@@ -1,14 +1,14 @@
-# WinZip → winlrtZIP geçiş rehberi
+# WinZip → Lertiva Zip geçiş rehberi
 
 ## Uygulama içi sihirbaz
 
-1. winlrtZIP açın → **WinZip geçiş**
+1. Lertiva Zip açın → **WinZip geçiş**
 2. WinZip kuruluysa yol gösterilir; değilse genel adımlar listelenir
 3. Önerilen profil: **E-posta eki** (~10 MB)
 
 ## Eşleme (kısa)
 
-| WinZip alışkanlığı | winlrtZIP |
+| WinZip alışkanlığı | Lertiva Zip |
 |--------------------|-----------|
 | Şifreli ZIP (AES) | Oluştururken **AES ZIP** + güçlü parola |
 | E-posta eki | Profil **E-posta eki** veya Explorer **hızlı ZIP** (Windows) |

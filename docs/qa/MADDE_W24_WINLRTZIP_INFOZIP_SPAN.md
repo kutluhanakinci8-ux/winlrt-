@@ -1,4 +1,4 @@
-# Madde W24 — winlrtZIP Info-ZIP span (`PK\x07\x08`) %100
+# Madde W24 — Lertiva Zip Info-ZIP span (`PK\x07\x08`) %100
 
 [Faz 5](./MADDE_W22_WINLRTZIP_SPLIT_ZIP_WRITE.md): `zip -s` çok parçalı arşivleri **winlrt motorunda açma** + uyumlu **yazma**.
 
@@ -15,7 +15,7 @@
 
 | Bileşen | Konum |
 |---------|--------|
-| Motor | `crates/winlrt-archive/src/zip_io.rs` |
+| Motor | `crates/lertiva-archive/src/zip_io.rs` |
 | Testler | `split_zip_infozip_*`, `w24_*` |
 | Doğrulama | `scripts/verify-madde-w24.sh` |
 

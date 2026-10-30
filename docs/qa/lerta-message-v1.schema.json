@@ -18,7 +18,7 @@
   ],
   "properties": {
     "contract_version": { "type": "string", "const": "1" },
-    "product": { "type": "string", "const": "winlrtZIP" },
+    "product": { "type": "string", "const": "Lertiva Zip" },
     "channel": { "type": "string", "const": "lerta_message" },
     "format": { "enum": ["wlrt_v0", "aes_zip"] },
     "filename": { "type": "string" },

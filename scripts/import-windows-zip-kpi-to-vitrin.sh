@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Windows CI bench JSON → winlrtZIP vitrin + P0×3 özeti.
+# Windows CI bench JSON → Lertiva Zip vitrin + P0×3 özeti.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/apps/web/public/benchmark/samples"
@@ -32,22 +32,22 @@ done
 
 mkdir -p "$OUT"
 extract_json "$BALANCED" | jq '{
-  product: "winlrtZIP",
+  product: "Lertiva Zip",
   profile,
   platform,
   generated_at,
   source: "windows-official-ci",
-  disclaimer: "Resmi winlrtZIP Balanced — bench-report-windows (zip_kpi).",
+  disclaimer: "Resmi Lertiva Zip Balanced — bench-report-windows (zip_kpi).",
   kpi: .zip_kpi
 }' >"$OUT/winlrtzip-windows-balanced-kpi.json"
 
 extract_json "$FAST" | jq '{
-  product: "winlrtZIP",
+  product: "Lertiva Zip",
   profile,
   platform,
   generated_at,
   source: "windows-official-ci",
-  disclaimer: "Resmi winlrtZIP Fast hız kapısı — bench-report-windows-fast.",
+  disclaimer: "Resmi Lertiva Zip Fast hız kapısı — bench-report-windows-fast.",
   kpi: .zip_kpi
 }' >"$OUT/winlrtzip-windows-fast-kpi.json"
 

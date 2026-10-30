@@ -57,121 +57,121 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
         with:
-          workspaces: crates/winlrt-archive
+          workspaces: crates/lertiva-archive
 
-      - name: Test and build winlrt-archive
-        run: cargo test -p winlrt-archive && cargo build -p winlrt-archive --release --bins
+      - name: Test and build lertiva-archive
+        run: cargo test -p lertiva-archive && cargo build -p lertiva-archive --release --bins
 
-      - name: Linux deps (winlrtRAR Tauri check)
+      - name: Linux deps (Lertiva Arc Tauri check)
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev patchelf
 
-      - name: Check winlrtRAR Tauri shell
+      - name: Check Lertiva Arc Tauri shell
         run: cargo check -p winlrt-rar
 
-      - name: Check winlrtZIP Tauri shell
+      - name: Check Lertiva Zip Tauri shell
         run: cargo check -p winlrt-zip
 
       - name: Prepare mixed benchmark fixture (~10 MiB)
         run: bash benchmarks/fixtures/mixed/prepare.sh
 
-      - name: winlrtZIP e-posta profili (I6 / W7)
-        run: cargo test -p winlrt-archive --test winlrtzip_interop i6_email_profile_mixed -- --ignored
+      - name: Lertiva Zip e-posta profili (I6 / W7)
+        run: cargo test -p lertiva-archive --test winlrtzip_interop i6_email_profile_mixed -- --ignored
 
-      - name: winlrtZIP AES interop (I4 / W8)
+      - name: Lertiva Zip AES interop (I4 / W8)
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
           sudo apt-get install -y -qq -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold p7zip-full
-          cargo test -p winlrt-archive --test winlrtzip_interop i4_
+          cargo test -p lertiva-archive --test winlrtzip_interop i4_
 
-      - name: winlrtZIP UTF-8 dosya adları (I5 / W9)
+      - name: Lertiva Zip UTF-8 dosya adları (I5 / W9)
         run: |
-          cargo test -p winlrt-archive --lib zip_turkish_utf8
-          cargo test -p winlrt-archive --test winlrtzip_interop i5_
+          cargo test -p lertiva-archive --lib zip_turkish_utf8
+          cargo test -p lertiva-archive --test winlrtzip_interop i5_
 
-      - name: winlrtZIP ZIP64 (I3 / W10)
+      - name: Lertiva Zip ZIP64 (I3 / W10)
         run: |
-          cargo test -p winlrt-archive zip64_smoke
-          cargo test -p winlrt-archive --test winlrtzip_interop i3_
+          cargo test -p lertiva-archive zip64_smoke
+          cargo test -p lertiva-archive --test winlrtzip_interop i3_
 
-      - name: winlrtZIP bozuk CRC (I7 / W11)
+      - name: Lertiva Zip bozuk CRC (I7 / W11)
         run: |
-          cargo test -p winlrt-archive zip_corrupt_crc
-          cargo test -p winlrt-archive --test winlrtzip_interop i7_
+          cargo test -p lertiva-archive zip_corrupt_crc
+          cargo test -p lertiva-archive --test winlrtzip_interop i7_
 
-      - name: winlrtZIP Explorer interop proxy (I1/I2 / W12)
+      - name: Lertiva Zip Explorer interop proxy (I1/I2 / W12)
         run: |
           sudo apt-get install -y -qq zip unzip
-          cargo test -p winlrt-archive --test winlrtzip_interop i1_
-          cargo test -p winlrt-archive --test winlrtzip_interop i2_
+          cargo test -p lertiva-archive --test winlrtzip_interop i1_
+          cargo test -p lertiva-archive --test winlrtzip_interop i2_
 
-      - name: winlrtZIP KOBİ pilot proxy (W13)
-        run: cargo test -p winlrt-archive --test winlrtzip_interop kobi_
+      - name: Lertiva Zip KOBİ pilot proxy (W13)
+        run: cargo test -p lertiva-archive --test winlrtzip_interop kobi_
 
-      - name: winlrtZIP macOS kapı (W14)
+      - name: Lertiva Zip macOS kapı (W14)
         run: bash scripts/verify-madde-w14.sh
 
-      - name: winlrtZIP geçiş + macOS KPI vitrin (W15)
+      - name: Lertiva Zip geçiş + macOS KPI vitrin (W15)
         run: bash scripts/verify-madde-w15.sh
 
-      - name: winlrtZIP P0×3 kapı scriptleri (W16)
+      - name: Lertiva Zip P0×3 kapı scriptleri (W16)
         run: bash scripts/verify-madde-w16.sh
 
-      - name: winlrtZIP Windows KPI vitrin import (W17)
+      - name: Lertiva Zip Windows KPI vitrin import (W17)
         run: bash scripts/verify-madde-w17.sh
 
-      - name: winlrtZIP kurumsal GPO + audit (W18)
+      - name: Lertiva Zip kurumsal GPO + audit (W18)
         run: bash scripts/verify-madde-w18.sh
 
-      - name: winlrtZIP kurumsal pilot signoff kapısı (W19)
+      - name: Lertiva Zip kurumsal pilot signoff kapısı (W19)
         run: bash scripts/verify-madde-w19.sh
 
-      - name: winlrtZIP Split ZIP smoke (W20)
+      - name: Lertiva Zip Split ZIP smoke (W20)
         run: bash scripts/verify-madde-w20.sh
 
-      - name: winlrtZIP Split ZIP birleştirme (W21)
+      - name: Lertiva Zip Split ZIP birleştirme (W21)
         run: bash scripts/verify-madde-w21.sh
 
-      - name: winlrtZIP Split ZIP yazma (W22)
+      - name: Lertiva Zip Split ZIP yazma (W22)
         run: bash scripts/verify-madde-w22.sh
 
-      - name: winlrtZIP imzalı arşiv (W23)
+      - name: Lertiva Zip imzalı arşiv (W23)
         run: bash scripts/verify-madde-w23.sh
 
-      - name: winlrtZIP Info-ZIP span (W24)
+      - name: Lertiva Zip Info-ZIP span (W24)
         run: bash scripts/verify-madde-w24.sh
 
-      - name: winlrtZIP güvenli paylaşım KVKK (W25)
+      - name: Lertiva Zip güvenli paylaşım KVKK (W25)
         run: bash scripts/verify-madde-w25.sh
 
-      - name: winlrtZIP mobil okuyucu smoke (W26)
+      - name: Lertiva Zip mobil okuyucu smoke (W26)
         run: bash scripts/verify-madde-w26.sh
 
-      - name: winlrtZIP mağaza kapısı (W27)
+      - name: Lertiva Zip mağaza kapısı (W27)
         run: bash scripts/verify-madde-w27.sh
 
-      - name: winlrtZIP Lerta posta eki (W28)
+      - name: Lertiva Zip Lerta posta eki (W28)
         run: bash scripts/verify-madde-w28.sh
 
-      - name: winlrtZIP Lerta üretim API (W29)
+      - name: Lertiva Zip Lerta üretim API (W29)
         run: bash scripts/verify-madde-w29.sh
 
-      - name: winlrtZIP Lerta mesaj eki (W30)
+      - name: Lertiva Zip Lerta mesaj eki (W30)
         run: bash scripts/verify-madde-w30.sh
 
-      - name: winlrtZIP Lerta birleşik staging (W31)
+      - name: Lertiva Zip Lerta birleşik staging (W31)
         run: bash scripts/verify-madde-w31.sh
 
       - name: Faz 1 benchmark raporu
         run: |
-          cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json
-          cargo run -p winlrt-archive --release -- bench --all --markdown > BENCH_REPORT.md
-          cargo run -p winlrt-archive --release -- bench --all --json --zip-kpi > bench-zip-balanced.json
-          cargo run -p winlrt-archive --release -- bench --all --profile fast --json --zip-kpi > bench-zip-fast.json
+          cargo run -p lertiva-archive --release -- bench --all --json > bench-report.json
+          cargo run -p lertiva-archive --release -- bench --all --markdown > BENCH_REPORT.md
+          cargo run -p lertiva-archive --release -- bench --all --json --zip-kpi > bench-zip-balanced.json
+          cargo run -p lertiva-archive --release -- bench --all --profile fast --json --zip-kpi > bench-zip-fast.json
 
-      - name: winlrtZIP P0×3 KPI kapısı (W16)
+      - name: Lertiva Zip P0×3 KPI kapısı (W16)
         env:
           WINLRT_ZIP_KPI_STRICT: ${{ vars.WINLRT_KPI_STRICT == '1' && '1' || '0' }}
         run: |

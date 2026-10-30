@@ -1,4 +1,4 @@
-# winlrtRAR — production checklist (Faz 3 → v1.0)
+# Lertiva Arc — production checklist (Faz 3 → v1.0)
 
 Sırayla tamamlanacak maddeler; Cloud Agent ve sizin manuel adımlar birlikte.
 
@@ -32,9 +32,9 @@ Detay: [AUTO_DEPLOY.md](./AUTO_DEPLOY.md) · Mac: `scripts/mac-set-github-vps-se
 - [ ] Vitrin: [/benchmark/](https://winlrt.com.tr/benchmark/) canlı KPI kartları (samples JSON)
 - [ ] Artifact’tan vitrin: `bash scripts/import-windows-kpi-to-vitrin.sh bench-report-windows.json bench-report-windows-fast.json`
 
-## 4. winlrtRAR Windows beta
+## 4. Lertiva Arc Windows beta
 
-- [ ] Actions → **winlrtRAR Windows beta build** → Run workflow
+- [ ] Actions → **Lertiva Arc Windows beta build** → Run workflow
 - [ ] Secret yoksa CI uyarısı beklenir; secret varsa: `verify-windows-signature.ps1` geçer
 - [ ] Test build: *Yalnızca artifact* ile Release atlamak mümkün (`skip_release`)
 - [ ] GitHub Release artifact indir → pilot makinede kurulum + Explorer menü testi
@@ -46,7 +46,7 @@ Detay: [AUTO_DEPLOY.md](./AUTO_DEPLOY.md) · Mac: `scripts/mac-set-github-vps-se
 ## 6. Kurumsal pilot
 
 - [ ] Segment rehberi: [WINLRTRAR_PILOT_KICKOFF.md](./WINLRTRAR_PILOT_KICKOFF.md) (banka / sendika / KOBİ)
-- [ ] ADMX: `deploy/gpo/winlrtRAR.admx` → PolicyDefinitions
+- [ ] ADMX: `deploy/gpo/Lertiva Arc.admx` → PolicyDefinitions
 - [ ] Örnek politika: `scripts/winlrt-corporate-policy-sample.reg`
 - [ ] Denetim mirror / HTTP forward test (isteğe bağlı)
 

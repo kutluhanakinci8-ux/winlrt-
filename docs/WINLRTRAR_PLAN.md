@@ -1,6 +1,6 @@
-# winlrtRAR — rekabet odaklı ürün planı (faz faz)
+# Lertiva Arc — rekabet odaklı ürün planı (faz faz)
 
-**Ürün adı:** winlrtRAR  
+**Ürün adı:** Lertiva Arc  
 **Hedef:** WinRAR, WinZip, 7-Zip, Bandizip ve benzeri programlarla **doğrudan rekabet**; tanımlı alanlarda **ölçülebilir şekilde üstün** olmak.  
 **Kod:** Sıkıştırma motoru, arayüz ve kurumsal katman **yerli geliştirme**; pazarın eski lisans / deneme ekranı modelinin dışında, şeffaf dağıtım.
 
@@ -20,7 +20,7 @@ Kullanıcı **mevcut arşivlerini açabilsin** (ZIP, RAR, 7z, …), yeni arşivl
 
 Her faz sonunda aşağıdaki “kazanma kriterleri”nden en az birkaçı **benchmark veya pilot** ile kanıtlanır.
 
-| Alan | WinRAR / WinZip tipik zayıflık | winlrtRAR hedefi |
+| Alan | WinRAR / WinZip tipik zayıflık | Lertiva Arc hedefi |
 |------|-------------------------------|------------------|
 | **Hız** (P0) | Eski algoritmalar, tek çekirdek ağırlığı | Çok çekirdek + modern codec (zstd/lz4); “Hızlı aç” modunda rakiplerden **≥ %30 daha hızlı** (Faz 3 benchmark) |
 | **Sıkıştırma** (P0) | RAR iyi ama kapalı; ZIP zayıf | `.wlrt` ile aynı dosyada rakip ZIP’e göre **≥ %10 daha küçük** veya eşit boyutta **daha hızlı** (Faz 3) |
@@ -92,14 +92,14 @@ Bunlar “nice to have” değil; faz planına **yayılır**.
 | Katman | Seçim |
 |--------|--------|
 | UI | Tauri 2 + React/TypeScript |
-| Motor | Rust `crates/winlrt-archive` (winlrtZIP ile ortak) |
+| Motor | Rust `crates/lertiva-archive` (Lertiva Zip ile ortak) |
 | Codecs | zstd (kalite), lz4 (hız), zlib (ZIP uyumu) |
 | Şifre | AES-256-GCM, Argon2id |
 | Dağıtım | İmzalı Windows installer; notarized macOS |
 
 ```text
-apps/winlrt-rar/           # winlrtRAR kabuk
-crates/winlrt-archive/     # Rekabet motoru
+apps/lertiva-arc/           # Lertiva Arc kabuk
+crates/lertiva-archive/     # Rekabet motoru
 benchmarks/                # Rakip karşılaştırma seti
 ```
 
@@ -140,7 +140,7 @@ benchmarks/                # Rakip karşılaştırma seti
 
 **Amaç:** WinRAR kullanıcısını **deneyimle kazanmak**.
 
-- [x] Tauri iskelet (`apps/winlrt-rar`), TR arayüz başlangıcı
+- [x] Tauri iskelet (`apps/lertiva-arc`), TR arayüz başlangıcı
 - [x] **RAR okuma** (beta) — libunrar (Win build) + UnRAR CLI + `rar` crate
 - [x] 7z okuma (`sevenz-rust`; parolalı → 7z CLI)
 - [x] Sürükle-bırak + iş kuyruğu (Tauri beta)
@@ -227,7 +227,7 @@ Taslak: [WINLRTRAR_FAZ3_TRANSITION.md](./WINLRTRAR_FAZ3_TRANSITION.md)
 
 ### Faz 8 — Lerta: rakiplerde olmayan katman
 
-**Ön koşul:** Lerta mesaj/posta MVP + winlrtRAR v1+.
+**Ön koşul:** Lerta mesaj/posta MVP + Lertiva Arc v1+.
 
 - [ ] Posta eki tek tık `.wlrt` optimum
 - [ ] Mesaj eki güvenli profil
@@ -237,15 +237,15 @@ Taslak: [WINLRTRAR_FAZ3_TRANSITION.md](./WINLRTRAR_FAZ3_TRANSITION.md)
 
 ---
 
-## 7. winlrtZIP ile ilişki
+## 7. Lertiva Zip ile ilişki
 
-| | winlrtRAR | winlrtZIP |
+| | Lertiva Arc | Lertiva Zip |
 |---|-----------|-----------|
 | Konum | **Maksimum sıkıştırma + geçiş (RAR okuma)** | **Hız + evrensel ZIP paylaşımı** |
-| Motor | Ortak `winlrt-archive` | Aynı |
+| Motor | Ortak `lertiva-archive` | Aynı |
 | Rekabet | WinRAR, 7-Zip | WinZip |
 
-**Onay:** Önce **winlrtRAR motor + Windows**; winlrtZIP aynı motor, ZIP odaklı preset — **Faz 2 kapısı sonrası** ([WINLRTZIP_PLAN.md](./WINLRTZIP_PLAN.md)).
+**Onay:** Önce **Lertiva Arc motor + Windows**; Lertiva Zip aynı motor, ZIP odaklı preset — **Faz 2 kapısı sonrası** ([WINLRTZIP_PLAN.md](./WINLRTZIP_PLAN.md)).
 
 ---
 
@@ -267,6 +267,6 @@ Taslak: [WINLRTRAR_FAZ3_TRANSITION.md](./WINLRTRAR_FAZ3_TRANSITION.md)
 | 1 | Faz 2’de RAR açma | **Evet** |
 | 2 | KPI önceliği | **Üçü birden P0:** hız, sıkıştırma, kurumsal güven |
 | 3 | Kurumsal pilot | **Banka + sendika + KOBİ** |
-| 4 | winlrtZIP | **Faz 2 bitene kadar bekler** |
+| 4 | Lertiva Zip | **Faz 2 bitene kadar bekler** |
 
-Detay: [WINLRTRAR_PHASE0.md](./WINLRTRAR_PHASE0.md) · **Faz 1** kod: `crates/winlrt-archive`, `benchmarks/`.
+Detay: [WINLRTRAR_PHASE0.md](./WINLRTRAR_PHASE0.md) · **Faz 1** kod: `crates/lertiva-archive`, `benchmarks/`.

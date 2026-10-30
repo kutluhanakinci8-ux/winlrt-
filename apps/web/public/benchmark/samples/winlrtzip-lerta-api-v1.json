@@ -1,6 +1,6 @@
 {
   "contract_version": "1",
-  "product": "winlrtZIP",
+  "product": "Lertiva Zip",
   "api_base": "https://u88.lerta.com.tr/api/v1",
   "register_url": "https://u88.lerta.com.tr/api/v1/integrations/winlrt-zip/mail-attachment",
   "bearer_configured": false,

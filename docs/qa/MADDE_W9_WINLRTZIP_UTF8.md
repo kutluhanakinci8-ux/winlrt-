@@ -1,4 +1,4 @@
-# Madde W9 — winlrtZIP Türkçe UTF-8 dosya adları (I5) %100
+# Madde W9 — Lertiva Zip Türkçe UTF-8 dosya adları (I5) %100
 
 ## Senaryo I5
 

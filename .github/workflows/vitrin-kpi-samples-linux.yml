@@ -16,15 +16,15 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
         with:
-          workspaces: crates/winlrt-archive
+          workspaces: crates/lertiva-archive
 
       - name: Prepare mixed fixture
         run: bash benchmarks/fixtures/mixed/prepare.sh
 
       - name: Bench + refresh vitrin samples
         run: |
-          cargo run -p winlrt-archive --release -- bench --all --json > /tmp/bal.json
-          cargo run -p winlrt-archive --release -- bench --all --profile fast --json > /tmp/fast.json
+          cargo run -p lertiva-archive --release -- bench --all --json > /tmp/bal.json
+          cargo run -p lertiva-archive --release -- bench --all --profile fast --json > /tmp/fast.json
           sudo apt-get install -y -qq jq
           bash scripts/refresh-benchmark-vitrin-samples.sh
 

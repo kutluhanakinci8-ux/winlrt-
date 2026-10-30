@@ -6,7 +6,7 @@
   <policyNamespaces>
     <target prefix="winlrt" namespace="winlrt.Admx.Gpo" />
   </policyNamespaces>
-  <supersededAdmx fileName="winlrtRAR.admx" />
+  <supersededAdmx fileName="Lertiva Arc.admx" />
   <resources minRequiredRevision="1.0.0.0" />
   <supportedOn>
     <definitions>
@@ -14,7 +14,7 @@
     </definitions>
   </supportedOn>
   <categories>
-    <category name="winlrtRAR" displayName="$(string.Category_winlrtRAR)">
+    <category name="Lertiva Arc" displayName="$(string.Category_Lertiva Arc)">
       <parentCategory ref="windows:WindowsComponents" />
     </category>
   </categories>
@@ -24,9 +24,9 @@
       class="Both"
       displayName="$(string.PasswordPolicy)"
       explainText="$(string.PasswordPolicy_Help)"
-      key="Software\winlrt\winlrtRAR"
+      key="Software\winlrt\Lertiva Arc"
       presentation="$(presentation.PasswordPolicy)">
-      <parentCategory ref="winlrtRAR" />
+      <parentCategory ref="Lertiva Arc" />
       <supportedOn ref="SUPPORTED_Windows10_AndLater" />
       <elements>
         <text id="PasswordPolicy" valueName="PasswordPolicy" required="true" maxLength="32" />
@@ -37,9 +37,9 @@
       class="Both"
       displayName="$(string.AuditMirrorPath)"
       explainText="$(string.AuditMirrorPath_Help)"
-      key="Software\winlrt\winlrtRAR"
+      key="Software\winlrt\Lertiva Arc"
       presentation="$(presentation.AuditMirrorPath)">
-      <parentCategory ref="winlrtRAR" />
+      <parentCategory ref="Lertiva Arc" />
       <supportedOn ref="SUPPORTED_Windows10_AndLater" />
       <elements>
         <text id="AuditMirrorPath" valueName="AuditMirrorPath" required="false" maxLength="512" />
@@ -50,9 +50,9 @@
       class="Both"
       displayName="$(string.AuditForwardUrl)"
       explainText="$(string.AuditForwardUrl_Help)"
-      key="Software\winlrt\winlrtRAR"
+      key="Software\winlrt\Lertiva Arc"
       presentation="$(presentation.AuditForwardUrl)">
-      <parentCategory ref="winlrtRAR" />
+      <parentCategory ref="Lertiva Arc" />
       <supportedOn ref="SUPPORTED_Windows10_AndLater" />
       <elements>
         <text id="AuditForwardUrl" valueName="AuditForwardUrl" required="false" maxLength="512" />
@@ -63,9 +63,9 @@
       class="Both"
       displayName="$(string.RequireModernCrypto)"
       explainText="$(string.RequireModernCrypto_Help)"
-      key="Software\winlrt\winlrtRAR"
+      key="Software\winlrt\Lertiva Arc"
       presentation="$(presentation.RequireModernCrypto)">
-      <parentCategory ref="winlrtRAR" />
+      <parentCategory ref="Lertiva Arc" />
       <supportedOn ref="SUPPORTED_Windows10_AndLater" />
       <elements>
         <boolean id="RequireModernCrypto" valueName="RequireModernCrypto">

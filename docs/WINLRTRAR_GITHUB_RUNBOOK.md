@@ -6,9 +6,9 @@ Repo: `kutluhanakinci8-ux/winlrt-`
 |----------|-------------|------|
 | **Main pipeline** | `main` push, PR, manual | Vitrin build, rust test, bench, VPS deploy (secret varsa) |
 | **winlrt Windows benchmark (resmi)** | `main` (bench paths), manual | Resmi KPI + 7-Zip/WinRAR; artifact `bench-report-windows` |
-| **winlrtRAR Windows beta build** | manual + beta flags | Tauri beta + Release; imza verify (secret varsa) |
-| **winlrtZIP Windows beta build** | `trigger-zip-beta-*` push | winlrtZIP NSIS beta + Release |
-| **winlrtZIP macOS beta build** | `trigger-zip-macos-*` push | winlrtZIP dmg beta + isteğe Release |
+| **Lertiva Arc Windows beta build** | manual + beta flags | Tauri beta + Release; imza verify (secret varsa) |
+| **Lertiva Zip Windows beta build** | `trigger-zip-beta-*` push | Lertiva Zip NSIS beta + Release |
+| **Lertiva Zip macOS beta build** | `trigger-zip-macos-*` push | Lertiva Zip dmg beta + isteğe Release |
 | **Vitrin KPI samples (Linux)** | manual | Linux KPI JSON → artifact `vitrin-kpi-samples` |
 | **Deploy VPS** | (varsa ayrı) | Ek deploy — bkz. `deploy-vps.yml` |
 
@@ -22,7 +22,7 @@ Bkz. [WINLRTRAR_POST_MERGE.md](./WINLRTRAR_POST_MERGE.md).
 gh auth login
 gh workflow run "Main pipeline" --repo kutluhanakinci8-ux/winlrt- -r main
 gh workflow run "winlrt Windows benchmark (resmi)" --repo kutluhanakinci8-ux/winlrt- -r main
-gh workflow run "winlrtRAR Windows beta build" --repo kutluhanakinci8-ux/winlrt- -r main
+gh workflow run "Lertiva Arc Windows beta build" --repo kutluhanakinci8-ux/winlrt- -r main
 gh workflow run "Vitrin KPI samples (Linux)" --repo kutluhanakinci8-ux/winlrt- -r main
 ```
 
@@ -36,7 +36,7 @@ gh workflow run "winlrt Windows benchmark (resmi)" --repo kutluhanakinci8-ux/win
 Beta build (Release atlamadan):
 
 ```bash
-gh workflow run "winlrtRAR Windows beta build" --repo kutluhanakinci8-ux/winlrt- -r main \
+gh workflow run "Lertiva Arc Windows beta build" --repo kutluhanakinci8-ux/winlrt- -r main \
   -f skip_release=true
 ```
 

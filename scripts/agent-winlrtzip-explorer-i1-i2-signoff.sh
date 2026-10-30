@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# winlrtZIP W12 — Windows Explorer I1/I2 saha QA → WINLRTZIP_EXPLORER_QA_SIGNOFF.md (PASS).
+# Lertiva Zip W12 — Windows Explorer I1/I2 saha QA → WINLRTZIP_EXPLORER_QA_SIGNOFF.md (PASS).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 FILE="$ROOT/docs/qa/WINLRTZIP_EXPLORER_QA_SIGNOFF.md"
@@ -13,7 +13,7 @@ NOTES="${WINLRTZIP_EXPLORER_QA_NOTES:-}"
 REPO="${GITHUB_REPO:-kutluhanakinci8-ux/winlrt-}"
 
 cat >"$FILE" <<EOF
-# winlrtZIP Explorer I1/I2 — imza kaydı (W12)
+# Lertiva Zip Explorer I1/I2 — imza kaydı (W12)
 
 Checklist: [WINLRTZIP_EXPLORER_QA_KOPYA.md](./WINLRTZIP_EXPLORER_QA_KOPYA.md) · Proxy otomasyon: [MADDE_W12](./MADDE_W12_WINLRTZIP_EXPLORER_I1_I2.md)
 

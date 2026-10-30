@@ -1,6 +1,6 @@
-# Madde W16 — winlrtZIP P0×3 KPI kapısı %100
+# Madde W16 — Lertiva Zip P0×3 KPI kapısı %100
 
-Faz 3 kapı: **hız + sıkıştırma + kurumsal güven** (winlrtZIP ZIP hattı).
+Faz 3 kapı: **hız + sıkıştırma + kurumsal güven** (Lertiva Zip ZIP hattı).
 
 | P0 | Ölçüm | Kaynak |
 |----|--------|--------|

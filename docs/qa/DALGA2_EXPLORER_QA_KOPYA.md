@@ -19,7 +19,7 @@ PASS ise aşağıdaki manuel maddelere geçin. Çıktıdaki **SHA256** değerini
 - [ ] Kaldır-yeniden-kur menü çiftlenmedi
 
 ## Arşiv (zip / wlrt / rar / 7z)
-- [ ] winlrtRAR ile aç
+- [ ] Lertiva Arc ile aç
 - [ ] buraya aç
 - [ ] Parolalı rar/7z (bilinen sınırlama)
 

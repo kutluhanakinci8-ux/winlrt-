@@ -5,11 +5,11 @@ $ErrorActionPreference = 'Stop'
 $release = 'https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.41064653814'
 $preflight = Join-Path $PSScriptRoot 'explorer-qa-preflight.ps1'
 
-Write-Host '=== winlrtRAR Dalga 2 (Explorer QA) ==='
+Write-Host '=== Lertiva Arc Dalga 2 (Explorer QA) ==='
 Write-Host "1) Beta sayfasi aciliyor: $release"
 Start-Process $release
 
-Write-Host '2) Kurulum: winlrtRAR_0.1.0_x64-setup.exe (SmartScreen uyari normal — imza yok)'
+Write-Host '2) Kurulum: Lertiva Arc_0.1.0_x64-setup.exe (SmartScreen uyari normal — imza yok)'
 Write-Host '3) Kurulum bitince bu klasorde preflight calistirin:'
 
 if (Test-Path $preflight) {

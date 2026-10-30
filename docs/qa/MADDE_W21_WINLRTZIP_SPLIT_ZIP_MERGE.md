@@ -1,4 +1,4 @@
-# Madde W21 — winlrtZIP Split ZIP birleştirme (Faz 5) %100
+# Madde W21 — Lertiva Zip Split ZIP birleştirme (Faz 5) %100
 
 [W20](./MADDE_W20_WINLRTZIP_SPLIT_ZIP.md) algılama sonrası: **çok ciltli arşivi açma** (Info-ZIP / WinZip sırası: `.z01` … `.zip`).
 
@@ -16,7 +16,7 @@
 
 | Bileşen | Konum |
 |---------|--------|
-| Motor | `crates/winlrt-archive/src/zip_io.rs` |
+| Motor | `crates/lertiva-archive/src/zip_io.rs` |
 | Testler | `split_zip_merge_*`, `w21_*` interop |
 | Doğrulama | `scripts/verify-madde-w21.sh` |
 

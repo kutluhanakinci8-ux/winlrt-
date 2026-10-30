@@ -1,4 +1,4 @@
-# Madde D — winlrtRAR Windows beta workflow %100
+# Madde D — Lertiva Arc Windows beta workflow %100
 
 ## Neden eksikti (~%15)?
 

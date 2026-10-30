@@ -1,4 +1,4 @@
-# winlrtZIP — ZIP interop test senaryoları (Faz 0)
+# Lertiva Zip — ZIP interop test senaryoları (Faz 0)
 
 Motor sprint (Faz 1) öncesi kabul listesi. Her senaryo: **oluştur → aç** (Windows + isteğe macOS).
 

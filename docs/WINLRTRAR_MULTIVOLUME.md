@@ -11,7 +11,7 @@ Tüm ciltler **aynı dizinde** olmalıdır. UI `inspect_archive` ile ipucu göst
 
 ## Onarım
 
-- CLI: `winlrt-archive repair arşiv.rar ./onarım/ --format rar [--password]`
+- CLI: `lertiva-archive repair arşiv.rar ./onarım/ --format rar [--password]`
 - Tauri: **RAR onarım dene** (UnRAR `r` komutu)
 - Kurtarma kaydı olmayan arşivlerde başarısız olabilir
 

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>winlrt — Benchmark özeti (Faz 3)</title>
+    <title>Lertiva — Benchmark özeti (Faz 3)</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css?v=5" />
   </head>
@@ -12,7 +12,7 @@
       <div class="site-header-inner">
         <a class="logo" href="/">
           <img class="logo-img" src="/assets/logo-mark.svg" width="36" height="36" alt="" />
-          winlrt
+          Lertiva
         </a>
         <div class="header-tools">
           <button type="button" class="tool-btn" id="theme-toggle" aria-label="Tema">◐</button>
@@ -56,7 +56,7 @@
         </tbody>
       </table>
 
-      <h2 class="section-label" data-i18n="page.benchmark.p0heading">winlrtZIP P0×3 kapı özeti</h2>
+      <h2 class="section-label" data-i18n="page.benchmark.p0heading">Lertiva Zip P0×3 kapı özeti</h2>
       <p class="meta" id="p0-gate-meta">P0 özeti yükleniyor…</p>
       <article class="card" id="p0-gate-card" style="margin-bottom: 1.5rem"></article>
 
@@ -68,7 +68,7 @@
 
       <h2 class="section-label">JSON KPI alanları</h2>
       <p>
-        <code>cargo run -p winlrt-archive -- bench --all --json</code> çıktısındaki
+        <code>cargo run -p lertiva-archive -- bench --all --json</code> çıktısındaki
         <code>kpi</code> nesnesi CI ve vitrin doğrulaması için kullanılır:
       </p>
       <pre><code>{
@@ -91,7 +91,7 @@
         <code>bash scripts/refresh-benchmark-vitrin-samples.sh</code>
       </p>
 
-      <h2 class="section-label" data-i18n="page.benchmark.lertaHeading">winlrtZIP — Lerta &amp; mağaza örnekleri</h2>
+      <h2 class="section-label" data-i18n="page.benchmark.lertaHeading">Lertiva Zip — Lerta &amp; mağaza örnekleri</h2>
       <div id="zip-integration-cards" style="display: grid; gap: 1rem; margin-bottom: 1.5rem"></div>
 
       <h2 class="section-label" data-i18n="page.benchmark.pilotHeading">Pilot sırası (beta → v1.0)</h2>
@@ -116,8 +116,8 @@
       </ul>
 
       <h2 class="section-label">Yerel çalıştırma</h2>
-      <pre><code>cargo run -p winlrt-archive -- bench --all --json --zip-kpi
-cargo run -p winlrt-archive -- bench --all --profile fast --json --zip-kpi</code></pre>
+      <pre><code>cargo run -p lertiva-archive -- bench --all --json --zip-kpi
+cargo run -p lertiva-archive -- bench --all --profile fast --json --zip-kpi</code></pre>
       <p>
         Fixture seti: <code>benchmarks/fixtures/</code> (6 set; büyük
         <code>mixed/</code> → <code>bash benchmarks/fixtures/mixed/prepare.sh</code>) · Detay:
@@ -189,32 +189,32 @@ cargo run -p winlrt-archive -- bench --all --profile fast --json --zip-kpi</code
           },
           {
             url: "/benchmark/samples/winlrtzip-windows-balanced-kpi.json",
-            title: "winlrtZIP Balanced — Windows (resmi)",
+            title: "Lertiva Zip Balanced — Windows (resmi)",
             fallback: "/benchmark/samples/winlrtzip-linux-balanced-kpi.json",
           },
           {
             url: "/benchmark/samples/winlrtzip-windows-fast-kpi.json",
-            title: "winlrtZIP Fast — Windows (resmi)",
+            title: "Lertiva Zip Fast — Windows (resmi)",
             fallback: "/benchmark/samples/winlrtzip-linux-fast-kpi.json",
           },
           {
             url: "/benchmark/samples/winlrtzip-linux-balanced-kpi.json",
-            title: "winlrtZIP Balanced (Linux proxy)",
+            title: "Lertiva Zip Balanced (Linux proxy)",
             fallback: null,
           },
           {
             url: "/benchmark/samples/winlrtzip-linux-fast-kpi.json",
-            title: "winlrtZIP Fast (Linux proxy)",
+            title: "Lertiva Zip Fast (Linux proxy)",
             fallback: null,
           },
           {
             url: "/benchmark/samples/winlrtzip-macos-balanced-kpi.json",
-            title: "winlrtZIP Balanced — macOS (placeholder)",
+            title: "Lertiva Zip Balanced — macOS (placeholder)",
             fallback: "/benchmark/samples/winlrtzip-linux-balanced-kpi.json",
           },
           {
             url: "/benchmark/samples/winlrtzip-macos-fast-kpi.json",
-            title: "winlrtZIP Fast — macOS (placeholder)",
+            title: "Lertiva Zip Fast — macOS (placeholder)",
             fallback: "/benchmark/samples/winlrtzip-linux-fast-kpi.json",
           },
         ];
@@ -311,7 +311,7 @@ cargo run -p winlrt-archive -- bench --all --profile fast --json --zip-kpi</code
     </script>
     <footer class="site-footer">
       <div class="container footer-bottom" style="border: none; padding-top: 2rem">
-        <span>© winlrt</span>
+        <span>© Lertiva</span>
         <a href="/kvkk/">KVKK</a>
         <a href="/">Ana sayfa</a>
       </div>

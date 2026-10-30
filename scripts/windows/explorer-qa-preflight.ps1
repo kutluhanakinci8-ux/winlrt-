@@ -5,20 +5,20 @@ $ErrorActionPreference = 'Stop'
 function Test-RegCommand($path) {
   $cmd = (Get-ItemProperty -Path $path -ErrorAction SilentlyContinue).'(default)'
   if (-not $cmd) { return $false, 'komut yok' }
-  if ($cmd -notmatch 'winlrtRAR\.exe') { return $false, "beklenmeyen komut: $cmd" }
+  if ($cmd -notmatch 'Lertiva Arc\.exe') { return $false, "beklenmeyen komut: $cmd" }
   return $true, $cmd
 }
 
 $fail = @()
 $ok = @()
 
-$pv = (Get-ItemProperty -Path 'HKLM:\Software\winlrt\winlrtRAR' -ErrorAction SilentlyContinue).ProductVersion
-if ($pv) { $ok += "ProductVersion=$pv" } else { $fail += 'HKLM\Software\winlrt\winlrtRAR\ProductVersion yok' }
+$pv = (Get-ItemProperty -Path 'HKLM:\Software\winlrt\Lertiva Arc' -ErrorAction SilentlyContinue).ProductVersion
+if ($pv) { $ok += "ProductVersion=$pv" } else { $fail += 'HKLM\Software\winlrt\Lertiva Arc\ProductVersion yok' }
 
 $exeCandidates = @(
-  "${env:ProgramFiles}\winlrtRAR\winlrtRAR.exe",
-  "${env:ProgramFiles(x86)}\winlrtRAR\winlrtRAR.exe",
-  "${env:LocalAppData}\Programs\winlrtRAR\winlrtRAR.exe"
+  "${env:ProgramFiles}\Lertiva Arc\Lertiva Arc.exe",
+  "${env:ProgramFiles(x86)}\Lertiva Arc\Lertiva Arc.exe",
+  "${env:LocalAppData}\Programs\Lertiva Arc\Lertiva Arc.exe"
 )
 $exe = $exeCandidates | Where-Object { Test-Path $_ } | Select-Object -First 1
 if ($exe) {
@@ -26,7 +26,7 @@ if ($exe) {
   $ok += "exe=$exe"
   $ok += "SHA256=$hash"
 } else {
-  $fail += 'winlrtRAR.exe bulunamadı (Program Files / LocalAppData)'
+  $fail += 'Lertiva Arc.exe bulunamadı (Program Files / LocalAppData)'
 }
 
 $archiveKeys = @(
@@ -53,7 +53,7 @@ if (Test-Path $dirKey) {
   $fail += 'Directory\shell\WinlrtCompress yok'
 }
 
-Write-Host '--- winlrtRAR Explorer QA preflight ---'
+Write-Host '--- Lertiva Arc Explorer QA preflight ---'
 $ok | ForEach-Object { Write-Host "[OK] $_" -ForegroundColor Green }
 $fail | ForEach-Object { Write-Host "[FAIL] $_" -ForegroundColor Red }
 

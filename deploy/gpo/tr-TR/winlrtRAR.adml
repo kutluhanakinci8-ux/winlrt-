@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <policyDefinitionResources xmlns="http://schemas.microsoft.com/GroupPolicy/2006/07/PolicyDefinitions" revision="1.0" schemaVersion="1.0">
-  <displayName>winlrtRAR</displayName>
-  <description>winlrtRAR kurumsal ayarları (parola politikası ve denetim iletimi).</description>
+  <displayName>Lertiva Arc</displayName>
+  <description>Lertiva Arc kurumsal ayarları (parola politikası ve denetim iletimi).</description>
   <resources>
     <stringTable>
       <string id="SUPPORTED_Windows10_AndLater">Windows 10 / Windows Server 2016 ve sonrası</string>
-      <string id="Category_winlrtRAR">winlrtRAR</string>
+      <string id="Category_Lertiva Arc">Lertiva Arc</string>
       <string id="PasswordPolicy">Parola politikası profili</string>
       <string id="PasswordPolicy_Help">Kayıt defteri üzerinden parola politikasını ayarlar: consumer veya corporate. WINLRT_PASSWORD_POLICY ortam değişkeni kayıt defterinden önceliklidir.</string>
       <string id="PasswordPolicy_Label">Politika kimliği (consumer veya corporate)</string>

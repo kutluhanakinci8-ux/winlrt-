@@ -1,4 +1,4 @@
-# Madde W30 — winlrtZIP Lerta mesaj eki (Faz 8) %100
+# Madde W30 — Lertiva Zip Lerta mesaj eki (Faz 8) %100
 
 Lerta mesaj kanalı için `.wlrt` veya AES-ZIP profili; yalnızca metadata kaydı (içerik yüklenmez).
 
@@ -19,7 +19,7 @@ Lerta mesaj kanalı için `.wlrt` veya AES-ZIP profili; yalnızca metadata kayd�
 
 | Bileşen | Konum |
 |---------|--------|
-| Motor | `crates/winlrt-archive/src/lerta_message.rs` |
+| Motor | `crates/lertiva-archive/src/lerta_message.rs` |
 | API gönderim | `lerta_api::submit_message_attachment_metadata` |
 | Testler | `lerta_message::*`, `w30_*` |
 | Doğrulama | `scripts/verify-madde-w30.sh` |

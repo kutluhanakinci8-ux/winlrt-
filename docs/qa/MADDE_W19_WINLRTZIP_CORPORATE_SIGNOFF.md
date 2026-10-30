@@ -1,4 +1,4 @@
-# Madde W19 — winlrtZIP kurumsal pilot signoff %100
+# Madde W19 — Lertiva Zip kurumsal pilot signoff %100
 
 [W18](./MADDE_W18_WINLRTZIP_CORPORATE.md) GPO/denetim sonrası **saha pilot imza** kapısı (repo + isteğe Windows).
 

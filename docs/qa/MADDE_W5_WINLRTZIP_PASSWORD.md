@@ -1,10 +1,10 @@
-# Madde W5 — winlrtZIP parola UI + Explorer `--secure` %100
+# Madde W5 — Lertiva Zip parola UI + Explorer `--secure` %100
 
 ## Kapsam
 
 | Bileşen | Konum |
 |---------|--------|
-| UI aç/çıkar/test parolası | `apps/winlrt-zip/src/App.tsx` |
+| UI aç/çıkar/test parolası | `apps/lertiva-zip/src/App.tsx` |
 | AES oluşturma + Explorer sihirbazı | `evaluate_create_password`, `startup_secure_wizard` |
 | Explorer menüleri | `installer-hooks.nsh` (`--secure`) |
 | Politika | `password_policy::policy_for_secure_create()` (kurumsal varsayılan) |
@@ -13,8 +13,8 @@
 
 | Menü | Komut |
 |------|--------|
-| winlrtZIP — şifreli sıkıştır | `--compress-folder "%1" --secure` |
-| winlrtZIP — seçilenler şifreli | `--compress-selection %* --secure` |
+| Lertiva Zip — şifreli sıkıştır | `--compress-folder "%1" --secure` |
+| Lertiva Zip — seçilenler şifreli | `--compress-selection %* --secure` |
 
 `--secure`: uygulama açılır → parola sihirbazı → AES ZIP oluştur.
 

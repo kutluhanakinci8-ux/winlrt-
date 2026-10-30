@@ -1,4 +1,4 @@
-# winlrtRAR — kurumsal parola politikası (Faz 4 beta)
+# Lertiva Arc — kurumsal parola politikası (Faz 4 beta)
 
 ## Politikalar
 
@@ -40,7 +40,7 @@ Kapatma: `WINLRT_DISABLE_NATIVE_PASSWORD=1`
 - Şifreli `.wlrt` → v2 **Argon2id**
 - Şifreli ZIP → **AES-256** (ZipCrypto yok)
 
-Tauri: `enterprise_policy_info.require_modern_crypto` · ADMX: `deploy/gpo/winlrtRAR.admx`
+Tauri: `enterprise_policy_info.require_modern_crypto` · ADMX: `deploy/gpo/Lertiva Arc.admx`
 
 ## Denetim
 

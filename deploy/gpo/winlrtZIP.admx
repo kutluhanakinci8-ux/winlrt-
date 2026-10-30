@@ -6,7 +6,7 @@
   <policyNamespaces>
     <target prefix="winlrt" namespace="winlrt.Admx.Gpo.Zip" />
   </policyNamespaces>
-  <supersededAdmx fileName="winlrtZIP.admx" />
+  <supersededAdmx fileName="Lertiva Zip.admx" />
   <resources minRequiredRevision="1.0.0.0" />
   <supportedOn>
     <definitions>
@@ -14,7 +14,7 @@
     </definitions>
   </supportedOn>
   <categories>
-    <category name="winlrtZIP" displayName="$(string.Category_winlrtZIP)">
+    <category name="Lertiva Zip" displayName="$(string.Category_Lertiva Zip)">
       <parentCategory ref="windows:WindowsComponents" />
     </category>
   </categories>
@@ -24,9 +24,9 @@
       class="Both"
       displayName="$(string.PasswordPolicy)"
       explainText="$(string.PasswordPolicy_Help)"
-      key="Software\winlrt\winlrtZIP"
+      key="Software\winlrt\Lertiva Zip"
       presentation="$(presentation.PasswordPolicy)">
-      <parentCategory ref="winlrtZIP" />
+      <parentCategory ref="Lertiva Zip" />
       <supportedOn ref="SUPPORTED_Windows10_AndLater" />
       <elements>
         <text id="PasswordPolicy" valueName="PasswordPolicy" required="true" maxLength="32" />
@@ -37,9 +37,9 @@
       class="Both"
       displayName="$(string.AuditMirrorPath)"
       explainText="$(string.AuditMirrorPath_Help)"
-      key="Software\winlrt\winlrtZIP"
+      key="Software\winlrt\Lertiva Zip"
       presentation="$(presentation.AuditMirrorPath)">
-      <parentCategory ref="winlrtZIP" />
+      <parentCategory ref="Lertiva Zip" />
       <supportedOn ref="SUPPORTED_Windows10_AndLater" />
       <elements>
         <text id="AuditMirrorPath" valueName="AuditMirrorPath" required="false" maxLength="512" />
@@ -50,9 +50,9 @@
       class="Both"
       displayName="$(string.AuditForwardUrl)"
       explainText="$(string.AuditForwardUrl_Help)"
-      key="Software\winlrt\winlrtZIP"
+      key="Software\winlrt\Lertiva Zip"
       presentation="$(presentation.AuditForwardUrl)">
-      <parentCategory ref="winlrtZIP" />
+      <parentCategory ref="Lertiva Zip" />
       <supportedOn ref="SUPPORTED_Windows10_AndLater" />
       <elements>
         <text id="AuditForwardUrl" valueName="AuditForwardUrl" required="false" maxLength="512" />
@@ -63,9 +63,9 @@
       class="Both"
       displayName="$(string.RequireModernCrypto)"
       explainText="$(string.RequireModernCrypto_Help)"
-      key="Software\winlrt\winlrtZIP"
+      key="Software\winlrt\Lertiva Zip"
       presentation="$(presentation.RequireModernCrypto)">
-      <parentCategory ref="winlrtZIP" />
+      <parentCategory ref="Lertiva Zip" />
       <supportedOn ref="SUPPORTED_Windows10_AndLater" />
       <elements>
         <boolean id="RequireModernCrypto" valueName="RequireModernCrypto">
@@ -83,9 +83,9 @@
       class="Both"
       displayName="$(string.RequireSignedArchive)"
       explainText="$(string.RequireSignedArchive_Help)"
-      key="Software\winlrt\winlrtZIP"
+      key="Software\winlrt\Lertiva Zip"
       presentation="$(presentation.RequireSignedArchive)">
-      <parentCategory ref="winlrtZIP" />
+      <parentCategory ref="Lertiva Zip" />
       <supportedOn ref="SUPPORTED_Windows10_AndLater" />
       <elements>
         <boolean id="RequireSignedArchive" valueName="RequireSignedArchive">

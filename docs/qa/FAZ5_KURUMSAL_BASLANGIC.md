@@ -10,7 +10,7 @@
 
 | Yol | Dosya |
 |-----|--------|
-| ADMX | `deploy/gpo/winlrtRAR.admx` → `C:\Windows\PolicyDefinitions\` |
+| ADMX | `deploy/gpo/Lertiva Arc.admx` → `C:\Windows\PolicyDefinitions\` |
 | Örnek .reg | `scripts/winlrt-corporate-policy-sample.reg` |
 
 Önerilen: `PasswordPolicy=corporate`, `RequireModernCrypto=1`, isteğe audit mirror URL.

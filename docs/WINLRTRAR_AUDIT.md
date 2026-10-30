@@ -1,4 +1,4 @@
-# winlrtRAR — denetim günlüğü (Faz 4 beta)
+# Lertiva Arc — denetim günlüğü (Faz 4 beta)
 
 JSON Lines dosyası; **parola / anahtar metni asla yazılmaz**.
 
@@ -6,8 +6,8 @@ JSON Lines dosyası; **parola / anahtar metni asla yazılmaz**.
 
 | Ortam | Varsayılan yol |
 |--------|----------------|
-| Windows | `%APPDATA%\winlrtRAR\audit.jsonl` |
-| Linux/macOS | `~/.local/share/winlrtRAR/audit.jsonl` |
+| Windows | `%APPDATA%\Lertiva Arc\audit.jsonl` |
+| Linux/macOS | `~/.local/share/Lertiva Arc/audit.jsonl` |
 
 Override: `WINLRT_AUDIT_LOG=/yol/audit.jsonl`  
 Kapatma: `WINLRT_AUDIT_DISABLE=1`  

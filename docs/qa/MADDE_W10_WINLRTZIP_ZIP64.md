@@ -1,4 +1,4 @@
-# Madde W10 — winlrtZIP ZIP64 (I3) %100
+# Madde W10 — Lertiva Zip ZIP64 (I3) %100
 
 ## Senaryo I3
 

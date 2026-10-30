@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# winlrtZIP W13 — KOBİ saha pilot → WINLRTZIP_KOBI_PILOT_SIGNOFF.md (PASS).
+# Lertiva Zip W13 — KOBİ saha pilot → WINLRTZIP_KOBI_PILOT_SIGNOFF.md (PASS).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 FILE="$ROOT/docs/qa/WINLRTZIP_KOBI_PILOT_SIGNOFF.md"
@@ -14,7 +14,7 @@ NOTES="${WINLRTZIP_KOBI_NOTES:-}"
 REPO="${GITHUB_REPO:-kutluhanakinci8-ux/winlrt-}"
 
 cat >"$FILE" <<EOF
-# winlrtZIP KOBİ pilot — imza kaydı (W13)
+# Lertiva Zip KOBİ pilot — imza kaydı (W13)
 
 Checklist: [WINLRTZIP_KOBI_PILOT_KOPYA.md](./WINLRTZIP_KOBI_PILOT_KOPYA.md) · Proxy: [MADDE_W13](./MADDE_W13_WINLRTZIP_KOBI_PILOT.md)
 

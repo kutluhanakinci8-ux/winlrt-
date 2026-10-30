@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <policyDefinitionResources xmlns="http://schemas.microsoft.com/GroupPolicy/2006/07/PolicyDefinitions" revision="1.0" schemaVersion="1.0">
-  <displayName>winlrtZIP</displayName>
-  <description>Enterprise settings for winlrtZIP (password policy, audit, AES ZIP).</description>
+  <displayName>Lertiva Zip</displayName>
+  <description>Enterprise settings for Lertiva Zip (password policy, audit, AES ZIP).</description>
   <resources>
     <stringTable>
       <string id="SUPPORTED_Windows10_AndLater">Windows 10 / Windows Server 2016 and later</string>
-      <string id="Category_winlrtZIP">winlrtZIP</string>
+      <string id="Category_Lertiva Zip">Lertiva Zip</string>
       <string id="PasswordPolicy">Password policy profile</string>
       <string id="PasswordPolicy_Help">Sets WINLRT password policy via registry. Use consumer or corporate.</string>
       <string id="PasswordPolicy_Label">Policy id (consumer or corporate)</string>

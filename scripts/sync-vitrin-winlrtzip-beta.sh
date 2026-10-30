@@ -42,13 +42,13 @@ block = f"""      <ul class="product-list">
         </li>
       </ul>"""
 pat = (
-    r'(<h2 class="section-label" style="margin-bottom: 1rem">winlrtZIP</h2>\s*'
+    r'(<h2 class="section-label" style="margin-bottom: 1rem">Lertiva Zip</h2>\s*'
     r'<p class="meta" style="margin-bottom: 1rem">.*?</p>\s*)'
     r'<ul class="product-list">.*?</ul>'
 )
 new, n = re.subn(pat, r"\1" + block, html, count=1, flags=re.S)
 if n != 1:
-    raise SystemExit("vitrin winlrtZIP bloğu güncellenemedi")
+    raise SystemExit("vitrin Lertiva Zip bloğu güncellenemedi")
 Path(os.environ["HTML"]).write_text(new)
 PY
-echo "OK: vitrin winlrtZIP → $TAG"
+echo "OK: vitrin Lertiva Zip → $TAG"

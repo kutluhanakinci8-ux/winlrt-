@@ -1,4 +1,4 @@
-# Madde W27 — winlrtZIP mağaza kapısı (Faz 7) %100
+# Madde W27 — Lertiva Zip mağaza kapısı (Faz 7) %100
 
 Play / App Store **ön koşul** checklist (repo); gerçek mağaza yükleme ayrı.
 
@@ -15,7 +15,7 @@ Play / App Store **ön koşul** checklist (repo); gerçek mağaza yükleme ayrı
 
 | Bileşen | Konum |
 |---------|--------|
-| Motor | `crates/winlrt-archive/src/store_gate.rs` |
+| Motor | `crates/lertiva-archive/src/store_gate.rs` |
 | Script | `scripts/evaluate-winlrtzip-store-gate.sh` |
 | Doğrulama | `scripts/verify-madde-w27.sh` |
 

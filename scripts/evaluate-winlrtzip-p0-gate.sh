@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# winlrtZIP P0×3 kapısı: sıkıştırma (Balanced zip_kpi) + hız (Fast zip_kpi) + güven (I4 AES).
+# Lertiva Zip P0×3 kapısı: sıkıştırma (Balanced zip_kpi) + hız (Fast zip_kpi) + güven (I4 AES).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 BALANCED="${1:?bench JSON (balanced, --zip-kpi)}"
@@ -44,10 +44,10 @@ f_platform="$(echo "$F_JSON" | jq -r '.platform')"
 generated_at="$(date -u +%Y-%m-%dT%H:%MZ)"
 
 security_gate=true
-if ! grep -q 'AES-256' "$ROOT/crates/winlrt-archive/src/zip_io.rs"; then
+if ! grep -q 'AES-256' "$ROOT/crates/lertiva-archive/src/zip_io.rs"; then
   security_gate=false
 fi
-if ! (cd "$ROOT" && cargo test -p winlrt-archive --test winlrtzip_interop i4_aes256_roundtrip --quiet); then
+if ! (cd "$ROOT" && cargo test -p lertiva-archive --test winlrtzip_interop i4_aes256_roundtrip --quiet); then
   security_gate=false
 fi
 
@@ -62,7 +62,7 @@ fi
 
 mkdir -p "$(dirname "$OUT")"
 jq -n \
-  --arg product "winlrtZIP" \
+  --arg product "Lertiva Zip" \
   --arg generated_at "$generated_at" \
   --argjson compression_gate "$([[ "$comp_gate" == "true" ]] && echo true || echo false)" \
   --argjson speed_gate "$([[ "$speed_gate" == "true" ]] && echo true || echo false)" \
@@ -85,11 +85,11 @@ jq -n \
     sources: { balanced_json: $balanced_path, fast_json: $fast_path }
   }' >"$OUT"
 
-echo "winlrtZIP P0×3 — sıkıştırma: $comp_gate · hız: ${speed_gate:-ölçülmedi} · güven: $security_gate · tümü: $all_pass"
+echo "Lertiva Zip P0×3 — sıkıştırma: $comp_gate · hız: ${speed_gate:-ölçülmedi} · güven: $security_gate · tümü: $all_pass"
 echo "Yazıldı: $OUT"
 
 if [[ "$all_pass" != "true" ]]; then
-  echo "::warning::winlrtZIP P0×3 kapısı henüz tam geçmedi."
+  echo "::warning::Lertiva Zip P0×3 kapısı henüz tam geçmedi."
   if [[ "$STRICT" == "1" ]]; then
     exit 1
   fi

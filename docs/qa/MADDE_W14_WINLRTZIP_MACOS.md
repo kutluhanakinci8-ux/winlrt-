@@ -1,4 +1,4 @@
-# Madde W14 — winlrtZIP macOS build (Faz 3) %100
+# Madde W14 — Lertiva Zip macOS build (Faz 3) %100
 
 [WINLRTZIP_PLAN.md](../WINLRTZIP_PLAN.md) Faz 3: **macOS build** (notarize secret sonrası).
 
@@ -15,7 +15,7 @@
 ## W14 %100 (repo kapısı)
 
 1. `bash scripts/verify-madde-w14.sh`
-2. İlk yeşil koşu: Actions → **winlrtZIP macOS beta build** (artifact `winlrt-zip-macos-bundle`)
+2. İlk yeşil koşu: Actions → **Lertiva Zip macOS beta build** (artifact `winlrt-zip-macos-bundle`)
 3. Notarization: `APPLE_*` secret — kapı ayrı; imzasız dmg beta kabul
 
 ## Yerel (Mac)

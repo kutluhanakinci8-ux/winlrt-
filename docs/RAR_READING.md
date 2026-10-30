@@ -1,6 +1,6 @@
 # RAR / RAR5 okuma — Faz 2 (hukuk + teknik)
 
-winlrtRAR **RAR üretmez**; geçiş için **yalnızca açma / listeleme / test**.
+Lertiva Arc **RAR üretmez**; geçiş için **yalnızca açma / listeleme / test**.
 
 ## Hukuk / lisans
 
@@ -24,7 +24,7 @@ winlrtRAR **RAR üretmez**; geçiş için **yalnızca açma / listeleme / test**
 ## API (motor)
 
 ```rust
-// crates/winlrt-archive/src/rar.rs — şu an stub
+// crates/lertiva-archive/src/rar.rs — şu an stub
 rar::list(archive)
 rar::extract(archive, dest)
 rar::test(archive)

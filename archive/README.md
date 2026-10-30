@@ -4,7 +4,7 @@ Canlı geliştirme **`main`** dalında tek kaynaktır. Karışıklığı önleme
 
 | Kural | Açıklama |
 |--------|-----------|
-| **Aktif kod** | `apps/web`, `apps/winlrt-rar`, `crates/`, `deploy/` |
+| **Aktif kod** | `apps/web`, `apps/lertiva-arc`, `crates/`, `deploy/` |
 | **Arşiv** | Kullanımdan kalkan dosyalar buraya taşınır; silinmez |
 | **Git geçmişi** | Asıl yedek; `archive/snapshots/` isteğe bağlı nokta yedek |
 

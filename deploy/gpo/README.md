@@ -1,14 +1,14 @@
-# winlrtRAR — GPO / PolicyDefinitions
+# Lertiva Arc — GPO / PolicyDefinitions
 
 ## Dosyalar
 
 | Dosya | Hedef (DC veya her istemci) |
 |-------|-----------------------------|
-| `winlrtRAR.admx` | `%SystemRoot%\PolicyDefinitions\` |
-| `en-US\winlrtRAR.adml` | `%SystemRoot%\PolicyDefinitions\en-US\` |
-| `tr-TR\winlrtRAR.adml` | `%SystemRoot%\PolicyDefinitions\tr-TR\` |
+| `Lertiva Arc.admx` | `%SystemRoot%\PolicyDefinitions\` |
+| `en-US\Lertiva Arc.adml` | `%SystemRoot%\PolicyDefinitions\en-US\` |
+| `tr-TR\Lertiva Arc.adml` | `%SystemRoot%\PolicyDefinitions\tr-TR\` |
 
-`gpupdate /force` sonrası **Yönetim Şablonları → Windows Bileşenleri → winlrtRAR**.
+`gpupdate /force` sonrası **Yönetim Şablonları → Windows Bileşenleri → Lertiva Arc**.
 
 ## Hızlı test (OU / tek PC)
 
@@ -18,6 +18,6 @@ Doğrulama: `scripts/windows/corporate-pilot-preflight.ps1`
 
 ## Vitrin ZIP
 
-Build: `scripts/package-corporate-gpo-zip.sh` → `apps/web/public/downloads/winlrtRAR-corporate-gpo.zip`
+Build: `scripts/package-corporate-gpo-zip.sh` → `apps/web/public/downloads/Lertiva Arc-corporate-gpo.zip`
 
-winlrtZIP: [README-winlrtZIP.md](./README-winlrtZIP.md) · `scripts/package-winlrtzip-corporate-gpo-zip.sh`
+Lertiva Zip: [README-Lertiva Zip.md](./README-Lertiva Zip.md) · `scripts/package-winlrtzip-corporate-gpo-zip.sh`

@@ -1,4 +1,4 @@
-# Madde W23 — winlrtZIP imzalı arşiv (Faz 4) %100
+# Madde W23 — Lertiva Zip imzalı arşiv (Faz 4) %100
 
 Kurumsal **Ed25519 yan dosya** imzası: `{stem}.winlrtsig.json` (W18 GPO ile birlikte).
 
@@ -17,7 +17,7 @@ Kurumsal **Ed25519 yan dosya** imzası: `{stem}.winlrtsig.json` (W18 GPO ile bir
 | Bileşen | Konum |
 |---------|--------|
 | Motor | `archive_sign.rs`, `zip_io.rs` |
-| GPO | `RequireSignedArchive` — `deploy/gpo/winlrtZIP.*` |
+| GPO | `RequireSignedArchive` — `deploy/gpo/Lertiva Zip.*` |
 | Testler | `archive_sign::*`, `w23_*` |
 | Doğrulama | `scripts/verify-madde-w23.sh` |
 

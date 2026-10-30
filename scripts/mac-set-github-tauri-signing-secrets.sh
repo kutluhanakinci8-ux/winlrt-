@@ -35,4 +35,4 @@ esac
 echo "Parola secret (ekranda görünmez):"
 gh secret set TAURI_SIGNING_PRIVATE_KEY_PASSWORD --repo "$REPO"
 echo "Tamam: TAURI_SIGNING_* kaydedildi ($REPO)."
-echo "Actions → winlrtRAR Windows beta build → Run workflow"
+echo "Actions → Lertiva Arc Windows beta build → Run workflow"

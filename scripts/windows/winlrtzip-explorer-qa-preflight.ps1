@@ -1,4 +1,4 @@
-# winlrtZIP W12 — kurulum sonrasi Explorer kayit defteri / exe (Windows pilot).
+# Lertiva Zip W12 — kurulum sonrasi Explorer kayit defteri / exe (Windows pilot).
 # Kullanim: powershell -ExecutionPolicy Bypass -File winlrtzip-explorer-qa-preflight.ps1
 $ErrorActionPreference = 'Stop'
 
@@ -12,13 +12,13 @@ function Test-RegCommand($path, [string]$exeName) {
 $fail = @()
 $ok = @()
 
-$pv = (Get-ItemProperty -Path 'HKLM:\Software\winlrt\winlrtZIP' -ErrorAction SilentlyContinue).ProductVersion
-if ($pv) { $ok += "ProductVersion=$pv" } else { $fail += 'HKLM\Software\winlrt\winlrtZIP\ProductVersion yok' }
+$pv = (Get-ItemProperty -Path 'HKLM:\Software\winlrt\Lertiva Zip' -ErrorAction SilentlyContinue).ProductVersion
+if ($pv) { $ok += "ProductVersion=$pv" } else { $fail += 'HKLM\Software\winlrt\Lertiva Zip\ProductVersion yok' }
 
 $exeCandidates = @(
-  "${env:ProgramFiles}\winlrtZIP\winlrtZIP.exe",
-  "${env:ProgramFiles(x86)}\winlrtZIP\winlrtZIP.exe",
-  "${env:LocalAppData}\Programs\winlrtZIP\winlrtZIP.exe"
+  "${env:ProgramFiles}\Lertiva Zip\Lertiva Zip.exe",
+  "${env:ProgramFiles(x86)}\Lertiva Zip\Lertiva Zip.exe",
+  "${env:LocalAppData}\Programs\Lertiva Zip\Lertiva Zip.exe"
 )
 $exe = $exeCandidates | Where-Object { Test-Path $_ } | Select-Object -First 1
 if ($exe) {
@@ -26,7 +26,7 @@ if ($exe) {
   $ok += "exe=$exe"
   $ok += "SHA256=$hash"
 } else {
-  $fail += 'winlrtZIP.exe bulunamadi (Program Files / LocalAppData)'
+  $fail += 'Lertiva Zip.exe bulunamadi (Program Files / LocalAppData)'
 }
 
 $zipOpenKeys = @(
@@ -36,7 +36,7 @@ $zipOpenKeys = @(
 $zipOpenOk = $false
 foreach ($k in $zipOpenKeys) {
   if (Test-Path $k) {
-    $r, $msg = Test-RegCommand $k 'winlrtZIP.exe'
+    $r, $msg = Test-RegCommand $k 'Lertiva Zip.exe'
     if ($r) { $zipOpenOk = $true; $ok += "WinlrtZipOpen: $msg"; break }
   }
 }
@@ -49,7 +49,7 @@ $zipExtractKeys = @(
 $zipExtractOk = $false
 foreach ($k in $zipExtractKeys) {
   if (Test-Path $k) {
-    $r, $msg = Test-RegCommand $k 'winlrtZIP.exe'
+    $r, $msg = Test-RegCommand $k 'Lertiva Zip.exe'
     if ($r) { $zipExtractOk = $true; $ok += "WinlrtZipExtractHere: OK"; break }
   }
 }
@@ -60,13 +60,13 @@ if (-not (Test-Path $dirKey)) {
   $dirKey = 'Registry::HKEY_LOCAL_MACHINE\Software\Classes\Directory\shell\WinlrtZipCompress\command'
 }
 if (Test-Path $dirKey) {
-  $r, $msg = Test-RegCommand $dirKey 'winlrtZIP.exe'
+  $r, $msg = Test-RegCommand $dirKey 'Lertiva Zip.exe'
   if ($r) { $ok += "Directory WinlrtZipCompress: OK" } else { $fail += "Directory shell: $msg" }
 } else {
   $fail += 'Directory\shell\WinlrtZipCompress yok'
 }
 
-Write-Host '--- winlrtZIP Explorer QA preflight (W12) ---'
+Write-Host '--- Lertiva Zip Explorer QA preflight (W12) ---'
 $ok | ForEach-Object { Write-Host "[OK] $_" -ForegroundColor Green }
 $fail | ForEach-Object { Write-Host "[FAIL] $_" -ForegroundColor Red }
 

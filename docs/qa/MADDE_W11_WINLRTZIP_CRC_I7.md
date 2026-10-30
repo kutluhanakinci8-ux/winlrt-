@@ -1,4 +1,4 @@
-# Madde W11 — winlrtZIP bozuk CRC (I7) %100
+# Madde W11 — Lertiva Zip bozuk CRC (I7) %100
 
 ## Senaryo I7
 

@@ -1,18 +1,18 @@
 {
-  "name": "winlrt",
+  "name": "lertiva",
   "version": "0.1.0",
   "private": true,
-  "description": "winlrt — sıkıştırma ve açma programı (Windows, macOS; mobil yol haritası)",
+  "description": "Lertiva — Lertiva Arc / Lertiva Zip (Pack) arşiv platformu",
   "workspaces": [
     "apps/*"
   ],
   "scripts": {
-    "dev:web": "npm run dev -w @winlrt/web",
-    "build:web": "npm run build -w @winlrt/web",
-    "dev:rar": "npm run tauri dev -w @winlrt/rar",
-    "build:rar": "npm run tauri build -w @winlrt/rar",
-    "dev:zip": "npm run tauri dev -w @winlrt/zip",
-    "build:zip": "npm run tauri build -w @winlrt/zip"
+    "dev:web": "npm run dev -w @lertiva/web",
+    "build:web": "npm run build -w @lertiva/web",
+    "dev:arc": "npm run tauri dev -w @lertiva/arc",
+    "build:arc": "npm run tauri build -w @lertiva/arc",
+    "dev:zip": "npm run tauri dev -w @lertiva/zip",
+    "build:zip": "npm run tauri build -w @lertiva/zip"
   },
   "engines": {
     "node": ">=20"

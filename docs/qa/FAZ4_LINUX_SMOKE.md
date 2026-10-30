@@ -5,7 +5,7 @@
 
 | Kontrol | Sonuç |
 |---------|--------|
-| `cargo test` winlrt-archive | OK |
+| `cargo test` lertiva-archive | OK |
 | Bench KPI Balanced (linux) | 6/6 sıkıştırma kapısı GEÇTİ |
 
 **Windows Explorer QA** hâlâ pilot PC’de: [FAZ4_PILOT_BASLANGIC.md](./FAZ4_PILOT_BASLANGIC.md).

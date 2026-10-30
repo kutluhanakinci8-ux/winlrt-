@@ -7,7 +7,7 @@ bash "$ROOT/benchmarks/fixtures/mixed/prepare.sh"
 DATA="$ROOT/benchmarks/fixtures/mixed/data"
 OUT="$(mktemp --suffix=.zip)"
 START=$(date +%s%3N)
-cargo run -p winlrt-archive --release --bin winlrt-zip -- create "$DATA" "$OUT" --profile email >/dev/null
+cargo run -p lertiva-archive --release --bin lertiva-zip -- create "$DATA" "$OUT" --profile email >/dev/null
 END=$(date +%s%3N)
 MS=$((END - START))
 SIZE=$(stat -c%s "$OUT" 2>/dev/null || stat -f%z "$OUT")

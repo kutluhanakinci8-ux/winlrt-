@@ -1,16 +1,16 @@
 [workspace]
 resolver = "2"
 members = [
-  "crates/winlrt-archive",
-  "apps/winlrt-rar/src-tauri",
-  "apps/winlrt-zip/src-tauri",
+  "crates/lertiva-archive",
+  "apps/lertiva-arc/src-tauri",
+  "apps/lertiva-zip/src-tauri",
 ]
 
 [workspace.package]
 version = "0.1.0"
 edition = "2021"
 license = "Proprietary"
-authors = ["winlrt"]
+authors = ["Lertiva"]
 
 [workspace.dependencies]
 anyhow = "1"

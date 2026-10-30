@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <policyDefinitionResources xmlns="http://schemas.microsoft.com/GroupPolicy/2006/07/PolicyDefinitions" revision="1.0" schemaVersion="1.0">
-  <displayName>winlrtZIP</displayName>
-  <description>winlrtZIP kurumsal ayarlari (parola, denetim, AES ZIP).</description>
+  <displayName>Lertiva Zip</displayName>
+  <description>Lertiva Zip kurumsal ayarlari (parola, denetim, AES ZIP).</description>
   <resources>
     <stringTable>
       <string id="SUPPORTED_Windows10_AndLater">Windows 10 ve sonrasi</string>
-      <string id="Category_winlrtZIP">winlrtZIP</string>
+      <string id="Category_Lertiva Zip">Lertiva Zip</string>
       <string id="PasswordPolicy">Parola politikasi profili</string>
       <string id="PasswordPolicy_Help">Kayit defteri uzerinden parola politikasi (consumer veya corporate).</string>
       <string id="PasswordPolicy_Label">Politika kimligi</string>

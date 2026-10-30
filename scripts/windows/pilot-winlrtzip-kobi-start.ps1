@@ -1,4 +1,4 @@
-# winlrtZIP W13 — KOBİ e-posta eki pilot baslangic.
+# Lertiva Zip W13 — KOBİ e-posta eki pilot baslangic.
 # Usage: powershell -ExecutionPolicy Bypass -File pilot-winlrtzip-kobi-start.ps1
 $ErrorActionPreference = 'Stop'
 
@@ -6,11 +6,11 @@ $release = 'https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-zi
 $preflight = Join-Path $PSScriptRoot 'winlrtzip-kobi-pilot-preflight.ps1'
 $explorerPreflight = Join-Path $PSScriptRoot 'winlrtzip-explorer-qa-preflight.ps1'
 
-Write-Host '=== winlrtZIP W13 — KOBİ pilot (e-posta eki) ==='
+Write-Host '=== Lertiva Zip W13 — KOBİ pilot (e-posta eki) ==='
 Write-Host "1) Beta: $release"
 Start-Process $release
 
-Write-Host '2) Kurulum: winlrtZIP_0.1.0_x64-setup.exe (imzasiz beta — SmartScreen normal)'
+Write-Host '2) Kurulum: Lertiva Zip_0.1.0_x64-setup.exe (imzasiz beta — SmartScreen normal)'
 Write-Host '3) Kurulum sonrasi preflight (e-posta profili ZIP <= 10 MB):'
 
 if (Test-Path $preflight) {
@@ -29,4 +29,4 @@ Write-Host '5) Explorer I1/I2 henuz yapilmadiysa: winlrtzip-explorer-qa-prefligh
 if (Test-Path $explorerPreflight) {
   Write-Host "   `"$explorerPreflight`""
 }
-Write-Host '6) Chat: winlrtZIP KOBİ pilot bitti + OS + SHA256 → agent signoff'
+Write-Host '6) Chat: Lertiva Zip KOBİ pilot bitti + OS + SHA256 → agent signoff'

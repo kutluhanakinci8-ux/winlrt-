@@ -3,11 +3,11 @@
 $ErrorActionPreference = 'Stop'
 
 $paths = @(
-  'HKCU:\Software\winlrt\winlrtRAR',
-  'HKLM:\Software\winlrt\winlrtRAR'
+  'HKCU:\Software\winlrt\Lertiva Arc',
+  'HKLM:\Software\winlrt\Lertiva Arc'
 )
 
-Write-Host '--- winlrtRAR kurumsal politika (okuma) ---'
+Write-Host '--- Lertiva Arc kurumsal politika (okuma) ---'
 $found = $false
 foreach ($p in $paths) {
   if (-not (Test-Path $p)) { continue }
@@ -24,7 +24,7 @@ if (-not $found) {
   exit 2
 }
 
-$pp = (Get-ItemProperty -Path 'HKLM:\Software\winlrt\winlrtRAR' -ErrorAction SilentlyContinue).PasswordPolicy
+$pp = (Get-ItemProperty -Path 'HKLM:\Software\winlrt\Lertiva Arc' -ErrorAction SilentlyContinue).PasswordPolicy
 if ($pp -ne 'corporate') {
   Write-Host '[WARN] PasswordPolicy=corporate beklenir (HKLM veya HKCU).'
   exit 1

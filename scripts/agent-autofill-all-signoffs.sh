@@ -6,7 +6,7 @@ REPO="${GITHUB_REPO:-kutluhanakinci8-ux/winlrt-}"
 TAG="$(gh release list --repo "$REPO" --limit 30 --json tagName,isPrerelease \
   | jq -r '[.[] | select(.isPrerelease and (.tagName | startswith("winlrt-rar-beta.")))] | .[0].tagName')"
 test -n "$TAG"
-ASSET="winlrtRAR_0.1.0_x64-setup.exe"
+ASSET="Lertiva Arc_0.1.0_x64-setup.exe"
 URL="https://github.com/kutluhanakinci8-ux/winlrt-/releases/download/${TAG}/${ASSET}"
 TMP="$(mktemp)"
 trap 'rm -f "$TMP"' EXIT
@@ -20,7 +20,7 @@ if [ -n "$API_SHA" ] && [ "$SHA" != "$API_SHA" ]; then
 fi
 
 bash "$ROOT/scripts/run-dalga-smoke.sh"
-cargo test -p winlrt-archive --quiet
+cargo test -p lertiva-archive --quiet
 
 EXPLORER_QA_DATE="$(date +%Y-%m-%d)" \
 EXPLORER_QA_TAG="$TAG" \

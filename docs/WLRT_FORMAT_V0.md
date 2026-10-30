@@ -1,6 +1,6 @@
 # `.wlrt` container format v0
 
-Faz 1 minimum spesifikasyon — winlrtRAR / winlrtZIP ortak yerli yazma formatı.
+Faz 1 minimum spesifikasyon — Lertiva Arc / Lertiva Zip ortak yerli yazma formatı.
 
 ## Dosya düzeni
 
@@ -36,7 +36,7 @@ Faz 1 minimum spesifikasyon — winlrtRAR / winlrtZIP ortak yerli yazma formatı
 
 ## Profiller
 
-`CompressionProfile` → zstd seviyesi ([profile.rs](../crates/winlrt-archive/src/profile.rs)).
+`CompressionProfile` → zstd seviyesi ([profile.rs](../crates/lertiva-archive/src/profile.rs)).
 
 ## Sürümleme
 

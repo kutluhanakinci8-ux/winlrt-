@@ -1,4 +1,4 @@
-# winlrtRAR — Explorer / NSIS pilot QA (Faz 3)
+# Lertiva Arc — Explorer / NSIS pilot QA (Faz 3)
 
 Windows beta kurulumundan sonra **sırayla** işaretleyin. Kaynak menüler: [WINLRTRAR_EXPLORER_MENU.md](./WINLRTRAR_EXPLORER_MENU.md).
 
@@ -9,7 +9,7 @@ Windows beta kurulumundan sonra **sırayla** işaretleyin. Kaynak menüler: [WIN
 
 ## Arşiv uzantıları (zip / wlrt / rar / 7z)
 
-- [ ] **winlrtRAR ile aç** — uygulama açılır, liste görünür
+- [ ] **Lertiva Arc ile aç** — uygulama açılır, liste görünür
 - [ ] **buraya aç** — aynı klasörde `*_extract` veya hedef klasör oluşur
 - [ ] Parolalı `.rar` / `.7z`: buraya aç → uygulama içinden parola (bilinen sınırlama)
 

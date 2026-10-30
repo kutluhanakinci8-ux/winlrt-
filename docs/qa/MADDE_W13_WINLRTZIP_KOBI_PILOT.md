@@ -1,4 +1,4 @@
-# Madde W13 — winlrtZIP Faz 2 KOBİ pilot %100
+# Madde W13 — Lertiva Zip Faz 2 KOBİ pilot %100
 
 [WINLRTZIP_PLAN.md](../WINLRTZIP_PLAN.md) **Faz 2 kapısı:** Windows pilot — **KOBİ** en az 1 senaryo (e-posta eki).
 

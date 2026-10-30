@@ -11,7 +11,7 @@ corp_pass() {
   grep -q '\[x\] PASS' "$ROOT/docs/qa/KURUMSAL_PILOT_SIGNOFF.md" 2>/dev/null
 }
 
-echo "=== winlrtRAR dalga sırası ==="
+echo "=== Lertiva Arc dalga sırası ==="
 if git -C "$ROOT" rev-parse v1.0.0 >/dev/null 2>&1; then
   echo "→ TAMAM: v1.0.0 (imzasız resmi) — https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.0"
   echo "   İsteğe bağlı: TAURI_SIGNING_* → imzalı v1.0.1"

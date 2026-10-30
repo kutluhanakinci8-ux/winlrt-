@@ -8,7 +8,7 @@ wait_workflow() {
   sleep 20
   local RUN
   RUN="$(gh run list --workflow=winlrt-rar-windows.yml --repo "$REPO" --branch main --limit 1 --json databaseId --jq '.[0].databaseId')"
-  echo "==> winlrtRAR Windows beta run $RUN"
+  echo "==> Lertiva Arc Windows beta run $RUN"
   gh run watch "$RUN" --repo "$REPO" --exit-status
 }
 

@@ -23,7 +23,7 @@ Explorer:
 
 - `--secure` → UI’da «Arşivi parola ile şifrele» açık (klasör / çoklu seçim menüleri).
 
-CLI: `winlrt-archive create … --password '…'`
+CLI: `lertiva-archive create … --password '…'`
 
 Tauri: «Arşivi parola ile şifrele» + güç göstergesi.
 

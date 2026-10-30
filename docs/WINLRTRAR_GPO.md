@@ -1,12 +1,12 @@
-# winlrtRAR — GPO / kayıt defteri (Faz 4 beta)
+# Lertiva Arc — GPO / kayıt defteri (Faz 4 beta)
 
 Kurumsal dağıtım: **Group Policy Preferences** veya `.reg` ile aşağıdaki anahtarları hedefleyin.
 
 ## Kayıt yolu
 
 ```
-HKLM\Software\winlrt\winlrtRAR
-HKCU\Software\winlrt\winlrtRAR   (HKCU öncelikli okuma)
+HKLM\Software\winlrt\Lertiva Arc
+HKCU\Software\winlrt\Lertiva Arc   (HKCU öncelikli okuma)
 ```
 
 | Değer | Tür | Örnek | Etki |
@@ -21,15 +21,15 @@ Ortam değişkenleri (`WINLRT_PASSWORD_POLICY`, `WINLRT_AUDIT_MIRROR`, `WINLRT_A
 
 ## ADMX (Group Policy Administrative Templates)
 
-Repoda: `deploy/gpo/winlrtRAR.admx` + `deploy/gpo/en-US/winlrtRAR.adml` + `deploy/gpo/tr-TR/winlrtRAR.adml`
+Repoda: `deploy/gpo/Lertiva Arc.admx` + `deploy/gpo/en-US/Lertiva Arc.adml` + `deploy/gpo/tr-TR/Lertiva Arc.adml`
 
 **Merkezi mağaza (önerilen):**
 
-1. `%SystemRoot%\PolicyDefinitions\winlrtRAR.admx`
-2. `%SystemRoot%\PolicyDefinitions\en-US\winlrtRAR.adml` (ve `tr-TR` isteğe bağlı)
+1. `%SystemRoot%\PolicyDefinitions\Lertiva Arc.admx`
+2. `%SystemRoot%\PolicyDefinitions\en-US\Lertiva Arc.adml` (ve `tr-TR` isteğe bağlı)
 3. `gpupdate /force`
 
-GPO yolu: **Computer Configuration** veya **User Configuration** → **Policies** → **Administrative Templates** → **Windows Components** → **winlrtRAR**
+GPO yolu: **Computer Configuration** veya **User Configuration** → **Policies** → **Administrative Templates** → **Windows Components** → **Lertiva Arc**
 
 Politikalar: parola profili, denetim mirror yolu, HTTP forward URL.
 

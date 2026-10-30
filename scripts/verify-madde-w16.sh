@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Madde W16: winlrtZIP P0×3 KPI kapisi scriptleri + ornek JSON.
+# Madde W16: Lertiva Zip P0×3 KPI kapisi scriptleri + ornek JSON.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
@@ -13,9 +13,9 @@ test -f "$ROOT/apps/web/public/benchmark/samples/winlrtzip-p0-gate.json"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 bash "$ROOT/benchmarks/fixtures/mixed/prepare.sh"
-cargo run -p winlrt-archive --release -- bench --all --json --zip-kpi >"$TMP/b.json"
-cargo run -p winlrt-archive --release -- bench --all --profile fast --json --zip-kpi >"$TMP/f.json"
+cargo run -p lertiva-archive --release -- bench --all --json --zip-kpi >"$TMP/b.json"
+cargo run -p lertiva-archive --release -- bench --all --profile fast --json --zip-kpi >"$TMP/f.json"
 bash "$ROOT/scripts/evaluate-winlrtzip-p0-gate.sh" "$TMP/b.json" "$TMP/f.json" "$TMP/p0.json"
 jq -e '.p0.compression.gate != null and .p0.speed.gate != null and .p0.security.gate != null' "$TMP/p0.json" >/dev/null
 
-echo "OK: Madde W16 — winlrtZIP P0×3 KPI kapisi"
+echo "OK: Madde W16 — Lertiva Zip P0×3 KPI kapisi"

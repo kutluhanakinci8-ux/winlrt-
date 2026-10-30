@@ -1,7 +1,7 @@
 Windows Registry Editor Version 5.00
 
-; winlrtZIP kurumsal pilot — GPO veya reg import.
-[HKEY_LOCAL_MACHINE\Software\winlrt\winlrtZIP]
+; Lertiva Zip kurumsal pilot — GPO veya reg import.
+[HKEY_LOCAL_MACHINE\Software\winlrt\Lertiva Zip]
 "PasswordPolicy"="corporate"
 "AuditMirrorPath"="\\\\FILESERVER\\share\\winlrtzip-audit\\audit.jsonl"
 "AuditForwardUrl"=""

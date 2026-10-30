@@ -1,5 +1,5 @@
 {
-  "product": "winlrtZIP",
+  "product": "Lertiva Zip",
   "profile": "Balanced",
   "platform": "macos / CI-placeholder (motor Linux proxy; resmi macOS bench W15+)",
   "generated_at": "1793384973 UTC",
@@ -38,7 +38,7 @@
       }
     ],
     "notes": [
-      "winlrtZIP sıkıştırma: motor ZIP, rakip ZIP’lerden daha küçük veya eşit boyutta daha hızlı oluşturma.",
+      "Lertiva Zip sıkıştırma: motor ZIP, rakip ZIP’lerden daha küçük veya eşit boyutta daha hızlı oluşturma.",
       "Hız KPI yalnız `--profile fast` ile ölçülür.",
       "WinZip satırı yalnızca WZZIP kurulu Windows agent’ta dolar (opsiyonel)."
     ]

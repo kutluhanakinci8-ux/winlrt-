@@ -8,7 +8,7 @@ echo "==> Dalga smoke"
 bash scripts/run-dalga-smoke.sh
 
 echo "==> Rust test"
-cargo test -p winlrt-archive
+cargo test -p lertiva-archive
 
 echo "==> Vitrin build"
 npm ci

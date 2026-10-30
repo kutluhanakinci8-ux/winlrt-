@@ -1,13 +1,13 @@
-# winlrtZIP W13 — KOBİ e-posta eki preflight (kurulum + hizli ZIP boyut kapisi).
+# Lertiva Zip W13 — KOBİ e-posta eki preflight (kurulum + hizli ZIP boyut kapisi).
 # Kullanim: powershell -ExecutionPolicy Bypass -File winlrtzip-kobi-pilot-preflight.ps1
 $ErrorActionPreference = 'Stop'
 
 $EmailMaxBytes = 10 * 1024 * 1024
 
 $exeCandidates = @(
-  "${env:ProgramFiles}\winlrtZIP\winlrtZIP.exe",
-  "${env:ProgramFiles(x86)}\winlrtZIP\winlrtZIP.exe",
-  "${env:LocalAppData}\Programs\winlrtZIP\winlrtZIP.exe"
+  "${env:ProgramFiles}\Lertiva Zip\Lertiva Zip.exe",
+  "${env:ProgramFiles(x86)}\Lertiva Zip\Lertiva Zip.exe",
+  "${env:LocalAppData}\Programs\Lertiva Zip\Lertiva Zip.exe"
 )
 $exe = $exeCandidates | Where-Object { Test-Path $_ } | Select-Object -First 1
 
@@ -15,7 +15,7 @@ $fail = @()
 $ok = @()
 
 if (-not $exe) {
-  $fail += 'winlrtZIP.exe bulunamadi — once NSIS beta kurulumu'
+  $fail += 'Lertiva Zip.exe bulunamadi — once NSIS beta kurulumu'
 } else {
   $ok += "exe=$exe"
   $tmpRoot = Join-Path $env:TEMP ("winlrtzip-kobi-{0}" -f [guid]::NewGuid().ToString('N'))
@@ -50,7 +50,7 @@ if (-not $exe) {
   Remove-Item -LiteralPath $tmpRoot -Recurse -Force -ErrorAction SilentlyContinue
 }
 
-Write-Host '--- winlrtZIP KOBİ pilot preflight (W13) ---'
+Write-Host '--- Lertiva Zip KOBİ pilot preflight (W13) ---'
 $ok | ForEach-Object { Write-Host "[OK] $_" -ForegroundColor Green }
 $fail | ForEach-Object { Write-Host "[FAIL] $_" -ForegroundColor Red }
 

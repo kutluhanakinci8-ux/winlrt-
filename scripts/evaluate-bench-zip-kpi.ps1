@@ -1,4 +1,4 @@
-# winlrtZIP ürün KPI — bench JSON içindeki zip_kpi alanı
+# Lertiva Zip ürün KPI — bench JSON içindeki zip_kpi alanı
 param(
     [Parameter(Mandatory = $true)]
     [string]$JsonPath,
@@ -24,7 +24,7 @@ if (-not $suite.zip_kpi) {
 }
 
 $kpi = $suite.zip_kpi
-Write-Host "winlrtZIP profil: $($suite.profile)"
+Write-Host "Lertiva Zip profil: $($suite.profile)"
 Write-Host "Platform: $($suite.platform)"
 Write-Host "Sıkıştırma kapısı: $($kpi.compression_gate) ($($kpi.compression_pass_count)/$($kpi.compression_total))"
 if ($null -ne $kpi.speed_gate) {
@@ -43,15 +43,15 @@ if (-not $kpi.compression_gate) { $fail = $true }
 if ($kpi.speed_gate -eq $false) { $fail = $true }
 
 if ($Strict -and $fail) {
-    Write-Error "winlrtZIP KPI kapısı henüz geçmedi (Strict)."
+    Write-Error "Lertiva Zip KPI kapısı henüz geçmedi (Strict)."
 }
 if ($fail) {
     if ($ReportOnly) {
-        Write-Host "::notice::winlrtZIP KPI izleme — kapı henüz tam değil (ReportOnly)."
+        Write-Host "::notice::Lertiva Zip KPI izleme — kapı henüz tam değil (ReportOnly)."
     } else {
-        Write-Host "::warning::winlrtZIP KPI kapısı henüz tam geçmedi."
+        Write-Host "::warning::Lertiva Zip KPI kapısı henüz tam geçmedi."
     }
     exit 0
 }
-Write-Host "winlrtZIP KPI (bu profil): GEÇTİ"
+Write-Host "Lertiva Zip KPI (bu profil): GEÇTİ"
 exit 0

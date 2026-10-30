@@ -9,8 +9,8 @@ trap 'rm -rf "$TMP"' EXIT
 
 cd "$ROOT"
 bash "$ROOT/benchmarks/fixtures/mixed/prepare.sh"
-cargo run -p winlrt-archive --release -- bench --all --json >"$TMP/balanced.json"
-cargo run -p winlrt-archive --release -- bench --all --profile fast --json >"$TMP/fast.json"
+cargo run -p lertiva-archive --release -- bench --all --json >"$TMP/balanced.json"
+cargo run -p lertiva-archive --release -- bench --all --profile fast --json >"$TMP/fast.json"
 
 jq '{profile, platform, generated_at, source: "local-refresh", disclaimer: "Windows resmi KPI için bench-report-windows artifact.", kpi}' \
   "$TMP/balanced.json" >"$OUT/linux-balanced-kpi.json"

@@ -1,4 +1,4 @@
-# Madde W25 — winlrtZIP güvenli paylaşım (KVKK smoke) %100
+# Madde W25 — Lertiva Zip güvenli paylaşım (KVKK smoke) %100
 
 Faz 5: WinZip Share alternatifi — **yerel AES paket + manifest**, bulut zorunlu değil.
 
@@ -17,7 +17,7 @@ Faz 5: WinZip Share alternatifi — **yerel AES paket + manifest**, bulut zorunl
 
 | Bileşen | Konum |
 |---------|--------|
-| Motor | `crates/winlrt-archive/src/secure_share.rs` |
+| Motor | `crates/lertiva-archive/src/secure_share.rs` |
 | Testler | `secure_share::*`, `w25_*` |
 | Doğrulama | `scripts/verify-madde-w25.sh` |
 

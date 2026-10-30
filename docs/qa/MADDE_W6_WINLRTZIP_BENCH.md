@@ -1,12 +1,12 @@
-# Madde W6 — winlrtZIP benchmark (7-Zip / WinZip satırı) %100
+# Madde W6 — Lertiva Zip benchmark (7-Zip / WinZip satırı) %100
 
 ## Kapsam
 
 | Bileşen | Konum |
 |---------|--------|
 | Rakip satırları | `bench.rs` — `seven_zip_*`, `winzip_*`, `winrar_*` (ZIP) |
-| winlrtZIP KPI | `evaluate_zip_product_kpi` → JSON `zip_kpi` |
-| CLI | `cargo run -p winlrt-archive -- bench --all --json --zip-kpi` |
+| Lertiva Zip KPI | `evaluate_zip_product_kpi` → JSON `zip_kpi` |
+| CLI | `cargo run -p lertiva-archive -- bench --all --json --zip-kpi` |
 | Windows CI | `.github/workflows/bench-windows.yml` + `evaluate-bench-zip-kpi.ps1` |
 | Vitrin | `apps/web/public/benchmark/samples/winlrtzip-*.json` |
 

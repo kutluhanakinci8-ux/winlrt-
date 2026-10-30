@@ -5,7 +5,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 bash "$ROOT/scripts/check-v1-gate-ready.sh"
 
 : "${V1_TAG:=v1.0.0}"
-NOTES="${V1_NOTES:-winlrtRAR v1.0 — Explorer + kurumsal pilot onaylı.}"
+NOTES="${V1_NOTES:-Lertiva Arc v1.0 — Explorer + kurumsal pilot onaylı.}"
 OUT="$ROOT/docs/qa/V1_RELEASE_DRAFT.md"
 
 cat >"$OUT" <<EOF

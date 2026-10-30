@@ -15,7 +15,7 @@
   ],
   "properties": {
     "contract_version": { "type": "string" },
-    "product": { "type": "string", "const": "winlrtZIP" },
+    "product": { "type": "string", "const": "Lertiva Zip" },
     "api_base": { "type": "string", "format": "uri" },
     "register_url": { "type": "string", "format": "uri" },
     "bearer_configured": { "type": "boolean" },

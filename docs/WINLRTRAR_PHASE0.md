@@ -1,4 +1,4 @@
-# winlrtRAR — Faz 0 (kapatıldı)
+# Lertiva Arc — Faz 0 (kapatıldı)
 
 Onay tarihi: 2026-10-30 · Plan: [WINLRTRAR_PLAN.md](./WINLRTRAR_PLAN.md)
 
@@ -9,7 +9,7 @@ Onay tarihi: 2026-10-30 · Plan: [WINLRTRAR_PLAN.md](./WINLRTRAR_PLAN.md)
 | Faz 2’de RAR açma (rekabet / geçiş) | **Evet** |
 | KPI önceliği | **Hepsi P0** — hız, sıkıştırma oranı, kurumsal güven (paralel izleme) |
 | Kurumsal pilot hedefi | **Banka + sendika + KOBİ** (üç segment) |
-| winlrtZIP başlangıcı | **winlrtRAR Faz 2 bitene kadar bekler** |
+| Lertiva Zip başlangıcı | **Lertiva Arc Faz 2 bitene kadar bekler** |
 
 ## KPI hedefleri (Faz 3 kapısı — üçü birden)
 
@@ -39,4 +39,4 @@ Onay tarihi: 2026-10-30 · Plan: [WINLRTRAR_PLAN.md](./WINLRTRAR_PLAN.md)
 - [x] `.wlrt` v0 binary spec — [WLRT_FORMAT_V0.md](./WLRT_FORMAT_V0.md)
 - [x] RAR okuma hukuk/lisans notu — [RAR_READING.md](./RAR_READING.md) (implementasyon kapısı açık)
 
-**Faz 0 kapısı:** Kararlar onaylı → **Faz 1 başladı** (`crates/winlrt-archive`).
+**Faz 0 kapısı:** Kararlar onaylı → **Faz 1 başladı** (`crates/lertiva-archive`).

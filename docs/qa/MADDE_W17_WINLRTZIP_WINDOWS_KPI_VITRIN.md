@@ -1,4 +1,4 @@
-# Madde W17 — winlrtZIP resmi Windows KPI vitrin import %100
+# Madde W17 — Lertiva Zip resmi Windows KPI vitrin import %100
 
 [W16](./MADDE_W16_WINLRTZIP_P0_KPI_GATE.md) P0×3 özetinin **Windows resmi** kaynaktan vitrine yazılması.
 

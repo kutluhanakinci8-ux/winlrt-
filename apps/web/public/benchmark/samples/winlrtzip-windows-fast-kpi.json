@@ -1,10 +1,10 @@
 {
-  "product": "winlrtZIP",
+  "product": "Lertiva Zip",
   "profile": "Fast",
   "platform": "windows / x86_64",
   "generated_at": "1793384952 UTC",
   "source": "windows-official-ci",
-  "disclaimer": "Resmi winlrtZIP Fast hız kapısı — bench-report-windows-fast.",
+  "disclaimer": "Resmi Lertiva Zip Fast hız kapısı — bench-report-windows-fast.",
   "kpi": {
     "compression_gate": true,
     "speed_gate": false,
@@ -45,8 +45,8 @@
       }
     ],
     "notes": [
-      "winlrtZIP sıkıştırma: motor ZIP, rakip ZIP’lerden daha küçük veya eşit boyutta daha hızlı oluşturma.",
-      "winlrtZIP hız: motor ZIP açma, 7-Zip/WinZip/WinRAR-ZIP referansının en hızlısından ≥ %30 hızlı.",
+      "Lertiva Zip sıkıştırma: motor ZIP, rakip ZIP’lerden daha küçük veya eşit boyutta daha hızlı oluşturma.",
+      "Lertiva Zip hız: motor ZIP açma, 7-Zip/WinZip/WinRAR-ZIP referansının en hızlısından ≥ %30 hızlı.",
       "WinZip satırı yalnızca WZZIP kurulu Windows agent’ta dolar (opsiyonel)."
     ]
   }

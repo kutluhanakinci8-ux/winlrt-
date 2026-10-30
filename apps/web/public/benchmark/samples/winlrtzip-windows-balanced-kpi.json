@@ -1,10 +1,10 @@
 {
-  "product": "winlrtZIP",
+  "product": "Lertiva Zip",
   "profile": "Balanced",
   "platform": "windows / x86_64",
   "generated_at": "1793384949 UTC",
   "source": "windows-official-ci",
-  "disclaimer": "Resmi winlrtZIP Balanced — bench-report-windows (zip_kpi).",
+  "disclaimer": "Resmi Lertiva Zip Balanced — bench-report-windows (zip_kpi).",
   "kpi": {
     "compression_gate": true,
     "compression_pass_count": 6,
@@ -38,7 +38,7 @@
       }
     ],
     "notes": [
-      "winlrtZIP sıkıştırma: motor ZIP, rakip ZIP’lerden daha küçük veya eşit boyutta daha hızlı oluşturma.",
+      "Lertiva Zip sıkıştırma: motor ZIP, rakip ZIP’lerden daha küçük veya eşit boyutta daha hızlı oluşturma.",
       "Hız KPI yalnız `--profile fast` ile ölçülür.",
       "WinZip satırı yalnızca WZZIP kurulu Windows agent’ta dolar (opsiyonel)."
     ]

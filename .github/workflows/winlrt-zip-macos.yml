@@ -1,4 +1,4 @@
-name: winlrtZIP macOS beta build
+name: Lertiva Zip macOS beta build
 
 on:
   workflow_dispatch:
@@ -32,7 +32,7 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@stable
 
-      - name: Build winlrtZIP (Tauri dmg)
+      - name: Build Lertiva Zip (Tauri dmg)
         env:
           APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
           APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
@@ -40,7 +40,7 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-        run: npm run tauri build -w @winlrt/zip -- --bundles dmg
+        run: npm run tauri build -w @lertiva/zip -- --bundles dmg
 
       - name: Notarize / imza durumu
         id: signing
@@ -83,7 +83,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: winlrt-zip-macos-beta.${{ github.run_number }}
-          name: winlrtZIP macOS Beta ${{ github.run_number }}
+          name: Lertiva Zip macOS Beta ${{ github.run_number }}
           prerelease: true
           generate_release_notes: true
           files: target/release/bundle/dmg/*.dmg

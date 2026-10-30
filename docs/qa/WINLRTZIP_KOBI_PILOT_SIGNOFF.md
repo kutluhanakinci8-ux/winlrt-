@@ -1,4 +1,4 @@
-# winlrtZIP KOBİ pilot — imza kaydı (W13)
+# Lertiva Zip KOBİ pilot — imza kaydı (W13)
 
 Checklist: [WINLRTZIP_KOBI_PILOT_KOPYA.md](./WINLRTZIP_KOBI_PILOT_KOPYA.md) · Proxy: [MADDE_W13](./MADDE_W13_WINLRTZIP_KOBI_PILOT.md)
 

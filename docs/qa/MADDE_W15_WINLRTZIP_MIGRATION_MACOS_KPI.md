@@ -6,7 +6,7 @@ Faz 3: [WINLRTZIP_PLAN.md](../WINLRTZIP_PLAN.md) — geçiş sihirbazı + KPI vi
 
 | Bileşen | Konum |
 |---------|--------|
-| Mantık | `apps/winlrt-zip/src-tauri/src/migration.rs` |
+| Mantık | `apps/lertiva-zip/src-tauri/src/migration.rs` |
 | Tauri | `winzip_migration_guide` |
 | UI | `App.tsx` — **WinZip geçiş** modal |
 | Rehber | [WINLRTZIP_WINZIP_MIGRATION.md](./WINLRTZIP_WINZIP_MIGRATION.md) |

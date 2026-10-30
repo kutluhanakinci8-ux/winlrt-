@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 for f in \
-  deploy/gpo/winlrtRAR.admx \
+  deploy/gpo/Lertiva Arc.admx \
   scripts/winlrt-corporate-policy-sample.reg \
   scripts/windows/corporate-pilot-preflight.ps1 \
   scripts/windows/apply-corporate-sample.ps1 \
@@ -22,10 +22,10 @@ do
   test -f "$ROOT/$f" || { echo "Eksik: $f" >&2; exit 1; }
 done
 
-grep -q 'PasswordPolicy' "$ROOT/deploy/gpo/winlrtRAR.admx"
+grep -q 'PasswordPolicy' "$ROOT/deploy/gpo/Lertiva Arc.admx"
 grep -q 'corporate' "$ROOT/scripts/winlrt-corporate-policy-sample.reg"
 
-ZIP="$ROOT/apps/web/public/downloads/winlrtRAR-corporate-gpo.zip"
+ZIP="$ROOT/apps/web/public/downloads/Lertiva Arc-corporate-gpo.zip"
 if [ ! -f "$ZIP" ]; then
   bash "$ROOT/scripts/package-corporate-gpo-zip.sh"
 fi

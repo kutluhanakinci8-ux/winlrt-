@@ -8,4 +8,4 @@ test -f "$ROOT/docs/qa/WINLRTZIP_INTEROP_SCENARIOS.md"
 grep -q WINLRTZIP_PLAN "$ROOT/apps/web/public/downloads/index.html"
 grep -q '"speed_gate": true' "$ROOT/apps/web/public/benchmark/samples/windows-fast-kpi.json"
 
-echo "OK: Madde W0 — winlrtZIP Faz 0 plan kapısı"
+echo "OK: Madde W0 — Lertiva Zip Faz 0 plan kapısı"

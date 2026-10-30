@@ -1,4 +1,4 @@
-# winlrtZIP — macOS imza ve notarization (W14+)
+# Lertiva Zip — macOS imza ve notarization (W14+)
 
 Imzasiz **dmg** beta CI’da uretilir. Gatekeeper uyumu icin GitHub Actions secret:
 

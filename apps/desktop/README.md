@@ -1,3 +1,3 @@
 # apps/desktop (yönlendirme)
 
-Masaüstü uygulama: **[apps/winlrt-rar](../winlrt-rar/)** (winlrtRAR Tauri).
+Masaüstü uygulama: **[apps/lertiva-arc](../lertiva-arc/)** (Lertiva Arc Tauri).

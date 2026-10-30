@@ -1,15 +1,17 @@
-# winlrt
+# Lertiva
 
-winlrt bir **sıkıştırma ve açma** programıdır (Windows, macOS; Android / iOS yol haritasında).
+**Lertiva Arc** (arşiv / `.wlrt`) ve **Lertiva Zip** (*Lertiva Pack* alternatif ad) — yerli sıkıştırma platformu (Windows, macOS; mobil yol haritasında).
 
 ## Repo yapısı
 
 | Yol | Açıklama |
 |-----|----------|
 | `apps/web` | Tanıtım + indirme vitrin (statik) |
-| `apps/winlrt-rar` | winlrtRAR Tauri kabuk (Faz 2 iskelet) |
-| `docs/` | Cursor/GitHub ve Turhost VPS notları |
-| `releases/` | Build çıktıları (git’e büyük binary eklemeyin; CI artifact) |
+| `apps/lertiva-arc` | Lertiva Arc Tauri kabuk |
+| `apps/lertiva-zip` | Lertiva Zip Tauri kabuk |
+| `crates/lertiva-archive` | Ortak arşiv motoru |
+| `docs/` | Plan, QA, deploy |
+| `releases/` | Build çıktıları (CI artifact) |
 
 ## Yerel geliştirme
 
@@ -17,28 +19,28 @@ winlrt bir **sıkıştırma ve açma** programıdır (Windows, macOS; Android / 
 npm install
 npm run dev:web    # http://localhost:3020
 npm run build:web  # apps/web/dist
+npm run dev:arc    # Lertiva Arc Tauri
+npm run dev:zip    # Lertiva Zip Tauri
 ```
 
-**winlrtRAR motoru (Rust):**
+**Motor (Rust):**
 
 ```bash
-cargo build -p winlrt-archive
-cargo run -p winlrt-archive -- --help
+cargo build -p lertiva-archive
+cargo run -p lertiva-archive --bin lertiva-zip -- --help
+```
+
+## Marka doğrulama
+
+```bash
+bash scripts/verify-lertiva-brand.sh
 ```
 
 ## CI / deploy
 
-- **Otomatik:** `main` push → [Main pipeline](.github/workflows/main-pipeline.yml) (build + VPS deploy + yedek)
-- **Kurulum:** [docs/AUTO_DEPLOY.md](docs/AUTO_DEPLOY.md)
-- **Canlı site:** [docs/CANLI_SITE.md](docs/CANLI_SITE.md)
-- **Arşiv:** [archive/README.md](archive/README.md)
+- **Otomatik:** `main` push → [Main pipeline](.github/workflows/main-pipeline.yml)
+- **Canlı vitrin:** https://winlrt.com.tr (alan adı geçiş sürecinde)
 
 ## Dokümantasyon
 
-- [Suite yol haritası](docs/SUITE_ROADMAP.md) · [winlrtRAR plan](docs/WINLRTRAR_PLAN.md) · [winlrtZIP plan](docs/WINLRTZIP_PLAN.md)
-- [Cursor ↔ GitHub](docs/CURSOR_GITHUB.md)
-- [Turhost VPS](docs/WINLRT_VPS.md) (sunucu **Aktif** olunca)
-
-## Lisans
-
-TBD
+- [Suite yol haritası](docs/SUITE_ROADMAP.md) · [Lertiva Arc plan](docs/WINLRTRAR_PLAN.md) · [Lertiva Zip plan](docs/WINLRTZIP_PLAN.md)

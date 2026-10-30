@@ -1,10 +1,10 @@
 # Rekabet özellik matrisi (Faz 0–1)
 
-WinRAR / WinZip / 7-Zip / Bandizip karşılaştırması — winlrtRAR ve winlrtZIP hedefleri.
+WinRAR / WinZip / 7-Zip / Bandizip karşılaştırması — Lertiva Arc ve Lertiva Zip hedefleri.
 
 **Lejant:** ✅ var · 🟡 planlı · ❌ yok / bilinçli yok · — inceleniyor
 
-| Özellik | WinRAR | WinZip | 7-Zip | Bandizip | winlrtRAR hedef | winlrtZIP hedef |
+| Özellik | WinRAR | WinZip | 7-Zip | Bandizip | Lertiva Arc hedef | Lertiva Zip hedef |
 |---------|--------|--------|-------|----------|-----------------|-----------------|
 | ZIP okuma/yazma | ✅ | ✅ | ✅ | ✅ | ✅ Faz 1 | ✅ Faz 1 |
 | ZIP64 | ✅ | ✅ | ✅ | ✅ | 🟡 Faz 1 hazırlık | 🟡 Faz 1 |
@@ -24,7 +24,7 @@ WinRAR / WinZip / 7-Zip / Bandizip karşılaştırması — winlrtRAR ve winlrtZ
 
 | KPI | Ölçüm |
 |-----|--------|
-| Hız | `cargo run -p winlrt-archive -- bench --all` + yerel 7-Zip/WinRAR |
+| Hız | `cargo run -p lertiva-archive -- bench --all` + yerel 7-Zip/WinRAR |
 | Sıkıştırma | `.wlrt` vs ZIP boyut; profil `Maximum` |
 | Kurumsal güven | AES + denetim checklist (Faz 2+) |
 

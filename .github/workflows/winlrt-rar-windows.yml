@@ -1,4 +1,4 @@
-name: winlrtRAR Windows beta build
+name: Lertiva Arc Windows beta build
 
 on:
   workflow_dispatch:
@@ -32,11 +32,11 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@stable
 
-      - name: Build winlrtRAR (Tauri + libunrar)
+      - name: Build Lertiva Arc (Tauri + libunrar)
         env:
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
-        run: npm run tauri build -w @winlrt/rar -- --features unrar-embedded --bundles nsis
+        run: npm run tauri build -w @lertiva/rar -- --features unrar-embedded --bundles nsis
 
       - name: İmza durumu
         id: signing
@@ -96,7 +96,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: winlrt-rar-beta.${{ github.run_number }}
-          name: winlrtRAR Beta ${{ github.run_number }}
+          name: Lertiva Arc Beta ${{ github.run_number }}
           prerelease: true
           generate_release_notes: true
           files: target/release/bundle/nsis/*-setup.exe

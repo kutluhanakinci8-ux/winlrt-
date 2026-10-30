@@ -1,4 +1,4 @@
-# Madde W8 — winlrtZIP AES-256 interop (I4) %100
+# Madde W8 — Lertiva Zip AES-256 interop (I4) %100
 
 ## Senaryo I4
 
@@ -15,7 +15,7 @@ Parola örneği (kurumsal politika): `Winlrt-Pilot12` (test sabiti).
 
 | Bileşen | Konum |
 |---------|--------|
-| Testler | `crates/winlrt-archive/tests/winlrtzip_interop.rs` (`i4_*`) |
+| Testler | `crates/lertiva-archive/tests/winlrtzip_interop.rs` (`i4_*`) |
 | Motor | `zip_io` — `AesMode::Aes256` |
 | CI | `main-pipeline` — `p7zip-full` + `i4_` test filtresi |
 

@@ -1,4 +1,4 @@
-# Madde W20 — winlrtZIP Split ZIP smoke (Faz 5) %100
+# Madde W20 — Lertiva Zip Split ZIP smoke (Faz 5) %100
 
 [Faz 5](../WINLRTZIP_PLAN.md): çok ciltli ZIP — **algılama + smoke** (tam birleştirme sonraki sprint).
 
@@ -16,7 +16,7 @@
 
 | Bileşen | Konum |
 |---------|--------|
-| Motor | `crates/winlrt-archive/src/zip_io.rs` |
+| Motor | `crates/lertiva-archive/src/zip_io.rs` |
 | Testler | `split_zip_*`, `w20_*` interop |
 | Doğrulama | `scripts/verify-madde-w20.sh` |
 

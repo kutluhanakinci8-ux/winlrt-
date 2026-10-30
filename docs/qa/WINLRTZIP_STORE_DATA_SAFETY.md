@@ -1,4 +1,4 @@
-# winlrtZIP — Google Play Data safety (şablon, W27)
+# Lertiva Zip — Google Play Data safety (şablon, W27)
 
 Mağaza formu için özet; **bulut yedekleme yok**, veri cihazda / kullanıcı kanalında.
 

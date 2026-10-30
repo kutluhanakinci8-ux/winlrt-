@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# bench-report-windows artifact → winlrtZIP vitrin + P0×3 (run id veya en son başarılı).
+# bench-report-windows artifact → Lertiva Zip vitrin + P0×3 (run id veya en son başarılı).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 REPO="${GITHUB_REPO:-kutluhanakinci8-ux/winlrt-}"
@@ -31,4 +31,4 @@ if [[ -f "$BAL" && -f "$FAST" ]]; then
   bash "$ROOT/scripts/import-windows-zip-kpi-to-vitrin.sh" "$BAL" "$FAST"
 fi
 
-echo "OK: winlrtZIP Windows KPI import run=$RUN_ID all_pass=$(jq -r '.all_pass' "$OUT/winlrtzip-p0-gate.json" 2>/dev/null || echo '?')"
+echo "OK: Lertiva Zip Windows KPI import run=$RUN_ID all_pass=$(jq -r '.all_pass' "$OUT/winlrtzip-p0-gate.json" 2>/dev/null || echo '?')"

@@ -1,4 +1,4 @@
-# Madde W29 — winlrtZIP Lerta üretim API (Faz 8) %100
+# Madde W29 — Lertiva Zip Lerta üretim API (Faz 8) %100
 
 W28 webhook sözleşmesinin **lerta.com.tr** metadata kaydı (ZIP içeriği yüklenmez).
 
@@ -18,7 +18,7 @@ W28 webhook sözleşmesinin **lerta.com.tr** metadata kaydı (ZIP içeriği yük
 
 | Bileşen | Konum |
 |---------|--------|
-| Motor | `crates/winlrt-archive/src/lerta_api.rs` |
+| Motor | `crates/lertiva-archive/src/lerta_api.rs` |
 | Testler | `lerta_api::*`, `w29_*` |
 | Doğrulama | `scripts/verify-madde-w29.sh` |
 

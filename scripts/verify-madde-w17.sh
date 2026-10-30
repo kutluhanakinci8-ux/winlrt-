@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Madde W17: winlrtZIP resmi Windows KPI vitrin import altyapisi + ornekler.
+# Madde W17: Lertiva Zip resmi Windows KPI vitrin import altyapisi + ornekler.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 REPO="${GITHUB_REPO:-kutluhanakinci8-ux/winlrt-}"
@@ -24,4 +24,4 @@ grep -q 'windows-official-ci' "$SAMPLES/winlrtzip-windows-balanced-kpi.json"
 jq -e '.kpi.compression_gate != null' "$SAMPLES/winlrtzip-windows-balanced-kpi.json" >/dev/null
 test -f "$SAMPLES/winlrtzip-p0-gate.json"
 
-echo "OK: Madde W17 — winlrtZIP Windows KPI vitrin import"
+echo "OK: Madde W17 — Lertiva Zip Windows KPI vitrin import"

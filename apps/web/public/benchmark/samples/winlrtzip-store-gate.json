@@ -1,15 +1,15 @@
 {
   "v": 1,
-  "product": "winlrtZIP",
+  "product": "Lertiva Zip",
   "app_version": "0.1.0",
-  "bundle_identifier": "com.winlrt.zip",
+  "bundle_identifier": "com.lertiva.zip",
   "all_pass": true,
   "items": [
     {
       "id": "bundle_identifier",
       "platform": "both",
       "pass": true,
-      "note": "Tauri identifier com.winlrt.zip"
+      "note": "Tauri identifier com.lertiva.zip"
     },
     {
       "id": "short_description",

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Lertiva Zip",
+  "version": "0.1.0",
+  "identifier": "com.lertiva.zip",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1422",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Lertiva Zip",
+        "width": 880,
+        "height": 560
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "shortDescription": "Lertiva Zip — yerli ZIP/ZIP64 (Lertiva Pack)",
+    "fileAssociations": [
+      {
+        "ext": ["zip"],
+        "name": "ZIP arsivi",
+        "description": "ZIP arsiv dosyasi"
+      }
+    ],
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": "http://timestamp.digicert.com",
+      "nsis": {
+        "installerHooks": "./windows/installer-hooks.nsh",
+        "languages": ["Turkish", "English"]
+      }
+    },
+    "macOS": {
+      "minimumSystemVersion": "12.0",
+      "entitlements": "./macos/Entitlements.plist",
+      "signingIdentity": null
+    },
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}

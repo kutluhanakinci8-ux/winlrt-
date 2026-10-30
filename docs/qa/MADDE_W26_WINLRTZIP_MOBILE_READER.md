@@ -1,4 +1,4 @@
-# Madde W26 — winlrtZIP mobil okuyucu smoke (Faz 6) %100
+# Madde W26 — Lertiva Zip mobil okuyucu smoke (Faz 6) %100
 
 Salt okuma sözleşmesi + inspect API (Android/iOS kabuk hazırlığı, Lerta intent).
 
@@ -17,12 +17,12 @@ Salt okuma sözleşmesi + inspect API (Android/iOS kabuk hazırlığı, Lerta in
 
 | Bileşen | Konum |
 |---------|--------|
-| Motor | `crates/winlrt-archive/src/mobile_reader.rs` |
+| Motor | `crates/lertiva-archive/src/mobile_reader.rs` |
 | Testler | `mobile_reader::*`, `w26_*` |
 | Doğrulama | `scripts/verify-madde-w26.sh` |
 
 ## W26 %100
 
 1. `bash scripts/verify-madde-w26.sh`
-2. `cargo check -p winlrt-zip`
+2. `cargo check -p lertiva-zip`
 3. Main pipeline W26

@@ -1,4 +1,4 @@
-# winlrtRAR — kurumsal pilot kickoff (Faz 3)
+# Lertiva Arc — kurumsal pilot kickoff (Faz 3)
 
 Hedef segmentler (Faz 0): **banka**, **sendika**, **KOBİ**. Her pilot için aynı omurga, farklı vurgu.
 

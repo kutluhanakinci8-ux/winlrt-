@@ -1,4 +1,4 @@
-# Madde W7 — winlrtZIP e-posta eki profili (I6) %100
+# Madde W7 — Lertiva Zip e-posta eki profili (I6) %100
 
 ## Hedef (interop I6)
 
@@ -8,14 +8,14 @@
 | Mixed fixture (~10 MiB ham) | `prepare.sh` sonrası email profili oluşturma |
 | Süre (mixed, CI) | ≤ **120 s** (`EMAIL_ATTACHMENT_MIXED_MAX_CREATE_MS`) |
 
-Profil: `CompressionProfile::EmailAttachment` · CLI/Tauri: `--profile email` / varsayılan winlrtZIP.
+Profil: `CompressionProfile::EmailAttachment` · CLI/Tauri: `--profile email` / varsayılan Lertiva Zip.
 
 ## Otomasyon
 
 | Bileşen | Konum |
 |---------|--------|
-| Sabitler | `crates/winlrt-archive/src/profile.rs` |
-| Testler | `crates/winlrt-archive/tests/winlrtzip_interop.rs` |
+| Sabitler | `crates/lertiva-archive/src/profile.rs` |
+| Testler | `crates/lertiva-archive/tests/winlrtzip_interop.rs` |
 | Rapor | `scripts/log-email-profile-i6.sh` |
 
 ## W7 %100

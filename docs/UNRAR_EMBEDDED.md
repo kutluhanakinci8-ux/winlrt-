@@ -5,17 +5,17 @@ Windows beta `.exe` derlemesi `unrar-embedded` feature ile **libunrar** (unrar-n
 ## Derleme
 
 ```bash
-cd apps/winlrt-rar
+cd apps/lertiva-arc
 npm run tauri build -- --features unrar-embedded
 ```
 
 GitHub Actions: `.github/workflows/winlrt-rar-windows.yml`
 
-Linux geliştirici CI (`cargo check -p winlrt-rar`) feature **kapalı**; RAR5 fixture `rar` crate + isteğe bağlı sistem `unrar`.
+Linux geliştirici CI (`cargo check -p lertiva-arc`) feature **kapalı**; RAR5 fixture `rar` crate + isteğe bağlı sistem `unrar`.
 
 ## Yan dosya (opsiyonel)
 
-`WINLRT_UNRAR` ortam değişkeni veya `winlrtRAR.exe` yanına `unrar.exe` — CLI backend önce yan dosyayı dener.
+`WINLRT_UNRAR` ortam değişkeni veya `Lertiva Arc.exe` yanına `unrar.exe` — CLI backend önce yan dosyayı dener.
 
 ## Lisans
 

@@ -1,4 +1,4 @@
-# Madde W28 — winlrtZIP Lerta posta eki (Faz 8) %100
+# Madde W28 — Lertiva Zip Lerta posta eki (Faz 8) %100
 
 W7 e-posta profili üzerine **Lerta webhook sözleşmesi** (içerik cihazda kalır).
 
@@ -18,7 +18,7 @@ W7 e-posta profili üzerine **Lerta webhook sözleşmesi** (içerik cihazda kal�
 
 | Bileşen | Konum |
 |---------|--------|
-| Motor | `crates/winlrt-archive/src/lerta_mail.rs` |
+| Motor | `crates/lertiva-archive/src/lerta_mail.rs` |
 | Testler | `lerta_mail::*`, `w28_*` |
 | Doğrulama | `scripts/verify-madde-w28.sh` |
 

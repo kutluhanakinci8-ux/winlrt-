@@ -1,10 +1,10 @@
-# winlrtRAR imzalı kurulum (Faz 3 → v1.0)
+# Lertiva Arc imzalı kurulum (Faz 3 → v1.0)
 
 Beta `.exe` SmartScreen uyarısı verir; **v1.0 kapısı** Authenticode imzalı MSI/NSIS.
 
 ## Tauri / Windows
 
-`apps/winlrt-rar/src-tauri/tauri.conf.json` → `bundle.windows`:
+`apps/lertiva-arc/src-tauri/tauri.conf.json` → `bundle.windows`:
 
 - `certificateThumbprint` — kurumsal sertifika (User/Machine store)
 - `digestAlgorithm`: `sha256`

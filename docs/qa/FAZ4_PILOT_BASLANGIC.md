@@ -3,9 +3,9 @@
 ## 1. Beta indir
 
 1. **Güncel beta:** https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.41064653814  
-   (`winlrtRAR_0.1.0_x64-setup.exe`)
-2. Veya Actions → **winlrtRAR Windows beta build** → artifact **winlrt-rar-windows-bundle**
-3. Kur: `winlrtRAR_*_x64-setup.exe` (SmartScreen uyarısı — imza secret yoksa normal)
+   (`Lertiva Arc_0.1.0_x64-setup.exe`)
+2. Veya Actions → **Lertiva Arc Windows beta build** → artifact **winlrt-rar-windows-bundle**
+3. Kur: `Lertiva Arc_*_x64-setup.exe` (SmartScreen uyarısı — imza secret yoksa normal)
 4. Preflight: `scripts/windows/explorer-qa-preflight.ps1` (kayıt defteri + exe SHA256)
 
 ## 2. Checklist

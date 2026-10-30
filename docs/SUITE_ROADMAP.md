@@ -15,13 +15,13 @@
 ```mermaid
 flowchart LR
   subgraph now [Şimdi]
-    R1[winlrtRAR F1 motor]
-    Z0[winlrtZIP F0 plan]
+    R1[Lertiva Arc F1 motor]
+    Z0[Lertiva Zip F0 plan]
   end
   subgraph gate [Kapı]
-    R2[winlrtRAR F2 RAR aç + Win MVP]
+    R2[Lertiva Arc F2 RAR aç + Win MVP]
   end
-  subgraph zip [winlrtZIP]
+  subgraph zip [Lertiva Zip]
     Z1[F1 ZIP motor CLI]
     Z2[F2 Windows kabuk]
     Z3[F3 macOS KPI]
@@ -44,8 +44,8 @@ flowchart LR
 
 | Ürün | Plan | Faz 0 |
 |------|------|--------|
-| winlrtRAR | [WINLRTRAR_PLAN.md](./WINLRTRAR_PLAN.md) | [WINLRTRAR_PHASE0.md](./WINLRTRAR_PHASE0.md) (kapalı) |
-| winlrtZIP | [WINLRTZIP_PLAN.md](./WINLRTZIP_PLAN.md) | [WINLRTZIP_PHASE0.md](./WINLRTZIP_PHASE0.md) (açık) |
+| Lertiva Arc | [WINLRTRAR_PLAN.md](./WINLRTRAR_PLAN.md) | [WINLRTRAR_PHASE0.md](./WINLRTRAR_PHASE0.md) (kapalı) |
+| Lertiva Zip | [WINLRTZIP_PLAN.md](./WINLRTZIP_PLAN.md) | [WINLRTZIP_PHASE0.md](./WINLRTZIP_PHASE0.md) (açık) |
 
 ## Ortak KPI (P0 × 3)
 
@@ -59,9 +59,9 @@ Pilot: **banka, sendika, KOBİ**.
 
 ```text
 apps/web/                 # winlrt.com.tr vitrin
-apps/winlrt-rar/          # Faz 2+
-apps/winlrt-zip/          # ZIP F2+
-crates/winlrt-archive/      # Ortak motor (aktif)
+apps/lertiva-arc/          # Faz 2+
+apps/lertiva-zip/          # ZIP F2+
+crates/lertiva-archive/      # Ortak motor (aktif)
 benchmarks/
 docs/                     # Planlar
 .github/workflows/        # CI + deploy
@@ -71,7 +71,7 @@ docs/                     # Planlar
 
 | Adım | İçerik |
 |------|--------|
-| 1 | **winlrtRAR** motor + masaüstü; **winlrtZIP** planlı, RAR F2 sonrası hızlanır |
+| 1 | **Lertiva Arc** motor + masaüstü; **Lertiva Zip** planlı, RAR F2 sonrası hızlanır |
 | 2 | Mobil mağazalar |
 | 3 | PDF, imza, sertifika |
 | 4 | Lerta üretim entegrasyonu |
