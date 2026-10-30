@@ -20,7 +20,6 @@ pub fn resolve_rar(path: &Path) -> PathBuf {
 }
 
 pub fn inspect_rar(path: &Path) -> VolumeInfo {
-    let selected = path.to_path_buf();
     let selected_str = path.display().to_string();
     let Some(file_name) = path.file_name().and_then(|s| s.to_str()) else {
         return VolumeInfo {

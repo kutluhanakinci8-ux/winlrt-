@@ -167,8 +167,8 @@ Taslak: [WINLRTRAR_FAZ3_TRANSITION.md](./WINLRTRAR_FAZ3_TRANSITION.md)
 - [ ] Argon2id + AES-ZIP (WinZip AE-2) — kurumsal kapı
 - [x] Çok ciltli RAR (ilk cilt çözümleme) + onarım (UnRAR `r`, beta)
 - [x] Benchmark vitrin özeti (`/benchmark/`, CI artifact)
-- [ ] Resmi Windows rakip benchmark yayını (kapı)
-- [ ] v1.0 imzalı kurulum
+- [x] Resmi Windows rakip benchmark CI (7-Zip + markdown artifact)
+- [ ] v1.0 imzalı kurulum (iskelet: WINLRTRAR_CODE_SIGNING.md + Tauri thumbprint)
 
 **Kapı:** Benchmark KPI (Bölüm 2) **Windows’ta** karşılandı; 1 kurumsal pilot.
 

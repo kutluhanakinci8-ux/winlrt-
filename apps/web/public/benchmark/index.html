@@ -20,9 +20,9 @@
     <main class="container" style="padding: 2rem 1rem 4rem">
       <h1>Motor benchmark (Faz 1–3)</h1>
       <p class="lead">
-        <code>winlrt-archive</code> CI her <strong>main</strong> push’ta ZIP vs
-        <strong>.wlrt</strong> süre ve boyut raporu üretir (artifact:
-        <em>bench-report</em>).
+        Linux CI (<em>bench-report</em>) ve Windows resmi workflow
+        (<em>bench-report-windows</em>): ZIP, <strong>.wlrt</strong> ve Windows’ta
+        <strong>7-Zip</strong> referansı.
       </p>
       <h2 class="section-label">Yerel çalıştırma</h2>
       <pre><code>cargo run -p winlrt-archive -- bench --all --json</code></pre>
@@ -34,12 +34,19 @@
       <ul>
         <li>Hız: çok çekirdek <code>.wlrt</code> oluşturma</li>
         <li>Boyut: profil <em>Maximum</em> vs ZIP referansı</li>
-        <li>Resmi Windows karşılaştırması — Faz 3 kapısı (yayın sırada)</li>
+        <li>Windows: Actions → <em>winlrt Windows benchmark (resmi)</em> → Run workflow</li>
       </ul>
       <p>
-        <a class="btn btn-primary" href="https://github.com/kutluhanakinci8-ux/winlrt-/actions"
-          >GitHub Actions — bench artifact</a
+        <a class="btn btn-primary" href="https://github.com/kutluhanakinci8-ux/winlrt-/actions/workflows/bench-windows.yml"
+          >Windows benchmark workflow</a
         >
+        <a class="btn btn-ghost" href="https://github.com/kutluhanakinci8-ux/winlrt-/actions"
+          >Tüm CI artifact’ları</a
+        >
+      </p>
+      <p class="meta">
+        Markdown özet: <code>cargo run -p winlrt-archive -- bench --all --markdown</code>
+        · İmza: <code>docs/WINLRTRAR_CODE_SIGNING.md</code>
       </p>
     </main>
   </body>

@@ -73,6 +73,9 @@ enum Commands {
         all: bool,
         #[arg(long, value_enum, default_value_t = ProfileArg::Balanced)]
         profile: ProfileArg,
+        /// Markdown tablo (vitrin / PR özeti)
+        #[arg(long)]
+        markdown: bool,
     },
 }
 
@@ -233,15 +236,25 @@ fn run() -> Result<()> {
                 println!("Onarım OK → {}", dest.display());
             }
         }
-        Commands::Bench { fixture, all, profile } => {
+        Commands::Bench {
+            fixture,
+            all,
+            profile,
+            markdown,
+        } => {
             let profile: CompressionProfile = profile.into();
             let cwd = std::env::current_dir().unwrap_or_default();
+            let (platform, generated_at) = bench::suite_metadata();
             if all {
                 let suite = BenchSuite {
                     profile: format!("{profile:?}"),
+                    platform,
+                    generated_at,
                     reports: bench::run_all(&cwd, profile)?,
                 };
-                if json_out {
+                if markdown {
+                    print!("{}", bench::suite_to_markdown(&suite));
+                } else if json_out {
                     print_json(&suite)?;
                 } else {
                     for report in &suite.reports {
@@ -252,7 +265,15 @@ fn run() -> Result<()> {
             } else {
                 let fixture = fixture.unwrap_or_else(|| bench::default_fixture(&cwd));
                 let report = bench::run(&fixture, profile)?;
-                if json_out {
+                if markdown {
+                    let suite = BenchSuite {
+                        profile: format!("{profile:?}"),
+                        platform,
+                        generated_at,
+                        reports: vec![report],
+                    };
+                    print!("{}", bench::suite_to_markdown(&suite));
+                } else if json_out {
                     print_json(&report)?;
                 } else {
                     print_bench_human(&report);
@@ -291,5 +312,11 @@ fn print_bench_human(r: &BenchReport) {
     if r.wlrt_bytes > 0 && r.zip_bytes > 0 {
         let ratio = (1.0 - (r.wlrt_bytes as f64 / r.zip_bytes as f64)) * 100.0;
         println!("wlrt vs zip boyut farkı: {ratio:.1}%");
+    }
+    if let Some(b) = r.seven_zip_bytes {
+        println!("7-Zip: {b} bytes");
+    }
+    if let Some(ms) = r.seven_zip_create_ms {
+        println!("7-Zip create: {ms} ms");
     }
 }

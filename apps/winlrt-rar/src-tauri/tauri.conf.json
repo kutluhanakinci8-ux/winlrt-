@@ -48,6 +48,9 @@
       }
     ],
     "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": "http://timestamp.digicert.com",
       "nsis": {
         "installerHooks": "./windows/installer-hooks.nsh",
         "languages": ["Turkish", "English"]
