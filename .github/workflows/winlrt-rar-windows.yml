@@ -84,7 +84,8 @@ jobs:
         if: github.event_name == 'push'
         shell: bash
         run: |
-          if git diff-tree --no-commit-id --name-only -r "${{ github.sha }}" | grep -q '^\.github/flags/trigger-beta-release$'; then
+          FILES="$(git show --pretty='' --name-only HEAD || true)"
+          if echo "${FILES}" | tr '\\' '/' | grep -q 'trigger-beta-release'; then
             echo "publish=true" >> "$GITHUB_OUTPUT"
           else
             echo "publish=false" >> "$GITHUB_OUTPUT"
