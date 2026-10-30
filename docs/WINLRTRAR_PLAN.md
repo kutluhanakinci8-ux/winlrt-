@@ -157,8 +157,10 @@ benchmarks/                # Rakip karşılaştırma seti
 
 **Amaç:** WinRAR’ı **varsayılan arşiv aracı** olmaktan çıkarmak.
 
+Taslak: [WINLRTRAR_FAZ3_TRANSITION.md](./WINLRTRAR_FAZ3_TRANSITION.md)
+
 - [ ] Explorer sağ tık (WinRAR benzeri menü)
-- [ ] **Geçiş sihirbazı** (dosya ilişkilendirme, kısayollar)
+- [ ] **Geçiş sihirbazı** (dosya ilişkilendirme, kısayollar) — uygulama içi özet (beta) mevcut
 - [ ] Parola + güçlü şifreleme UI
 - [ ] Çok ciltli arşiv, onarım/test
 - [ ] Resmi benchmark yayını (vitrinde özet)

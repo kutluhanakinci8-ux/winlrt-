@@ -400,6 +400,18 @@ function App() {
           )}
         </section>
       </div>
+
+      <section className="panel transition">
+        <h2>WinRAR’dan geçiş (beta)</h2>
+        <ol className="transition-list">
+          <li>Beta kurulum: winlrt.com.tr → İndir → GitHub Releases (.exe).</li>
+          <li>Kurulum zip / rar / 7z / wlrt ilişkilendirmesini kaydeder; çift tıkla test edin.</li>
+          <li>Yeni arşivler için ZIP veya .wlrt oluşturun (profil + Kaydet).</li>
+          <li>
+            Tam sihirbaz ve Explorer sağ tık — Faz 3 (bkz. docs/WINLRTRAR_FAZ3_TRANSITION.md).
+          </li>
+        </ol>
+      </section>
     </main>
   );
 }
