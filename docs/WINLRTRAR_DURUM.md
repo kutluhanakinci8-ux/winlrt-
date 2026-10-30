@@ -17,10 +17,11 @@
 ## Sizin yapmanız gerekenler (sıra)
 
 1. **Merge:** [WINLRTRAR_BRANCH_MERGE.md](./WINLRTRAR_BRANCH_MERGE.md) veya tek link:  
-   https://github.com/kutluhanakinci8-ux/winlrt-/compare/main...cursor/signing-banner-status-ea18
+   https://github.com/kutluhanakinci8-ux/winlrt-/compare/main...cursor/post-merge-vitrin-ci-ea18
 2. **Secrets:** `VPS_*` → vitrin deploy · `TAURI_SIGNING_*` → imzalı beta ([CODE_SIGNING](./WINLRTRAR_CODE_SIGNING.md))
 3. **Actions:** Windows benchmark (strict isteğe bağlı) → beta build → Release indir
-4. **Pilot:** [EXPLORER_QA](./WINLRTRAR_EXPLORER_QA.md) + kurumsal `.reg`/ADMX
+4. **Pilot:** [EXPLORER_QA](./WINLRTRAR_EXPLORER_QA.md) + kurumsal `.reg`/ADMX  
+   Ayrıntılı adımlar: [WINLRTRAR_POST_MERGE.md](./WINLRTRAR_POST_MERGE.md)
 
 ## Agent’ın son dalı
 

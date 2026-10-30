@@ -1,0 +1,52 @@
+name: Vitrin KPI samples (Linux)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  refresh-samples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: crates/winlrt-archive
+
+      - name: Prepare mixed fixture
+        run: bash benchmarks/fixtures/mixed/prepare.sh
+
+      - name: Bench + refresh vitrin samples
+        run: |
+          cargo run -p winlrt-archive --release -- bench --all --json > /tmp/bal.json
+          cargo run -p winlrt-archive --release -- bench --all --profile fast --json > /tmp/fast.json
+          sudo apt-get install -y -qq jq
+          bash scripts/refresh-benchmark-vitrin-samples.sh
+
+      - name: KPI özeti
+        run: |
+          chmod +x scripts/evaluate-bench-kpi.sh
+          ./scripts/evaluate-bench-kpi.sh /tmp/bal.json || true
+
+      - name: Upload vitrin KPI samples
+        uses: actions/upload-artifact@v4
+        with:
+          name: vitrin-kpi-samples
+          path: |
+            apps/web/public/benchmark/samples/linux-balanced-kpi.json
+            apps/web/public/benchmark/samples/linux-fast-kpi.json
+          if-no-files-found: error
+
+      - name: Sonraki adım (özet)
+        run: |
+          {
+            echo "### Vitrin KPI artifact hazır"
+            echo "1. **bench-report-windows** artifact ile: \`bash scripts/import-windows-kpi-to-vitrin.sh …\` (tercih)"
+            echo "2. veya bu workflow artifact \`vitrin-kpi-samples\` → \`apps/web/public/benchmark/samples/\` → commit \`main\`"
+            echo "3. Bkz. docs/WINLRTRAR_POST_MERGE.md"
+          } >> "$GITHUB_STEP_SUMMARY"

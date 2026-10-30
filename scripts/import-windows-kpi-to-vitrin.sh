@@ -6,6 +6,19 @@ OUT="$ROOT/apps/web/public/benchmark/samples"
 BALANCED="${1:?bench-report-windows.json yolu}"
 FAST="${2:?bench-report-windows-fast.json yolu}"
 
+command -v jq >/dev/null || { echo "jq gerekli"; exit 1; }
+
+for f in "$BALANCED" "$FAST"; do
+  if [[ ! -f "$f" ]]; then
+    echo "Dosya yok: $f"
+    exit 1
+  fi
+  if ! jq -e '.kpi' "$f" >/dev/null; then
+    echo "Geçersiz bench JSON (kpi yok): $f"
+    exit 1
+  fi
+done
+
 mkdir -p "$OUT"
 jq '{profile, platform, generated_at, source: "windows-official-ci", disclaimer: "Resmi Faz 3 kapı — bench-report-windows artifact.", kpi}' \
   "$BALANCED" >"$OUT/windows-balanced-kpi.json"

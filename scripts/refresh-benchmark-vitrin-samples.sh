@@ -8,6 +8,7 @@ TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
 cd "$ROOT"
+bash "$ROOT/benchmarks/fixtures/mixed/prepare.sh"
 cargo run -p winlrt-archive --release -- bench --all --json >"$TMP/balanced.json"
 cargo run -p winlrt-archive --release -- bench --all --profile fast --json >"$TMP/fast.json"
 

@@ -67,6 +67,18 @@ jobs:
           jq '{profile, platform, generated_at, source: "windows-official-ci", disclaimer: "Resmi hız kapısı.", kpi}' \
             bench-report-windows-fast.json > vitrin-windows-fast-kpi.json
 
+      - name: Vitrin import komutu (özet)
+        shell: bash
+        run: |
+          {
+            echo "### Windows KPI → vitrin"
+            echo '```bash'
+            echo "bash scripts/import-windows-kpi-to-vitrin.sh bench-report-windows.json bench-report-windows-fast.json"
+            echo "git add apps/web/public/benchmark/samples/windows-*.json && git commit -m 'chore(vitrin): Windows KPI' && git push"
+            echo '```'
+            echo "Bkz. docs/WINLRTRAR_POST_MERGE.md"
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Upload benchmark artifacts
         uses: actions/upload-artifact@v4
         with:
