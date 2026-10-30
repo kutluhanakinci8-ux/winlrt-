@@ -22,3 +22,5 @@ Otomatik takip: [WINLRTRAR_ROADMAP_TO_100.md](./WINLRTRAR_ROADMAP_TO_100.md)
 | **2** Explorer QA | **Aktif** — [/pilot/](https://winlrt.com.tr/pilot/) · preflight.ps1 | Chat → `agent-parse-pilot-chat.sh` |
 | **3** Kurumsal + imza | **Paket canlı** — saha pilot (Dalga 2 sonrası) | ZIP vitrin · [qa/DALGA3_PILOT_OTURUM.md](./qa/DALGA3_PILOT_OTURUM.md) |
 | **4** v1.0 | Signoff’lar sonrası | [qa/DALGA4_V1_OTURUM.md](./qa/DALGA4_V1_OTURUM.md) · `check-v1-gate-status.sh` |
+
+**Agent otomasyon:** [qa/AGENT_IZI_TAMAM_PILOT_BEKLIYOR.md](./qa/AGENT_IZI_TAMAM_PILOT_BEKLIYOR.md) · toplu deploy: `scripts/post-final-single-deploy.sh`

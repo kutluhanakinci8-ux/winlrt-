@@ -46,8 +46,12 @@
         const res = await fetch("/pilot/status.json", { cache: "no-store" });
         const data = await res.json();
         const w = data.active_wave || 2;
+        const blocker = data.blocker || "";
         document.getElementById("lead").textContent =
-          "Aktif dalga: " + (labels[w] || w) + ". Test sonrası chat şablonunu Cursor agent’a gönderin.";
+          "Aktif dalga: " +
+          (labels[w] || w) +
+          (blocker ? " · blok: " + blocker : "") +
+          ". Test sonrası chat şablonunu Cursor agent’a gönderin.";
         const root = document.getElementById("waves");
         const order = [
           ["2_explorer_qa", 2],

@@ -8,6 +8,8 @@
 
 Kullanıcıdan **ayrı commit/push/deploy istenmez.**
 
+**Toplu tur:** Agent otomasyonu bitince tek sefer — `bash scripts/post-final-single-deploy.sh` (pilot signoff sahte yazılmaz).
+
 ## Dalga 2 (Explorer QA)
 
 - Pilot Windows’ta test eder; chat’e şablon yazar ([PILOT_CHAT_SABLONLARI.md](./qa/PILOT_CHAT_SABLONLARI.md)).  

@@ -15,10 +15,13 @@ if grep -q '\[x\] PASS' "$ROOT/docs/qa/KURUMSAL_PILOT_SIGNOFF.md" 2>/dev/null; t
 fi
 
 wave=2
+blocker="windows_explorer_qa"
 if [ "$explorer" = "pass" ] && [ "$corp" = "pass" ]; then
   wave=4
+  blocker="v1_signing_and_tag"
 elif [ "$explorer" = "pass" ]; then
   wave=3
+  blocker="corporate_pilot"
 fi
 
 generated="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
@@ -27,6 +30,7 @@ cat >"$OUT" <<EOF
 {
   "generated_at": "${generated}",
   "active_wave": ${wave},
+  "blocker": "${blocker}",
   "waves": {
     "1_deploy": "pass",
     "2_explorer_qa": "${explorer}",

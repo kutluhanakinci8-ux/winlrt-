@@ -8,3 +8,5 @@
 | 4 | v1.0 | İki signoff + tag | [FAZ6_V1_KAPOR.md](./FAZ6_V1_KAPOR.md) |
 
 Chat: [PILOT_CHAT_SABLONLARI.md](./PILOT_CHAT_SABLONLARI.md) · Agent: [AGENT_COMMIT_DEPLOY.md](../AGENT_COMMIT_DEPLOY.md)
+
+**Agent kod/docs hazır:** [AGENT_IZI_TAMAM_PILOT_BEKLIYOR.md](./AGENT_IZI_TAMAM_PILOT_BEKLIYOR.md) — **Windows pilot PASS olmadan v1.0 kapanmaz.**
