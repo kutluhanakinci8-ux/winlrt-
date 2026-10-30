@@ -15,9 +15,10 @@ PR açılamıyorsa (`must be a collaborator`) **Compare & pull request** ile `ma
 | 9 | `cursor/kpi-vitrin-signing-ea18` | Vitrin KPI + prod checklist |
 | 10 | `cursor/fast-kpi-vitrin-import-ea18` | Hız KPI + vitrin import |
 | 11 | `cursor/bench-large-kpi-explorer-ea18` | mixed fixture + Explorer QA |
+| 12 | `cursor/signing-banner-status-ea18` | durum doc, imza Mac script, vitrin KPI şeridi |
 
 **Tek compare (zincirin tamamı → main):**  
-https://github.com/kutluhanakinci8-ux/winlrt-/compare/main...cursor/bench-large-kpi-explorer-ea18
+https://github.com/kutluhanakinci8-ux/winlrt-/compare/main...cursor/signing-banner-status-ea18
 
 Merge sonrası:
 

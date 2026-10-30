@@ -17,6 +17,13 @@ Alternatif (CI): GitHub Secrets
 
 Workflow: `.github/workflows/winlrt-rar-windows.yml` — secret tanımlıysa `npm run tauri build` otomatik imzalar.
 
+Mac (yapıştırma yok):
+
+```bash
+bash scripts/mac-set-github-tauri-signing-secrets.sh /yol/sertifika.pfx
+```
+
+
 ## Kontrol listesi
 
 - [ ] EV/OV kod imzalama sertifikası (kurum)

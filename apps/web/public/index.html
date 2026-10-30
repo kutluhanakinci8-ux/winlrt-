@@ -72,6 +72,17 @@
             <a class="btn btn-ghost" href="/benchmark/">Faz 3 benchmark KPI</a>
             <a class="btn btn-ghost" href="#yol-haritasi">Yol haritasını gör</a>
           </div>
+          <div
+            id="kpi-hero-strip"
+            class="meta"
+            style="
+              margin-bottom: 1rem;
+              padding: 0.65rem 1rem;
+              border-radius: 8px;
+              border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+              display: none;
+            "
+          ></div>
           <div class="trust-row">
             <div class="trust-item">
               <strong>%100</strong>
@@ -326,6 +337,49 @@
           var open = nav.classList.toggle("is-open");
           btn.setAttribute("aria-expanded", open ? "true" : "false");
         });
+      })();
+      (function () {
+        var el = document.getElementById("kpi-hero-strip");
+        if (!el) return;
+        function label(gate) {
+          if (gate === true) return "GEÇTİ";
+          if (gate === false) return "ölçüm devam";
+          return "—";
+        }
+        Promise.all([
+          fetch("/benchmark/samples/windows-balanced-kpi.json").catch(function () {
+            return fetch("/benchmark/samples/linux-balanced-kpi.json");
+          }),
+          fetch("/benchmark/samples/windows-fast-kpi.json").catch(function () {
+            return fetch("/benchmark/samples/linux-fast-kpi.json");
+          }),
+        ])
+          .then(function (pair) {
+            return Promise.all(
+              pair.map(function (r) {
+                return r.ok ? r.json() : null;
+              })
+            );
+          })
+          .then(function (data) {
+            var bal = data[0];
+            var fast = data[1];
+            if (!bal || !bal.kpi) return;
+            var kb = bal.kpi;
+            var kf = fast && fast.kpi ? fast.kpi : {};
+            el.style.display = "block";
+            el.innerHTML =
+              "<strong>winlrtRAR motor KPI (referans):</strong> Sıkıştırma " +
+              label(kb.compression_gate) +
+              " (" +
+              kb.compression_pass_count +
+              "/" +
+              kb.compression_total +
+              ") · Hız (Fast) " +
+              label(kf.speed_gate) +
+              ' — <a href="/benchmark/">detay</a>';
+          })
+          .catch(function () {});
       })();
     </script>
   </body>
