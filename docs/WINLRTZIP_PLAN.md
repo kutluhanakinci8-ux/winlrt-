@@ -190,6 +190,7 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 - [x] Posta eki otomasyonu (ZIP webhook) — [MADDE_W28](./qa/MADDE_W28_WINLRTZIP_LERTA_MAIL.md)
 - [x] Lerta üretim API bağlantısı (metadata, dry-run) — [MADDE_W29](./qa/MADDE_W29_WINLRTZIP_LERTA_API.md)
 - [x] Lerta mesaj eki (`.wlrt` / AES-ZIP, metadata) — [MADDE_W30](./qa/MADDE_W30_WINLRTZIP_LERTA_MESSAGE.md)
+- [x] Lerta birleşik staging / canlı API kapısı — [MADDE_W31](./qa/MADDE_W31_WINLRTZIP_LERTA_INTEGRATION.md)
 
 ---
 

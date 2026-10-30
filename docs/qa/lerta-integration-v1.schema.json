@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://winlrt.com.tr/schemas/lerta-integration-v1.json",
+  "title": "LertaIntegrationStatus",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "product",
+    "api_base",
+    "production_host",
+    "bearer_configured",
+    "dry_run",
+    "metadata_only",
+    "live_submit_allowed",
+    "staging_safe_mode",
+    "staging_gate_pass",
+    "channels"
+  ],
+  "properties": {
+    "contract_version": { "type": "string", "const": "1" },
+    "product": { "type": "string", "const": "winlrtZIP" },
+    "api_base": { "type": "string", "format": "uri" },
+    "production_host": { "type": "string" },
+    "bearer_configured": { "type": "boolean" },
+    "dry_run": { "type": "boolean" },
+    "metadata_only": { "type": "boolean", "const": true },
+    "live_submit_allowed": { "type": "boolean" },
+    "staging_safe_mode": { "type": "boolean" },
+    "staging_gate_pass": { "type": "boolean" },
+    "channels": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "madde",
+          "webhook_contract",
+          "register_path",
+          "register_url",
+          "max_bytes",
+          "mime_types",
+          "content_stays_on_device"
+        ],
+        "properties": {
+          "id": { "enum": ["mail", "message"] },
+          "madde": { "enum": ["W28", "W30"] },
+          "webhook_contract": { "type": "string" },
+          "register_path": { "type": "string" },
+          "register_url": { "type": "string", "format": "uri" },
+          "max_bytes": { "type": "integer", "minimum": 1 },
+          "mime_types": { "type": "array", "items": { "type": "string" } },
+          "content_stays_on_device": { "type": "boolean", "const": true }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

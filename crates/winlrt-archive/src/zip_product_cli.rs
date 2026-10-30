@@ -9,6 +9,7 @@ use crate::bench::{self, BenchReport, BenchSuite};
 use crate::profile::CompressionProfile;
 use crate::archive_sign;
 use crate::lerta_api;
+use crate::lerta_integration;
 use crate::lerta_mail;
 use crate::lerta_message;
 use crate::mobile_reader;
@@ -86,6 +87,7 @@ pub enum ZipCommands {
         tier: LertaTierArg,
     },
     LertaApiStatus,
+    LertaIntegrationStatus,
     LertaMailSubmit {
         source: PathBuf,
         dest: PathBuf,
@@ -463,6 +465,19 @@ pub fn run() -> Result<()> {
                 println!(
                     "Lerta API: {} dry_run={} bearer={}",
                     cfg.register_url, cfg.dry_run, cfg.bearer_configured
+                );
+            }
+        }
+        ZipCommands::LertaIntegrationStatus => {
+            let st = lerta_integration::lerta_integration_status_from_env();
+            if json_out {
+                print_json(&st)?;
+            } else {
+                println!(
+                    "Lerta entegrasyon: staging_gate={} live={} kanallar={}",
+                    st.staging_gate_pass,
+                    st.live_submit_allowed,
+                    st.channels.len()
                 );
             }
         }

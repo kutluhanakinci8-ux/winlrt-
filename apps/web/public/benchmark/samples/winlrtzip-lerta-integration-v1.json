@@ -1,0 +1,39 @@
+{
+  "contract_version": "1",
+  "product": "winlrtZIP",
+  "api_base": "https://u88.lerta.com.tr/api/v1",
+  "production_host": "lerta.com.tr",
+  "bearer_configured": false,
+  "dry_run": true,
+  "metadata_only": true,
+  "live_submit_allowed": false,
+  "staging_safe_mode": true,
+  "staging_gate_pass": true,
+  "channels": [
+    {
+      "id": "mail",
+      "madde": "W28",
+      "webhook_contract": "1",
+      "register_path": "/integrations/winlrt-zip/mail-attachment",
+      "register_url": "https://u88.lerta.com.tr/api/v1/integrations/winlrt-zip/mail-attachment",
+      "max_bytes": 26214400,
+      "mime_types": [
+        "application/zip"
+      ],
+      "content_stays_on_device": true
+    },
+    {
+      "id": "message",
+      "madde": "W30",
+      "webhook_contract": "1",
+      "register_path": "/integrations/winlrt-zip/message-attachment",
+      "register_url": "https://u88.lerta.com.tr/api/v1/integrations/winlrt-zip/message-attachment",
+      "max_bytes": 16777216,
+      "mime_types": [
+        "application/vnd.winlrt.wlrt",
+        "application/zip"
+      ],
+      "content_stays_on_device": true
+    }
+  ]
+}

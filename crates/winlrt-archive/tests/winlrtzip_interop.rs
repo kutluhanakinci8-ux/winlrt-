@@ -828,6 +828,18 @@ fn w30_lerta_message_attachment_metadata_dry_run() {
 }
 
 #[test]
+fn w31_lerta_integration_staging_gate() {
+    std::env::remove_var("LERTA_API_BEARER");
+    std::env::set_var("WINLRT_LERTA_API_DRY_RUN", "1");
+    let st = winlrt_archive::lerta_integration::lerta_integration_status_from_env();
+    assert!(st.staging_gate_pass);
+    assert!(st.staging_safe_mode);
+    assert!(!st.live_submit_allowed);
+    assert_eq!(st.channels.len(), 2);
+    std::env::remove_var("WINLRT_LERTA_API_DRY_RUN");
+}
+
+#[test]
 fn w27_store_gate_all_pass_in_repo() {
     let root = winlrt_archive::store_gate::default_workspace_root();
     let report = winlrt_archive::store_gate::evaluate_store_gate(&root).unwrap();

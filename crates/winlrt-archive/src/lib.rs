@@ -3,6 +3,7 @@
 pub mod archive_sign;
 pub mod audit;
 pub mod lerta_api;
+pub mod lerta_integration;
 pub mod lerta_mail;
 pub mod lerta_message;
 pub mod mobile_reader;

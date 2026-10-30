@@ -33,5 +33,6 @@
 | **W28** | Lerta posta eki otomasyonu (Faz 8) | **%100** ✅ | [MADDE_W28](./MADDE_W28_WINLRTZIP_LERTA_MAIL.md) |
 | **W29** | Lerta üretim API (metadata kaydı) | **%100** ✅ | [MADDE_W29](./MADDE_W29_WINLRTZIP_LERTA_API.md) |
 | **W30** | Lerta mesaj eki (`.wlrt` / AES-ZIP) | **%100** ✅ | [MADDE_W30](./MADDE_W30_WINLRTZIP_LERTA_MESSAGE.md) |
+| **W31** | Lerta birleşik staging kapısı (canlı API ön koşulu) | **%100** ✅ | [MADDE_W31](./MADDE_W31_WINLRTZIP_LERTA_INTEGRATION.md) |
 
 RAR hattı: [POST_V2_SIRA.md](./POST_V2_SIRA.md) (Q2 tamam).

@@ -15,6 +15,7 @@ use winlrt_archive::enterprise;
 use winlrt_archive::password_policy::{self, PasswordPolicy};
 use winlrt_archive::profile::CompressionProfile;
 use winlrt_archive::lerta_api;
+use winlrt_archive::lerta_integration;
 use winlrt_archive::lerta_mail;
 use winlrt_archive::lerta_message;
 use winlrt_archive::mobile_reader;
@@ -415,6 +416,11 @@ fn lerta_api_status() -> lerta_api::LertaApiConfig {
 }
 
 #[tauri::command]
+fn lerta_integration_status() -> lerta_integration::LertaIntegrationStatus {
+    lerta_integration::lerta_integration_status_from_env()
+}
+
+#[tauri::command]
 fn lerta_submit_mail_attachment(
     source: String,
     dest: String,
@@ -589,6 +595,7 @@ pub fn run() {
             lerta_prepare_mail_attachment,
             lerta_validate_mail_attachment,
             lerta_api_status,
+            lerta_integration_status,
             lerta_submit_mail_attachment,
             lerta_prepare_message_attachment,
             lerta_validate_message_attachment,

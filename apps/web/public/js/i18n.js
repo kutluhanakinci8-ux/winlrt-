@@ -5,7 +5,7 @@ window.WINLRT_I18N = {
     "meta.description":
       "winlrtRAR v1.0.0 ve winlrtZIP beta — yerli arşiv motoru, KVKK odaklı denetim, kurumsal GPO ve Lerta entegrasyonu.",
     "topbar.live": "Canlı vitrin",
-    "topbar.sync": "repo ile senkron · Post-v3 winlrtZIP W30 · winlrtRAR v1.0.0",
+    "topbar.sync": "repo ile senkron · Post-v3 winlrtZIP W31 · winlrtRAR v1.0.0",
     "topbar.kpi.loading": "KPI yükleniyor…",
     "topbar.kpi.fallback": "KPI örnekleri /benchmark/ sayfasında",
     "nav.menu": "Menü",
@@ -31,7 +31,7 @@ window.WINLRT_I18N = {
     "hero.tagline":
       "Enterprise archive software — built in Türkiye, measured on Windows KPI gates.",
     "hero.lead":
-      "winlrtRAR resmi Windows sürümü yayında; winlrtZIP WinZip sınıfı ZIP/ZIP64 hattında CLI, Tauri, Explorer, kurumsal GPO, split ZIP, imzalı arşiv ve Lerta posta/mesaj metadata entegrasyonuna kadar Post-v3 (W0–W30) tamamlandı. Ortak motor: winlrt-archive.",
+      "winlrtRAR resmi Windows sürümü yayında; winlrtZIP WinZip sınıfı ZIP/ZIP64 hattında CLI, Tauri, Explorer, kurumsal GPO, split ZIP, imzalı arşiv ve Lerta posta/mesaj/staging metadata entegrasyonuna kadar Post-v3 (W0–W31) tamamlandı. Ortak motor: winlrt-archive.",
     "hero.cta.download": "İndirme merkezi",
     "hero.cta.kpi": "KPI vitrin",
     "hero.trust.p0": "Sıkıştırma · hız · güven kapıları",
@@ -39,7 +39,7 @@ window.WINLRT_I18N = {
     "hero.trust.gpo": "Kurumsal politika paketleri",
     "preview.platform": "winlrt platform",
     "preview.maturity": "Ürün olgunluğu (repo)",
-    "preview.zip.sub": "Post-v3 W0–W30 · beta Windows/macOS CI",
+    "preview.zip.sub": "Post-v3 W0–W31 · beta Windows/macOS CI",
     "preview.rar.sub": "Post-v2 · v1.0.0 Windows resmi",
     "status.label": "Senkronizasyon",
     "status.title": "Vitrin ↔ geliştirme durumu",
@@ -92,7 +92,7 @@ window.WINLRT_I18N = {
     "page.downloads.label": "İndirme merkezi",
     "page.downloads.h1": "Resmi sürümler ve kurumsal paketler",
     "page.downloads.lead":
-      "winlrtRAR v1.0.0 Windows resmi sürümü yayında. winlrtZIP beta (Post-v3 W0–W30) Windows installer ve macOS CI build hattında.",
+      "winlrtRAR v1.0.0 Windows resmi sürümü yayında. winlrtZIP beta (Post-v3 W0–W31) Windows installer ve macOS CI build hattında.",
     "page.downloads.topbar": "imzasız paketler SmartScreen uyarısı verebilir",
     "page.downloads.zipHeading": "winlrtZIP",
     "page.downloads.rarHeading": "winlrtRAR",
@@ -174,7 +174,7 @@ window.WINLRT_I18N = {
     "meta.description":
       "winlrtRAR v1.0.0 and winlrtZIP beta — domestic archive engine, GDPR/KVKK-oriented audit, corporate GPO, Lerta integration.",
     "topbar.live": "Live site",
-    "topbar.sync": "in sync with repo · Post-v3 winlrtZIP W30 · winlrtRAR v1.0.0",
+    "topbar.sync": "in sync with repo · Post-v3 winlrtZIP W31 · winlrtRAR v1.0.0",
     "topbar.kpi.loading": "Loading KPI…",
     "topbar.kpi.fallback": "KPI samples on /benchmark/",
     "nav.menu": "Menu",
@@ -200,7 +200,7 @@ window.WINLRT_I18N = {
     "hero.tagline":
       "Enterprise archive software — built in Türkiye, measured on Windows KPI gates.",
     "hero.lead":
-      "winlrtRAR official Windows release is live; winlrtZIP covers WinZip-class ZIP/ZIP64 with CLI, Tauri, Explorer, corporate GPO, split ZIP, signed archives, and Lerta mail/message metadata through Post-v3 (W0–W30). Shared engine: winlrt-archive.",
+      "winlrtRAR official Windows release is live; winlrtZIP covers WinZip-class ZIP/ZIP64 with CLI, Tauri, Explorer, corporate GPO, split ZIP, signed archives, and Lerta mail/message/staging metadata through Post-v3 (W0–W31). Shared engine: winlrt-archive.",
     "hero.cta.download": "Download center",
     "hero.cta.kpi": "KPI dashboard",
     "hero.trust.p0": "Compression · speed · security gates",
@@ -208,7 +208,7 @@ window.WINLRT_I18N = {
     "hero.trust.gpo": "Corporate policy packs",
     "preview.platform": "winlrt platform",
     "preview.maturity": "Product maturity (repo)",
-    "preview.zip.sub": "Post-v3 W0–W30 · beta Windows/macOS CI",
+    "preview.zip.sub": "Post-v3 W0–W31 · beta Windows/macOS CI",
     "preview.rar.sub": "Post-v2 · v1.0.0 Windows GA",
     "status.label": "Synchronization",
     "status.title": "Site ↔ engineering status",
@@ -261,7 +261,7 @@ window.WINLRT_I18N = {
     "page.downloads.label": "Download center",
     "page.downloads.h1": "Official releases and corporate packs",
     "page.downloads.lead":
-      "winlrtRAR v1.0.0 Windows GA is live. winlrtZIP beta (Post-v3 W0–W30) on Windows installer and macOS CI pipeline.",
+      "winlrtRAR v1.0.0 Windows GA is live. winlrtZIP beta (Post-v3 W0–W31) on Windows installer and macOS CI pipeline.",
     "page.downloads.topbar": "unsigned packages may trigger SmartScreen",
     "page.downloads.zipHeading": "winlrtZIP",
     "page.downloads.rarHeading": "winlrtRAR",

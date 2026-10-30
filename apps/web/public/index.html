@@ -11,7 +11,7 @@
     <meta property="og:title" content="winlrt — Kurumsal arşiv platformu" />
     <meta
       property="og:description"
-      content="winlrtRAR resmi sürüm · winlrtZIP Post-v3 (W0–W30). KPI vitrin, kurumsal dağıtım, Lerta metadata API."
+      content="winlrtRAR resmi sürüm · winlrtZIP Post-v3 (W0–W31). KPI vitrin, kurumsal dağıtım, Lerta metadata API."
     />
     <meta property="og:url" content="https://winlrt.com.tr/" />
     <meta property="og:type" content="website" />
@@ -25,7 +25,7 @@
       <div class="site-topbar-inner">
         <span
           ><strong data-i18n="topbar.live">Canlı vitrin</strong> —
-          <span data-i18n="topbar.sync">repo ile senkron · Post-v3 winlrtZIP W30 · winlrtRAR v1.0.0</span></span
+          <span data-i18n="topbar.sync">repo ile senkron · Post-v3 winlrtZIP W31 · winlrtRAR v1.0.0</span></span
         >
         <span id="topbar-kpi" data-i18n="topbar.kpi.loading">KPI yükleniyor…</span>
       </div>
@@ -135,7 +135,7 @@
                   <div class="preview-icon zip">ZIP</div>
                   <div>
                     <strong>winlrtZIP</strong>
-                    <small data-i18n="preview.zip.sub">Post-v3 W0–W30 · beta Windows/macOS CI</small>
+                    <small data-i18n="preview.zip.sub">Post-v3 W0–W31 · beta Windows/macOS CI</small>
                     <div class="preview-bar"><span style="width: 96%"></span></div>
                   </div>
                 </div>
@@ -188,8 +188,8 @@
                 <td>winlrtZIP</td>
                 <td><span class="status status-beta">Beta 0.1.0</span></td>
                 <td>
-                  W0–W30: CLI/Tauri, Explorer, P0 kapı, GPO, split ZIP, imza, KVKK paylaşım,
-                  mobil okuyucu, mağaza kapısı, Lerta posta + API + mesaj eki (dry-run)
+                  W0–W31: CLI/Tauri, Explorer, P0 kapı, GPO, split ZIP, imza, KVKK paylaşım,
+                  mobil okuyucu, mağaza kapısı, Lerta posta + API + mesaj + staging kapısı
                 </td>
                 <td>
                   <a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-zip-beta.1"
@@ -202,9 +202,10 @@
               <tr>
                 <td>Lerta</td>
                 <td><span class="status status-beta">Entegrasyon smoke</span></td>
-                <td>W28 posta · W29 API · W30 mesaj eki (.wlrt / AES-ZIP, metadata-only)</td>
+                <td>W28–W31: posta · API · mesaj eki · birleşik staging (metadata-only)</td>
                 <td>
-                  <a href="/benchmark/samples/winlrtzip-lerta-message-v1.json">Mesaj eki JSON</a> ·
+                  <a href="/benchmark/samples/winlrtzip-lerta-integration-v1.json">Staging JSON</a> ·
+                  <a href="/benchmark/samples/winlrtzip-lerta-message-v1.json">Mesaj eki</a> ·
                   <a href="/benchmark/samples/winlrtzip-lerta-api-v1.json">API durum</a> ·
                   <a href="https://www.lerta.com.tr">lerta.com.tr</a>
                 </td>
@@ -436,7 +437,7 @@
         <div class="section-head">
           <span class="section-label">Strateji</span>
           <h2>Yol haritası (güncel)</h2>
-          <p>Masaüstü olgunluğu öncelikli; mobil mağaza ve Lerta canlı API sıradaki kapılar.</p>
+          <p>Masaüstü olgunluğu öncelikli; mobil mağaza yükleme sıradaki kapı (Lerta canlı gönderim IT onayı ile).</p>
         </div>
         <div class="roadmap-track">
           <div class="roadmap-step">
@@ -493,13 +494,15 @@
           </article>
         </div>
         <article class="card" style="margin-top: 1.5rem">
-          <h3>Mesaj eki (W30)</h3>
+          <h3>Mesaj eki (W30) · Staging kapısı (W31)</h3>
           <p>
-            Lerta mesaj kanalı için <code>.wlrt</code> veya AES-ZIP profili; 16 MiB üst sınır, SHA-256
-            metadata — dosya içeriği yüklenmez.
+            Mesaj kanalı: <code>.wlrt</code> veya AES-ZIP (16 MiB). W31 birleşik durum JSON’u posta +
+            mesaj URL’lerini ve canlı Bearer ön koşulunu özetler — içerik yüklenmez.
           </p>
           <p class="meta">
-            <a href="/benchmark/samples/winlrtzip-lerta-message-v1.json">Mesaj eki webhook örneği</a>
+            <a href="/benchmark/samples/winlrtzip-lerta-integration-v1.json">Birleşik staging örneği</a>
+            ·
+            <a href="/benchmark/samples/winlrtzip-lerta-message-v1.json">Mesaj webhook</a>
           </p>
         </article>
       </div>

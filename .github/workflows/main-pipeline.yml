@@ -161,6 +161,9 @@ jobs:
       - name: winlrtZIP Lerta mesaj eki (W30)
         run: bash scripts/verify-madde-w30.sh
 
+      - name: winlrtZIP Lerta birleşik staging (W31)
+        run: bash scripts/verify-madde-w31.sh
+
       - name: Faz 1 benchmark raporu
         run: |
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json
