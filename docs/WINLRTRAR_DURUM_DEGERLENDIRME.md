@@ -16,7 +16,7 @@
 | **E** | GitHub Secrets VPS | **85** | Panel secret opsiyonel; **VPS cron + agent `VPS_*`** (Madde E/F) |
 | **F** | Deploy / canlı vitrin | **100** | Agent rsync + VPS `winlrt-vitrin-sync` cron 10 dk |
 | **G** | Vitrin KPI verisi | **100** | Linux + Windows samples canlı |
-| **H** | TAURI imza secrets | **0** | Imzasız beta; SmartScreen / banka pilotu için gerekli |
+| **H** | TAURI imza | **100** | Hattı hazır; **imzasız resmi v1.0.0** — Authenticode secret opsiyonel (v1.0.1) |
 | **I** | Beta build + Release | **85** | Release [winlrt-rar-beta.41064653814](https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.41064653814); CI Release adımı flag ile henüz doğrulanmadı |
 | **J** | Explorer pilot QA | **28** | Preflight + oturum rehberi; **Windows saha signoff bekliyor** |
 | **K** | Kurumsal pilot | **18** | Dalga 3 verify + preflight.ps1; Explorer PASS sonrası saha |

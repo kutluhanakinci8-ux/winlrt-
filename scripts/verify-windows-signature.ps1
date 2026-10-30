@@ -2,8 +2,8 @@
 param(
     [Parameter(Mandatory = $false)]
     [string[]]$Paths = @(
-        "apps/winlrt-rar/src-tauri/target/release/bundle/**/*.exe",
-        "apps/winlrt-rar/src-tauri/target/release/bundle/**/*.msi"
+        "target/release/bundle/nsis/*-setup.exe",
+        "target/release/bundle/**/*.exe"
     )
 )
 
