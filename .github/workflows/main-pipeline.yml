@@ -50,6 +50,14 @@ jobs:
       - name: Test and build winlrt-archive
         run: cargo test -p winlrt-archive && cargo build -p winlrt-archive --release
 
+      - name: Linux deps (winlrtRAR Tauri check)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev patchelf
+
+      - name: Check winlrtRAR Tauri shell
+        run: cargo check -p winlrt-rar
+
       - name: Faz 1 benchmark raporu
         run: cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json
 

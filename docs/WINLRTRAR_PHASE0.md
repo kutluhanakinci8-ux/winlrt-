@@ -37,6 +37,6 @@ Onay tarihi: 2026-10-30 · Plan: [WINLRTRAR_PLAN.md](./WINLRTRAR_PLAN.md)
 - [x] Pilot segmentleri: banka, sendika, KOBİ
 - [x] Rakip özellik matrisi — [COMPETITOR_MATRIX.md](./COMPETITOR_MATRIX.md)
 - [x] `.wlrt` v0 binary spec — [WLRT_FORMAT_V0.md](./WLRT_FORMAT_V0.md)
-- [ ] RAR okuma hukuk/lisans notu (UnRAR yolu) — Faz 2 öncesi zorunlu
+- [x] RAR okuma hukuk/lisans notu — [RAR_READING.md](./RAR_READING.md) (implementasyon kapısı açık)
 
 **Faz 0 kapısı:** Kararlar onaylı → **Faz 1 başladı** (`crates/winlrt-archive`).

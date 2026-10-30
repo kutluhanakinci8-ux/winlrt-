@@ -7,7 +7,7 @@ winlrt bir **sıkıştırma ve açma** programıdır (Windows, macOS; Android / 
 | Yol | Açıklama |
 |-----|----------|
 | `apps/web` | Tanıtım + indirme vitrin (statik) |
-| `apps/desktop` | Masaüstü uygulama (Tauri — yakında) |
+| `apps/winlrt-rar` | winlrtRAR Tauri kabuk (Faz 2 iskelet) |
 | `docs/` | Cursor/GitHub ve Turhost VPS notları |
 | `releases/` | Build çıktıları (git’e büyük binary eklemeyin; CI artifact) |
 

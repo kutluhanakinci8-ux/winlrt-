@@ -140,8 +140,8 @@ benchmarks/                # Rakip karşılaştırma seti
 
 **Amaç:** WinRAR kullanıcısını **deneyimle kazanmak**.
 
-- [ ] Tauri uygulama, modern arayüz, TR
-- [ ] **RAR/RAR5 okuma** (geçiş — hukuki yol tamam)
+- [x] Tauri iskelet (`apps/winlrt-rar`), TR arayüz başlangıcı
+- [ ] **RAR/RAR5 okuma** — stub + [RAR_READING.md](./RAR_READING.md); UnRAR implementasyonu
 - [ ] 7z okuma (yaygın rakip format)
 - [ ] Sürükle-bırak, çift tık, iş kuyruğu
 - [ ] Profiller: Hızlı / Dengeli / Maksimum / E-posta

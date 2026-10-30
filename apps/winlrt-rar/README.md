@@ -1,7 +1,27 @@
-# winlrtRAR
+# winlrtRAR (Tauri)
 
-WinRAR, WinZip, 7-Zip ve benzerleriyle **rekabet eden** arşiv uygulaması — ölçülebilir üstünlük hedefi (hız, güvenlik, kurumsal, UX).
+WinRAR sınıfı masaüstü kabuk — **Faz 2 beta iskelet**.
 
-**Plan (faz faz):** [docs/WINLRTRAR_PLAN.md](../../docs/WINLRTRAR_PLAN.md)
+- Motor: `crates/winlrt-archive` (ZIP, `.wlrt`; RAR stub)
+- Plan: [docs/WINLRTRAR_PLAN.md](../../docs/WINLRTRAR_PLAN.md)
+- RAR: [docs/RAR_READING.md](../../docs/RAR_READING.md)
 
-Faz 0 onayı sonrası: `crates/winlrt-archive` + Tauri kabuk burada açılacak.
+## Geliştirme (Windows / macOS)
+
+Önkoşullar: [Tauri prerequisites](https://tauri.app/start/prerequisites/)
+
+```bash
+cd /path/to/winlrt
+npm install
+npm run dev:rar
+```
+
+Linux CI yalnızca `cargo check -p winlrt-rar` (GUI bağımlılıkları gerekmez).
+
+## Build
+
+```bash
+npm run build:rar
+```
+
+Beta `.exe` dağıtımı Faz 2 kapısı sonrası vitrin indirme sayfasına bağlanır.

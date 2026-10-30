@@ -3,6 +3,7 @@
 pub mod bench;
 pub mod error;
 pub mod profile;
+pub mod rar;
 pub mod wlrt;
 pub mod zip_io;
 
