@@ -753,6 +753,28 @@ fn w23_signed_archive_extract() {
 }
 
 #[test]
+fn w24_infozip_split_span_open_extract() {
+    if Command::new("zip").arg("-h").output().is_err() {
+        return;
+    }
+    let base = tempfile::tempdir().unwrap();
+    fs::write(base.path().join("w24.bin"), vec![0x24u8; 180 * 1024]).unwrap();
+    let status = Command::new("zip")
+        .current_dir(base.path())
+        .args(["-0", "-s", "64k", "w24.zip", "w24.bin"])
+        .status()
+        .unwrap();
+    if !status.success() {
+        return;
+    }
+    let vols = zip_io::split_zip_volumes_on_disk(&base.path().join("w24.zip"));
+    assert!(zip_io::volume_has_infozip_span_marker(&vols[0]).unwrap());
+    zip_io::test(&base.path().join("w24.zip"), None).unwrap();
+    zip_io::extract(&base.path().join("w24.z01"), &base.path().join("out"), None).unwrap();
+    assert_eq!(fs::read(base.path().join("out/w24.bin")).unwrap().len(), 180 * 1024);
+}
+
+#[test]
 fn w23_require_signed_archive_policy_blocks_unsigned() {
     let base = tempfile::tempdir().unwrap();
     let src = base.path().join("u.txt");

@@ -9,7 +9,7 @@
 | Cilt yazma | `split_zip_write_volumes`, `create_split_with_profile` |
 | Min cilt 64 KiB | `SPLIT_ZIP_MIN_VOLUME_BYTES` |
 | CLI | `winlrt-zip create-split --volume-size` |
-| Info-ZIP `PK 07 08` üretimi | Sonraki iyileştirme |
+| Info-ZIP `PK 07 08` üretimi | Harici `zip -s` · okuma [W24](./MADDE_W24_WINLRTZIP_INFOZIP_SPAN.md) |
 
 ## Bileşenler
 

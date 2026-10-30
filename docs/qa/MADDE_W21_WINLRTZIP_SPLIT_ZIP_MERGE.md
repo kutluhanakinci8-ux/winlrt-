@@ -10,7 +10,7 @@
 | Birleştirme | `SplitZipOpen` / `split_zip_materialize_merged` |
 | list / extract / test | Otomatik birleştirme |
 | Split yazma (üretim) | [W22](./MADDE_W22_WINLRTZIP_SPLIT_ZIP_WRITE.md) |
-| Info-ZIP `zip -s` (PK 07 08) | Birleştirme hazır; tam açma sonraki iyileştirme |
+| Info-ZIP `zip -s` (PK 07 08) | [W24](./MADDE_W24_WINLRTZIP_INFOZIP_SPAN.md) |
 
 ## Bileşenler
 

@@ -185,6 +185,8 @@ pub const ZIP64_SIZE_THRESHOLD: u64 = u32::MAX as u64;
 pub const SPLIT_ZIP_MAX_VOLUMES: u32 = 999;
 /// Info-ZIP `zip -s` ile uyumlu minimum cilt boyutu (64 KiB).
 pub const SPLIT_ZIP_MIN_VOLUME_BYTES: u64 = 64 * 1024;
+/// Info-ZIP split/spanned arşiv başlangıç imzası (`PK\x07\x08`, W24).
+pub const ZIP_SPANNING_SIGNATURE: [u8; 4] = [0x50, 0x4b, 0x07, 0x08];
 
 /// Split yazma özeti (W22).
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -208,15 +210,10 @@ impl SplitZipOpen {
                 _merged: None,
             });
         }
+        let merged = merged_split_zip_bytes(archive)?;
         let mut tmp = NamedTempFile::new().map_err(ArchiveError::Io)?;
-        for v in &vols {
-            let mut f = File::open(v).map_err(ArchiveError::Io)?;
-            copy(&mut f, &mut tmp).map_err(ArchiveError::Io)?;
-        }
+        tmp.write_all(&merged).map_err(ArchiveError::Io)?;
         tmp.flush().map_err(ArchiveError::Io)?;
-        let mut merged = std::fs::read(tmp.path()).map_err(ArchiveError::Io)?;
-        normalize_merged_split_eocd(&mut merged);
-        std::fs::write(tmp.path(), &merged).map_err(ArchiveError::Io)?;
         Ok(Self {
             path: tmp.path().to_path_buf(),
             _merged: Some(tmp),
@@ -297,6 +294,75 @@ fn eocd_indicates_spanning(bytes: &[u8]) -> bool {
     let disk = u16::from_le_bytes([bytes[i + 4], bytes[i + 5]]);
     let cd_disk = u16::from_le_bytes([bytes[i + 6], bytes[i + 7]]);
     disk != 0 || cd_disk != 0
+}
+
+fn concat_split_volume_files(vols: &[PathBuf]) -> Result<Vec<u8>> {
+    let mut merged = Vec::new();
+    for v in vols {
+        let mut f = File::open(v).map_err(ArchiveError::Io)?;
+        copy(&mut f, &mut merged).map_err(ArchiveError::Io)?;
+    }
+    Ok(merged)
+}
+
+const CD_HEADER_SIG: [u8; 4] = [0x50, 0x4b, 0x01, 0x02];
+
+fn repair_spanned_zip_central_directory(bytes: &mut [u8], span_prefix_removed: usize) {
+    let Some(eocd_pos) = eocd_scan_last(bytes) else {
+        return;
+    };
+    let Some(cd_start) = (0..eocd_pos).find(|&i| bytes[i..i + 4] == CD_HEADER_SIG) else {
+        normalize_merged_split_eocd(bytes);
+        return;
+    };
+    let mut i = cd_start;
+    while i + 46 <= eocd_pos && bytes[i..i + 4] == CD_HEADER_SIG {
+        bytes[i + 34] = 0;
+        bytes[i + 35] = 0;
+        let local_off =
+            u32::from_le_bytes([bytes[i + 42], bytes[i + 43], bytes[i + 44], bytes[i + 45]]);
+        let adjusted = local_off.saturating_sub(span_prefix_removed as u32);
+        bytes[i + 42..i + 46].copy_from_slice(&adjusted.to_le_bytes());
+        let fn_len = u16::from_le_bytes([bytes[i + 28], bytes[i + 29]]) as usize;
+        let extra_len = u16::from_le_bytes([bytes[i + 30], bytes[i + 31]]) as usize;
+        let comment_len = u16::from_le_bytes([bytes[i + 32], bytes[i + 33]]) as usize;
+        i += 46 + fn_len + extra_len + comment_len;
+    }
+    bytes[eocd_pos + 16..eocd_pos + 20].copy_from_slice(&(cd_start as u32).to_le_bytes());
+    normalize_merged_split_eocd(bytes);
+}
+
+/// Ham birleştirme + Info-ZIP span kaldırma + isteğe CD/EOCD onarımı.
+pub fn normalize_merged_split_zip(bytes: &mut Vec<u8>, infozip_span: bool) {
+    let span_removed = if infozip_span && bytes.len() >= 4 && bytes[0..4] == ZIP_SPANNING_SIGNATURE {
+        bytes.drain(0..4);
+        4usize
+    } else {
+        0
+    };
+    if infozip_span {
+        repair_spanned_zip_central_directory(bytes, span_removed);
+    } else {
+        normalize_merged_split_eocd(bytes);
+    }
+}
+
+pub fn merged_split_zip_bytes(entry: &Path) -> Result<Vec<u8>> {
+    let vols = split_zip_ordered_volumes(entry);
+    if vols.len() <= 1 {
+        return std::fs::read(entry).map_err(ArchiveError::Io);
+    }
+    let infozip_span = volume_has_infozip_span_marker(&vols[0]).unwrap_or(false);
+    let mut merged = concat_split_volume_files(&vols)?;
+    normalize_merged_split_zip(&mut merged, infozip_span);
+    Ok(merged)
+}
+
+pub fn volume_has_infozip_span_marker(path: &Path) -> Result<bool> {
+    let mut buf = [0u8; 4];
+    let mut f = File::open(path).map_err(ArchiveError::Io)?;
+    let n = std::io::Read::read(&mut f, &mut buf).map_err(ArchiveError::Io)?;
+    Ok(n == 4 && buf == ZIP_SPANNING_SIGNATURE)
 }
 
 /// Birleştirilmiş arşivde EOCD disk alanlarını tek cilt olarak işaretler (zip crate uyumu).
@@ -404,30 +470,16 @@ pub fn split_zip_materialize_merged(entry: &Path) -> Result<Option<NamedTempFile
     if vols.len() <= 1 {
         return Ok(None);
     }
+    let merged = merged_split_zip_bytes(entry)?;
     let mut tmp = NamedTempFile::new().map_err(ArchiveError::Io)?;
-    for v in &vols {
-        let mut f = File::open(v).map_err(ArchiveError::Io)?;
-        copy(&mut f, &mut tmp).map_err(ArchiveError::Io)?;
-    }
+    tmp.write_all(&merged).map_err(ArchiveError::Io)?;
     tmp.flush().map_err(ArchiveError::Io)?;
-    let mut merged = std::fs::read(tmp.path()).map_err(ArchiveError::Io)?;
-    normalize_merged_split_eocd(&mut merged);
-    std::fs::write(tmp.path(), &merged).map_err(ArchiveError::Io)?;
     Ok(Some(tmp))
 }
 
-/// İmza özeti için arşiv baytları (split ise ham birleştirme).
+/// İmza özeti için arşiv baytları (split: birleştirilmiş mantıksal ZIP).
 pub fn archive_bytes_for_signature(entry: &Path) -> Result<Vec<u8>> {
-    let vols = split_zip_ordered_volumes(entry);
-    if vols.len() <= 1 {
-        return std::fs::read(entry).map_err(ArchiveError::Io);
-    }
-    let mut out = Vec::new();
-    for v in vols {
-        let mut f = File::open(v).map_err(ArchiveError::Io)?;
-        copy(&mut f, &mut out).map_err(ArchiveError::Io)?;
-    }
-    Ok(out)
+    merged_split_zip_bytes(entry)
 }
 
 /// Ed25519 yan dosyası yazar (`*.winlrtsig.json`).
@@ -809,12 +861,12 @@ mod tests {
     }
 
     #[test]
-    fn split_zip_infozip_volume_order_and_byte_len() {
+    fn split_zip_infozip_span_extract_roundtrip() {
         if Command::new("zip").arg("-h").output().is_err() {
             return;
         }
         let dir = tempdir().unwrap();
-        std::fs::write(dir.path().join("payload.bin"), vec![0u8; 200 * 1024]).unwrap();
+        std::fs::write(dir.path().join("payload.bin"), vec![0xABu8; 200 * 1024]).unwrap();
         let status = Command::new("zip")
             .current_dir(dir.path())
             .args(["-0", "-s", "64k", "split.zip", "payload.bin"])
@@ -825,11 +877,14 @@ mod tests {
         }
         let vols = split_zip_volumes_on_disk(&dir.path().join("split.zip"));
         assert!(vols.len() >= 2);
-        assert_eq!(vols.last().unwrap().file_name().unwrap(), "split.zip");
-        let sum: u64 = vols.iter().map(|p| std::fs::metadata(p).unwrap().len()).sum();
-        let merged = split_zip_materialize_merged(&dir.path().join("split.zip"))
-            .unwrap()
-            .unwrap();
-        assert_eq!(std::fs::metadata(merged.path()).unwrap().len(), sum);
+        assert!(volume_has_infozip_span_marker(&vols[0]).unwrap());
+        test(&dir.path().join("split.zip"), None).unwrap();
+        let out = dir.path().join("out");
+        extract(&dir.path().join("split.z01"), &out, None).unwrap();
+        assert_eq!(
+            std::fs::read(out.join("payload.bin")).unwrap().len(),
+            200 * 1024
+        );
     }
+
 }

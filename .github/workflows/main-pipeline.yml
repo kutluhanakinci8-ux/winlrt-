@@ -137,6 +137,9 @@ jobs:
       - name: winlrtZIP imzalı arşiv (W23)
         run: bash scripts/verify-madde-w23.sh
 
+      - name: winlrtZIP Info-ZIP span (W24)
+        run: bash scripts/verify-madde-w24.sh
+
       - name: Faz 1 benchmark raporu
         run: |
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json
