@@ -11,14 +11,17 @@
 ## Test seti
 
 - `fixtures/text/` — log + UTF-8 (**Faz 1 başladı**)
-- `fixtures/office/` — küçük örnek dosyalar
-- `fixtures/binary/` — rastgele + tekrarlayan veri (dedup testi)
+- `fixtures/office/` — CSV örnek (UTF-8)
+- `fixtures/binary/` — 64 KiB tekrarlayan bayt deseni
 
 ## Çalıştırma
 
 ```bash
-cargo run -p winlrt-archive -- bench
-# Genişletilmiş rapor: Faz 1 sprint 2+
+cargo run -p winlrt-archive -- bench --all
+cargo run -p winlrt-archive -- bench --all --json
+cargo run -p winlrt-archive -- bench --fixture benchmarks/fixtures/binary --profile maximum
 ```
+
+CI: `main` push → rust job → artifact `bench-report.json`.
 
 Rakip karşılaştırması aynı makinede manuel veya CI’da dokümante edilir (WinRAR/7-Zip yolu).

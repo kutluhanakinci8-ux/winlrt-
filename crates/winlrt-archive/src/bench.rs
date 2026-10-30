@@ -92,3 +92,31 @@ fn dir_size(path: &Path) -> Result<u64> {
 pub fn default_fixture(repo_root: &Path) -> PathBuf {
     repo_root.join("benchmarks/fixtures/text")
 }
+
+pub fn fixtures_root(repo_root: &Path) -> PathBuf {
+    repo_root.join("benchmarks/fixtures")
+}
+
+/// `benchmarks/fixtures/*` altındaki her klasör için benchmark.
+pub fn run_all(repo_root: &Path, profile: CompressionProfile) -> Result<Vec<BenchReport>> {
+    let root = fixtures_root(repo_root);
+    if !root.is_dir() {
+        return Err(crate::ArchiveError::Io(std::io::Error::new(
+            std::io::ErrorKind::NotFound,
+            root.display().to_string(),
+        )));
+    }
+    let mut dirs: Vec<PathBuf> = std::fs::read_dir(&root)?
+        .filter_map(|e| e.ok())
+        .map(|e| e.path())
+        .filter(|p| p.is_dir())
+        .collect();
+    dirs.sort();
+    dirs.into_iter().map(|p| run(&p, profile)).collect()
+}
+
+#[derive(Debug, Serialize)]
+pub struct BenchSuite {
+    pub profile: String,
+    pub reports: Vec<BenchReport>,
+}

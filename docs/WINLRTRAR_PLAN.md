@@ -125,11 +125,12 @@ benchmarks/                # Rakip karşılaştırma seti
 
 **Amaç:** Rakiplerle aynı işi **ölçülebilir** yapmak.
 
-- [ ] `.wlrt` create / extract / list / test / benchmark
-- [ ] ZIP okuma-yazma, Zip64 hazırlığı
-- [ ] Çok çekirdek açma/sıkıştırma (v1)
-- [ ] CLI + JSON çıktı (`--json` otomasyon için)
-- [ ] İlk **benchmark raporu** (winlrt vs 7-Zip CLI vs … aynı makinede)
+- [x] `.wlrt` create / extract / list / test / benchmark
+- [x] ZIP okuma-yazma, Zip64 hazırlığı (eşik + smoke test)
+- [x] Çok çekirdek sıkıştırma (`.wlrt` create, v1)
+- [x] CLI + JSON (`--json`, `bench --all`)
+- [x] CI **benchmark raporu** (artifact `bench-report`)
+- [ ] Yerel rakip CLI karşılaştırması (7-Zip / WinRAR — aynı makine)
 
 **Kapı:** Test setinde en az bir metrikte rakip referansına **eşit veya üstün**.
 

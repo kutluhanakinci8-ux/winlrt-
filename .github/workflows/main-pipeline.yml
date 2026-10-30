@@ -50,6 +50,16 @@ jobs:
       - name: Test and build winlrt-archive
         run: cargo test -p winlrt-archive && cargo build -p winlrt-archive --release
 
+      - name: Faz 1 benchmark raporu
+        run: cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json
+
+      - name: Upload benchmark report
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-report
+          path: bench-report.json
+          if-no-files-found: error
+
   deploy:
     needs: web
     runs-on: ubuntu-latest

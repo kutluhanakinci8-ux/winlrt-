@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use clap::{Parser, Subcommand, ValueEnum};
 use serde::Serialize;
-use winlrt_archive::bench::{self, BenchReport};
+use winlrt_archive::bench::{self, BenchReport, BenchSuite};
 use winlrt_archive::profile::CompressionProfile;
 use winlrt_archive::{wlrt, zip_io, Result};
 
@@ -51,6 +51,9 @@ enum Commands {
     Bench {
         #[arg(long)]
         fixture: Option<PathBuf>,
+        /// benchmarks/fixtures altındaki tüm setler
+        #[arg(long)]
+        all: bool,
         #[arg(long, value_enum, default_value_t = ProfileArg::Balanced)]
         profile: ProfileArg,
     },
@@ -152,16 +155,30 @@ fn run() -> Result<()> {
                 println!("OK");
             }
         }
-        Commands::Bench { fixture, profile } => {
+        Commands::Bench { fixture, all, profile } => {
             let profile: CompressionProfile = profile.into();
-            let fixture = fixture.unwrap_or_else(|| {
-                bench::default_fixture(&std::env::current_dir().unwrap_or_default())
-            });
-            let report = bench::run(&fixture, profile)?;
-            if cli.json {
-                print_json(&report)?;
+            let cwd = std::env::current_dir().unwrap_or_default();
+            if all {
+                let suite = BenchSuite {
+                    profile: format!("{profile:?}"),
+                    reports: bench::run_all(&cwd, profile)?,
+                };
+                if cli.json {
+                    print_json(&suite)?;
+                } else {
+                    for report in &suite.reports {
+                        print_bench_human(report);
+                        println!("---");
+                    }
+                }
             } else {
-                print_bench_human(&report);
+                let fixture = fixture.unwrap_or_else(|| bench::default_fixture(&cwd));
+                let report = bench::run(&fixture, profile)?;
+                if cli.json {
+                    print_json(&report)?;
+                } else {
+                    print_bench_human(&report);
+                }
             }
         }
     }

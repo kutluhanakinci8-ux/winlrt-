@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::{copy, Read, Write};
+use std::io::{copy, Write};
 use std::path::{Path, PathBuf};
 
 use walkdir::WalkDir;
@@ -76,26 +76,28 @@ pub fn create_with_profile(source: &Path, dest: &Path, profile: CompressionProfi
     Ok(())
 }
 
+/// Zip64 eşiği (zip crate `ZIP64_BYTES_THR` ile uyumlu).
+const ZIP64_SIZE_THRESHOLD: u64 = u32::MAX as u64;
+
 fn add_file(
     writer: &mut ZipWriter<File>,
     path: &Path,
     name: &str,
     profile: CompressionProfile,
 ) -> Result<()> {
+    let file_len = std::fs::metadata(path)?.len();
     let method = match profile {
         CompressionProfile::Fast => CompressionMethod::Stored,
         _ => CompressionMethod::Deflated,
     };
-    let options = FileOptions::default().compression_method(method);
+    let options = FileOptions::default()
+        .compression_method(method)
+        .large_file(file_len >= ZIP64_SIZE_THRESHOLD);
     writer
         .start_file(name.replace('\\', "/"), options)
         .map_err(|e| ArchiveError::Zip(e.to_string()))?;
     let mut f = File::open(path)?;
-    let mut buf = Vec::new();
-    f.read_to_end(&mut buf)?;
-    writer
-        .write_all(&buf)
-        .map_err(|e| ArchiveError::Zip(e.to_string()))?;
+    copy(&mut f, writer).map_err(|e| ArchiveError::Zip(e.to_string()))?;
     Ok(())
 }
 
@@ -108,6 +110,25 @@ fn sanitize_path(name: &str) -> PathBuf {
     )
 }
 
+/// Zip64 alanları yazılmış küçük arşiv (Faz 1 hazırlık testi).
+pub fn create_zip64_smoke(dest: &Path) -> Result<()> {
+    let out = File::create(dest)?;
+    let mut writer = ZipWriter::new(out);
+    let options = FileOptions::default()
+        .compression_method(CompressionMethod::Stored)
+        .large_file(true);
+    writer
+        .start_file("zip64-smoke.txt", options)
+        .map_err(|e| ArchiveError::Zip(e.to_string()))?;
+    writer
+        .write_all(b"zip64")
+        .map_err(|e| ArchiveError::Zip(e.to_string()))?;
+    writer
+        .finish()
+        .map_err(|e| ArchiveError::Zip(e.to_string()))?;
+    Ok(())
+}
+
 pub fn test(archive: &Path) -> Result<()> {
     let file = File::open(archive)?;
     let mut zip = ZipArchive::new(file).map_err(|e| ArchiveError::Zip(e.to_string()))?;
@@ -116,4 +137,38 @@ pub fn test(archive: &Path) -> Result<()> {
         std::io::copy(&mut entry, &mut std::io::sink())?;
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use tempfile::tempdir;
+
+    #[test]
+    fn zip_roundtrip() {
+        let dir = tempdir().unwrap();
+        let src = dir.path().join("src");
+        std::fs::create_dir_all(&src).unwrap();
+        std::fs::write(src.join("a.txt"), b"zip test").unwrap();
+        let archive = dir.path().join("t.zip");
+        create_with_profile(&src, &archive, CompressionProfile::Balanced).unwrap();
+        test(&archive).unwrap();
+        let out = dir.path().join("out");
+        extract(&archive, &out).unwrap();
+        assert_eq!(std::fs::read(out.join("a.txt")).unwrap(), b"zip test");
+    }
+
+    #[test]
+    fn zip64_smoke_roundtrip() {
+        let dir = tempdir().unwrap();
+        let archive = dir.path().join("z64.zip");
+        create_zip64_smoke(&archive).unwrap();
+        test(&archive).unwrap();
+        let out = dir.path().join("out");
+        extract(&archive, &out).unwrap();
+        assert_eq!(
+            std::fs::read(out.join("zip64-smoke.txt")).unwrap(),
+            b"zip64"
+        );
+    }
 }
