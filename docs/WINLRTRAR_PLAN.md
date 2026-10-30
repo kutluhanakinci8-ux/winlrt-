@@ -1,239 +1,253 @@
-# winlrtRAR — ürün planı (faz faz)
+# winlrtRAR — rekabet odaklı ürün planı (faz faz)
 
 **Ürün adı:** winlrtRAR  
-**Konumlandırma:** WinRAR sınıfı arşiv deneyimi — **%100 yerli kod** hedefi, kurumsal + bireysel.  
-**Platform sırası:** Windows → macOS → (ileride mobil yardımcı / Lerta entegrasyonu)
+**Hedef:** WinRAR, WinZip, 7-Zip, Bandizip ve benzeri programlarla **doğrudan rekabet**; tanımlı alanlarda **ölçülebilir şekilde üstün** olmak.  
+**Kod:** Sıkıştırma motoru, arayüz ve kurumsal katman **yerli geliştirme**; pazarın eski lisans / deneme ekranı modelinin dışında, şeffaf dağıtım.
 
-Vitrin: [winlrt.com.tr](https://winlrt.com.tr) · Genel yol haritası: [PRODUCT_ROADMAP.md](./PRODUCT_ROADMAP.md)
+**Platform sırası:** Windows → macOS → mobil (Faz 6+) → Lerta üretim entegrasyonu (Faz 8).
 
----
-
-## Kapsam özeti
-
-| Hedef | Açıklama |
-|--------|-----------|
-| Kullanıcı deneyimi | Sıkıştır, aç, parola, bölünmüş arşiv, sürükle-bırak, sağ tık kabuk entegrasyonu (Windows) |
-| Yerli kod | Sıkıştırma motoru ve arayüz bizim; üçüncü taraf yalnızca açık lisanslı bileşenler (aşağıda) |
-| Uyumluluk | Yaygın **açık** formatlar; kullanıcıların mevcut dosyalarıyla çalışma |
-| Kurumsal | Sessiz kurulum, GPO/MDM dağıtımı, güncelleme kanalı, denetim günlüğü (ileri faz) |
-| Lerta | Faz 6+ — posta eki / mesaj eki akışları (ayrı ürün olgunlaştıktan sonra) |
-
-### Format stratejisi (önemli)
-
-**`.rar` formatı tescilli / lisanslıdır** (WinRAR ekosistemi). Tamamen “sıfırdan RAR yazmak” veya tescilli formatı klonlamak hukuki ve teknik risk taşır.
-
-**winlrtRAR stratejisi (önerilen):**
-
-1. **Ana (yerli) format:** örn. **`.wlrt`** — kendi konteyner + sıkıştırma pipeline’ımız (açık spesifikasyon, ileride Lerta ile paylaşılabilir).
-2. **Okuma / yazma (açık formatlar):** ZIP, TAR, GZIP, (Faz 2+) 7z okuma veya sınırlı yazma — lisans şartlarına uygun kütüphaneler.
-3. **RAR dosyaları:**  
-   - **Faz 1–3:** RAR desteği **yok** veya yalnızca “RAR dosyası — destek yol haritasında” mesajı.  
-   - **Faz 4 (isteğe bağlı):** Yalnızca **açma (read-only)** — resmi UnRAR lisans koşullarına uygun entegrasyon **veya** hukuki inceleme sonrası karar.  
-   - **Asla iddia etmeyin:** “RAR’ın tescilli formatının yerli klonu” — pazarlama: **“WinRAR benzeri arayüz ve iş akışı”**.
-
-Bu plan, “WinZip/WinRAR **gibi** program” hedefinizle uyumludur; format tarafında **yerli + açık standartlar** önceliklidir.
+Vitrin: [winlrt.com.tr](https://winlrt.com.tr) · Genel plan: [PRODUCT_ROADMAP.md](./PRODUCT_ROADMAP.md)
 
 ---
 
-## Teknoloji çerçevesi (karar taslağı)
+## 1. Rekabet stratejisi (tek cümle)
 
-| Katman | Öneri | Gerekçe |
-|--------|--------|---------|
-| UI | **Tauri 2** + React/TypeScript | Küçük kurulum, Windows/macOS tek kod tabanı |
-| Çekirdek | **Rust** (`crates/winlrt-archive`) | Performans, bellek güvenliği, paylaşımlı motor (winlrtZIP ile) |
-| Sıkıştırma | **zstd** / **lz4** (yerli pipeline) | Modern, hızlı, açık |
-| ZIP uyumu | `zip` crate veya benzeri | De-facto paylaşım formatı |
-| Paketleme | MSI/MSIX (Win), signed .dmg/.pkg (Mac) | Kurumsal dağıtım |
+Kullanıcı **mevcut arşivlerini açabilsin** (ZIP, RAR, 7z, …), yeni arşivlerini ise **daha hızlı, daha güvenli ve daha akıllı** `.wlrt` formatında oluştursun — kurumsal ve bireysel kullanıcı WinRAR’a geri dönmek zorunda kalmasın.
 
-**Monorepo yeri (ileride):**
+---
+
+## 2. Rakiplere göre üstünlük hedefleri
+
+Her faz sonunda aşağıdaki “kazanma kriterleri”nden en az birkaçı **benchmark veya pilot** ile kanıtlanır.
+
+| Alan | WinRAR / WinZip tipik zayıflık | winlrtRAR hedefi |
+|------|-------------------------------|------------------|
+| **Hız** | Eski algoritmalar, tek çekirdek ağırlığı | Çok çekirdek + modern codec (zstd/lz4); “Hızlı aç” modunda rakiplerden **≥ %30 daha hızlı** (Faz 3 benchmark) |
+| **Sıkıştırma** | RAR iyi ama kapalı; ZIP zayıf | `.wlrt` ile aynı dosyada rakip ZIP’e göre **≥ %10 daha küçük** veya eşit boyutta **daha hızlı** (Faz 3) |
+| **Güvenlik** | Eski ZIP şifreleme, zayıf varsayılanlar | AES-256-GCM, Argon2id parola türetme; kurumsal “şifre politikası” (Faz 2–4) |
+| **Güven / bütünlük** | Sınırlı imza deneyimi | Arşiv **dijital imza** + checksum ağacı; kurum içi “sahte arşiv” tespiti (Faz 4) |
+| **UX** | Eski arayüz, deneme uyarıları | Modern UI, karanlık tema, sürükle-bırak, **deneme ekranı yok**, TR/EN (Faz 2+) |
+| **Kurumsal** | Lisans karmaşası, sınırlı denetim | Sessiz kurulum, MDM/GPO, merkezi güncelleme, **KVKK uyumlu denetim günlüğü** (Faz 5–6) |
+| **Otomasyon** | CLI var ama sınırlı entegrasyon | Tam CLI + **JSON API** + script örnekleri (banka/servis) (Faz 4) |
+| **Ekosistem** | Bağımsız araç | **Lerta** posta/mesaj: tek tık optimum eklı arşiv (Faz 8) — rakiplerde yok |
+| **Geçiş** | Kilitleme hissi | “WinRAR’dan geçiş” sihirbazı, sağ tık aynı kısayollar (Faz 3) |
+
+**Ölçüm:** `benchmarks/` klasöründe sabit test seti (dosya türleri: metin, ofis, foto, video örnekleri); her release’te CI raporu.
+
+---
+
+## 3. Format ve rekabet (hukuk + pazar)
+
+| Format | Rekabet rolü | Yaklaşım |
+|--------|--------------|----------|
+| **`.wlrt`** | **Ana silah** — yazma + okuma, en iyi performans/güvenlik | Tamamen yerli spesifikasyon; açık sürüm numarası |
+| **ZIP / ZIP64** | Evrensel paylaşım | Okuma + yazma; e-posta eki profili |
+| **7z** | Rakip kullanıcı kazanımı | Okuma (Faz 3); yazma opsiyonel (Faz 5) |
+| **RAR / RAR5** | Geçiş zorunluluğu | **Okuma** (Faz 2–3): lisanslı/hukuki yoldan — kullanıcı mevcut arşivini açar, yeni iş **.wlrt** |
+| **TAR, GZIP, BZ2** | Sunucu / geliştirici | Okuma; gerektiğinde yazma |
+
+**Pazarlama dili:** “WinRAR’dan daha modern, daha güvenli, daha hızlı” — **yazma formatı `.wlrt`**, RAR **üretmeyiz** (tescilli); RAR **açarız** (rekabet için geçiş).
+
+---
+
+## 4. Üstün özellik listesi (ürün omurgası)
+
+Bunlar “nice to have” değil; faz planına **yayılır**.
+
+### Çekirdek (motor)
+
+- [ ] Çok çekirdekli sıkıştırma / açma pipeline
+- [ ] Codec seçimi: **Hız / Dengeli / Maksimum / E-posta eki** tek tık
+- [ ] **Akışlı açma:** büyük arşivde tek dosyayı diske taşmadan önizleme / çıkarma
+- [ ] **Solid + deduplication** (Faz 5): benzer dosyalarda boyut avantajı
+- [ ] Bozuk arşivde **kısmi kurtarma** (Faz 5)
+
+### Güvenlik
+
+- [ ] Parola + anahtar dosyası (kurumsal)
+- [ ] İmzalı arşiv (kurum sertifikası ile — Faz 4)
+- [ ] Güvenli silme entegrasyonu noktası (opsiyonel hook)
+
+### Arayüz
+
+- [ ] Tek pencerede gezinme (tree + liste), arama, filtre
+- [ ] İş kuyruğu: birden çok arşiv sırayla, arka planda
+- [ ] WinRAR kısayol haritası (Ctrl+A, Alt+E, …) — geçiş kolaylığı
+
+### Kurumsal
+
+- [ ] Politika: “Yalnızca .wlrt ile dışarı çıkar”, minimum parola uzunluğu
+- [ ] Denetim günlüğü (kim, ne zaman, hangi arşiv — KVKK metni)
+- [ ] MSI/MSIX, offline güncelleme paketi
+
+### Lerta (Faz 8 — fark yaratıcı)
+
+- [ ] Posta eki: otomatik boyut limiti + optimum sıkıştırma
+- [ ] Mesaj eki: uçtan uca şifreli `.wlrt` profili
+
+---
+
+## 5. Teknoloji
+
+| Katman | Seçim |
+|--------|--------|
+| UI | Tauri 2 + React/TypeScript |
+| Motor | Rust `crates/winlrt-archive` (winlrtZIP ile ortak) |
+| Codecs | zstd (kalite), lz4 (hız), zlib (ZIP uyumu) |
+| Şifre | AES-256-GCM, Argon2id |
+| Dağıtım | İmzalı Windows installer; notarized macOS |
 
 ```text
-apps/winlrt-rar/          # Tauri kabuk, winlrtRAR markası
-crates/winlrt-archive/    # Ortak arşiv motoru (winlrtZIP ile paylaşılır)
+apps/winlrt-rar/           # winlrtRAR kabuk
+crates/winlrt-archive/     # Rekabet motoru
+benchmarks/                # Rakip karşılaştırma seti
 ```
 
 ---
 
-## Faz 0 — Ürün tanımı ve kabul kriterleri (1–2 hafta eşdeğeri iş)
+## 6. Faz planı (rekabet sırasına göre)
+
+### Faz 0 — Rekabet analizi ve KPI kilidi
 
 **Çıktılar**
 
-- [ ] Kullanıcı hikâyeleri (bireysel + kurumsal) — en az 10 madde
-- [ ] MVP özellik listesi (Faz 1’de “evet/hayır” net)
-- [ ] Format tablosu (v1 desteklenen / desteklenmeyen)
-- [ ] `.wlrt` v0 spesifikasyon taslağı (sihirli byte, sürüm, sıkıştırma algoritması kodu)
-- [ ] Hukuk / lisans notu (RAR, 7z, kullanılan crate lisansları)
-- [ ] Rakip UX referans listesi (WinRAR akışları: Sihirbaz, Test, Onar, Parola)
+- [ ] Rakip matrisi (WinRAR, WinZip, 7-Zip, Bandizip): özellik tablosu
+- [ ] **KPI hedefleri** (hız, oran, kurulum boyutu) — yukarıdaki tablo onaylı
+- [ ] `.wlrt` v0 spesifikasyonu
+- [ ] MVP: “Rakibe yetiş” vs “Rakibi geç” özellik listesi
+- [ ] Hukuk: RAR okuma yolu, lisans listesi
 
-**Kabul**
-
-- Ekip (siz + geliştirme) “Faz 1’e gir” diye onaylar.
+**Kapı:** KPI’lar yazılı onay → Faz 1.
 
 ---
 
-## Faz 1 — Çekirdek motor + CLI (MVP backend)
+### Faz 1 — Motor: hız ve temel üstünlük
 
-**Amaç:** Grafik arayüz yok; motor kanıtı.
+**Amaç:** Rakiplerle aynı işi **ölçülebilir** yapmak.
 
-**İş**
+- [ ] `.wlrt` create / extract / list / test / benchmark
+- [ ] ZIP okuma-yazma, Zip64 hazırlığı
+- [ ] Çok çekirdek açma/sıkıştırma (v1)
+- [ ] CLI + JSON çıktı (`--json` otomasyon için)
+- [ ] İlk **benchmark raporu** (winlrt vs 7-Zip CLI vs … aynı makinede)
 
-- [ ] Rust crate: tek dosya / klasör → `.wlrt` arşiv
-- [ ] `.wlrt` açma, bütünlük kontrolü (checksum)
-- [ ] ZIP **açma** + **yazma** (temel)
-- [ ] TAR + GZIP açma
-- [ ] Parola (Faz 1 sonu veya Faz 2 — AES-256 ile konteyner)
-- [ ] CLI: `winlrt-rar create|extract|list|test`
-
-**Kabul**
-
-- Windows/macOS’ta CLI ile örnek klasör round-trip
-- 1 GB test arşivi performans log’u (süre, CPU, bellek üst sınırı)
+**Kapı:** Test setinde en az bir metrikte rakip referansına **eşit veya üstün**.
 
 ---
 
-## Faz 2 — Windows masaüstü (winlrtRAR v0.1)
+### Faz 2 — Windows beta: geçiş + üstün UX
 
-**Amaç:** İlk indirilebilir Windows sürümü (beta).
+**Amaç:** WinRAR kullanıcısını **deneyimle kazanmak**.
 
-**İş**
+- [ ] Tauri uygulama, modern arayüz, TR
+- [ ] **RAR/RAR5 okuma** (geçiş — hukuki yol tamam)
+- [ ] 7z okuma (yaygın rakip format)
+- [ ] Sürükle-bırak, çift tık, iş kuyruğu
+- [ ] Profiller: Hızlı / Dengeli / Maksimum / E-posta
+- [ ] winlrt.com.tr’de **beta .exe**
 
-- [ ] Tauri proje iskeleti `apps/winlrt-rar`
-- [ ] Ana pencere: arşiv içeriği listesi, araç çubuğu (Ekle, Çıkar, Test, Sıkıştır)
-- [ ] Sürükle-bırak, çift tıkla aç
-- [ ] İlerleme çubuğu, iptal
-- [ ] Ayarlar: varsayılan sıkıştırma seviyesi, hedef format (.wlrt / .zip)
-- [ ] Basit hata mesajları (TR)
-- [ ] Otomatik güncelleme taslağı (winlrt.com.tr feed — Faz 2 sonu)
-
-**Kabul**
-
-- 3 gönüllü senaryo: indir → kur → zip aç → wlrt oluştur → test
-- winlrt.com.tr **İndir** sayfasında imzalı/sürüm numaralı `.exe` (beta)
+**Kapı:** 10 gerçek kullanıcı “günlük işimi yapıyorum” anketi ≥ 8/10.
 
 ---
 
-## Faz 3 — Windows olgunlaştırma (v1.0)
+### Faz 3 — Windows 1.0: rekabet eşiği → üstünlük
 
-**Amaç:** Günlük kullanım + kurumsal pilot.
+**Amaç:** WinRAR’ı **varsayılan arşiv aracı** olmaktan çıkarmak.
 
-**İş**
+- [ ] Explorer sağ tık (WinRAR benzeri menü)
+- [ ] **Geçiş sihirbazı** (dosya ilişkilendirme, kısayollar)
+- [ ] Parola + güçlü şifreleme UI
+- [ ] Çok ciltli arşiv, onarım/test
+- [ ] Resmi benchmark yayını (vitrinde özet)
+- [ ] v1.0 imzalı kurulum
 
-- [ ] Windows Explorer sağ tık menüsü (Kayıt defteri / kabuk genişletmesi)
-- [ ] Çok ciltli arşiv (.wlrt001 …) veya ZIP split
-- [ ] Parola / şifreli arşiv (UI)
-- [ ] Onarım / test komutları (kendi formatında tutarlılık)
-- [ ] Sessiz kurulum: `/S` veya MSIX
-- [ ] Çökme raporu (opsiyonel, gizlilik politikası ile)
-- [ ] winlrtZIP ile ortak motor sürümü kilitleme
-
-**Kabul**
-
-- 1 kurumsal pilot (KOBİ veya dernek): 10+ kullanıcı, geri bildirim listesi
-- v1.0 sürüm notları vitrinde
+**Kapı:** Benchmark KPI (Bölüm 2) **Windows’ta** karşılandı; 1 kurumsal pilot.
 
 ---
 
-## Faz 4 — macOS (v1.0 mac)
+### Faz 4 — macOS 1.0 + otomasyon üstünlüğü
 
-**Amaç:** Feature parity (kabuk farkları hariç).
+- [ ] macOS feature parity, notarization
+- [ ] **JSON RPC / REST yerel API** (script, banka otomasyonu)
+- [ ] Finder entegrasyonu
+- [ ] İmzalı arşiv (kurumsal sertifika) v1
 
-**İş**
-
-- [ ] Tauri macOS build, kod imzalama, notarization
-- [ ] Finder entegrasyonu (Services veya “Open With”)
-- [ ] Apple Silicon + Intel evrensel binary
-- [ ] Platforma özgü kısayollar ve HIG uyumu
-
-**Kabul**
-
-- macOS 12+ test matrisi; dmg vitrinde yayın
+**Kapı:** macOS benchmark KPI; API dokümantasyonu yayında.
 
 ---
 
-## Faz 5 — Gelişmiş formatlar ve performans
+### Faz 5 — Performans ve format derinliği
 
-**Amaç:** “Diğer programlarla uyumlu” beklentisi.
+- [ ] Solid arşivler, gelişmiş dedup
+- [ ] Bozuk arşiv kurtarma modu
+- [ ] 7z yazma (opsiyonel)
+- [ ] `.wlrt` v1, geriye uyumluluk garantisi
+- [ ] GPU hızlandırma **araştırma** (uygunsa Faz 5b)
 
-**İş**
-
-- [ ] 7z **açma** (lisans uyumlu kütüphane)
-- [ ] Büyük dosya / >4GB ZIP (Zip64)
-- [ ] Çok iş parçacıklı sıkıştırma
-- [ ] İsteğe bağlı: RAR **sadece açma** (hukuki onay + UnRAR lisans yolu) — **veya** bilinçli olarak erteleme
-- [ ] `.wlrt` v1 (geriye dönük uyumluluk kuralı)
-
-**Kabul**
-
-- Format matrisi dokümante; regresyon test paketi CI’da
+**Kapı:** Büyük arşiv (>50 GB) senaryolarında stabilite testleri.
 
 ---
 
-## Faz 6 — Kurumsal ölçek
+### Faz 6 — Kurumsal rekabet (banka, sendika, kamu)
 
-**Amaç:** Banka / sendika / kamu dağıtımı.
+- [ ] MDM/GPO, offline patch
+- [ ] Denetim günlüğü, politika motoru
+- [ ] Toplu lisans / kurum anahtarı
+- [ ] SBOM, imza doğrulama, güvenlik whitepaper (TR)
 
-**İş**
-
-- [ ] Merkezi güncelleme sunucusu veya GitHub Releases + imza doğrulama
-- [ ] Grup ilkesi: varsayılan şifre kuralları, log konumu
-- [ ] MSI transform / kurumsal markalama (logo, varsayılan dil)
-- [ ] Denetim: kim, ne arşivledi (opsiyonel, KVKK metni)
-
-**Kabul**
-
-- En az 1 kurumsal referans + dağıtım runbook’u
+**Kapı:** En az 1 banka veya sendika pilotu **imzalı** referans mektubu / iç onay.
 
 ---
 
-## Faz 7 — Lerta entegrasyonu
+### Faz 7 — Mobil mağazalar
 
-**Amaç:** Mesajlaşma ve posta hattında üretim.
+- [ ] Android / iOS: açma, sınırlı oluşturma, paylaşım uzantıları
+- [ ] Mağaza uyumluluk (Apple/Google kuralları)
 
-**Ön koşul:** lerta.com.tr mesaj/posta MVP’si hazır; winlrtRAR v1+ kararlı.
-
-**İş**
-
-- [ ] Posta eki: otomatik `.wlrt` / zip paketleme API
-- [ ] Mesaj eki boyut limiti / sunucu tarafı tarama uyumu
-- [ ] Ortak kimlik (SSO) — Lerta hesabı ile lisans (ileride)
-
-**Kabul**
-
-- Lerta staging ortamında uçtan uca eklı dosya senaryosu
+**Kapı:** Store’da yayın; masaüstü ile format uyumu.
 
 ---
 
-## winlrtZIP ile ilişki
+### Faz 8 — Lerta: rakiplerde olmayan katman
 
-| Bileşen | Paylaşım |
-|---------|----------|
-| `crates/winlrt-archive` | **Ortak** |
-| Tauri kabuk | Ayrı uygulama (marka: winlrtRAR vs winlrtZIP) |
-| Varsayılan preset | RAR-benzeri: daha yüksek sıkıştırma; ZIP-benzeri: hız + uyumluluk |
+**Ön koşul:** Lerta mesaj/posta MVP + winlrtRAR v1+.
 
-**Geliştirme sırası önerisi:** Motor (Faz 0–1) **bir kez** → winlrtRAR Windows (Faz 2–3) paralelde winlrtZIP’i aynı motor + farklı varsayılanlarla türetmek mümkün.
+- [ ] Posta eki tek tık `.wlrt` optimum
+- [ ] Mesaj eki güvenli profil
+- [ ] Ortak hesap / lisans (isteğe bağlı)
+
+**Kapı:** Lerta staging’de üretim senaryosu.
 
 ---
 
-## Riskler
+## 7. winlrtZIP ile ilişki
+
+| | winlrtRAR | winlrtZIP |
+|---|-----------|-----------|
+| Konum | **Maksimum sıkıştırma + geçiş (RAR okuma)** | **Hız + evrensel ZIP paylaşımı** |
+| Motor | Ortak `winlrt-archive` | Aynı |
+| Rekabet | WinRAR, 7-Zip | WinZip |
+
+**Öneri:** Önce **winlrtRAR motor + Windows** (rekabet odağı); winlrtZIP aynı motor, farklı varsayılan preset ile **Faz 2 sonrası** hızlandırılmış çıkar.
+
+---
+
+## 8. Riskler
 
 | Risk | Azaltma |
 |------|---------|
-| RAR beklentisi | Vitrin/dokümanda “WinRAR benzeri UX”; format tablosu şeffaf |
-| Performans | Erken benchmark; zstd seviye ayarı |
-| Kurumsal güven | İmza, SBOM, açık sürüm notları |
-| Kapsam genişlemesi | Faz kapıları — MVP dışı özellik Faz 5+ |
+| “Her alanda anında birinci” beklentisi | KPI’ları fazlara böl; benchmark şeffaf |
+| RAR lisansı | Yalnızca okuma; yazma `.wlrt` |
+| Kapsam patlaması | Her faz **kapı** kuralı; üstün özellik listesi öncelik puanı (P0/P1) |
+| Güven algısı | Yerli kod, imza, kurumsal pilot |
 
 ---
 
-## Sıradaki somut adım (sizin onayınızla)
+## 9. Sizden netleştirecek 4 karar
 
-1. **Faz 0 checklist** maddelerini birlikte doldurmak (MVP evet/hayır listesi).  
-2. Repoda `apps/winlrt-rar` Tauri iskeleti + `crates/winlrt-archive` boş crate (Faz 1 başlangıcı).
+1. **Faz 2’de RAR açma** — rekabet için **evet** mi? (öneri: **evet**)  
+2. **Birinci KPI önceliği:** hız mı, sıkıştırma oranı mı, kurumsal güven mi?  
+3. **İlk kurumsal pilot hedefi:** banka / sendika / KOBİ — hangisi?  
+4. **winlrtZIP:** winlrtRAR **Faz 2** bitene kadar beklesin mi? (öneri: **evet**)
 
-**Karar soruları (cevaplayın, planı kilitleyelim):**
-
-1. İlk beta yalnızca **Windows** mu? (öneri: evet)  
-2. `.wlrt` uzantısı uygun mu, yoksa `.winlrt` / başka?  
-3. RAR **açma** Faz 5’e mi kalsın, yoksa hiç olmasın mı?  
-4. winlrtZIP ile **aynı anda** mı başlayalım, önce **sadece winlrtRAR** mı?
+Onay sonrası: **Faz 0 checklist** doldurulur → **Faz 1** kod (`crates/winlrt-archive` + benchmark klasörü) başlar.
