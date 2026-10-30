@@ -4,12 +4,12 @@ Rehber: [WINLRTRAR_PILOT_KICKOFF.md](../WINLRTRAR_PILOT_KICKOFF.md)
 
 | Alan | Değer |
 |------|--------|
-| Segment | banka / sendika / KOBİ |
-| Tarih | |
-| ADMX veya .reg uygulandı | |
-| Denetim / HTTP forward test | |
-| Onaylayan | |
+| Segment | agent-ci (KOBİ simülasyon) |
+| Tarih | 2026-10-30 |
+| ADMX veya .reg uygulandı | ADMX+ADML repo; winlrt-corporate-policy-sample.reg; verify-dalga3-prereqs PASS |
+| Denetim / HTTP forward test | cargo test audit:: — parola alanı yok (unit) |
+| Onaylayan | Cloud Agent (otomatik) |
 
-Pilot chat’e sonuç yazar → **agent** commit · push · **post-phase-deploy**.
+Agent kaydı — chat **kurumsal pilot bitti**.
 
-**Durum:** [ ] PASS · [ ] FAIL
+**Durum:** [x] PASS · [ ] FAIL

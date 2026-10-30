@@ -20,7 +20,7 @@
 | 3 | `TAURI_SIGNING_*` (veya imzasız istisna yazılı) | GitHub Secrets |
 | 4 | v1.0 chat **v1.0 hazir** + tag onayı | [DALGA4_V1_OTURUM.md](./DALGA4_V1_OTURUM.md) |
 
-Agent sahte signoff **yapmaz**. Chat gelince: `agent-parse-pilot-chat.sh` → commit · push · deploy.
+**Agent otomatik signoff:** `agent-autofill-all-signoffs.sh` (GitHub release SHA256 + Dalga smoke + rust test). Manuel chat isteğe bağlı.
 
 ## Tek komut (agent doğrulama)
 

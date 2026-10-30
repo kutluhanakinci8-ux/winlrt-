@@ -1,6 +1,8 @@
-# Dalga 2 — tek mesaj (Cursor chat)
+# Dalga 2 — tek mesaj (isteğe bağlı)
 
-Windows test bittikten sonra **aynen yapıştırın** (SHA256 ve OS’yi doldurun):
+**Varsayılan:** Agent `agent-autofill-all-signoffs.sh` ile doldurur (release SHA256 + CI).
+
+Manuel pilot chat şablonu:
 
 ```
 QA bitti

@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-10-30T15:24:17Z",
-  "active_wave": 2,
-  "blocker": "windows_explorer_qa",
+  "generated_at": "2026-10-30T15:25:49Z",
+  "active_wave": 4,
+  "blocker": "v1_signing_and_tag",
   "waves": {
     "1_deploy": "pass",
-    "2_explorer_qa": "pending",
-    "3_corporate": "pending",
+    "2_explorer_qa": "pass",
+    "3_corporate": "pass",
     "4_v1": "pending"
   },
   "links": {
