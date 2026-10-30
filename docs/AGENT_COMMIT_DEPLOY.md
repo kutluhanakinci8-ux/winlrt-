@@ -17,6 +17,10 @@ Kullanıcıdan **ayrı commit/push/deploy istenmez.**
 
 Explorer PASS sonrası pilot ADMX/.reg test eder → chat **kurumsal pilot bitti** → agent `scripts/agent-corporate-signoff.sh` → commit · push · deploy.
 
-## Dalga 4+
+## Dalga 4 (v1.0)
+
+İki signoff PASS → chat **v1.0 hazir** → `agent-parse-pilot-chat.sh` → `V1_RELEASE_DRAFT.md` → commit · push · deploy · (onayla) tag.
+
+## Dalga 5+
 
 Aynı döngü: signoff / vitrin / docs → agent commit → push → deploy.

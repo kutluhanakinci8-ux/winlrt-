@@ -35,5 +35,12 @@ if echo "$TEXT" | grep -qi 'kurumsal pilot bitti'; then
   exit 0
 fi
 
+if echo "$TEXT" | grep -qi 'v1\.0 hazir'; then
+  tag="$(echo "$TEXT" | sed -n 's/^[Tt]ag[[:space:]]*:[[:space:]]*//p' | head -1)"
+  notes="$(echo "$TEXT" | sed -n 's/^[Nn]ot[[:space:]]*:[[:space:]]*//p' | head -1)"
+  V1_TAG="${tag:-v1.0.0}" V1_NOTES="${notes:-}" bash "$ROOT/scripts/agent-v1-release-draft.sh"
+  exit 0
+fi
+
 echo "Tanınmayan chat — bkz. docs/qa/PILOT_CHAT_SABLONLARI.md" >&2
 exit 1

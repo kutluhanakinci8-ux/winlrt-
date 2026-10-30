@@ -9,7 +9,8 @@
 | Kurumsal pilot | Signoff dosyası PASS |
 | İmzalı kurulum | `TAURI_SIGNING_*` (veya imzasız beta + dokümante istisna) |
 
-**Agent kontrol:** `bash scripts/check-v1-gate-status.sh`
+**Agent kontrol:** `bash scripts/check-v1-gate-status.sh` · hazır mı: `check-v1-gate-ready.sh`  
+**Windows:** `scripts/windows/pilot-dalga4-start.ps1`
 
 **Kapanış:** Tag `v1.0.0`, release notes, vitrin duyurusu → agent commit · push · deploy.
 

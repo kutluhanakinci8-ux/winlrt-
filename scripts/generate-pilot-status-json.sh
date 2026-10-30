@@ -37,7 +37,13 @@ cat >"$OUT" <<EOF
     "beta_release": "https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.41064653814",
     "dalga2_doc": "https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/DALGA2_PILOT_OTURUM.md",
     "corporate_zip": "/downloads/winlrtRAR-corporate-gpo.zip",
-    "chat_templates": "https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/PILOT_CHAT_SABLONLARI.md"
+    "chat_templates": "https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/PILOT_CHAT_SABLONLARI.md",
+    "dalga4_doc": "https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/DALGA4_V1_OTURUM.md"
+  },
+  "scripts": {
+    "dalga2": "https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/scripts/windows/pilot-dalga2-start.ps1",
+    "dalga3": "https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/scripts/windows/pilot-dalga3-start.ps1",
+    "dalga4": "https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/scripts/windows/pilot-dalga4-start.ps1"
   }
 }
 EOF

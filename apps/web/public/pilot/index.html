@@ -70,6 +70,15 @@
         if (data.links && data.links.beta_release) {
           document.getElementById("beta-link").href = data.links.beta_release;
         }
+        const scripts = data.scripts || {};
+        const scriptUrl =
+          w === 2 ? scripts.dalga2 : w === 3 ? scripts.dalga3 : w === 4 ? scripts.dalga4 : null;
+        if (scriptUrl) {
+          root.insertAdjacentHTML(
+            "beforeend",
+            `<article class="card"><h3>Windows script</h3><p class="meta"><a href="${scriptUrl}">pilot-dalga${w}-start.ps1</a></p></article>`
+          );
+        }
         const doc =
           w === 3
             ? data.links.corporate_zip

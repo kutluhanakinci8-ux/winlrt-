@@ -11,6 +11,10 @@ for f in \
   deploy/gpo/README.md \
   scripts/package-corporate-gpo-zip.sh \
   scripts/windows/pilot-dalga3-start.ps1 \
+  scripts/windows/pilot-dalga4-start.ps1 \
+  scripts/windows/README.md \
+  scripts/check-v1-gate-ready.sh \
+  scripts/agent-v1-release-draft.sh \
   docs/qa/DALGA3_KURUMSAL_KOPYA.md \
   docs/qa/KURUMSAL_PILOT_SIGNOFF.md \
   docs/qa/FAZ5_KURUMSAL_BASLANGIC.md
