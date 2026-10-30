@@ -111,8 +111,8 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 - [x] Rekabet hedefi (WinZip odaklı)
 - [x] KPI: hız / sıkıştırma / kurumsal güven — **üçü P0**
 - [x] Başlangıç kilidi: winlrtRAR **Faz 2 kapısı**
-- [ ] WinZip özellik matrisi (Share, Encrypt, Pro/Standard ayrımı)
-- [ ] ZIP interop test listesi (Windows Explorer, macOS Archive Utility, WinZip)
+- [x] WinZip özellik matrisi — [WINZIP_FEATURE_MATRIX.md](./WINZIP_FEATURE_MATRIX.md)
+- [x] ZIP interop test listesi — [qa/WINLRTZIP_INTEROP_SCENARIOS.md](./qa/WINLRTZIP_INTEROP_SCENARIOS.md)
 
 **Kapı:** [WINLRTZIP_PHASE0.md](./WINLRTZIP_PHASE0.md) onaylı → geliştirme **RAR F2 sonrası** Faz 1.
 

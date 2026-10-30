@@ -41,9 +41,9 @@ Ortak motor (`crates/winlrt-archive`) winlrtRAR Faz 1 kapsamında gelişmeye dev
 - [x] KPI tanımı (3× P0)
 - [x] Geliştirme kilidi (RAR F2)
 - [x] winlrtRAR ile motor paylaşımı netleştirildi
-- [ ] WinZip sürüm / özellik matrisi — Faz 1 paralel
-- [ ] ZIP interop test senaryoları listesi — Faz 1 ilk sprint
-- [ ] winlrt.com.tr vitrin metinleri (plan ile uyum) — sürekli
+- [x] WinZip sürüm / özellik matrisi — [WINZIP_FEATURE_MATRIX.md](./WINZIP_FEATURE_MATRIX.md)
+- [x] ZIP interop test senaryoları — [qa/WINLRTZIP_INTEROP_SCENARIOS.md](./qa/WINLRTZIP_INTEROP_SCENARIOS.md)
+- [x] winlrt.com.tr vitrin plan linki — `/downloads/`
 
 **Faz 0 kapısı (plan):** Bu doküman + [WINLRTZIP_PLAN.md](./WINLRTZIP_PLAN.md) onaylı → **kod Faz 1**, winlrtRAR **Faz 2 bittiğinde** resmi başlangıç.
 

@@ -10,7 +10,7 @@ Vitrin: `apps/web/public/` · Birleşik fazlar: [SUITE_ROADMAP.md](./SUITE_ROADM
 ## Öncelik sırası (onaylı)
 
 1. **winlrtRAR** — motor + masaüstü **önce** → [WINLRTRAR_PLAN.md](./WINLRTRAR_PLAN.md)  
-2. **winlrtZIP** — plan **Faz 0**; kod **winlrtRAR Faz 2 kapısı** sonrası → [WINLRTZIP_PLAN.md](./WINLRTZIP_PLAN.md)  
+2. **winlrtZIP** — **Faz 0 ✅**; kod **Faz 1** sırada → [POST_V3_WINLRTZIP_SIRA.md](./qa/POST_V3_WINLRTZIP_SIRA.md)  
 3. Mobil (Google Play, App Store)  
 4. PDF, imza/sertifika, kurumsal modüller  
 5. Lerta mesaj + posta hattında üretim  
