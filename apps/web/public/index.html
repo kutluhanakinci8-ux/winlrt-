@@ -3,24 +3,33 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>winlrt — Yerli yazılım platformu</title>
+    <title>winlrt — Kurumsal arşiv ve belge platformu</title>
     <meta
       name="description"
-      content="winlrt: Global ölçekte yerli arşiv ve belge yazılımları. winlrtZIP, winlrtRAR — kurumsal ve bireysel. Windows, macOS, mobil yol haritası."
+      content="winlrtRAR v1.0.0 ve winlrtZIP beta — yerli arşiv motoru, KVKK odaklı denetim, kurumsal GPO ve Lerta posta entegrasyonu."
     />
-    <meta property="og:title" content="winlrt — Yerli yazılım platformu" />
+    <meta property="og:title" content="winlrt — Kurumsal arşiv platformu" />
     <meta
       property="og:description"
-      content="Kurumsal ve bireysel kullanım için %100 yerli kod. winlrtZIP ve winlrtRAR öncelikli."
+      content="winlrtRAR resmi sürüm · winlrtZIP Post-v3 (W0–W29). KPI vitrin, kurumsal dağıtım, Lerta metadata API."
     />
     <meta property="og:url" content="https://winlrt.com.tr/" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="tr_TR" />
     <link rel="canonical" href="https://winlrt.com.tr/" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/styles.css?v=3" />
+    <link rel="stylesheet" href="/styles.css?v=4" />
   </head>
   <body>
+    <div class="site-topbar">
+      <div class="site-topbar-inner">
+        <span
+          ><strong>Canlı vitrin</strong> — repo ile senkron · Post-v3 winlrtZIP W29 · winlrtRAR v1.0.0</span
+        >
+        <span id="topbar-kpi">KPI yükleniyor…</span>
+      </div>
+    </div>
+
     <header class="site-header">
       <div class="site-header-inner">
         <a class="logo" href="/">
@@ -36,11 +45,12 @@
           Menü
         </button>
         <nav class="nav" id="main-nav" aria-label="Ana menü">
+          <a href="#durum">Durum</a>
           <a href="#urunler">Ürünler</a>
-          <a href="#kurumsal">Kurumsal</a>
-          <a href="#yol-haritasi">Yol haritası</a>
+          <a href="#cozumler">Çözümler</a>
+          <a href="#guven">Güven</a>
           <a href="#lerta">Lerta</a>
-          <a href="/benchmark/">Benchmark</a>
+          <a href="/benchmark/">KPI</a>
           <a href="/pilot/">Pilot</a>
           <a class="nav-cta" href="/downloads/">İndir</a>
         </nav>
@@ -52,53 +62,49 @@
         <div>
           <div class="hero-badge">
             <span class="hero-badge-dot" aria-hidden="true"></span>
-            winlrtRAR <strong>v1.0.0</strong> Windows — resmi indirme
+            winlrtRAR <strong>v1.0.0</strong> · winlrtZIP <strong>beta</strong> (Post-v3)
           </div>
           <h1>
-            Kurumsal ölçekte<br />
-            <span class="gradient-text">yerli yazılım ailesi</span>
+            Kurumsal arşiv<br />
+            <span class="gradient-text">tek yerli motor</span>
           </h1>
           <p class="tagline-en">
-            Enterprise-grade domestic software — built in Türkiye, ready for the world.
+            Enterprise archive software — built in Türkiye, measured on Windows KPI gates.
           </p>
           <p class="lead">
-            Arşivleme, belge ve güvenlik ihtiyaçlarını
-            <strong>tamamen kendi kod tabanımızla</strong> karşılıyoruz.
-            Öncelik <strong>winlrtRAR</strong> motoru, ardından <strong>winlrtZIP</strong> —
-            Windows ve macOS; ardından mobil mağazalar ve Lerta mesajlaşma /
-            posta entegrasyonu.
+            <strong>winlrtRAR</strong> resmi Windows sürümü yayında;
+            <strong>winlrtZIP</strong> WinZip sınıfı ZIP/ZIP64 hattında CLI, Tauri, Explorer,
+            kurumsal GPO, split ZIP, imzalı arşiv ve Lerta posta metadata entegrasyonuna kadar
+            <strong>Post-v3 (W0–W29)</strong> tamamlandı. Ortak motor:
+            <code style="font-size: 0.9em">winlrt-archive</code>.
           </p>
           <div class="actions">
-            <a class="btn btn-primary" href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.0"
-              >winlrtRAR v1.0.0 indir</a
+            <a class="btn btn-primary" href="/downloads/">İndirme merkezi</a>
+            <a
+              class="btn btn-ghost"
+              href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.0"
+              >winlrtRAR v1.0.0</a
             >
-            <a class="btn btn-ghost" href="/downloads/">Tüm sürümler</a>
-            <a class="btn btn-ghost" href="/benchmark/">Faz 3 benchmark KPI</a>
-            <a class="btn btn-ghost" href="#yol-haritasi">Yol haritasını gör</a>
+            <a
+              class="btn btn-ghost"
+              href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-zip-beta.1"
+              >winlrtZIP beta</a
+            >
+            <a class="btn btn-ghost" href="/benchmark/">KPI vitrin</a>
           </div>
-          <div
-            id="kpi-hero-strip"
-            class="meta"
-            style="
-              margin-bottom: 1rem;
-              padding: 0.65rem 1rem;
-              border-radius: 8px;
-              border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
-              display: none;
-            "
-          ></div>
+          <div id="kpi-hero-strip" class="meta kpi-strip" hidden></div>
           <div class="trust-row">
             <div class="trust-item">
-              <strong>%100</strong>
-              Yerli kod hedefi
+              <strong>P0×3</strong>
+              Sıkıştırma · hız · güven kapıları
             </div>
             <div class="trust-item">
-              <strong>2+</strong>
-              Öncelikli masaüstü ürün
+              <strong>KVKK</strong>
+              Denetim günlüğü (parolasız)
             </div>
             <div class="trust-item">
-              <strong>4</strong>
-              Platform fazı
+              <strong>GPO</strong>
+              Kurumsal politika paketleri
             </div>
           </div>
         </div>
@@ -118,23 +124,23 @@
                 <span class="glass-dots"
                   ><span></span><span></span><span></span
                 ></span>
-                Ürün önizleme
+                Ürün olgunluğu (repo)
               </div>
               <div class="product-preview">
                 <div class="preview-row">
                   <div class="preview-icon zip">ZIP</div>
                   <div>
                     <strong>winlrtZIP</strong>
-                    <small>WinZip sınıfı — Faz 0 plan (RAR F2 sonrası kod)</small>
-                    <div class="preview-bar"><span style="width: 28%"></span></div>
+                    <small>Post-v3 W0–W29 · beta Windows/macOS CI</small>
+                    <div class="preview-bar"><span style="width: 96%"></span></div>
                   </div>
                 </div>
                 <div class="preview-row">
                   <div class="preview-icon rar">RAR</div>
                   <div>
                     <strong>winlrtRAR</strong>
-                    <small>WinRAR sınıfı — motor Faz 1 aktif</small>
-                    <div class="preview-bar"><span style="width: 62%"></span></div>
+                    <small>Post-v2 · v1.0.0 Windows resmi</small>
+                    <div class="preview-bar"><span style="width: 88%"></span></div>
                   </div>
                 </div>
               </div>
@@ -144,94 +150,210 @@
       </div>
     </section>
 
-    <section class="section section-alt" id="urunler">
+    <section class="section section-alt" id="durum">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-label">Senkronizasyon</span>
+          <h2>Vitrin ↔ geliştirme durumu</h2>
+          <p>
+            Aşağıdaki tablo GitHub <code>main</code> hattı ve bu sitedeki indirme / KPI
+            örnekleriyle hizalıdır (güncelleme: Post-v3 vitrin revizyonu).
+          </p>
+        </div>
+        <div class="corp-table-wrap">
+          <table class="corp-table">
+            <thead>
+              <tr>
+                <th>Ürün</th>
+                <th>Sürüm / hat</th>
+                <th>Ne hazır?</th>
+                <th>Vitrin kanıtı</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>winlrtRAR</td>
+                <td><span class="status status-live">v1.0.0</span></td>
+                <td>
+                  Motor F1–2, Explorer, kurumsal pilot dalgaları, Windows KPI import
+                </td>
+                <td>
+                  <a href="/downloads/">İndir</a> ·
+                  <a href="/benchmark/samples/windows-balanced-kpi.json">KPI JSON</a> ·
+                  <a href="/pilot/">Pilot</a>
+                </td>
+              </tr>
+              <tr>
+                <td>winlrtZIP</td>
+                <td><span class="status status-beta">Beta 0.1.0</span></td>
+                <td>
+                  W0–W29: CLI/Tauri, Explorer, P0 kapı, GPO, split ZIP, imza, KVKK paylaşım,
+                  mobil okuyucu sözleşmesi, mağaza kapısı, Lerta posta + API (dry-run)
+                </td>
+                <td>
+                  <a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-zip-beta.1"
+                    >winlrt-zip-beta.1</a
+                  >
+                  · <a href="/benchmark/samples/winlrtzip-p0-gate.json">P0 kapı</a> ·
+                  <a href="/benchmark/samples/winlrtzip-lerta-mail-v1.json">Lerta posta</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Lerta</td>
+                <td><span class="status status-beta">Entegrasyon smoke</span></td>
+                <td>W28 posta eki tier · W29 metadata API (içerik cihazda)</td>
+                <td>
+                  <a href="/benchmark/samples/winlrtzip-lerta-api-v1.json">API durum JSON</a> ·
+                  <a href="https://www.lerta.com.tr">lerta.com.tr</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Mobil mağaza</td>
+                <td><span class="status status-plan">Kapı / pilot</span></td>
+                <td>W26 okuyucu sözleşmesi · W27 store gate — gerçek Play/App yükleme sırada</td>
+                <td>
+                  <a href="/benchmark/samples/winlrtzip-store-gate.json">Store gate JSON</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="urunler">
       <div class="container">
         <div class="section-head">
           <span class="section-label">Ürün ailesi</span>
-          <h2>İhtiyacınız olan her araç, tek ekosistem</h2>
+          <h2>İki masaüstü ürün, ortak güven modeli</h2>
           <p>
-            Posta ve mesajlaşma hatlarının gerektirdiği arşiv, PDF ve sertifika
-            yetenekleri winlrt altında toplanır; önce bağımsız ürünler, sonra
-            Lerta ile birleşik deneyim.
+            winlrtZIP ZIP odaklı; winlrtRAR WinRAR sınıfı deneyim. İkisi de aynı motoru ve
+            kurumsal denetim hattını paylaşır.
           </p>
         </div>
         <div class="grid-3">
           <article class="card">
-            <span class="status status-plan">Plan · Faz 0</span>
+            <span class="status status-beta">Beta · Post-v3 tamam</span>
             <div class="card-icon">
               <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
               </svg>
             </div>
             <h3>winlrtZIP</h3>
-            <p>
-              WinZip ile rekabet — ZIP/ZIP64 odaklı, abonelik zorunluluğu olmadan.
-              Ortak yerli motor; ürün kabuğu winlrtRAR Faz 2 sonrası hızlanır.
+            <p>WinZip sınıfı — abonelik zorunluluğu olmadan ZIP/ZIP64, AES-256, e-posta eki profili.</p>
+            <ul class="feature-list">
+              <li>Windows beta installer · macOS CI dmg</li>
+              <li>Explorer, split ZIP, Ed25519 imzalı arşiv</li>
+              <li>Kurumsal GPO (W18) · KOBİ e-posta pilotu (W13)</li>
+            </ul>
+            <p style="margin-top: 1rem">
+              <a href="/downloads/#winlrtzip">İndir →</a>
             </p>
           </article>
           <article class="card">
-            <span class="status status-dev">Öncelik · Geliştirme</span>
+            <span class="status status-live">v1.0.0 · Windows</span>
             <div class="card-icon">
               <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776" />
               </svg>
             </div>
             <h3>winlrtRAR</h3>
-            <p>
-              WinRAR sınıfı arşiv deneyimi — lisans bağımlılığı olmadan, global
-              format uyumu hedefiyle.
+            <p>WinRAR sınıfı — `.wlrt` + ZIP, Argon2id v2, Explorer entegrasyonu, resmi KPI kapıları.</p>
+            <ul class="feature-list">
+              <li>Resmi v1.0.0 (imzasız; Authenticode yol haritasında)</li>
+              <li>Dalga 2–4 pilot: Explorer QA → kurumsal GPO</li>
+              <li>RAR açma motor mirası winlrtZIP ile paylaşımlı</li>
+            </ul>
+            <p style="margin-top: 1rem">
+              <a href="/downloads/#winlrtrar">İndir →</a>
             </p>
           </article>
           <article class="card">
-            <span class="status status-plan">Yol haritası</span>
+            <span class="status status-plan">Modül · Faz 8+</span>
             <div class="card-icon">
               <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
               </svg>
             </div>
-            <h3>Belge &amp; güven</h3>
+            <h3>Belge &amp; iletişim</h3>
+            <p>PDF, sertifika ve mesaj ekleri — olgun arşiv modülleri Lerta ile birleşir.</p>
+            <ul class="feature-list">
+              <li>Lerta posta eki otomasyonu (W28) vitrinde</li>
+              <li>Mesaj eki `.wlrt` profili — sıradaki madde</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="cozumler">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-label">Çözümler</span>
+          <h2>Sektörden sektöre, aynı IT standardı</h2>
+          <p>
+            Banka, sendika, KOBİ ve kamu benzeri yapılar için ölçeklenebilir dağıtım, pilot
+            dalgaları ve ölçülebilir KPI.
+          </p>
+        </div>
+        <div class="audience-grid">
+          <div class="audience-tile">Kurumsal IT</div>
+          <div class="audience-tile">Bankalar</div>
+          <div class="audience-tile">Sendikalar</div>
+          <div class="audience-tile">KOBİ</div>
+          <div class="audience-tile">Dernekler</div>
+          <div class="audience-tile">Bireysel pro</div>
+        </div>
+        <div class="grid-2" style="margin-top: 2rem">
+          <article class="card">
+            <h3>Kurumsal dağıtım</h3>
             <p>
-              PDF, imza, sertifika üretimi ve kurumsal politika — posta /
-              mesajlaşma akışlarına entegre modüller.
+              ADMX/ADML şablonları, sessiz kurulum, merkezi politika ve denetim yönlendirme.
+              Dalga 3 pilot paketleri indirme merkezinde.
+            </p>
+            <p class="meta" style="margin-top: 0.75rem">
+              <a href="/downloads/winlrtRAR-corporate-gpo.zip">winlrtRAR GPO</a> ·
+              <a href="/downloads/winlrtZIP-corporate-gpo.zip">winlrtZIP GPO</a>
+            </p>
+          </article>
+          <article class="card">
+            <h3>Ölçüm ve kabul</h3>
+            <p>
+              Windows resmi benchmark artifact’ları vitrine aktarılır; P0 kapıları CI ve
+              <code>WINLRT_KPI_STRICT</code> ile zorlanabilir.
+            </p>
+            <p class="meta" style="margin-top: 0.75rem">
+              <a href="/benchmark/">Benchmark merkezi</a> ·
+              <a href="/pilot/">Pilot durumu</a>
             </p>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="section" id="kurumsal">
+    <section class="section" id="guven">
       <div class="container">
         <div class="section-head">
-          <span class="section-label">Kitle</span>
-          <h2>Bireyselden kuruma, aynı kalite standardı</h2>
-          <p>
-            Bankalar, sendikalar, dernekler, ticari işletmeler ve bireysel
-            kullanıcılar — mevcut yazılımlarla uyumlu, ölçeklenebilir mimari.
-          </p>
+          <span class="section-label">Güven &amp; uyumluluk</span>
+          <h2>Kurumsal güven P0 — şeffaf vitrin</h2>
+          <p>Parola ve anahtar materyali denetim günlüğüne yazılmaz; politika GPO ile yönetilir.</p>
         </div>
-        <div class="audience-grid">
-          <div class="audience-tile">Bireysel</div>
-          <div class="audience-tile">KOBİ</div>
-          <div class="audience-tile">Bankalar</div>
-          <div class="audience-tile">Sendikalar</div>
-          <div class="audience-tile">Dernekler</div>
-          <div class="audience-tile">Ticari işletmeler</div>
-        </div>
-        <div class="grid-2" style="margin-top: 2rem">
+        <div class="compliance-grid">
           <article class="card">
-            <h3>Bireysel deneyim</h3>
-            <p>
-              Sade kurulum, tanıdık arşiv arayüzü, winlrt.com.tr üzerinden
-              güvenilir güncellemeler ve resmi indirme kanalı.
-            </p>
+            <h3>Şifreleme</h3>
+            <p>ZIP AES-256 (WinZip AE-2) · `.wlrt` Argon2id v2 + AES-GCM · ZipCrypto uyarı etiketi.</p>
           </article>
           <article class="card">
-            <h3>Kurumsal dağıtım</h3>
-            <p>
-              Toplu lisans, sürüm yönetimi ve ileride merkezi politika desteği.
-              Ofis, güvenlik ve iletişim yazılımlarıyla birlikte çalışabilir
-              yapı.
-            </p>
+            <h3>Denetim (KVKK)</h3>
+            <p><code>audit.jsonl</code> olayları · isteğe bağlı SIEM forward · Lerta metadata-only API.</p>
+          </article>
+          <article class="card">
+            <h3>İmzalı arşiv</h3>
+            <p>Ed25519 yan dosya (W23) · kurumsal <code>RequireSignedArchive</code> GPO kapısı.</p>
+          </article>
+          <article class="card">
+            <h3>Güvenli paylaşım</h3>
+            <p>KVKK odaklı self-hosted paylaşım paketi (W25) — içerik varsayılan olarak yerelde.</p>
           </article>
         </div>
       </div>
@@ -241,29 +363,29 @@
       <div class="container">
         <div class="section-head">
           <span class="section-label">Strateji</span>
-          <h2>Yol haritası</h2>
-          <p>winlrtRAR motor önce; winlrtZIP planlı; KPI: hız, sıkıştırma, kurumsal güven.</p>
+          <h2>Yol haritası (güncel)</h2>
+          <p>Masaüstü olgunluğu öncelikli; mobil mağaza ve Lerta canlı API sıradaki kapılar.</p>
         </div>
         <div class="roadmap-track">
           <div class="roadmap-step">
             <div class="roadmap-num">1</div>
-            <h3>Arşiv (masaüstü)</h3>
-            <p><strong>winlrtRAR</strong> F1–2 motor + Windows · <strong>winlrtZIP</strong> F0 plan, F1 RAR F2 sonrası</p>
+            <h3>Masaüstü</h3>
+            <p><strong>winlrtRAR</strong> v1.0 · <strong>winlrtZIP</strong> beta + Post-v3</p>
           </div>
           <div class="roadmap-step">
             <div class="roadmap-num">2</div>
-            <h3>Mobil</h3>
-            <p>Google Play ve App Store</p>
+            <h3>KPI &amp; pilot</h3>
+            <p>Windows P0 vitrin · Dalga 2–4 kurumsal kabul</p>
           </div>
           <div class="roadmap-step">
             <div class="roadmap-num">3</div>
-            <h3>Belge &amp; güven</h3>
-            <p>PDF, sertifika, kurumsal modüller</p>
+            <h3>Mobil</h3>
+            <p>Okuyucu sözleşmesi hazır · Play/App yükleme bekliyor</p>
           </div>
           <div class="roadmap-step">
             <div class="roadmap-num">4</div>
             <h3>Lerta</h3>
-            <p>Mesajlaşma ve posta ekosisteminde üretim</p>
+            <p>Posta + API smoke · canlı lerta.com.tr bağlantısı</p>
           </div>
         </div>
       </div>
@@ -273,32 +395,44 @@
       <div class="container">
         <div class="section-head">
           <span class="section-label">Ekosistem</span>
-          <h2>Lerta ile gelecek faz</h2>
+          <h2>Lerta entegrasyonu</h2>
           <p>
-            <a href="https://www.lerta.com.tr">lerta.com.tr</a> mesajlaşma ve posta
-            altyapısı geliştiriliyor. winlrt ürünleri önce bağımsız olgunlaşacak;
-            ardından entegre edilecek.
+            <a href="https://www.lerta.com.tr">lerta.com.tr</a> mesajlaşma ve posta altyapısı.
+            winlrt modülleri bağımsız olgunlaştı; posta metadata hattı vitrinde doğrulanır.
           </p>
         </div>
-        <article class="card" style="max-width: 720px; margin: 0 auto; text-align: center">
-          <h3>winlrt.com.tr</h3>
-          <p>
-            Resmi vitrin, sürüm duyuruları ve indirme merkezi. Açık geliştirme:
-            <a href="https://github.com/kutluhanakinci8-ux/winlrt-">GitHub</a>.
-          </p>
-        </article>
+        <div class="grid-2">
+          <article class="card">
+            <h3>Posta eki (W28)</h3>
+            <p>10 / 25 MiB tier, SHA-256, webhook JSON — ZIP içeriği cihazda kalır.</p>
+            <p class="meta">
+              <a href="/benchmark/samples/winlrtzip-lerta-mail-v1.json">Örnek JSON</a>
+            </p>
+          </article>
+          <article class="card">
+            <h3>Üretim API (W29)</h3>
+            <p>
+              <code>LERTA_API_BASE</code> + Bearer; CI ve dry-run varsayılan — canlı gönderim IT
+              onayı ile.
+            </p>
+            <p class="meta">
+              <a href="/benchmark/samples/winlrtzip-lerta-api-v1.json">API durum örneği</a>
+            </p>
+          </article>
+        </div>
       </div>
     </section>
 
     <div class="cta-band">
       <div class="container">
         <div class="cta-panel">
-          <h2>İlk sürümler yakında</h2>
+          <h2>Resmi indirme ve kurumsal paketler</h2>
           <p>
-            Windows ve macOS kurulum dosyaları hazır olduğunda indirme merkezinde
-            yayınlanacak. Kurumsal pilot kullanım duyuruları bu siteden paylaşılacaktır.
+            winlrtRAR v1.0.0 ve winlrtZIP beta installer’ları, GPO zip dosyaları ve pilot rehberleri
+            indirme merkezinde. KPI özetleri benchmark sayfasında.
           </p>
           <a class="btn btn-primary" href="/downloads/">İndirme merkezi</a>
+          <a class="btn btn-ghost" href="/benchmark/" style="margin-left: 0.5rem">KPI vitrin</a>
         </div>
       </div>
     </div>
@@ -311,23 +445,27 @@
               <span class="logo-mark" aria-hidden="true"></span>
               winlrt
             </a>
-            <p>Yerli yazılım platformu — kurumsal ve global ölçekte arşiv, belge ve güven.</p>
+            <p>Yerli arşiv platformu — kurumsal KPI, denetim ve dağıtım odaklı vitrin.</p>
           </div>
           <div class="footer-col">
             <h4>Platform</h4>
-            <a href="#urunler">Ürünler</a>
+            <a href="#durum">Durum tablosu</a>
             <a href="/downloads/">İndir</a>
-            <a href="#yol-haritasi">Yol haritası</a>
+            <a href="/benchmark/">Benchmark</a>
+            <a href="/pilot/">Pilot</a>
           </div>
           <div class="footer-col">
-            <h4>Bağlantılar</h4>
+            <h4>Kaynak</h4>
             <a href="https://www.lerta.com.tr">Lerta</a>
             <a href="https://github.com/kutluhanakinci8-ux/winlrt-">GitHub</a>
+            <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/POST_V3_WINLRTZIP_SIRA.md"
+              >Post-v3 W sırası</a
+            >
           </div>
         </div>
         <div class="footer-bottom">
           <span>© winlrt</span>
-          <span>Türkiye · Global uyumlu formatlar</span>
+          <span>Türkiye · KPI vitrin repo ile senkron</span>
         </div>
       </div>
     </footer>
@@ -342,48 +480,69 @@
           btn.setAttribute("aria-expanded", open ? "true" : "false");
         });
       })();
+
+      function gateLabel(gate) {
+        if (gate === true) return "GEÇTİ";
+        if (gate === false) return "izleniyor";
+        return "—";
+      }
+
       (function () {
         var el = document.getElementById("kpi-hero-strip");
+        var top = document.getElementById("topbar-kpi");
         if (!el) return;
-        function label(gate) {
-          if (gate === true) return "GEÇTİ";
-          if (gate === false) return "ölçüm devam";
-          return "—";
-        }
+
         Promise.all([
-          fetch("/benchmark/samples/windows-balanced-kpi.json").catch(function () {
-            return fetch("/benchmark/samples/linux-balanced-kpi.json");
+          fetch("/benchmark/samples/winlrtzip-p0-gate.json").then(function (r) {
+            return r.ok ? r.json() : null;
           }),
-          fetch("/benchmark/samples/windows-fast-kpi.json").catch(function () {
-            return fetch("/benchmark/samples/linux-fast-kpi.json");
-          }),
+          fetch("/benchmark/samples/windows-balanced-kpi.json")
+            .catch(function () {
+              return fetch("/benchmark/samples/linux-balanced-kpi.json");
+            })
+            .then(function (r) {
+              return r.ok ? r.json() : null;
+            }),
         ])
-          .then(function (pair) {
-            return Promise.all(
-              pair.map(function (r) {
-                return r.ok ? r.json() : null;
-              })
-            );
-          })
           .then(function (data) {
-            var bal = data[0];
-            var fast = data[1];
-            if (!bal || !bal.kpi) return;
-            var kb = bal.kpi;
-            var kf = fast && fast.kpi ? fast.kpi : {};
-            el.style.display = "block";
+            var zipP0 = data[0];
+            var rar = data[1];
+            var parts = [];
+            if (zipP0 && zipP0.p0) {
+              parts.push(
+                "winlrtZIP P0: sıkıştırma " +
+                  gateLabel(zipP0.p0.compression && zipP0.p0.compression.gate) +
+                  " · hız " +
+                  gateLabel(zipP0.p0.speed && zipP0.p0.speed.gate) +
+                  " · güven " +
+                  gateLabel(zipP0.p0.security && zipP0.p0.security.gate)
+              );
+            }
+            if (rar && rar.kpi) {
+              parts.push(
+                "winlrtRAR motor: sıkıştırma " +
+                  gateLabel(rar.kpi.compression_gate) +
+                  " (" +
+                  rar.kpi.compression_pass_count +
+                  "/" +
+                  rar.kpi.compression_total +
+                  ")"
+              );
+            }
+            if (!parts.length) return;
+            el.hidden = false;
+            el.className = "meta kpi-strip";
+            el.style.cssText =
+              "margin-bottom:1rem;padding:0.65rem 1rem;border-radius:8px;border:1px solid var(--border, rgba(255,255,255,0.12));";
             el.innerHTML =
-              "<strong>winlrtRAR motor KPI (referans):</strong> Sıkıştırma " +
-              label(kb.compression_gate) +
-              " (" +
-              kb.compression_pass_count +
-              "/" +
-              kb.compression_total +
-              ") · Hız (Fast) " +
-              label(kf.speed_gate) +
+              "<strong>Canlı KPI özeti:</strong> " +
+              parts.join(" · ") +
               ' — <a href="/benchmark/">detay</a>';
+            if (top) top.textContent = parts[0];
           })
-          .catch(function () {});
+          .catch(function () {
+            if (top) top.textContent = "KPI örnekleri /benchmark/ sayfasında";
+          });
       })();
     </script>
   </body>

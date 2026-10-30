@@ -5,20 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>winlrt — Benchmark özeti (Faz 3)</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/styles.css?v=3" />
+    <link rel="stylesheet" href="/styles.css?v=4" />
   </head>
   <body>
     <header class="site-header">
       <div class="site-header-inner">
-        <a class="logo" href="/">winlrt</a>
+        <a class="logo" href="/">
+          <span class="logo-mark" aria-hidden="true"></span>
+          winlrt
+        </a>
         <nav class="nav" aria-label="Ana menü">
           <a href="/">Vitrin</a>
+          <a href="/#durum">Durum</a>
           <a href="/downloads/">İndir</a>
+          <a class="nav-cta nav-active" href="/benchmark/">KPI</a>
         </nav>
       </div>
     </header>
     <main class="container" style="padding: 2rem 1rem 4rem">
-      <h1>Motor benchmark (Faz 1–3)</h1>
+      <h1>KPI ve benchmark merkezi</h1>
       <p class="lead">
         Linux CI (<code>bench-report</code>) ve Windows resmi workflow
         (<code>bench-report-windows</code>): ZIP, <strong>.wlrt</strong>, Windows’ta
@@ -85,11 +90,14 @@
         <code>bash scripts/refresh-benchmark-vitrin-samples.sh</code>
       </p>
 
+      <h2 class="section-label">winlrtZIP — Lerta &amp; mağaza örnekleri</h2>
+      <div id="zip-integration-cards" style="display: grid; gap: 1rem; margin-bottom: 1.5rem"></div>
+
       <h2 class="section-label">Pilot sırası (beta → v1.0)</h2>
       <article class="card" style="margin-bottom: 1.5rem">
         <p>
-          KPI vitrin tamam; sıradaki adım <strong>Windows Explorer QA</strong> (Dalga 2), ardından
-          kurumsal GPO pilotu (Dalga 3).
+          winlrtRAR: <strong>Windows Explorer QA</strong> (Dalga 2) ve kurumsal GPO (Dalga 3).
+          winlrtZIP Post-v3 kapıları repo’da tamam; beta indirme vitrinde.
         </p>
         <p>
           <a class="btn btn-primary" href="/downloads/">Beta indir + pilot rehberi</a>
@@ -249,8 +257,57 @@ cargo run -p winlrt-archive -- bench --all --profile fast --json --zip-kpi</code
         document.getElementById("kpi-sample-meta").textContent =
           "Kaynak: apps/web/public/benchmark/samples/ (merge/deploy sonrası winlrt.com.tr’de güncellenir).";
       }
+      async function loadIntegrationSamples() {
+        const root = document.getElementById("zip-integration-cards");
+        if (!root) return;
+        const items = [
+          {
+            url: "/benchmark/samples/winlrtzip-lerta-mail-v1.json",
+            title: "Lerta posta eki (W28)",
+          },
+          {
+            url: "/benchmark/samples/winlrtzip-lerta-api-v1.json",
+            title: "Lerta API durumu (W29)",
+          },
+          {
+            url: "/benchmark/samples/winlrtzip-store-gate.json",
+            title: "Mağaza kapısı (W27)",
+          },
+        ];
+        for (const it of items) {
+          try {
+            const res = await fetch(it.url, { cache: "no-store" });
+            if (!res.ok) throw new Error(res.statusText);
+            const data = await res.json();
+            const summary =
+              data.all_pass != null
+                ? `all_pass: ${data.all_pass}`
+                : data.dry_run != null
+                  ? `dry_run: ${data.dry_run} · ${data.register_url || ""}`
+                  : data.tier
+                    ? `tier: ${data.tier} · ${data.size_bytes || ""} B`
+                    : JSON.stringify(data).slice(0, 120);
+            root.insertAdjacentHTML(
+              "beforeend",
+              `<article class="card"><h3>${it.title}</h3><p class="meta">${summary}</p><p class="meta"><a href="${it.url}">JSON</a></p></article>`
+            );
+          } catch (e) {
+            root.insertAdjacentHTML(
+              "beforeend",
+              `<article class="card"><h3>${it.title}</h3><p class="meta">Yüklenemedi</p></article>`
+            );
+          }
+        }
+      }
       loadP0Gate();
       loadKpiSamples();
+      loadIntegrationSamples();
     </script>
+    <footer class="site-footer">
+      <div class="container footer-bottom" style="border: none; padding-top: 2rem">
+        <span>© winlrt</span>
+        <a href="/">Ana sayfa</a>
+      </div>
+    </footer>
   </body>
 </html>

@@ -6,200 +6,206 @@
     <title>İndirme merkezi — winlrt</title>
     <meta
       name="description"
-      content="winlrtZIP ve winlrtRAR resmi Windows ve macOS sürümleri."
+      content="winlrtRAR v1.0.0 resmi sürüm ve winlrtZIP beta — Windows, macOS CI, kurumsal GPO paketleri."
     />
     <link rel="canonical" href="https://winlrt.com.tr/downloads/" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/styles.css?v=3" />
+    <link rel="stylesheet" href="/styles.css?v=4" />
   </head>
   <body>
+    <div class="site-topbar">
+      <div class="site-topbar-inner">
+        <span><strong>İndirme merkezi</strong> — imzasız paketler SmartScreen uyarısı verebilir</span>
+        <a href="/#durum">Durum tablosu</a>
+      </div>
+    </div>
+
     <header class="site-header">
       <div class="site-header-inner">
         <a class="logo" href="/">
           <span class="logo-mark" aria-hidden="true"></span>
           winlrt
         </a>
-        <nav class="nav" aria-label="Ana menü">
-          <a href="/">Ana sayfa</a>
+        <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="main-nav">
+          Menü
+        </button>
+        <nav class="nav" id="main-nav" aria-label="Ana menü">
+          <a href="/#durum">Durum</a>
           <a href="/#urunler">Ürünler</a>
+          <a href="/benchmark/">KPI</a>
           <a href="/pilot/">Pilot</a>
-          <a class="nav-cta" href="/downloads/">İndir</a>
+          <a class="nav-cta nav-active" href="/downloads/">İndir</a>
         </nav>
       </div>
     </header>
 
     <header class="page-hero container">
       <span class="section-label">İndirme merkezi</span>
-      <h1>Resmi sürümler</h1>
+      <h1>Resmi sürümler ve kurumsal paketler</h1>
       <p class="lead">
-        winlrtZIP ve winlrtRAR için Windows ve macOS paketleri, geliştirme
-        tamamlandıkça burada listelenecektir.
-        winlrtRAR beta pilotu:
-        <a href="/pilot/">dalga durumu</a>.
+        winlrtRAR <strong>v1.0.0</strong> Windows resmi sürümü yayında. winlrtZIP
+        <strong>beta</strong> (Post-v3 W0–W29) Windows installer ve macOS CI build hattında.
+        Pilot durumu: <a href="/pilot/">dalga özeti</a>.
       </p>
     </header>
 
     <main class="container" style="padding-bottom: 4rem">
-      <h2 class="section-label" style="margin-bottom: 1rem">winlrtZIP</h2>
+      <h2 class="section-label" id="winlrtzip" style="margin-bottom: 1rem">winlrtZIP</h2>
       <p class="meta" style="margin-bottom: 1rem">
-        Faz 0–2 MVP: CLI + Tauri kabuk; KOBİ e-posta eki pilot rehberi
-        <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/WINLRTZIP_KOBI_PILOT_KOPYA.md">W13 KOBİ pilot</a>
-        ·
-        <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/WINLRTZIP_PLAN.md">WINLRTZIP_PLAN</a>
-        ·
-        <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/MADDE_W2_WINLRTZIP_TAURI.md">MADDE_W2</a>
-        ·
-        <a href="/downloads/winlrtZIP-corporate-gpo.zip">Kurumsal GPO (W18)</a>
+        Post-v3 tamamlandı (CLI, Tauri, Explorer, P0 KPI, GPO, split ZIP, imza, Lerta W28–W29).
+        Dokümantasyon:
+        <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/POST_V3_WINLRTZIP_SIRA.md"
+          >POST_V3_WINLRTZIP_SIRA</a
+        >
+        · KOBİ pilot:
+        <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/WINLRTZIP_KOBI_PILOT_KOPYA.md"
+          >W13</a
+        >
       </p>
-            <ul class="product-list">
+      <ul class="product-list">
         <li>
           <div>
             <strong>Windows 10+ (64-bit) — beta</strong>
             <div class="meta">
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/download/winlrt-zip-beta.1/winlrtZIP_0.1.0_x64-setup.exe">İndir: winlrtZIP_0.1.0_x64-setup.exe</a>
-              · Imzasız beta ·
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-zip-beta.1">winlrt-zip-beta.1</a>
+              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/download/winlrt-zip-beta.1/winlrtZIP_0.1.0_x64-setup.exe"
+                >winlrtZIP_0.1.0_x64-setup.exe</a
+              >
+              ·
+              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-zip-beta.1"
+                >winlrt-zip-beta.1</a
+              >
             </div>
           </div>
-          <span class="status status-dev">Beta</span>
+          <span class="status status-beta">Beta</span>
         </li>
         <li>
           <div>
-            <strong>macOS 12+ (Apple Silicon &amp; Intel) — beta CI</strong>
+            <strong>macOS 12+ — beta CI</strong>
             <div class="meta">
-              Actions:
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/actions/workflows/winlrt-zip-macos.yml">winlrt-zip-macos</a>
-              ·
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/MADDE_W14_WINLRTZIP_MACOS.md">W14</a>
+              Workflow:
+              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/actions/workflows/winlrt-zip-macos.yml"
+                >winlrt-zip-macos</a
+              >
               · imzasız dmg (notarize secret sonrası)
             </div>
           </div>
-          <span class="status status-dev">Beta CI</span>
+          <span class="status status-beta">Beta CI</span>
+        </li>
+        <li>
+          <div>
+            <strong>Kurumsal GPO paketi (W18)</strong>
+            <div class="meta">
+              <a href="/downloads/winlrtZIP-corporate-gpo.zip">winlrtZIP-corporate-gpo.zip</a>
+              · ADMX + örnek politika
+            </div>
+          </div>
+          <span class="status status-live">GPO</span>
         </li>
       </ul>
 
-      <h2 class="section-label" style="margin: 2rem 0 1rem">winlrtRAR</h2>
+      <h2 class="section-label" id="winlrtrar" style="margin: 2rem 0 1rem">winlrtRAR</h2>
       <ul class="product-list">
         <li>
           <div>
             <strong>Windows 10+ (64-bit) — v1.0.0 resmi</strong>
             <div class="meta">
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.0">
-                İndir: winlrtRAR_0.1.0_x64-setup.exe
-              </a>
-              · Imzasız resmi sürüm (SmartScreen) —
+              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.0"
+                >winlrtRAR_0.1.0_x64-setup.exe</a
+              >
+              ·
               <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/V1_0_0_UNSIGNED_RELEASE.md"
-                >not</a
+                >imzasız not</a
               >
             </div>
           </div>
-          <span class="status status-dev">v1.0</span>
+          <span class="status status-live">v1.0</span>
         </li>
         <li>
           <div>
-            <strong>Windows 10+ (64-bit) — v1.0.0-rc1</strong>
+            <strong>Windows — v1.0.0-rc1 (arşiv)</strong>
             <div class="meta">
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.0-rc1">
-                İndir: winlrtRAR_0.1.0_x64-setup.exe (rc1, imzasız)
-              </a>
-              · Agent signoff + CI doğrulama · resmi v1.0 imza secret sonrası
+              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.0-rc1">rc1</a>
+              · signoff + CI doğrulama
             </div>
           </div>
-          <span class="status status-dev">rc1</span>
+          <span class="status status-beta">rc1</span>
         </li>
         <li>
           <div>
-            <strong>Windows 10+ (64-bit) — beta</strong>
+            <strong>Windows — beta (arşiv)</strong>
             <div class="meta">
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.41064653814">
-                İndir: winlrtRAR_0.1.0_x64-setup.exe (beta)
-              </a>
-              · Tüm sürümler:
               <a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases?q=winlrt-rar-beta&amp;expanded=true"
-                >GitHub Releases</a
+                >Tüm beta release’ler</a
               >
-              <br />
-              Beta paketler imza secret’ı yoksa SmartScreen uyarısı verebilir; v1.0 için
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/WINLRTRAR_CODE_SIGNING.md"
-                >imzalı kurulum</a
-              >
-              (GitHub <code>TAURI_SIGNING_*</code> secret’ları).
-              <br />
-              Kurulum sonrası:
+              ·
               <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/DALGA2_PILOT_OTURUM.md"
-                >Dalga 2 — pilot oturumu (30 dk)</a
-              >
-              ·
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/scripts/windows/pilot-dalga2-start.ps1"
-                >pilot-dalga2-start.ps1</a
-              >
-              ·
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/scripts/windows/explorer-qa-preflight.ps1"
-                >preflight.ps1</a
-              >
-              ·
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/DALGA2_EXPLORER_QA_KOPYA.md"
-                >QA checklist</a
-              >
-              ·
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/FAZ4_PILOT_BASLANGIC.md"
-                >Faz 4 pilot</a
-              >
-              ·
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/WINLRTRAR_EXPLORER_QA.md"
-                >Explorer QA</a
+                >Dalga 2 pilot</a
               >
             </div>
           </div>
-          <span class="status status-dev">Faz 3 beta</span>
+          <span class="status status-beta">Beta</span>
         </li>
         <li>
           <div>
-            <strong>macOS 12+ (Apple Silicon &amp; Intel)</strong>
-            <div class="meta">Disk imajı / paket</div>
+            <strong>Kurumsal GPO — Dalga 3</strong>
+            <div class="meta">
+              <a href="/downloads/winlrtRAR-corporate-gpo.zip">winlrtRAR-corporate-gpo.zip</a>
+              ·
+              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/DALGA3_PILOT_OTURUM.md"
+                >Pilot oturumu</a
+              >
+            </div>
           </div>
-          <span class="status status-dev">Yakında</span>
+          <span class="status status-live">GPO</span>
+        </li>
+        <li>
+          <div>
+            <strong>macOS 12+</strong>
+            <div class="meta">Disk imajı — yol haritasında</div>
+          </div>
+          <span class="status status-plan">Plan</span>
         </li>
       </ul>
 
       <article class="card" style="margin-top: 2rem">
-        <h3>Kurumsal pilot — Dalga 3</h3>
+        <h3>İmza ve üretim kapısı</h3>
         <p>
-          Explorer QA signoff sonrası IT pilotu: GPO şablonları ve örnek kayıt defteri.
+          Authenticode / notarize için GitHub <code>TAURI_SIGNING_*</code> secret’ları gerekir.
+          Kurumsal kabul: Explorer QA signoff → Dalga 3 IT pilotu.
         </p>
-        <p>
-          <a class="btn btn-primary" href="/downloads/winlrtRAR-corporate-gpo.zip"
-            >winlrtRAR-corporate-gpo.zip</a
+        <p class="meta">
+          <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/WINLRTRAR_CODE_SIGNING.md"
+            >Code signing</a
           >
           ·
-          <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/DALGA3_PILOT_OTURUM.md"
-            >Pilot oturumu (45 dk)</a
+          <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/WINLRTRAR_PRODUCTION_CHECKLIST.md"
+            >Production checklist</a
           >
-          ·
-          <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/scripts/windows/pilot-dalga3-start.ps1"
-            >pilot-dalga3-start.ps1</a
-          >
-        </p>
-      </article>
-
-      <article class="card" style="margin-top: 2rem">
-        <h3>Mobil — Faz 2</h3>
-        <p>
-          Google Play ve App Store, masaüstü sürümleri kararlı hale geldikten
-          sonra yol haritasında yer alır.
         </p>
       </article>
 
       <p style="text-align: center; margin-top: 2.5rem">
-        <a class="btn btn-ghost" href="/">← Ana sayfaya dön</a>
+        <a class="btn btn-ghost" href="/">← Ana sayfa</a>
       </p>
     </main>
 
     <footer class="site-footer">
       <div class="container footer-bottom" style="border: none; padding-top: 0">
         <span>© winlrt</span>
+        <a href="/benchmark/">KPI</a>
         <a href="/">Ana sayfa</a>
       </div>
     </footer>
+    <script>
+      (function () {
+        var btn = document.querySelector(".menu-toggle");
+        var nav = document.getElementById("main-nav");
+        if (!btn || !nav) return;
+        btn.addEventListener("click", function () {
+          var open = nav.classList.toggle("is-open");
+          btn.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+      })();
+    </script>
   </body>
 </html>

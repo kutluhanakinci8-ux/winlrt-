@@ -30,6 +30,9 @@ jobs:
       - name: Build vitrin
         run: npm run build:web
 
+      - name: Vitrin ↔ repo metin senkronu
+        run: bash scripts/verify-vitrin-sync.sh
+
       - name: Dalga 2/3 repo smoke
         run: bash scripts/run-dalga-smoke.sh
 
