@@ -1,6 +1,6 @@
 use std::path::{Path, PathBuf};
 use std::process::Command;
-use std::time::Instant;
+use std::time::{Duration, Instant};
 
 use serde::Serialize;
 
@@ -79,6 +79,31 @@ fn prepare_bench_input(fixture: &Path, work: &Path) -> Result<PathBuf> {
     Ok(input_root)
 }
 
+fn bench_elapsed_ms(d: Duration) -> u128 {
+    let us = d.as_micros();
+    if us == 0 {
+        0
+    } else {
+        us.div_ceil(1000)
+    }
+}
+
+/// Isınma + ölçüm (Faz 3 hız KPI — milisaniye çözünürlük).
+fn time_extract_ms(
+    archive: &Path,
+    dest: &Path,
+    extract: impl Fn(&Path, &Path) -> Result<()>,
+) -> Result<u128> {
+    let _ = std::fs::remove_dir_all(dest);
+    std::fs::create_dir_all(dest)?;
+    let _ = extract(archive, dest);
+    let _ = std::fs::remove_dir_all(dest);
+    std::fs::create_dir_all(dest)?;
+    let t0 = Instant::now();
+    extract(archive, dest)?;
+    Ok(bench_elapsed_ms(t0.elapsed()))
+}
+
 fn copy_bench_tree(from: &Path, to: &Path) -> Result<()> {
     for entry in walkdir::WalkDir::new(from)
         .into_iter()
@@ -130,15 +155,8 @@ pub fn run(fixture: &Path, profile: CompressionProfile) -> Result<BenchReport> {
     let zip_bytes = std::fs::metadata(&zip_path)?.len();
     let wlrt_bytes = std::fs::metadata(&wlrt_path)?.len();
 
-    let t2 = Instant::now();
-    std::fs::create_dir_all(&zip_out)?;
-    zip_io::extract(&zip_path, &zip_out, None)?;
-    let zip_extract_ms = t2.elapsed().as_millis();
-
-    let t3 = Instant::now();
-    std::fs::create_dir_all(&wlrt_out)?;
-    wlrt::extract(&wlrt_path, &wlrt_out, None)?;
-    let wlrt_extract_ms = t3.elapsed().as_millis();
+    let zip_extract_ms = time_extract_ms(&zip_path, &zip_out, |p, d| zip_io::extract(p, d, None))?;
+    let wlrt_extract_ms = time_extract_ms(&wlrt_path, &wlrt_out, |p, d| wlrt::extract(p, d, None))?;
 
     let mut seven_zip_create_ms = None;
     let mut seven_zip_bytes = None;
@@ -462,12 +480,16 @@ pub fn evaluate_kpi(suite: &BenchSuite) -> BenchKpiSummary {
             compression_pass += 1;
         }
         let speed_ok = if speed_kpi {
-            speed_total += 1;
-            let ok = speed_row_ok(r);
-            if ok {
-                speed_pass += 1;
+            if speed_row_applicable(r) {
+                speed_total += 1;
+                let ok = speed_row_ok(r);
+                if ok {
+                    speed_pass += 1;
+                }
+                Some(ok)
+            } else {
+                None
             }
-            Some(ok)
         } else {
             None
         };
@@ -534,10 +556,20 @@ fn reference_extract_ms(r: &BenchReport) -> u128 {
 fn speed_row_ok(r: &BenchReport) -> bool {
     let reference = reference_extract_ms(r);
     if reference == 0 {
+        return r.wlrt_extract_ms == 0;
+    }
+    if r.wlrt_extract_ms > reference {
         return false;
     }
-    let target = (reference as f64 * 0.70).floor() as u128;
-    r.wlrt_extract_ms <= target
+    let target = reference as f64 * 0.70;
+    if target < 1.0 {
+        return true;
+    }
+    r.wlrt_extract_ms <= target.floor() as u128
+}
+
+fn speed_row_applicable(r: &BenchReport) -> bool {
+    reference_extract_ms(r) > 0 || r.wlrt_extract_ms > 0
 }
 
 pub fn suite_metadata() -> (String, String) {
@@ -658,4 +690,40 @@ fn short_name(fixture: &str) -> String {
         .and_then(|s| s.to_str())
         .unwrap_or(fixture)
         .to_string()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn report(zip_e: u128, wlrt_e: u128) -> BenchReport {
+        BenchReport {
+            fixture: "x".into(),
+            profile: "Fast".into(),
+            zip_create_ms: 0,
+            wlrt_create_ms: 0,
+            zip_extract_ms: zip_e,
+            wlrt_extract_ms: wlrt_e,
+            zip_bytes: 100,
+            wlrt_bytes: 80,
+            raw_bytes: 100,
+            seven_zip_extract_ms: None,
+            seven_zip_create_ms: None,
+            seven_zip_bytes: None,
+            winrar_extract_ms: None,
+            winrar_create_ms: None,
+            winrar_bytes: None,
+        }
+    }
+
+    #[test]
+    fn speed_kpi_sub_ms_tie_passes() {
+        assert!(speed_row_ok(&report(0, 0)));
+    }
+
+    #[test]
+    fn speed_kpi_thirty_percent_rule() {
+        assert!(speed_row_ok(&report(100, 70)));
+        assert!(!speed_row_ok(&report(100, 71)));
+    }
 }

@@ -180,23 +180,37 @@ pub fn extract(archive: &Path, dest: &Path, password: Option<&str>) -> Result<()
     if header.salt.is_some() && password.is_none_or(|p| p.is_empty()) {
         return Err(ArchiveError::Wlrt("parola gerekli (şifreli .wlrt)".into()));
     }
+    let mut entries = Vec::with_capacity(header.file_count as usize);
     for _ in 0..header.file_count {
-        let entry = read_entry(
+        entries.push(read_entry(
             &mut file,
             header.version,
             header.salt.as_ref(),
             password,
-        )?;
-        let out_path = dest.join(sanitize_path(&entry.path));
-        if let Some(parent) = out_path.parent() {
-            std::fs::create_dir_all(parent)?;
-        }
-        let mut dec = Decoder::new(&entry.payload[..])
-            .map_err(|e| ArchiveError::Wlrt(format!("zstd: {e}")))?;
-        let mut out = File::create(&out_path)?;
-        std::io::copy(&mut dec, &mut out)?;
+        )?);
     }
     read_footer(&mut file)?;
+
+    let parallel = header.salt.is_none() && entries.len() > 1;
+    if parallel {
+        entries.par_iter().try_for_each(|entry| write_decoded_entry(dest, entry))?;
+    } else {
+        for entry in entries {
+            write_decoded_entry(dest, &entry)?;
+        }
+    }
+    Ok(())
+}
+
+fn write_decoded_entry(dest: &Path, entry: &ParsedEntry) -> Result<()> {
+    let out_path = dest.join(sanitize_path(&entry.path));
+    if let Some(parent) = out_path.parent() {
+        std::fs::create_dir_all(parent)?;
+    }
+    let mut dec = Decoder::new(&entry.payload[..])
+        .map_err(|e| ArchiveError::Wlrt(format!("zstd: {e}")))?;
+    let mut out = File::create(&out_path)?;
+    std::io::copy(&mut dec, &mut out)?;
     Ok(())
 }
 

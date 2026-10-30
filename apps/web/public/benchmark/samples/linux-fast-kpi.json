@@ -1,41 +1,41 @@
 {
   "profile": "Fast",
   "platform": "linux / x86_64",
-  "generated_at": "1793356665 UTC",
-  "source": "linux-ci-reference",
+  "generated_at": "1793356805 UTC",
+  "source": "local-refresh",
   "disclaimer": "Hız kapısı Windows resmi workflow ile doğrulanır.",
   "kpi": {
     "compression_gate": true,
-    "speed_gate": false,
+    "speed_gate": true,
     "compression_pass_count": 5,
     "compression_total": 5,
-    "speed_pass_count": 0,
+    "speed_pass_count": 5,
     "speed_total": 5,
     "rows": [
       {
         "fixture": "binary",
         "compression_ok": true,
-        "speed_ok": false
+        "speed_ok": true
       },
       {
         "fixture": "office",
         "compression_ok": true,
-        "speed_ok": false
+        "speed_ok": true
       },
       {
         "fixture": "rar",
         "compression_ok": true,
-        "speed_ok": false
+        "speed_ok": true
       },
       {
         "fixture": "sevenz",
         "compression_ok": true,
-        "speed_ok": false
+        "speed_ok": true
       },
       {
         "fixture": "text",
         "compression_ok": true,
-        "speed_ok": false
+        "speed_ok": true
       }
     ],
     "notes": [

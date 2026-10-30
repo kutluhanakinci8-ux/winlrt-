@@ -125,14 +125,25 @@ cargo run -p winlrt-archive -- bench --all --profile fast --json</code></pre>
       }
       async function loadKpiSamples() {
         const files = [
-          { url: "/benchmark/samples/linux-balanced-kpi.json", title: "Balanced (sıkıştırma)" },
-          { url: "/benchmark/samples/linux-fast-kpi.json", title: "Fast (hız)" },
+          {
+            url: "/benchmark/samples/windows-balanced-kpi.json",
+            title: "Balanced — Windows (resmi)",
+            fallback: "/benchmark/samples/linux-balanced-kpi.json",
+          },
+          {
+            url: "/benchmark/samples/windows-fast-kpi.json",
+            title: "Fast — Windows (resmi)",
+            fallback: "/benchmark/samples/linux-fast-kpi.json",
+          },
         ];
         const root = document.getElementById("kpi-cards");
         root.innerHTML = "";
         for (const f of files) {
           try {
-            const res = await fetch(f.url, { cache: "no-store" });
+            let res = await fetch(f.url, { cache: "no-store" });
+            if (!res.ok && f.fallback) {
+              res = await fetch(f.fallback, { cache: "no-store" });
+            }
             if (!res.ok) throw new Error(res.statusText);
             const data = await res.json();
             const k = data.kpi || {};

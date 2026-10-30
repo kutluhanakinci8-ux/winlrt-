@@ -54,6 +54,15 @@ jobs:
           ./scripts/evaluate-bench-kpi.ps1 -JsonPath bench-report-windows.json
           ./scripts/evaluate-bench-kpi.ps1 -JsonPath bench-report-windows-fast.json
 
+      - name: Vitrin KPI snippet (artifact)
+        shell: bash
+        run: |
+          sudo apt-get install -y -qq jq
+          jq '{profile, platform, generated_at, source: "windows-official-ci", disclaimer: "Resmi Faz 3 kapı.", kpi}' \
+            bench-report-windows.json > vitrin-windows-balanced-kpi.json
+          jq '{profile, platform, generated_at, source: "windows-official-ci", disclaimer: "Resmi hız kapısı.", kpi}' \
+            bench-report-windows-fast.json > vitrin-windows-fast-kpi.json
+
       - name: Upload benchmark artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -63,4 +72,6 @@ jobs:
             BENCH_REPORT.md
             bench-report-windows-fast.json
             BENCH_REPORT_FAST.md
+            vitrin-windows-balanced-kpi.json
+            vitrin-windows-fast-kpi.json
           if-no-files-found: error

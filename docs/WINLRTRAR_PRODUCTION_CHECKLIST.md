@@ -27,11 +27,13 @@ Detay: [AUTO_DEPLOY.md](./AUTO_DEPLOY.md) · Mac: `scripts/mac-set-github-vps-se
 - [ ] Artifact `bench-report-windows`: `compression_gate` (Balanced) ve `speed_gate` (Fast JSON)
 - [ ] CI log: `scripts/evaluate-bench-kpi.ps1` özeti
 - [ ] Vitrin: [/benchmark/](https://winlrt.com.tr/benchmark/) canlı KPI kartları (samples JSON)
+- [ ] Artifact’tan vitrin: `bash scripts/import-windows-kpi-to-vitrin.sh bench-report-windows.json bench-report-windows-fast.json`
 
 ## 4. winlrtRAR Windows beta
 
 - [ ] Actions → **winlrtRAR Windows beta build** → Run workflow
-- [ ] Secret varsa: `verify-windows-signature.ps1` geçer
+- [ ] Secret yoksa CI uyarısı beklenir; secret varsa: `verify-windows-signature.ps1` geçer
+- [ ] Test build: *Yalnızca artifact* ile Release atlamak mümkün (`skip_release`)
 - [ ] GitHub Release artifact indir → pilot makinede kurulum + Explorer menü testi
 
 ## 5. Kurumsal pilot
