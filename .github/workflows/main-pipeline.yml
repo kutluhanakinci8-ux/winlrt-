@@ -98,6 +98,12 @@ jobs:
           cargo test -p winlrt-archive zip_corrupt_crc
           cargo test -p winlrt-archive --test winlrtzip_interop i7_
 
+      - name: winlrtZIP Explorer interop proxy (I1/I2 / W12)
+        run: |
+          sudo apt-get install -y -qq zip unzip
+          cargo test -p winlrt-archive --test winlrtzip_interop i1_
+          cargo test -p winlrt-archive --test winlrtzip_interop i2_
+
       - name: Faz 1 benchmark raporu
         run: |
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json

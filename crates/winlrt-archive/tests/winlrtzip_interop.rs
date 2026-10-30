@@ -1,4 +1,4 @@
-//! winlrtZIP interop — I6 (W7), I4 AES (W8).
+//! winlrtZIP interop — I6 (W7), I4 AES (W8), I1/I2 Explorer proxy (W12).
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -406,4 +406,168 @@ fn i7_winlrt_zip_cli_test_corrupt() {
         combined.contains("CRC") || combined.contains("bozuk"),
         "cli cikti: {combined}"
     );
+}
+
+fn info_zip_available() -> bool {
+    Command::new("zip")
+        .arg("-h")
+        .output()
+        .map(|o| o.status.success())
+        .unwrap_or(false)
+}
+
+fn info_unzip_available() -> bool {
+    Command::new("unzip")
+        .arg("-h")
+        .output()
+        .map(|o| o.status.success())
+        .unwrap_or(false)
+}
+
+/// Explorer “Sıkıştırılmış klasör” benzeri: Info-ZIP ile oluştur → winlrt aç (I1 proxy).
+#[test]
+fn i1_infozip_archive_winlrt_test_and_extract() {
+    if !info_zip_available() {
+        eprintln!("zip yok — I1 proxy atlandi");
+        return;
+    }
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("src");
+    let nested = src.join("Belgeler").join("not.txt");
+    fs::create_dir_all(nested.parent().unwrap()).unwrap();
+    fs::write(&nested, b"explorer-i1-proxy").unwrap();
+    fs::write(src.join("ust.txt"), b"ust").unwrap();
+    let zip = base.path().join("from-infozip.zip");
+    let status = Command::new("zip")
+        .args([
+            "-r",
+            "-q",
+            zip.to_str().unwrap(),
+            "Belgeler/not.txt",
+            "ust.txt",
+        ])
+        .current_dir(&src)
+        .status()
+        .expect("zip calistir");
+    assert!(status.success(), "Info-ZIP arsiv olusturamadi");
+    zip_io::test(&zip, None).unwrap();
+    let out = base.path().join("winlrt-out");
+    zip_io::extract(&zip, &out, None).unwrap();
+    assert_eq!(
+        fs::read(out.join("Belgeler/not.txt")).unwrap(),
+        b"explorer-i1-proxy"
+    );
+    assert_eq!(fs::read(out.join("ust.txt")).unwrap(), b"ust");
+}
+
+#[test]
+fn i1_winlrt_zip_cli_opens_infozip_archive() {
+    if !info_zip_available() {
+        return;
+    }
+    let bin = env!("CARGO_BIN_EXE_winlrt-zip");
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("a.txt");
+    fs::write(&src, b"i1-cli").unwrap();
+    let zip = base.path().join("foreign.zip");
+    let status = Command::new("zip")
+        .args(["-q", zip.file_name().unwrap().to_str().unwrap(), "a.txt"])
+        .current_dir(base.path())
+        .status()
+        .unwrap();
+    assert!(status.success());
+    let test = Command::new(bin)
+        .args(["test", zip.to_str().unwrap()])
+        .output()
+        .unwrap();
+    assert!(
+        test.status.success(),
+        "test: {}",
+        String::from_utf8_lossy(&test.stderr)
+    );
+}
+
+/// winlrt ZIP → harici arac cikarir (Explorer “Tumunu cikar” proxy: Info-ZIP unzip).
+#[test]
+fn i2_winlrt_zip_unzip_extracts_without_error() {
+    if !info_unzip_available() {
+        eprintln!("unzip yok — I2 proxy atlandi");
+        return;
+    }
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("src");
+    fs::create_dir_all(&src).unwrap();
+    fs::write(src.join("rapor.txt"), b"winlrt-i2").unwrap();
+    let zip = base.path().join("winlrt-made.zip");
+    zip_io::create_with_profile(&src, &zip, CompressionProfile::Balanced, None).unwrap();
+    let dest = base.path().join("unzip-out");
+    fs::create_dir_all(&dest).unwrap();
+    let status = Command::new("unzip")
+        .args(["-o", "-q", zip.to_str().unwrap()])
+        .current_dir(&dest)
+        .status()
+        .unwrap();
+    assert!(status.success(), "unzip winlrt ZIP acamadi");
+    assert_eq!(
+        fs::read(dest.join("src/rapor.txt")).unwrap_or_else(|_| {
+            fs::read(dest.join("rapor.txt")).unwrap()
+        }),
+        b"winlrt-i2"
+    );
+}
+
+#[test]
+fn i2_7zip_extracts_winlrt_balanced_zip() {
+    if !seven_zip_available() {
+        return;
+    }
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("x.txt");
+    fs::write(&src, b"7z-i2").unwrap();
+    let zip = base.path().join("w.zip");
+    zip_io::create_with_profile(&src, &zip, CompressionProfile::EmailAttachment, None).unwrap();
+    let dest = base.path().join("7z");
+    fs::create_dir_all(&dest).unwrap();
+    let status = Command::new("7z")
+        .args(["x", "-y", &zip.to_string_lossy(), &format!("-o{}", dest.display())])
+        .status()
+        .unwrap();
+    assert!(status.success());
+    assert_eq!(fs::read(dest.join("x.txt")).unwrap(), b"7z-i2");
+}
+
+#[test]
+fn i2_winlrt_zip_cli_create_unzip_roundtrip() {
+    if !info_unzip_available() {
+        return;
+    }
+    let bin = env!("CARGO_BIN_EXE_winlrt-zip");
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("src");
+    fs::create_dir_all(&src).unwrap();
+    fs::write(src.join("i2.txt"), b"cli-i2").unwrap();
+    let zip = base.path().join("cli.zip");
+    let create = Command::new(bin)
+        .args([
+            "create",
+            src.to_str().unwrap(),
+            zip.to_str().unwrap(),
+            "--profile",
+            "balanced",
+        ])
+        .output()
+        .unwrap();
+    assert!(create.status.success());
+    let dest = base.path().join("out");
+    fs::create_dir_all(&dest).unwrap();
+    let status = Command::new("unzip")
+        .args(["-o", "-q", zip.to_str().unwrap()])
+        .current_dir(&dest)
+        .status()
+        .unwrap();
+    assert!(status.success());
+    let content = fs::read(dest.join("src/i2.txt"))
+        .or_else(|_| fs::read(dest.join("i2.txt")))
+        .unwrap();
+    assert_eq!(content, b"cli-i2");
 }
