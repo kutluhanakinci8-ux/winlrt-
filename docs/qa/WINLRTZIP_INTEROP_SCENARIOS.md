@@ -9,7 +9,7 @@ Motor sprint (Faz 1) öncesi kabul listesi. Her senaryo: **oluştur → aç** (W
 | I3 | ZIP64 (>4 GiB simülasyon veya büyük dosya) | Okuma/yazma |
 | I4 | AES-256 şifreli ZIP (WinZip uyumlu) | Parola ile açma |
 | I5 | Türkçe dosya adları (UTF-8) | Kodlama bozulmaz |
-| I6 | E-posta eki profili (~10 MB hedef) | Boyut + süre log |
+| I6 | E-posta eki profili (~10 MB hedef) | **Otomatik** — [MADDE_W7](./MADDE_W7_WINLRTZIP_EMAIL.md) |
 | I7 | Bozuk CRC (kısmi) | Kontrollü hata mesajı |
 
 Otomasyon hedefi: Faz 1’de `cargo test` + isteğe Windows script.

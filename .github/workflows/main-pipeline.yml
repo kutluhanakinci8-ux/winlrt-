@@ -73,6 +73,9 @@ jobs:
       - name: Prepare mixed benchmark fixture (~10 MiB)
         run: bash benchmarks/fixtures/mixed/prepare.sh
 
+      - name: winlrtZIP e-posta profili (I6 / W7)
+        run: cargo test -p winlrt-archive --test winlrtzip_interop i6_email_profile_mixed -- --ignored
+
       - name: Faz 1 benchmark raporu
         run: |
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json

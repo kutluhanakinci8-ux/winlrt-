@@ -124,7 +124,7 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 
 - [ ] ZIP/ZIP64 yaz/oku performans sprint
 - [x] CLI `winlrt-zip`: create, extract, list, test, bench — [MADDE_W1](./qa/MADDE_W1_WINLRTZIP_CLI.md)
-- [ ] E-posta eki profili (boyut + hız hedefi)
+- [x] E-posta eki profili (boyut + hız hedefi) — [MADDE_W7](./qa/MADDE_W7_WINLRTZIP_EMAIL.md)
 - [x] Benchmark: WinZip / 7-Zip ZIP satırı CI’da — [MADDE_W6](./qa/MADDE_W6_WINLRTZIP_BENCH.md)
 
 **Kapı:** ZIP benchmark raporu + CLI stabil.
