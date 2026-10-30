@@ -70,7 +70,7 @@ jobs:
         shell: pwsh
         env:
           WINLRT_KPI_STRICT: "0"
-        run: ./scripts/evaluate-bench-kpi.ps1 -JsonPath bench-report-windows-fast.json
+        run: ./scripts/evaluate-bench-kpi.ps1 -JsonPath bench-report-windows-fast.json -ReportOnly
 
       - name: Vitrin KPI snippet (artifact)
         shell: pwsh

@@ -1,51 +1,40 @@
-# winlrt — `main` merge sonrası sıra (15 dk checklist)
+# winlrt — `main` merge sonrası sıra (güncel)
 
-Merge tamamlandıktan sonra **bu sırayı** izleyin. Özet durum: [WINLRTRAR_DURUM.md](./WINLRTRAR_DURUM.md).  
-Workflow listesi: [WINLRTRAR_GITHUB_RUNBOOK.md](./WINLRTRAR_GITHUB_RUNBOOK.md).
+Durum: **A→L + Post-v1 tamam** (imzasız v1.0.0). Sertifika **ertelendi**.  
+Sıradaki (sertifikasız): [POST_V2_SIRA.md](./qa/POST_V2_SIRA.md)
 
 ## 1. GitHub Actions (otomatik)
 
-- [ ] **Main pipeline** — `main` push ile tetiklenir (web build + rust test + bench)
-- [ ] Yeşil değilse: rust log / `mixed/prepare.sh` hatası
+- [x] **Main pipeline** — `main` push (web + rust)
+- [x] **Windows benchmark** — flag veya push; Balanced strict
+- [x] **winlrtRAR beta** — flag build + release ([beta.44+](https://github.com/kutluhanakinci8-ux/winlrt-/releases))
 
-## 2. Secrets (bir kez)
+## 2. Secrets (isteğe bağlı)
 
-| Secret | Kontrol |
-|--------|---------|
-| `VPS_*` | Deploy job gri değil; winlrt.com.tr güncellenir |
-| `TAURI_SIGNING_*` | Beta build’de imza verify adımı |
+| Secret | Durum |
+|--------|--------|
+| `VPS_*` | Agent + VPS cron **canlı**; panel secret → CI deploy ekstra |
+| `TAURI_SIGNING_*` | **Ertelendi** — imzasız resmi yeterli |
 
-Mac: `bash scripts/mac-set-github-vps-secret.sh` · `bash scripts/mac-set-github-tauri-signing-secrets.sh …`
+Rehber: [DALGA1_GITHUB_VPS_SECRET.md](./DALGA1_GITHUB_VPS_SECRET.md) · imza: [WINLRTRAR_CODE_SIGNING.md](./WINLRTRAR_CODE_SIGNING.md)
 
-## 3. Windows resmi KPI
+## 3. Vitrin / KPI
 
-- [ ] Actions → **winlrt Windows benchmark (resmi)** → Run workflow
-- [ ] İsteğe: **KPI strict** veya repo Variable `WINLRT_KPI_STRICT=1`
-- [ ] Artifact **bench-report-windows** indir
-
-## 4. Vitrin KPI (Windows resmi)
+- [x] Windows resmi KPI vitrin JSON
+- [ ] Fast hız kapısı tam (Madde Q — `text` fixture; bloklayıcı değil)
 
 ```bash
-# Artifact içindeki JSON yollarıyla:
-bash scripts/import-windows-kpi-to-vitrin.sh ./bench-report-windows.json ./bench-report-windows-fast.json
-git add apps/web/public/benchmark/samples/windows-*.json
-git commit -m "chore(vitrin): Windows resmi KPI samples"
-git push origin main
+bash scripts/agent-madde-n-complete.sh
 ```
 
-Alternatif (Linux referans, CI artifact):
+## 4. Doğrulama (tek komut)
 
-- Actions → **Vitrin KPI samples (Linux)** → Run → artifact `vitrin-kpi-samples` indir → aynı klasöre kopyala → commit
+```bash
+bash scripts/verify-all-maddes.sh
+```
 
-## 5. winlrtRAR beta
-
-- [ ] **winlrtRAR Windows beta build** → Release veya artifact
-- [ ] Pilot PC: [WINLRTRAR_EXPLORER_QA.md](./WINLRTRAR_EXPLORER_QA.md)
-
-## 6. Yerel smoke (isteğe bağlı)
+## 5. Yerel smoke
 
 ```bash
 bash scripts/post-merge-smoke.sh
 ```
-
-Repo variable: `WINLRT_KPI_STRICT=1` yalnızca KPI kapısı kilitlemek için; merge sonrası ilk Windows koşusu strict **kapalı** da olabilir.

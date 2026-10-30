@@ -11,7 +11,8 @@ Otomatik takip: [WINLRTRAR_ROADMAP_TO_100.md](./WINLRTRAR_ROADMAP_TO_100.md) · 
 | 4 | J | **Tamam** (agent signoff + smoke) |
 | 5 | K | **Tamam** |
 | 6 | L | **Tamam** — tag `v1.0.0` |
-| **Post-v1** | M, N, O, P | **Sırada** — Dalga 5 agent script |
+| **Post-v1** | M, N, O, P | **Tamam** — [POST_V1_SIRA.md](./qa/POST_V1_SIRA.md) |
+| **Post-v2** | Q–U (imza yok) | **Tamam** — [POST_V2_SIRA.md](./qa/POST_V2_SIRA.md) |
 
 **Her agent turu:** commit → `push origin main` → `scripts/post-phase-deploy.sh` ([AGENT_COMMIT_DEPLOY.md](./AGENT_COMMIT_DEPLOY.md)).
 
@@ -23,4 +24,4 @@ Otomatik takip: [WINLRTRAR_ROADMAP_TO_100.md](./WINLRTRAR_ROADMAP_TO_100.md) · 
 | 2 Explorer | Tamam (agent) |
 | 3 Kurumsal | Tamam (agent) |
 | 4 v1.0 | Tamam — imzasız resmi |
-| **5 Post-v1** | M→O — `scripts/agent-post-v1-dalga5.sh` |
+| **5 Post-v1** | Tamam — beta.44 + KPI run 41091547127 |

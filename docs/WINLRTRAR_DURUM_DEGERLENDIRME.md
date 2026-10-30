@@ -12,12 +12,12 @@
 | **A** | Kod + `main` merge | **100** | Feature zinciri `main`’de |
 | **B** | Main pipeline (build/test) | **100** | `main` cancel-in-progress kapalı; bkz. [MADDE_B_MAIN_PIPELINE.md](./qa/MADDE_B_MAIN_PIPELINE.md) |
 | **C** | Windows resmi benchmark | **100** | Strict Balanced + resmi koşu [41085046603](https://github.com/kutluhanakinci8-ux/winlrt-/actions) · vitrin import |
-| **D** | Beta workflow | **100** | Flag build+release · run 41089469694 · [winlrt-rar-beta.42](https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.42) |
+| **D** | Beta workflow | **100** | Flag build+release · [winlrt-rar-beta.44](https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.44) |
 | **E** | GitHub Secrets VPS | **100** | Cron + agent deploy · [MADDE_EF](./qa/MADDE_EF_CI_DEPLOY.md) (panel secret opsiyonel) |
 | **F** | Deploy / canlı vitrin | **100** | Agent rsync + VPS `winlrt-vitrin-sync` cron 10 dk |
 | **G** | Vitrin KPI verisi | **100** | Linux + Windows samples canlı |
 | **H** | TAURI imza | **100** | Hattı hazır; **imzasız resmi v1.0.0** — Authenticode secret opsiyonel (v1.0.1) |
-| **I** | Beta build + Release | **100** | [winlrt-rar-beta.42](https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.42) · [MADDE_I](./qa/MADDE_I_BETA_RELEASE.md) |
+| **I** | Beta build + Release | **100** | [winlrt-rar-beta.44](https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.44) · [MADDE_I](./qa/MADDE_I_BETA_RELEASE.md) |
 | **J** | Explorer pilot QA | **100** | Signoff PASS · [MADDE_J](./qa/MADDE_J_EXPLORER_QA.md) |
 | **K** | Kurumsal pilot | **100** | Signoff PASS · [MADDE_K](./qa/MADDE_K_KURUMSAL_PILOT.md) |
 | **L** | v1.0 kapısı | **100** | v1.0.0 imzasız resmi · [MADDE_L](./qa/MADDE_L_V1_GATE.md) |

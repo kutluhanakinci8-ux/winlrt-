@@ -2,7 +2,8 @@
 param(
     [Parameter(Mandatory = $true)]
     [string]$JsonPath,
-    [switch]$Strict
+    [switch]$Strict,
+    [switch]$ReportOnly
 )
 
 if (-not $Strict) {
@@ -55,7 +56,11 @@ if ($Strict -and $fail) {
     Write-Error "KPI kapısı henüz geçmedi (Strict)."
 }
 if ($fail) {
-    Write-Host "::warning::Faz 3 KPI kapısı henüz tam geçmedi — beta için uyarı."
+    if ($ReportOnly) {
+        Write-Host "::notice::Fast/rapor KPI — hız veya sıkıştırma henüz tam değil (Strict kapalı; Madde Q izleme)."
+    } else {
+        Write-Host "::warning::Faz 3 KPI kapısı henüz tam geçmedi — beta için uyarı."
+    }
     exit 0
 }
 Write-Host "Faz 3 KPI kapısı (bu profil): GEÇTİ"

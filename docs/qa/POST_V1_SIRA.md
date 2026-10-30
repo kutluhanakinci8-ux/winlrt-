@@ -9,4 +9,6 @@ A→L **%100** (imzasız resmi v1.0.0). Sıra:
 | **O** | Beta Release yenileme | **%100** ✅ | [winlrt-rar-beta.44](https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.44) · run 41093461800 |
 | **P** | Doküman / faz senkron | **%100** ✅ | PHASE_PROGRESS + AGENT_IZI |
 
-Strict imzalı kurulum: panel `TAURI_SIGNING_*` → `verify-madde-m-strict.sh` (secret yokken bilinçli FAIL).
+Strict imzalı kurulum: panel `TAURI_SIGNING_*` → `verify-madde-m-strict.sh` (**ertelendi**).
+
+**Sonraki (imza yok):** [POST_V2_SIRA.md](./POST_V2_SIRA.md)
