@@ -5,6 +5,9 @@ const path = require("path");
 
 const root = path.join(__dirname, "..", "public");
 const out = path.join(__dirname, "..", "dist");
+if (fs.existsSync(out)) {
+  fs.rmSync(out, { recursive: true, force: true });
+}
 fs.mkdirSync(out, { recursive: true });
 
 function copyDir(src, dest) {
