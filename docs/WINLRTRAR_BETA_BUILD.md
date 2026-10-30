@@ -19,3 +19,4 @@ npm run build:rar
   - Artifact: `winlrt-rar-windows-bundle`
   - Otomatik **prerelease** etiketi: `winlrt-rar-beta.<run_number>` (`.exe` / `.msi`)
 - Vitrin: [winlrt.com.tr/indir](https://winlrt.com.tr/indir) → GitHub Releases listesi.
+- Kurulum sonrası Explorer sağ tık: bkz. [WINLRTRAR_EXPLORER_MENU.md](./WINLRTRAR_EXPLORER_MENU.md)

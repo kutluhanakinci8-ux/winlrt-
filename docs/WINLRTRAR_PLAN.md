@@ -159,8 +159,9 @@ benchmarks/                # Rakip karşılaştırma seti
 
 Taslak: [WINLRTRAR_FAZ3_TRANSITION.md](./WINLRTRAR_FAZ3_TRANSITION.md)
 
-- [ ] Explorer sağ tık (WinRAR benzeri menü)
-- [ ] **Geçiş sihirbazı** (dosya ilişkilendirme, kısayollar) — uygulama içi özet (beta) mevcut
+- [x] Explorer sağ tık (beta): zip/rar/7z/wlrt — NSIS + `--extract-here`
+- [x] **Geçiş sihirbazı** (uygulama sekmesi + varsayılan uygulamalar)
+- [ ] Klasör sağ tık «sıkıştır» + tam WinRAR menü parity
 - [ ] Parola + güçlü şifreleme UI
 - [ ] Çok ciltli arşiv, onarım/test
 - [ ] Resmi benchmark yayını (vitrinde özet)

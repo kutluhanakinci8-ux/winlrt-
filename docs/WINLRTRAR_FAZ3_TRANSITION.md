@@ -12,9 +12,11 @@ WinRAR kullanıcısının winlrtRAR’ı **varsayılan arşiv uygulaması** yapm
 
 ## Uygulama (sıra)
 
-- [ ] Tauri içi “Geçiş” sayfası (TR): yukarıdaki adımlar + ekran görüntüsü yer tutucuları
-- [ ] Windows Registry / `SetUserFTA` araştırması (yalnızca kullanıcı onayı ile)
-- [ ] Explorer kabuk uzantısı (Faz 3 ana iş)
+- [x] Tauri **Geçiş sihirbazı** sekmesi (TR adımlar + varsayılan uygulamalar)
+- [x] Explorer sağ tık (beta): NSIS `installer-hooks.nsh` — «winlrtRAR ile aç», «buraya aç»
+- [x] CLI `--extract-here` (Explorer menüsünden)
+- [ ] Klasör sağ tık «sıkıştır» (WinRAR menüsü parity)
+- [ ] Tam kabuk uzantısı (.dll) / imzalı kurulum
 
 ## Kapı
 

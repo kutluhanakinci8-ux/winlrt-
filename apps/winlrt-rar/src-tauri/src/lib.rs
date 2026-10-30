@@ -1,9 +1,15 @@
-use std::path::{Path, PathBuf};
+mod cli;
+
+use std::path::Path;
 
 use serde::Serialize;
 use tauri::{AppHandle, Emitter, RunEvent};
+#[cfg(target_os = "windows")]
+use tauri_plugin_opener::OpenerExt;
 use winlrt_archive::profile::CompressionProfile;
 use winlrt_archive::{rar, sevenz, wlrt, zip_io};
+
+use cli::{extract_here, is_archive_path, parse_startup_mode, StartupMode};
 
 #[derive(Serialize)]
 pub struct ListResult {
@@ -25,6 +31,12 @@ pub struct ActionResult {
     pub message: String,
 }
 
+#[derive(Serialize)]
+pub struct PlatformInfo {
+    pub os: String,
+    pub explorer_context_menu: &'static str,
+}
+
 fn parse_profile(profile: &str) -> Result<CompressionProfile, String> {
     match profile.to_lowercase().as_str() {
         "fast" | "hizli" => Ok(CompressionProfile::Fast),
@@ -35,35 +47,64 @@ fn parse_profile(profile: &str) -> Result<CompressionProfile, String> {
     }
 }
 
-fn is_archive_path(path: &str) -> bool {
-    let lower = path.to_lowercase();
-    ["zip", "wlrt", "rar", "7z"]
-        .iter()
-        .any(|ext| lower.ends_with(&format!(".{ext}")))
-}
-
 fn emit_startup_archives(app: &AppHandle) {
-    for arg in std::env::args().skip(1) {
-        if is_archive_path(&arg) && Path::new(&arg).is_file() {
-            let _ = app.emit("open-archive", arg);
+    match parse_startup_mode() {
+        StartupMode::OpenArchive(path) => {
+            let _ = app.emit("open-archive", path);
+        }
+        StartupMode::ExtractHere(_) => {}
+        StartupMode::Normal => {
+            for arg in std::env::args().skip(1) {
+                if is_archive_path(&arg) && Path::new(&arg).is_file() {
+                    let _ = app.emit("open-archive", arg);
+                }
+            }
         }
     }
 }
 
 #[tauri::command]
 fn startup_archives() -> Vec<String> {
-    std::env::args()
-        .skip(1)
-        .filter(|a| is_archive_path(a) && Path::new(a).is_file())
-        .collect()
+    match parse_startup_mode() {
+        StartupMode::OpenArchive(path) => vec![path],
+        _ => vec![],
+    }
 }
 
 #[tauri::command]
 fn engine_info() -> EngineInfo {
     EngineInfo {
         product: "winlrtRAR",
-        phase: "Faz 2 beta",
+        phase: "Faz 3 beta (geçiş)",
         motor: "winlrt-archive 0.1.0 (ZIP · wlrt · RAR5 · 7z)",
+    }
+}
+
+#[tauri::command]
+fn platform_info() -> PlatformInfo {
+    PlatformInfo {
+        os: std::env::consts::OS.into(),
+        explorer_context_menu: if cfg!(target_os = "windows") {
+            "NSIS kurulum: zip/rar/7z/wlrt sağ tık menüsü"
+        } else {
+            "Yalnızca Windows kurulumunda"
+        },
+    }
+}
+
+#[tauri::command]
+fn open_windows_default_apps(app: AppHandle) -> Result<(), String> {
+    #[cfg(target_os = "windows")]
+    {
+        app.opener()
+            .open_url("ms-settings:defaultapps", None::<&str>)
+            .map_err(|e| e.to_string())?;
+        return Ok(());
+    }
+    #[cfg(not(target_os = "windows"))]
+    {
+        let _ = app;
+        Err("Varsayılan uygulamalar yalnızca Windows'ta açılır.".into())
     }
 }
 
@@ -73,7 +114,7 @@ fn list_archive(
     format: String,
     password: Option<String>,
 ) -> Result<ListResult, String> {
-    let archive = PathBuf::from(&path);
+    let archive = std::path::PathBuf::from(&path);
     if !archive.is_file() {
         return Err("Dosya bulunamadı".into());
     }
@@ -98,7 +139,7 @@ fn test_archive(
     format: String,
     password: Option<String>,
 ) -> Result<(), String> {
-    let archive = PathBuf::from(&path);
+    let archive = std::path::PathBuf::from(&path);
     let pw = password.as_deref();
     match format.as_str() {
         "zip" => zip_io::test(&archive).map_err(|e| e.to_string())?,
@@ -117,8 +158,8 @@ fn extract_archive(
     format: String,
     password: Option<String>,
 ) -> Result<ActionResult, String> {
-    let archive = PathBuf::from(&path);
-    let dest = PathBuf::from(&dest);
+    let archive = std::path::PathBuf::from(&path);
+    let dest = std::path::PathBuf::from(&dest);
     let pw = password.as_deref();
     match format.as_str() {
         "zip" => zip_io::extract(&archive, &dest).map_err(|e| e.to_string())?,
@@ -140,8 +181,8 @@ fn create_archive(
     format: String,
     profile: String,
 ) -> Result<ActionResult, String> {
-    let source = PathBuf::from(&source);
-    let dest = PathBuf::from(&dest);
+    let source = std::path::PathBuf::from(&source);
+    let dest = std::path::PathBuf::from(&dest);
     let profile = parse_profile(&profile)?;
     match format.as_str() {
         "zip" => zip_io::create_with_profile(&source, &dest, profile).map_err(|e| e.to_string())?,
@@ -161,8 +202,24 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
+        .setup(|app| {
+            if let StartupMode::ExtractHere(path) = parse_startup_mode() {
+                let handle = app.handle().clone();
+                match extract_here(&path) {
+                    Ok(res) => {
+                        let _ = handle.emit("cli-action-done", res.message);
+                    }
+                    Err(err) => {
+                        let _ = handle.emit("cli-action-error", err);
+                    }
+                }
+            }
+            Ok(())
+        })
         .invoke_handler(tauri::generate_handler![
             engine_info,
+            platform_info,
+            open_windows_default_apps,
             startup_archives,
             list_archive,
             test_archive,

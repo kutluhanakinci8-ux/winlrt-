@@ -27,6 +27,13 @@ interface Job {
   status: JobStatus;
 }
 
+interface PlatformInfo {
+  os: string;
+  explorer_context_menu: string;
+}
+
+type AppTab = "archive" | "transition";
+
 const CREATE_FORMATS: Format[] = ["zip", "wlrt"];
 
 function formatFromPath(filePath: string): Format | null {
@@ -56,6 +63,9 @@ function App() {
   const [error, setError] = useState("");
   const [dragOver, setDragOver] = useState(false);
   const [jobs, setJobs] = useState<Job[]>([]);
+  const [tab, setTab] = useState<AppTab>("archive");
+  const [platform, setPlatform] = useState<PlatformInfo | null>(null);
+  const [transitionStep, setTransitionStep] = useState(0);
 
   const pushJob = useCallback((label: string, status: JobStatus = "running") => {
     const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -83,6 +93,10 @@ function App() {
       .then(setInfo)
       .catch(() => undefined);
 
+    invoke<PlatformInfo>("platform_info")
+      .then(setPlatform)
+      .catch(() => undefined);
+
     invoke<string[]>("startup_archives")
       .then((paths) => {
         if (paths[0]) {
@@ -92,15 +106,32 @@ function App() {
       })
       .catch(() => undefined);
 
-    const unlistenPromise = listen<string>("open-archive", (event) => {
+    const unlistenOpen = listen<string>("open-archive", (event) => {
       if (event.payload) {
         applyArchivePath(event.payload);
+        setTab("archive");
         setStatus("Arşiv otomatik yüklendi.");
       }
     });
 
+    const unlistenDone = listen<string>("cli-action-done", (event) => {
+      if (event.payload) {
+        setTab("archive");
+        setStatus(event.payload);
+      }
+    });
+
+    const unlistenErr = listen<string>("cli-action-error", (event) => {
+      if (event.payload) {
+        setTab("archive");
+        setError(event.payload);
+      }
+    });
+
     return () => {
-      unlistenPromise.then((un) => un()).catch(() => undefined);
+      unlistenOpen.then((un) => un()).catch(() => undefined);
+      unlistenDone.then((un) => un()).catch(() => undefined);
+      unlistenErr.then((un) => un()).catch(() => undefined);
     };
   }, [applyArchivePath]);
 
@@ -270,16 +301,51 @@ function App() {
 
   const createFormat = CREATE_FORMATS.includes(format) ? format : "zip";
 
+  async function openDefaultApps() {
+    setError("");
+    try {
+      await invoke("open_windows_default_apps");
+      setTransitionStep((s) => Math.max(s, 2));
+      setStatus("Windows varsayılan uygulamalar açıldı.");
+    } catch (e) {
+      setError(String(e));
+    }
+  }
+
+  const transitionSteps = [
+    "Beta kurulumu (winlrt.com.tr → İndir → GitHub Releases).",
+    "Kurulumu tamamlayın; Explorer’da arşive sağ tık → winlrtRAR menüleri görünür.",
+    "Varsayılan uygulama: ZIP/RAR için winlrtRAR’ı seçin (isteğe bağlı).",
+    "Çift tık veya «buraya aç» ile günlük iş akışını test edin.",
+    "Yeni arşivler: ZIP veya .wlrt oluşturun (profil + Kaydet).",
+  ];
+
   return (
     <main className="app">
       <header className="header">
         <div>
-          <p className="eyebrow">winlrt · Faz 2 beta</p>
+          <p className="eyebrow">winlrt · Faz 3 geçiş</p>
           <h1>winlrtRAR</h1>
           <p className="sub">
-            Açma: ZIP, .wlrt, RAR, 7z · Oluşturma: ZIP / .wlrt (profil + Kaydet
-            diyalogu). Kurulum sonrası çift tık desteklenir.
+            Açma: ZIP, .wlrt, RAR, 7z · Oluşturma: ZIP / .wlrt · Explorer sağ
+            tık (Windows kurulum).
           </p>
+          <nav className="tabs" aria-label="Ana sekme">
+            <button
+              type="button"
+              className={`tab ${tab === "archive" ? "active" : ""}`}
+              onClick={() => setTab("archive")}
+            >
+              Arşiv
+            </button>
+            <button
+              type="button"
+              className={`tab ${tab === "transition" ? "active" : ""}`}
+              onClick={() => setTab("transition")}
+            >
+              Geçiş sihirbazı
+            </button>
+          </nav>
         </div>
         {info && (
           <div className="meta">
@@ -289,6 +355,40 @@ function App() {
         )}
       </header>
 
+      {tab === "transition" && (
+        <section className="panel transition wizard">
+          <h2>WinRAR → winlrtRAR</h2>
+          <p className="muted">
+            {platform?.explorer_context_menu ??
+              "Explorer menüsü Windows NSIS kurulumunda eklenir."}
+          </p>
+          <ol className="transition-list wizard-steps">
+            {transitionSteps.map((text, i) => (
+              <li key={text} className={i <= transitionStep ? "done" : ""}>
+                {text}
+              </li>
+            ))}
+          </ol>
+          <div className="row">
+            <button
+              type="button"
+              className="btn primary"
+              onClick={() => {
+                setTransitionStep((s) => Math.max(s, 1));
+                setTab("archive");
+                setStatus("Arşiv sekmesinde çift tık / sürükle-bırak test edin.");
+              }}
+            >
+              Adım 4 — arşiv sekmesine geç
+            </button>
+            <button type="button" className="btn" onClick={openDefaultApps}>
+              Varsayılan uygulamalar (Windows)
+            </button>
+          </div>
+        </section>
+      )}
+
+      {tab === "archive" && (
       <section className={`panel drop-zone ${dragOver ? "drag-over" : ""}`}>
         <p className="drop-hint">Arşivi buraya sürükleyin veya dosya seçin</p>
         <h3 className="panel-title">Aç / listele</h3>
@@ -370,7 +470,9 @@ function App() {
         {status && <p className="status ok">{status}</p>}
         {error && <p className="status err">{error}</p>}
       </section>
+      )}
 
+      {tab === "archive" && (
       <div className="split">
         <section className="panel list">
           <h2>İçerik</h2>
@@ -400,18 +502,7 @@ function App() {
           )}
         </section>
       </div>
-
-      <section className="panel transition">
-        <h2>WinRAR’dan geçiş (beta)</h2>
-        <ol className="transition-list">
-          <li>Beta kurulum: winlrt.com.tr → İndir → GitHub Releases (.exe).</li>
-          <li>Kurulum zip / rar / 7z / wlrt ilişkilendirmesini kaydeder; çift tıkla test edin.</li>
-          <li>Yeni arşivler için ZIP veya .wlrt oluşturun (profil + Kaydet).</li>
-          <li>
-            Tam sihirbaz ve Explorer sağ tık — Faz 3 (bkz. docs/WINLRTRAR_FAZ3_TRANSITION.md).
-          </li>
-        </ol>
-      </section>
+      )}
     </main>
   );
 }
