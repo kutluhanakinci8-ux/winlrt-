@@ -21,6 +21,6 @@ Otomatik takip: [WINLRTRAR_ROADMAP_TO_100.md](./WINLRTRAR_ROADMAP_TO_100.md)
 | **1** Deploy | **Agent VPS deploy OK** (yetkili kimlik) · CI `auth=skip` = token 403, opsiyonel panel | [DALGA1_GITHUB_VPS_SECRET.md](./DALGA1_GITHUB_VPS_SECRET.md) |
 | **2** Explorer QA | **Agent signoff PASS** | SHA256: release `winlrtRAR_0.1.0_x64-setup.exe` |
 | **3** Kurumsal | **Agent signoff PASS** | ADMX/.reg CI smoke |
-| **4** v1.0 | **rc1 yayında** — imzalı `v1.0.0` secret bekler | [DALGA4_IMZASIZ_V1_RC1.md](./qa/DALGA4_IMZASIZ_V1_RC1.md) |
+| **4** v1.0 | **Tamam** — tag `v1.0.0` imzasız resmi | [V1_0_0_UNSIGNED_RELEASE.md](./qa/V1_0_0_UNSIGNED_RELEASE.md) |
 
 **Agent otomasyon:** [qa/AGENT_IZI_TAMAM_PILOT_BEKLIYOR.md](./qa/AGENT_IZI_TAMAM_PILOT_BEKLIYOR.md) · toplu deploy: `scripts/post-final-single-deploy.sh`

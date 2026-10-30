@@ -8,7 +8,8 @@
 
 Kullanıcıdan **ayrı commit/push/deploy istenmez.**
 
-**Toplu tur:** Agent otomasyonu bitince tek sefer — `bash scripts/post-final-single-deploy.sh` (pilot signoff sahte yazılmaz).
+**Toplu tur:** `bash scripts/post-final-single-deploy.sh`  
+**v1 kapanış (imzasız):** `bash scripts/agent-dalga4-v1-unsigned-finish.sh` → commit · push · deploy.
 
 ## Dalga 2 (Explorer QA)
 

@@ -5,7 +5,7 @@
 | 1 | Deploy / vitrin | Agent rsync | [winlrt.com.tr](https://winlrt.com.tr/) |
 | 2 | Explorer QA | **Agent PASS** (release SHA256) | [EXPLORER_QA_SIGNOFF.md](./EXPLORER_QA_SIGNOFF.md) |
 | 3 | Kurumsal | **Agent PASS** (ADMX CI) | [KURUMSAL_PILOT_SIGNOFF.md](./KURUMSAL_PILOT_SIGNOFF.md) |
-| **4** | **v1.0** | **Aktif** — imza + tag | [V1_RELEASE_DRAFT.md](./V1_RELEASE_DRAFT.md) |
+| 4 | v1.0 | **Tamam (imzasız resmi)** | [v1.0.0](https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.0) |
 
 Chat: [PILOT_CHAT_SABLONLARI.md](./PILOT_CHAT_SABLONLARI.md) · Agent: [AGENT_COMMIT_DEPLOY.md](../AGENT_COMMIT_DEPLOY.md)
 
