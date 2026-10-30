@@ -1,3 +1,3 @@
 {
-  "install": "npm install"
+  "install": "npm install && (command -v cargo >/dev/null || curl -fsSL https://sh.rustup.rs | sh -s -- -y --default-toolchain stable) && cargo fetch -p winlrt-archive"
 }

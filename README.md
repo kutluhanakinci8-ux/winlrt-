@@ -19,6 +19,13 @@ npm run dev:web    # http://localhost:3020
 npm run build:web  # apps/web/dist
 ```
 
+**winlrtRAR motoru (Rust):**
+
+```bash
+cargo build -p winlrt-archive
+cargo run -p winlrt-archive -- --help
+```
+
 ## CI / deploy
 
 - **CI:** GitHub Actions `ci.yml` — vitrin build doğrulaması

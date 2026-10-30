@@ -22,9 +22,9 @@ Her faz sonunda aşağıdaki “kazanma kriterleri”nden en az birkaçı **benc
 
 | Alan | WinRAR / WinZip tipik zayıflık | winlrtRAR hedefi |
 |------|-------------------------------|------------------|
-| **Hız** | Eski algoritmalar, tek çekirdek ağırlığı | Çok çekirdek + modern codec (zstd/lz4); “Hızlı aç” modunda rakiplerden **≥ %30 daha hızlı** (Faz 3 benchmark) |
-| **Sıkıştırma** | RAR iyi ama kapalı; ZIP zayıf | `.wlrt` ile aynı dosyada rakip ZIP’e göre **≥ %10 daha küçük** veya eşit boyutta **daha hızlı** (Faz 3) |
-| **Güvenlik** | Eski ZIP şifreleme, zayıf varsayılanlar | AES-256-GCM, Argon2id parola türetme; kurumsal “şifre politikası” (Faz 2–4) |
+| **Hız** (P0) | Eski algoritmalar, tek çekirdek ağırlığı | Çok çekirdek + modern codec (zstd/lz4); “Hızlı aç” modunda rakiplerden **≥ %30 daha hızlı** (Faz 3 benchmark) |
+| **Sıkıştırma** (P0) | RAR iyi ama kapalı; ZIP zayıf | `.wlrt` ile aynı dosyada rakip ZIP’e göre **≥ %10 daha küçük** veya eşit boyutta **daha hızlı** (Faz 3) |
+| **Güvenlik** (P0) | Eski ZIP şifreleme, zayıf varsayılanlar | AES-256-GCM, Argon2id parola türetme; kurumsal “şifre politikası” (Faz 2–4) |
 | **Güven / bütünlük** | Sınırlı imza deneyimi | Arşiv **dijital imza** + checksum ağacı; kurum içi “sahte arşiv” tespiti (Faz 4) |
 | **UX** | Eski arayüz, deneme uyarıları | Modern UI, karanlık tema, sürükle-bırak, **deneme ekranı yok**, TR/EN (Faz 2+) |
 | **Kurumsal** | Lisans karmaşası, sınırlı denetim | Sessiz kurulum, MDM/GPO, merkezi güncelleme, **KVKK uyumlu denetim günlüğü** (Faz 5–6) |
@@ -243,11 +243,13 @@ benchmarks/                # Rakip karşılaştırma seti
 
 ---
 
-## 9. Sizden netleştirecek 4 karar
+## 9. Onaylı kararlar (2026-10-30)
 
-1. **Faz 2’de RAR açma** — rekabet için **evet** mi? (öneri: **evet**)  
-2. **Birinci KPI önceliği:** hız mı, sıkıştırma oranı mı, kurumsal güven mi?  
-3. **İlk kurumsal pilot hedefi:** banka / sendika / KOBİ — hangisi?  
-4. **winlrtZIP:** winlrtRAR **Faz 2** bitene kadar beklesin mi? (öneri: **evet**)
+| # | Soru | Karar |
+|---|------|--------|
+| 1 | Faz 2’de RAR açma | **Evet** |
+| 2 | KPI önceliği | **Üçü birden P0:** hız, sıkıştırma, kurumsal güven |
+| 3 | Kurumsal pilot | **Banka + sendika + KOBİ** |
+| 4 | winlrtZIP | **Faz 2 bitene kadar bekler** |
 
-Onay sonrası: **Faz 0 checklist** doldurulur → **Faz 1** kod (`crates/winlrt-archive` + benchmark klasörü) başlar.
+Detay: [WINLRTRAR_PHASE0.md](./WINLRTRAR_PHASE0.md) · **Faz 1** kod: `crates/winlrt-archive`, `benchmarks/`.

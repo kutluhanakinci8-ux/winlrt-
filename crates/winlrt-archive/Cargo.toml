@@ -1,0 +1,17 @@
+[package]
+name = "winlrt-archive"
+description = "winlrt arşiv motoru — winlrtRAR / winlrtZIP ortak çekirdek"
+version.workspace = true
+edition.workspace = true
+
+[[bin]]
+name = "winlrt-archive"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+clap.workspace = true
+thiserror.workspace = true
+zip.workspace = true
+zstd.workspace = true
+walkdir = "2"
