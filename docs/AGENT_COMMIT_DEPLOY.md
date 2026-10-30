@@ -10,8 +10,8 @@ Kullanıcıdan **ayrı commit/push/deploy istenmez.**
 
 ## Dalga 2 (Explorer QA)
 
-- Pilot Windows’ta test eder; chat’e **QA bitti** + SHA256 + OS yazar.  
-- **Agent:** `scripts/agent-explorer-signoff.sh` → commit → push → deploy → Dalga 3.
+- Pilot Windows’ta test eder; chat’e şablon yazar ([PILOT_CHAT_SABLONLARI.md](./qa/PILOT_CHAT_SABLONLARI.md)).  
+- **Agent:** `scripts/agent-parse-pilot-chat.sh` (stdin) veya `agent-explorer-signoff.sh` → commit → push → deploy → Dalga 3.
 
 ## Dalga 3 (kurumsal)
 

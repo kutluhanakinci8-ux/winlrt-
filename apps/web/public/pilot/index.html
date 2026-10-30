@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pilot durumu — winlrtRAR</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css?v=3" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="logo" href="/">winlrt</a>
+        <nav class="nav" aria-label="Ana menü">
+          <a href="/downloads/">İndir</a>
+          <a href="/benchmark/">Benchmark</a>
+        </nav>
+      </div>
+    </header>
+    <main class="container" style="padding: 2rem 1rem 4rem">
+      <h1>winlrtRAR pilot sırası</h1>
+      <p class="lead" id="lead">Durum yükleniyor…</p>
+      <div id="waves" style="display: grid; gap: 1rem; margin: 1.5rem 0"></div>
+      <p class="meta" id="meta"></p>
+      <p>
+        <a class="btn btn-primary" href="/downloads/">Beta indir</a>
+        <a class="btn btn-ghost" id="doc-link" href="#">Aktif dalga rehberi</a>
+      </p>
+    </main>
+    <script>
+      const labels = {
+        1: "Dalga 1 — Deploy / vitrin",
+        2: "Dalga 2 — Explorer QA (Windows)",
+        3: "Dalga 3 — Kurumsal pilot",
+        4: "Dalga 4 — v1.0 kapı",
+      };
+      const stateLabel = (s) =>
+        s === "pass" ? "PASS" : s === "pending" ? "bekliyor" : s;
+
+      async function load() {
+        const res = await fetch("/pilot/status.json", { cache: "no-store" });
+        const data = await res.json();
+        const w = data.active_wave || 2;
+        document.getElementById("lead").textContent =
+          "Aktif dalga: " + (labels[w] || w) + ". Test sonrası chat şablonunu Cursor agent’a gönderin.";
+        const root = document.getElementById("waves");
+        const order = [
+          ["2_explorer_qa", 2],
+          ["3_corporate", 3],
+          ["4_v1", 4],
+        ];
+        root.innerHTML = "";
+        for (const [key, num] of order) {
+          const st = (data.waves && data.waves[key]) || "pending";
+          const active = num === w;
+          root.insertAdjacentHTML(
+            "beforeend",
+            `<article class="card"><h3>${labels[num]}${
+              active ? " ← şimdi" : ""
+            }</h3><p class="meta">Durum: <strong>${stateLabel(st)}</strong></p></article>`
+          );
+        }
+        document.getElementById("meta").textContent =
+          "Güncelleme: " + (data.generated_at || "") + " · Agent deploy sonrası yenilenir.";
+        const doc =
+          w === 3
+            ? data.links.corporate_zip
+            : w === 4
+              ? "https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/DALGA4_V1_OTURUM.md"
+              : data.links.dalga2_doc;
+        const a = document.getElementById("doc-link");
+        a.href = doc;
+        a.textContent = w === 3 ? "Kurumsal ZIP" : "Rehber (GitHub)";
+      }
+      load().catch(() => {
+        document.getElementById("lead").textContent =
+          "status.json yüklenemedi — deploy/build sonrası tekrar deneyin.";
+      });
+    </script>
+  </body>
+</html>

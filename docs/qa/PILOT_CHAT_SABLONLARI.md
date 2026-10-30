@@ -32,4 +32,6 @@ Tag: v1.0.0
 Not: <release notes özeti>
 ```
 
+Canlı özet: [winlrt.com.tr/pilot/](https://winlrt.com.tr/pilot/)
+
 Rehberler: [DALGA2_PILOT_OTURUM.md](./DALGA2_PILOT_OTURUM.md) · [DALGA3_PILOT_OTURUM.md](./DALGA3_PILOT_OTURUM.md) · [DALGA4_V1_OTURUM.md](./DALGA4_V1_OTURUM.md)
