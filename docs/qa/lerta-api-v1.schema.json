@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://winlrt.com.tr/schemas/lerta-api-v1.json",
+  "title": "LertaApiConfig",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "product",
+    "api_base",
+    "register_url",
+    "bearer_configured",
+    "dry_run",
+    "production_host",
+    "metadata_only"
+  ],
+  "properties": {
+    "contract_version": { "type": "string" },
+    "product": { "type": "string", "const": "winlrtZIP" },
+    "api_base": { "type": "string", "format": "uri" },
+    "register_url": { "type": "string", "format": "uri" },
+    "bearer_configured": { "type": "boolean" },
+    "dry_run": { "type": "boolean" },
+    "production_host": { "type": "string" },
+    "metadata_only": { "type": "boolean", "const": true }
+  },
+  "additionalProperties": false
+}

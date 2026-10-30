@@ -1,0 +1,10 @@
+{
+  "contract_version": "1",
+  "product": "winlrtZIP",
+  "api_base": "https://u88.lerta.com.tr/api/v1",
+  "register_url": "https://u88.lerta.com.tr/api/v1/integrations/winlrt-zip/mail-attachment",
+  "bearer_configured": false,
+  "dry_run": true,
+  "production_host": "lerta.com.tr",
+  "metadata_only": true
+}

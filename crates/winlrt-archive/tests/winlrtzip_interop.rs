@@ -778,6 +778,31 @@ fn w28_lerta_mail_attachment_webhook() {
 }
 
 #[test]
+fn w29_lerta_api_metadata_submit_dry_run() {
+    std::env::set_var("WINLRT_LERTA_API_DRY_RUN", "1");
+    std::env::remove_var("LERTA_API_BEARER");
+    let cfg = winlrt_archive::lerta_api::lerta_api_config_from_env();
+    assert!(cfg.dry_run);
+    assert!(cfg.register_url.contains("winlrt-zip"));
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("api.txt");
+    fs::write(&src, b"w29-lerta-api").unwrap();
+    let zip = base.path().join("ek.zip");
+    let prep = winlrt_archive::lerta_mail::prepare_lerta_mail_attachment(
+        &src,
+        &zip,
+        winlrt_archive::lerta_mail::LertaAttachmentTier::Standard10Mb,
+        None,
+    )
+    .unwrap();
+    let hook = winlrt_archive::lerta_mail::webhook_payload_from_prepare(&prep);
+    let sub = winlrt_archive::lerta_api::submit_mail_attachment_metadata(&hook).unwrap();
+    assert!(sub.ok);
+    assert!(sub.dry_run);
+    std::env::remove_var("WINLRT_LERTA_API_DRY_RUN");
+}
+
+#[test]
 fn w27_store_gate_all_pass_in_repo() {
     let root = winlrt_archive::store_gate::default_workspace_root();
     let report = winlrt_archive::store_gate::evaluate_store_gate(&root).unwrap();

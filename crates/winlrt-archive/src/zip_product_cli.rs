@@ -8,6 +8,7 @@ use serde::Serialize;
 use crate::bench::{self, BenchReport, BenchSuite};
 use crate::profile::CompressionProfile;
 use crate::archive_sign;
+use crate::lerta_api;
 use crate::lerta_mail;
 use crate::mobile_reader;
 use crate::secure_share;
@@ -80,6 +81,13 @@ pub enum ZipCommands {
     },
     LertaMailValidate {
         zip: PathBuf,
+        #[arg(long, value_enum, default_value_t = LertaTierArg::Standard10Mb)]
+        tier: LertaTierArg,
+    },
+    LertaApiStatus,
+    LertaMailSubmit {
+        source: PathBuf,
+        dest: PathBuf,
         #[arg(long, value_enum, default_value_t = LertaTierArg::Standard10Mb)]
         tier: LertaTierArg,
     },
@@ -411,6 +419,49 @@ pub fn run() -> Result<()> {
                 })?;
             } else {
                 println!("OK Lerta posta eki limiti");
+            }
+        }
+        ZipCommands::LertaApiStatus => {
+            let cfg = lerta_api::lerta_api_config_from_env();
+            if json_out {
+                print_json(&cfg)?;
+            } else {
+                println!(
+                    "Lerta API: {} dry_run={} bearer={}",
+                    cfg.register_url, cfg.dry_run, cfg.bearer_configured
+                );
+            }
+        }
+        ZipCommands::LertaMailSubmit {
+            source,
+            dest,
+            tier,
+        } => {
+            let prep = lerta_mail::prepare_lerta_mail_attachment(
+                &source,
+                &dest,
+                tier.into(),
+                pw,
+            )?;
+            let webhook = lerta_mail::webhook_payload_from_prepare(&prep);
+            let submit = lerta_api::submit_mail_attachment_metadata(&webhook)?;
+            if json_out {
+                #[derive(Serialize)]
+                struct LertaMailSubmitJson {
+                    prepare: lerta_mail::LertaAttachmentPrepareResult,
+                    webhook: lerta_mail::LertaMailWebhookPayload,
+                    submit: lerta_api::LertaApiSubmitResult,
+                }
+                print_json(&LertaMailSubmitJson {
+                    prepare: prep,
+                    webhook,
+                    submit,
+                })?;
+            } else {
+                println!(
+                    "OK Lerta submit dry_run={} detail={}",
+                    submit.dry_run, submit.detail
+                );
             }
         }
         ZipCommands::Bench {

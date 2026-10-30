@@ -14,6 +14,7 @@ use winlrt_archive::crypto::{self, PasswordFeedback};
 use winlrt_archive::enterprise;
 use winlrt_archive::password_policy::{self, PasswordPolicy};
 use winlrt_archive::profile::CompressionProfile;
+use winlrt_archive::lerta_api;
 use winlrt_archive::lerta_mail;
 use winlrt_archive::mobile_reader;
 use winlrt_archive::zip_io;
@@ -408,6 +409,30 @@ fn parse_lerta_tier(s: &str) -> Result<lerta_mail::LertaAttachmentTier, String> 
 }
 
 #[tauri::command]
+fn lerta_api_status() -> lerta_api::LertaApiConfig {
+    lerta_api::lerta_api_config_from_env()
+}
+
+#[tauri::command]
+fn lerta_submit_mail_attachment(
+    source: String,
+    dest: String,
+    tier: String,
+    password: Option<String>,
+) -> Result<lerta_api::LertaApiSubmitResult, String> {
+    let tier = parse_lerta_tier(&tier)?;
+    let prep = lerta_mail::prepare_lerta_mail_attachment(
+        Path::new(&source),
+        Path::new(&dest),
+        tier,
+        password.as_deref(),
+    )
+    .map_err(map_err)?;
+    let hook = lerta_mail::webhook_payload_from_prepare(&prep);
+    lerta_api::submit_mail_attachment_metadata(&hook).map_err(map_err)
+}
+
+#[tauri::command]
 fn mobile_capabilities() -> mobile_reader::MobileCapabilities {
     mobile_reader::capabilities()
 }
@@ -503,7 +528,9 @@ pub fn run() {
             mobile_inspect_zip,
             mobile_lerta_share_intent,
             lerta_prepare_mail_attachment,
-            lerta_validate_mail_attachment
+            lerta_validate_mail_attachment,
+            lerta_api_status,
+            lerta_submit_mail_attachment
         ])
         .build(tauri::generate_context!())
         .expect("winlrtZIP build hatası")

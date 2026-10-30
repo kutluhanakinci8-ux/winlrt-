@@ -31,5 +31,6 @@
 | **W26** | Mobil okuyucu smoke (Faz 6) | **%100** ✅ | [MADDE_W26](./MADDE_W26_WINLRTZIP_MOBILE_READER.md) |
 | **W27** | Mağaza / güncelleme kapısı (Faz 7) | **%100** ✅ | [MADDE_W27](./MADDE_W27_WINLRTZIP_STORE_GATE.md) |
 | **W28** | Lerta posta eki otomasyonu (Faz 8) | **%100** ✅ | [MADDE_W28](./MADDE_W28_WINLRTZIP_LERTA_MAIL.md) |
+| **W29** | Lerta üretim API (metadata kaydı) | **%100** ✅ | [MADDE_W29](./MADDE_W29_WINLRTZIP_LERTA_API.md) |
 
 RAR hattı: [POST_V2_SIRA.md](./POST_V2_SIRA.md) (Q2 tamam).

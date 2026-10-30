@@ -188,7 +188,7 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 ### Faz 8 — Lerta entegrasyonu
 
 - [x] Posta eki otomasyonu (ZIP webhook) — [MADDE_W28](./qa/MADDE_W28_WINLRTZIP_LERTA_MAIL.md)
-- [ ] Lerta üretim API bağlantısı (canlı lerta.com.tr)
+- [x] Lerta üretim API bağlantısı (metadata, dry-run) — [MADDE_W29](./qa/MADDE_W29_WINLRTZIP_LERTA_API.md)
 
 ---
 
