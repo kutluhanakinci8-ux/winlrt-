@@ -5,7 +5,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
 for v in \
-  verify-madde-{c,d,ef,h,i,j,k,l,m,q,s-nsis,t-vps-doc,w0,w1,w2,w3}.sh; do
+  verify-madde-{c,d,ef,h,i,j,k,l,m,q,s-nsis,t-vps-doc,w0,w1,w2,w3,w4}.sh; do
   if [ -x "$ROOT/scripts/$v" ]; then
     bash "$ROOT/scripts/$v"
   fi

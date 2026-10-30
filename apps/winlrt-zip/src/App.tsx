@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import { listen } from "@tauri-apps/api/event";
 import { open, save } from "@tauri-apps/plugin-dialog";
 import "./App.css";
 
@@ -9,11 +10,22 @@ interface EngineInfo {
   product: string;
   version: string;
   motor: string;
+  explorer_context_menu?: string;
 }
 
 interface ListResult {
   path: string;
   entries: string[];
+}
+
+interface CompressFolderHint {
+  folder: string;
+  suggested_output: string;
+}
+
+interface CompressSelectionHint {
+  sources: string[];
+  suggested_output: string;
 }
 
 export default function App() {
@@ -24,16 +36,7 @@ export default function App() {
   const [status, setStatus] = useState<string>("");
   const [busy, setBusy] = useState(false);
 
-  useEffect(() => {
-    invoke<EngineInfo>("engine_info").then(setInfo).catch(console.error);
-  }, []);
-
-  const openZip = useCallback(async () => {
-    const picked = await open({
-      multiple: false,
-      filters: [{ name: "ZIP", extensions: ["zip"] }],
-    });
-    if (!picked || Array.isArray(picked)) return;
+  const loadArchive = useCallback(async (picked: string) => {
     setBusy(true);
     setStatus("");
     try {
@@ -47,6 +50,105 @@ export default function App() {
       setBusy(false);
     }
   }, []);
+
+  const runCreate = useCallback(
+    async (source: string, dest: string) => {
+      setBusy(true);
+      try {
+        const res = await invoke<{ message: string }>("create_zip", {
+          source,
+          dest,
+          profile,
+          password: null,
+        });
+        setStatus(res.message);
+        await loadArchive(dest);
+      } catch (e) {
+        setStatus(String(e));
+      } finally {
+        setBusy(false);
+      }
+    },
+    [loadArchive, profile],
+  );
+
+  const runCreateSelection = useCallback(
+    async (sources: string[], dest: string) => {
+      setBusy(true);
+      try {
+        const res = await invoke<{ message: string }>("create_zip_from_paths", {
+          sources,
+          dest,
+          profile,
+          password: null,
+        });
+        setStatus(res.message);
+        await loadArchive(dest);
+      } catch (e) {
+        setStatus(String(e));
+      } finally {
+        setBusy(false);
+      }
+    },
+    [loadArchive, profile],
+  );
+
+  useEffect(() => {
+    invoke<EngineInfo>("engine_info").then(setInfo).catch(console.error);
+
+    invoke<string[]>("startup_archives")
+      .then((paths) => {
+        if (paths[0]) void loadArchive(paths[0]);
+      })
+      .catch(() => undefined);
+
+    invoke<CompressFolderHint | null>("startup_compress_folder")
+      .then((hint) => {
+        if (hint) void runCreate(hint.folder, hint.suggested_output);
+      })
+      .catch(() => undefined);
+
+    invoke<CompressSelectionHint | null>("startup_compress_selection")
+      .then((hint) => {
+        if (hint) void runCreateSelection(hint.sources, hint.suggested_output);
+      })
+      .catch(() => undefined);
+
+    const unlistenOpen = listen<string>("open-archive", (event) => {
+      if (event.payload) void loadArchive(event.payload);
+    });
+    const unlistenDone = listen<string>("cli-action-done", (event) => {
+      if (event.payload) setStatus(event.payload);
+    });
+    const unlistenErr = listen<string>("cli-action-error", (event) => {
+      if (event.payload) setStatus(event.payload);
+    });
+    const unlistenCompress = listen<CompressFolderHint>("compress-folder", (event) => {
+      if (event.payload) void runCreate(event.payload.folder, event.payload.suggested_output);
+    });
+    const unlistenSelection = listen<CompressSelectionHint>("compress-selection", (event) => {
+      if (event.payload) {
+        void runCreateSelection(event.payload.sources, event.payload.suggested_output);
+      }
+    });
+
+    return () => {
+      unlistenOpen.then((un) => un()).catch(() => undefined);
+      unlistenDone.then((un) => un()).catch(() => undefined);
+      unlistenErr.then((un) => un()).catch(() => undefined);
+      unlistenCompress.then((un) => un()).catch(() => undefined);
+      unlistenSelection.then((un) => un()).catch(() => undefined);
+    };
+  }, [loadArchive, runCreate, runCreateSelection]);
+
+  const openZip = useCallback(async () => {
+    const picked = await open({
+      multiple: false,
+      filters: [{ name: "ZIP", extensions: ["zip"] }],
+    });
+    if (!picked || Array.isArray(picked)) return;
+    await loadArchive(picked);
+  }, [loadArchive]);
 
   const extractZip = useCallback(async () => {
     if (!archivePath) return;
@@ -75,24 +177,8 @@ export default function App() {
       defaultPath: "arsiv.zip",
     });
     if (!dest) return;
-    setBusy(true);
-    try {
-      const res = await invoke<{ message: string }>("create_zip", {
-        source,
-        dest,
-        profile,
-        password: null,
-      });
-      setStatus(res.message);
-      setArchivePath(dest);
-      const list = await invoke<ListResult>("list_zip", { archive: dest, password: null });
-      setEntries(list.entries);
-    } catch (e) {
-      setStatus(String(e));
-    } finally {
-      setBusy(false);
-    }
-  }, [profile]);
+    await runCreate(source, dest);
+  }, [runCreate]);
 
   const testZip = useCallback(async () => {
     if (!archivePath) return;
@@ -115,6 +201,9 @@ export default function App() {
       <header>
         <h1>{info?.product ?? "winlrtZIP"}</h1>
         <p className="meta">{info?.motor}</p>
+        {info?.explorer_context_menu && (
+          <p className="meta explorer">{info.explorer_context_menu}</p>
+        )}
       </header>
       <div className="toolbar">
         <button type="button" disabled={busy} onClick={() => void openZip()}>
