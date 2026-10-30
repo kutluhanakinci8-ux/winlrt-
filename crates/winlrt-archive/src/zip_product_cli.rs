@@ -8,6 +8,7 @@ use serde::Serialize;
 use crate::bench::{self, BenchReport, BenchSuite};
 use crate::profile::CompressionProfile;
 use crate::archive_sign;
+use crate::secure_share;
 use crate::{zip_io, Result};
 
 #[derive(Parser)]
@@ -53,6 +54,15 @@ pub enum ZipCommands {
         signing_seed_hex: Option<String>,
     },
     VerifySig { archive: PathBuf },
+    SharePack {
+        source: PathBuf,
+        dest: PathBuf,
+        #[arg(long)]
+        self_hosted_base: Option<String>,
+        #[arg(long)]
+        max_retention_days: Option<u32>,
+    },
+    VerifyShare { pack_zip: PathBuf },
     Bench {
         #[arg(long)]
         fixture: Option<PathBuf>,
@@ -111,6 +121,23 @@ struct SignJson {
     ok: bool,
     action: &'static str,
     sidecar: String,
+}
+
+#[derive(Serialize)]
+struct SharePackJson {
+    ok: bool,
+    action: &'static str,
+    pack_id: String,
+    zip: String,
+    manifest: String,
+}
+
+#[derive(Serialize)]
+struct VerifyShareJson {
+    ok: bool,
+    action: &'static str,
+    pack_id: String,
+    kvkk_local_only: bool,
 }
 
 fn parse_seed_hex(hex: &str) -> Result<[u8; 32]> {
@@ -228,6 +255,54 @@ pub fn run() -> Result<()> {
                 })?;
             } else {
                 println!("OK imza dogrulandi");
+            }
+        }
+        ZipCommands::SharePack {
+            source,
+            dest,
+            self_hosted_base,
+            max_retention_days,
+        } => {
+            let password = pw.ok_or_else(|| {
+                crate::ArchiveError::Zip(
+                    "share-pack icin --password gerekli (min 8 karakter)".into(),
+                )
+            })?;
+            let result = secure_share::create_secure_share_pack(
+                &source,
+                &dest,
+                password,
+                self_hosted_base.as_deref(),
+                max_retention_days,
+            )?;
+            if json_out {
+                print_json(&SharePackJson {
+                    ok: true,
+                    action: "share-pack",
+                    pack_id: result.pack_id,
+                    zip: result.zip_path.display().to_string(),
+                    manifest: result.manifest_path.display().to_string(),
+                })?;
+            } else {
+                println!(
+                    "OK paylasim paketi: {} (manifest: {}, id: {})",
+                    result.zip_path.display(),
+                    result.manifest_path.display(),
+                    result.pack_id
+                );
+            }
+        }
+        ZipCommands::VerifyShare { pack_zip } => {
+            let manifest = secure_share::verify_secure_share_pack(&pack_zip, pw)?;
+            if json_out {
+                print_json(&VerifyShareJson {
+                    ok: true,
+                    action: "verify-share",
+                    pack_id: manifest.pack_id,
+                    kvkk_local_only: manifest.kvkk_local_only,
+                })?;
+            } else {
+                println!("OK KVKK paylasim paketi: {}", manifest.pack_id);
             }
         }
         ZipCommands::Bench {

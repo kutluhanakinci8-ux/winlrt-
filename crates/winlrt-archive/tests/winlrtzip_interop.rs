@@ -9,6 +9,7 @@ use winlrt_archive::profile::{
     CompressionProfile, EMAIL_ATTACHMENT_MAX_ZIP_BYTES, EMAIL_ATTACHMENT_MIXED_MAX_CREATE_MS,
 };
 use winlrt_archive::archive_sign;
+use winlrt_archive::secure_share;
 use winlrt_archive::zip_io;
 
 /// Kurumsal politika ile uyumlu test parolası.
@@ -750,6 +751,30 @@ fn w23_signed_archive_extract() {
     let out = base.path().join("out");
     zip_io::extract(&zip, &out, None).unwrap();
     assert_eq!(fs::read(out.join("signed.txt")).unwrap(), b"w23-ed25519-sidecar");
+}
+
+#[test]
+fn w25_secure_share_pack_kvkk_local() {
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("brief.txt");
+    fs::write(&src, b"w25-kvkk-local-pack").unwrap();
+    let zip = base.path().join("share.zip");
+    let pw = "Share-Pack12";
+    let pack = secure_share::create_secure_share_pack(
+        &src,
+        &zip,
+        pw,
+        Some("https://intranet.example"),
+        Some(14),
+    )
+    .unwrap();
+    assert!(pack.manifest_path.is_file());
+    let manifest = secure_share::verify_secure_share_pack(&zip, Some(pw)).unwrap();
+    assert!(manifest.kvkk_local_only);
+    let link = secure_share::self_hosted_download_url(&manifest, "https://intranet.example");
+    assert!(link.starts_with("https://intranet.example/winlrt-share/"));
+    zip_io::extract(&zip, &base.path().join("out"), Some(pw)).unwrap();
+    assert_eq!(fs::read(base.path().join("out/brief.txt")).unwrap(), b"w25-kvkk-local-pack");
 }
 
 #[test]

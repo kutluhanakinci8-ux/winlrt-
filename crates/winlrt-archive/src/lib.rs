@@ -2,6 +2,7 @@
 
 pub mod archive_sign;
 pub mod audit;
+pub mod secure_share;
 pub mod bench;
 pub mod crypto;
 pub mod enterprise;
