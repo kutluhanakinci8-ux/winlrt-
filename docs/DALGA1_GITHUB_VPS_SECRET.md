@@ -1,6 +1,8 @@
-# Dalga 1 — GitHub VPS secret (CI otomatik deploy)
+# Dalga 1 — GitHub VPS secret (isteğe bağlı: CI deploy)
 
-Agent token **403** ile secret yazamaz; **bir kez sizin** GitHub hesabınızdan:
+**Canlı deploy:** Cloud Agent zaten yetkili `VPS_*` ile `post-phase-deploy.sh` çalıştırır — şifre repoya yazılmaz.
+
+**CI (push → Actions deploy):** Agent token **403** ile GitHub Secret yazamaz. İsterseniz **bir kez** kendi GitHub oturumunuzdan:
 
 1. https://github.com/kutluhanakinci8-ux/winlrt-/settings/secrets/actions  
 2. **New repository secret**  
