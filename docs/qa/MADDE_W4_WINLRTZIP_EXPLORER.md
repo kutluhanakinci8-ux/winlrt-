@@ -19,7 +19,7 @@
 | winlrtZIP — hızlı ZIP | Headless e-posta profili |
 | winlrtZIP — seçilenleri sıkıştır | UI: çoklu dosya → `.zip` |
 
-Şifreli sıkıştırma: sonraki madde (W5 planı).
+Şifreli sıkıştırma: [MADDE_W5](./MADDE_W5_WINLRTZIP_PASSWORD.md).
 
 ## W4 %100
 

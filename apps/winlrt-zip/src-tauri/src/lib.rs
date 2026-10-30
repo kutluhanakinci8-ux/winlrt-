@@ -8,8 +8,64 @@ use cli::{
 };
 use serde::Serialize;
 use tauri::{AppHandle, Emitter, RunEvent};
+use winlrt_archive::crypto::{self, PasswordFeedback};
+use winlrt_archive::password_policy::{self, PasswordPolicy};
 use winlrt_archive::profile::CompressionProfile;
 use winlrt_archive::zip_io;
+
+fn cli_secure_create() -> bool {
+    std::env::args().any(|a| a == "--secure")
+}
+
+#[derive(Clone, Serialize)]
+pub struct PasswordPolicyView {
+    pub id: String,
+    pub label: String,
+    pub min_length: u32,
+    pub require_upper: bool,
+    pub require_lower: bool,
+    pub require_digit: bool,
+    pub require_symbol: bool,
+}
+
+impl From<PasswordPolicy> for PasswordPolicyView {
+    fn from(p: PasswordPolicy) -> Self {
+        Self {
+            id: p.id.into(),
+            label: p.label.into(),
+            min_length: p.min_length,
+            require_upper: p.require_upper,
+            require_lower: p.require_lower,
+            require_digit: p.require_digit,
+            require_symbol: p.require_symbol,
+        }
+    }
+}
+
+#[derive(Clone, Serialize)]
+pub struct SecureCreateWizard {
+    pub suggested_output: String,
+    pub folder: Option<String>,
+    pub sources: Vec<String>,
+    pub policy: PasswordPolicyView,
+}
+
+fn secure_wizard_payload(
+    folder: Option<String>,
+    sources: Vec<String>,
+    suggested_output: String,
+) -> SecureCreateWizard {
+    SecureCreateWizard {
+        suggested_output,
+        folder,
+        sources,
+        policy: password_policy::policy_for_secure_create().into(),
+    }
+}
+
+fn maybe_emit_secure_wizard(app: &AppHandle, wizard: SecureCreateWizard) {
+    let _ = app.emit("secure-create-wizard", wizard);
+}
 
 #[derive(Serialize)]
 pub struct EngineInfo {
@@ -35,12 +91,14 @@ pub struct ActionResult {
 pub struct CompressFolderHint {
     pub folder: String,
     pub suggested_output: String,
+    pub secure_create: bool,
 }
 
 #[derive(Serialize, Clone)]
 pub struct CompressSelectionHint {
     pub sources: Vec<String>,
     pub suggested_output: String,
+    pub secure_create: bool,
 }
 
 fn parse_profile(profile: &str) -> Result<CompressionProfile, String> {
@@ -64,24 +122,40 @@ fn emit_startup_events(app: &AppHandle) {
         }
         StartupMode::CompressFolder(folder) => {
             if let Ok(suggested) = suggested_archive_path(&folder) {
+                let secure = cli_secure_create();
                 let _ = app.emit(
                     "compress-folder",
                     CompressFolderHint {
                         folder: folder.clone(),
-                        suggested_output: suggested,
+                        suggested_output: suggested.clone(),
+                        secure_create: secure,
                     },
                 );
+                if secure {
+                    maybe_emit_secure_wizard(
+                        app,
+                        secure_wizard_payload(Some(folder), vec![], suggested),
+                    );
+                }
             }
         }
         StartupMode::CompressSelection(sources) => {
             if let Ok(suggested) = suggested_selection_archive_path(&sources) {
+                let secure = cli_secure_create();
                 let _ = app.emit(
                     "compress-selection",
                     CompressSelectionHint {
                         sources: sources.clone(),
-                        suggested_output: suggested,
+                        suggested_output: suggested.clone(),
+                        secure_create: secure,
                     },
                 );
+                if secure {
+                    maybe_emit_secure_wizard(
+                        app,
+                        secure_wizard_payload(None, sources, suggested),
+                    );
+                }
             }
         }
         StartupMode::ExtractHere(_)
@@ -97,7 +171,7 @@ fn engine_info() -> EngineInfo {
         version: "0.1.0",
         motor: "winlrt-archive (zip_io)",
         explorer_context_menu: if cfg!(target_os = "windows") {
-            "NSIS: ZIP ac/buraya ac · klasor/secim sikistir (ZIP)"
+            "NSIS: ZIP ac/buraya ac · sikistir · sifreli sikistir (--secure)"
         } else {
             "Explorer yalnizca Windows NSIS kurulumunda"
         },
@@ -120,6 +194,7 @@ fn startup_compress_folder() -> Option<CompressFolderHint> {
             Some(CompressFolderHint {
                 folder,
                 suggested_output,
+                secure_create: cli_secure_create(),
             })
         }
         _ => None,
@@ -134,7 +209,36 @@ fn startup_compress_selection() -> Option<CompressSelectionHint> {
             Some(CompressSelectionHint {
                 sources,
                 suggested_output,
+                secure_create: cli_secure_create(),
             })
+        }
+        _ => None,
+    }
+}
+
+#[tauri::command]
+fn evaluate_create_password(password: String, secure_create: bool) -> PasswordFeedback {
+    let policy = if secure_create {
+        password_policy::policy_for_secure_create()
+    } else {
+        password_policy::active_policy()
+    };
+    crypto::evaluate_password_with_policy(&password, true, policy)
+}
+
+#[tauri::command]
+fn startup_secure_wizard() -> Option<SecureCreateWizard> {
+    if !cli_secure_create() {
+        return None;
+    }
+    match parse_startup_mode() {
+        StartupMode::CompressFolder(folder) => {
+            let suggested = suggested_archive_path(&folder).ok()?;
+            Some(secure_wizard_payload(Some(folder), vec![], suggested))
+        }
+        StartupMode::CompressSelection(sources) => {
+            let suggested = suggested_selection_archive_path(&sources).ok()?;
+            Some(secure_wizard_payload(None, sources, suggested))
         }
         _ => None,
     }
@@ -250,6 +354,8 @@ pub fn run() {
             startup_archives,
             startup_compress_folder,
             startup_compress_selection,
+            startup_secure_wizard,
+            evaluate_create_password,
             list_zip,
             test_zip,
             extract_zip,
