@@ -4,7 +4,7 @@ Sırayla tamamlanacak maddeler; Cloud Agent ve sizin manuel adımlar birlikte.
 
 ## 1. Kod ve dal birleştirme
 
-- [ ] Feature dalları `main`’e merge (compare link veya PR)
+- [ ] Feature dalları `main`’e merge — sıra: [WINLRTRAR_BRANCH_MERGE.md](./WINLRTRAR_BRANCH_MERGE.md)
 - [ ] `main` push sonrası **Main pipeline** yeşil (vitrin build + rust test)
 
 ## 2. GitHub Secrets
