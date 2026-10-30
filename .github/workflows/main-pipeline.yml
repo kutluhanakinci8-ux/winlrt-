@@ -155,11 +155,12 @@ jobs:
 
           echo "::error::SSH anahtarı yok/geçersiz ve VPS_SSH_PASSWORD tanımlı değil."
           echo "::error::VPS'e bir kez: bkz. .github/deploy/README.md (authorized_keys satırı)"
-          exit 1
+          echo "auth=skip" >>"${GITHUB_OUTPUT}"
+          exit 0
         id: sshkey
 
       - name: Backup current site on VPS
-        if: steps.check.outputs.skip == 'false'
+        if: steps.check.outputs.skip == 'false' && (steps.sshkey.outputs.auth == 'key' || steps.sshkey.outputs.auth == 'password')
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -184,7 +185,7 @@ jobs:
             fi
 
       - name: Deploy dist to VPS
-        if: steps.check.outputs.skip == 'false'
+        if: steps.check.outputs.skip == 'false' && (steps.sshkey.outputs.auth == 'key' || steps.sshkey.outputs.auth == 'password')
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
@@ -209,7 +210,7 @@ jobs:
           rsync -av --delete -e "${SSH_BASE[*]}" apps/web/dist/ "${VPS_USER}@${VPS_HOST}:${VPS_WEB_ROOT}/"
 
       - name: Reload nginx
-        if: steps.check.outputs.skip == 'false'
+        if: steps.check.outputs.skip == 'false' && (steps.sshkey.outputs.auth == 'key' || steps.sshkey.outputs.auth == 'password')
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.VPS_HOST }}

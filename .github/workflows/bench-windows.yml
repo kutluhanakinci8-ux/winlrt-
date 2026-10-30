@@ -44,11 +44,18 @@ jobs:
         env:
           WINLRT_BENCH_INCLUDE_7Z: "1"
           WINLRT_BENCH_INCLUDE_WINRAR: "1"
+        shell: pwsh
         run: |
-          cargo run -p winlrt-archive --release -- bench --all --json > bench-report-windows.json
-          cargo run -p winlrt-archive --release -- bench --all --markdown > BENCH_REPORT.md
-          cargo run -p winlrt-archive --release -- bench --all --profile fast --json > bench-report-windows-fast.json
-          cargo run -p winlrt-archive --release -- bench --all --profile fast --markdown > BENCH_REPORT_FAST.md
+          function Write-BenchJson($args, $out) {
+            cargo run -p winlrt-archive --release -- @args 2>$null | Set-Content -Path $out -Encoding utf8NoBOM
+          }
+          function Write-BenchMd($args, $out) {
+            cargo run -p winlrt-archive --release -- @args 2>$null | Set-Content -Path $out -Encoding utf8
+          }
+          Write-BenchJson @('bench','--all','--json') 'bench-report-windows.json'
+          Write-BenchMd @('bench','--all','--markdown') 'BENCH_REPORT.md'
+          Write-BenchJson @('bench','--all','--profile','fast','--json') 'bench-report-windows-fast.json'
+          Write-BenchMd @('bench','--all','--profile','fast','--markdown') 'BENCH_REPORT_FAST.md'
 
       - name: KPI özeti (Balanced + Fast)
         shell: pwsh

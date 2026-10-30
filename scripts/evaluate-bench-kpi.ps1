@@ -17,7 +17,16 @@ if (-not (Test-Path -LiteralPath $JsonPath)) {
     Write-Error "Dosya yok: $JsonPath"
 }
 
-$raw = Get-Content -LiteralPath $JsonPath -Raw -Encoding UTF8
+$raw = [System.IO.File]::ReadAllText($JsonPath).Trim()
+if ($raw.StartsWith([char]0xFEFF)) {
+    $raw = $raw.Substring(1)
+}
+$start = $raw.IndexOf('{')
+$end = $raw.LastIndexOf('}')
+if ($start -lt 0 -or $end -le $start) {
+    Write-Error "Geçersiz bench JSON dosyası: $JsonPath"
+}
+$raw = $raw.Substring($start, $end - $start + 1)
 $suite = $raw | ConvertFrom-Json
 if (-not $suite.kpi) {
     Write-Error "JSON içinde kpi alanı yok (bench --all --json kullanın)."
