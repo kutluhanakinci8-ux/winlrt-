@@ -19,6 +19,11 @@ npm run dev:web    # http://localhost:3020
 npm run build:web  # apps/web/dist
 ```
 
+## CI / deploy
+
+- **CI:** GitHub Actions `ci.yml` — vitrin build doğrulaması
+- **VPS:** `deploy-vps.yml` — Turhost hazır olunca (bkz. `docs/WINLRT_VPS.md`)
+
 ## Dokümantasyon
 
 - [Cursor ↔ GitHub](docs/CURSOR_GITHUB.md)

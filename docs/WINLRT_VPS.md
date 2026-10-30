@@ -29,6 +29,25 @@ nginx `root` → `/var/www/winlrt/apps/web/dist`
 certbot --nginx -d winlrt.lerta.com.tr
 ```
 
-## GitHub Actions (ileride)
+## GitHub Actions
 
-`main` push → SSH → `git pull && npm run build:web` + nginx reload.
+| Workflow | Açıklama |
+|----------|----------|
+| `.github/workflows/ci.yml` | Her PR / `main` push: `npm ci` + `build:web`, `web-dist` artifact |
+| `.github/workflows/deploy-vps.yml` | VPS’e `apps/web/dist` kopyalar (aşağıdaki secrets + isteğe bağlı variable) |
+
+### Repo secrets (Settings → Secrets and variables → Actions)
+
+| Secret | Örnek |
+|--------|--------|
+| `VPS_HOST` | Turhost IP veya FQDN |
+| `VPS_USER` | `root` veya deploy kullanıcısı |
+| `VPS_SSH_KEY` | Özel anahtar (PEM), sunucuda public key yetkili |
+| `VPS_WEB_ROOT` | `/var/www/winlrt/apps/web/dist` |
+| `VPS_PORT` | (isteğe bağlı) SSH portu, varsayılan 22 |
+
+Otomatik deploy için **Variables** → `VPS_DEPLOY_ENABLED` = `true` yapın. Aksi halde yalnızca **Actions → Deploy vitrin to VPS → Run workflow** ile manuel tetiklenir.
+
+### Cloud Agent ortamı
+
+Kökte `environment.json` → `npm install` build anında çalışır; Cursor ortam build’i sonrası agent’lar daha hızlı açılır.
