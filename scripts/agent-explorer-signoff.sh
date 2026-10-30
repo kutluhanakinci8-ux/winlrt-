@@ -8,7 +8,7 @@ FILE="$ROOT/docs/qa/EXPLORER_QA_SIGNOFF.md"
 : "${EXPLORER_QA_OS:?EXPLORER_QA_OS gerekli}"
 : "${EXPLORER_QA_SHA256:?EXPLORER_QA_SHA256 gerekli}"
 : "${EXPLORER_QA_BY:?EXPLORER_QA_BY gerekli}"
-: "${EXPLORER_QA_TAG:=winlrt-rar-beta.42}"
+: "${EXPLORER_QA_TAG:=winlrt-rar-beta.44}"
 NOTES="${EXPLORER_QA_NOTES:-}"
 REPO="${GITHUB_REPO:-kutluhanakinci8-ux/winlrt-}"
 
