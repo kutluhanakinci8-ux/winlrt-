@@ -116,6 +116,9 @@ jobs:
       - name: winlrtZIP P0×3 kapı scriptleri (W16)
         run: bash scripts/verify-madde-w16.sh
 
+      - name: winlrtZIP Windows KPI vitrin import (W17)
+        run: bash scripts/verify-madde-w17.sh
+
       - name: Faz 1 benchmark raporu
         run: |
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json

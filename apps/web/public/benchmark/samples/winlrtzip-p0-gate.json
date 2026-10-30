@@ -1,17 +1,17 @@
 {
   "product": "winlrtZIP",
-  "generated_at": "2026-10-30T18:29Z",
+  "generated_at": "2026-10-30T18:30Z",
   "disclaimer": "P0×3: sıkıştırma (Balanced zip_kpi), hız (Fast zip_kpi), güven (AES I4). Resmi Windows: import-windows-zip-kpi-to-vitrin.sh",
   "p0": {
     "compression": {
       "gate": true,
       "profile": "Balanced",
-      "platform": "linux / x86_64"
+      "platform": "windows / x86_64"
     },
     "speed": {
       "gate": false,
       "profile": "Fast",
-      "platform": "linux / x86_64"
+      "platform": "windows / x86_64"
     },
     "security": {
       "gate": true,
@@ -23,7 +23,7 @@
   },
   "all_pass": false,
   "sources": {
-    "balanced_json": "/tmp/tmp.RjDqCowWsn/balanced.json",
-    "fast_json": "/tmp/tmp.RjDqCowWsn/fast.json"
+    "balanced_json": "/tmp/tmp.pnCHym52u8/bench-report-windows.json",
+    "fast_json": "/tmp/tmp.pnCHym52u8/bench-report-windows-fast.json"
   }
 }

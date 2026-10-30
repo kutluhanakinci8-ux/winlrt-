@@ -182,13 +182,23 @@ cargo run -p winlrt-archive -- bench --all --profile fast --json --zip-kpi</code
             fallback: "/benchmark/samples/linux-fast-kpi.json",
           },
           {
+            url: "/benchmark/samples/winlrtzip-windows-balanced-kpi.json",
+            title: "winlrtZIP Balanced — Windows (resmi)",
+            fallback: "/benchmark/samples/winlrtzip-linux-balanced-kpi.json",
+          },
+          {
+            url: "/benchmark/samples/winlrtzip-windows-fast-kpi.json",
+            title: "winlrtZIP Fast — Windows (resmi)",
+            fallback: "/benchmark/samples/winlrtzip-linux-fast-kpi.json",
+          },
+          {
             url: "/benchmark/samples/winlrtzip-linux-balanced-kpi.json",
-            title: "winlrtZIP Balanced (ZIP satırı)",
+            title: "winlrtZIP Balanced (Linux proxy)",
             fallback: null,
           },
           {
             url: "/benchmark/samples/winlrtzip-linux-fast-kpi.json",
-            title: "winlrtZIP Fast (ZIP satırı)",
+            title: "winlrtZIP Fast (Linux proxy)",
             fallback: null,
           },
           {

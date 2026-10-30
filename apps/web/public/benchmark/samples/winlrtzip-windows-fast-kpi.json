@@ -1,0 +1,53 @@
+{
+  "product": "winlrtZIP",
+  "profile": "Fast",
+  "platform": "windows / x86_64",
+  "generated_at": "1793384952 UTC",
+  "source": "windows-official-ci",
+  "disclaimer": "Resmi winlrtZIP Fast hız kapısı — bench-report-windows-fast.",
+  "kpi": {
+    "compression_gate": true,
+    "speed_gate": false,
+    "compression_pass_count": 6,
+    "compression_total": 6,
+    "speed_pass_count": 0,
+    "speed_total": 6,
+    "rows": [
+      {
+        "fixture": "binary",
+        "compression_ok": true,
+        "speed_ok": false
+      },
+      {
+        "fixture": "mixed",
+        "compression_ok": true,
+        "speed_ok": false
+      },
+      {
+        "fixture": "office",
+        "compression_ok": true,
+        "speed_ok": false
+      },
+      {
+        "fixture": "rar",
+        "compression_ok": true,
+        "speed_ok": false
+      },
+      {
+        "fixture": "sevenz",
+        "compression_ok": true,
+        "speed_ok": false
+      },
+      {
+        "fixture": "text",
+        "compression_ok": true,
+        "speed_ok": false
+      }
+    ],
+    "notes": [
+      "winlrtZIP sıkıştırma: motor ZIP, rakip ZIP’lerden daha küçük veya eşit boyutta daha hızlı oluşturma.",
+      "winlrtZIP hız: motor ZIP açma, 7-Zip/WinZip/WinRAR-ZIP referansının en hızlısından ≥ %30 hızlı.",
+      "WinZip satırı yalnızca WZZIP kurulu Windows agent’ta dolar (opsiyonel)."
+    ]
+  }
+}

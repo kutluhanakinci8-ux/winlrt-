@@ -1,0 +1,46 @@
+{
+  "product": "winlrtZIP",
+  "profile": "Balanced",
+  "platform": "windows / x86_64",
+  "generated_at": "1793384949 UTC",
+  "source": "windows-official-ci",
+  "disclaimer": "Resmi winlrtZIP Balanced — bench-report-windows (zip_kpi).",
+  "kpi": {
+    "compression_gate": true,
+    "compression_pass_count": 6,
+    "compression_total": 6,
+    "speed_pass_count": 0,
+    "speed_total": 0,
+    "rows": [
+      {
+        "fixture": "binary",
+        "compression_ok": true
+      },
+      {
+        "fixture": "mixed",
+        "compression_ok": true
+      },
+      {
+        "fixture": "office",
+        "compression_ok": true
+      },
+      {
+        "fixture": "rar",
+        "compression_ok": true
+      },
+      {
+        "fixture": "sevenz",
+        "compression_ok": true
+      },
+      {
+        "fixture": "text",
+        "compression_ok": true
+      }
+    ],
+    "notes": [
+      "winlrtZIP sıkıştırma: motor ZIP, rakip ZIP’lerden daha küçük veya eşit boyutta daha hızlı oluşturma.",
+      "Hız KPI yalnız `--profile fast` ile ölçülür.",
+      "WinZip satırı yalnızca WZZIP kurulu Windows agent’ta dolar (opsiyonel)."
+    ]
+  }
+}
