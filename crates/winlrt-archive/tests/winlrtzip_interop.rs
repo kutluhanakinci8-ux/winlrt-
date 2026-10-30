@@ -9,6 +9,7 @@ use winlrt_archive::profile::{
     CompressionProfile, EMAIL_ATTACHMENT_MAX_ZIP_BYTES, EMAIL_ATTACHMENT_MIXED_MAX_CREATE_MS,
 };
 use winlrt_archive::archive_sign;
+use winlrt_archive::mobile_reader;
 use winlrt_archive::secure_share;
 use winlrt_archive::zip_io;
 
@@ -751,6 +752,21 @@ fn w23_signed_archive_extract() {
     let out = base.path().join("out");
     zip_io::extract(&zip, &out, None).unwrap();
     assert_eq!(fs::read(out.join("signed.txt")).unwrap(), b"w23-ed25519-sidecar");
+}
+
+#[test]
+fn w26_mobile_inspect_read_only_capabilities() {
+    let caps = mobile_reader::capabilities();
+    assert!(!caps.create_archive);
+    assert!(caps.lerta_share_intent_ready);
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("mob.txt");
+    fs::write(&src, b"w26-mobile").unwrap();
+    let zip = base.path().join("mob.zip");
+    zip_io::create_with_profile(&src, &zip, CompressionProfile::Fast, None).unwrap();
+    let report = mobile_reader::inspect(&zip, None).unwrap();
+    assert!(report.read_only);
+    assert!(!report.entries_preview.is_empty());
 }
 
 #[test]

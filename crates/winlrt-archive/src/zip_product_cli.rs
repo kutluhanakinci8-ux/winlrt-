@@ -8,6 +8,7 @@ use serde::Serialize;
 use crate::bench::{self, BenchReport, BenchSuite};
 use crate::profile::CompressionProfile;
 use crate::archive_sign;
+use crate::mobile_reader;
 use crate::secure_share;
 use crate::{zip_io, Result};
 
@@ -63,6 +64,8 @@ pub enum ZipCommands {
         max_retention_days: Option<u32>,
     },
     VerifyShare { pack_zip: PathBuf },
+    MobileCapabilities,
+    MobileInspect { archive: PathBuf },
     Bench {
         #[arg(long)]
         fixture: Option<PathBuf>,
@@ -303,6 +306,20 @@ pub fn run() -> Result<()> {
                 })?;
             } else {
                 println!("OK KVKK paylasim paketi: {}", manifest.pack_id);
+            }
+        }
+        ZipCommands::MobileCapabilities => {
+            print_json(&mobile_reader::capabilities())?;
+        }
+        ZipCommands::MobileInspect { archive } => {
+            let report = mobile_reader::inspect(&archive, pw)?;
+            if json_out {
+                print_json(&report)?;
+            } else {
+                println!(
+                    "mobil: {} girdi, sifreli={}, split={}",
+                    report.entry_count, report.encryption_detected, report.split_zip
+                );
             }
         }
         ZipCommands::Bench {

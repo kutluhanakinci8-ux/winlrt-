@@ -143,6 +143,9 @@ jobs:
       - name: winlrtZIP güvenli paylaşım KVKK (W25)
         run: bash scripts/verify-madde-w25.sh
 
+      - name: winlrtZIP mobil okuyucu smoke (W26)
+        run: bash scripts/verify-madde-w26.sh
+
       - name: Faz 1 benchmark raporu
         run: |
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json

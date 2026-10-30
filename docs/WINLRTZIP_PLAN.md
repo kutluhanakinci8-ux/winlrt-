@@ -173,7 +173,8 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 
 ### Faz 6 — Mobil (okuyucu / sınırlı oluşturma)
 
-- [ ] Android / iOS: aç, paylaş, Lerta’ya hazırlık
+- [x] Okuyucu sözleşmesi + inspect API — [MADDE_W26](./qa/MADDE_W26_WINLRTZIP_MOBILE_READER.md)
+- [ ] Android / iOS mağaza kabuğu (Faz 7 öncesi pilot)
 
 ---
 

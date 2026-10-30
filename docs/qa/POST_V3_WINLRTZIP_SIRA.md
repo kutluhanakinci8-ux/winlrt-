@@ -28,5 +28,6 @@
 | **W23** | Imzalı arşiv (Ed25519 yan dosya) | **%100** ✅ | [MADDE_W23](./MADDE_W23_WINLRTZIP_SIGNED_ARCHIVE.md) |
 | **W24** | Info-ZIP span (`PK\x07\x08`) | **%100** ✅ | [MADDE_W24](./MADDE_W24_WINLRTZIP_INFOZIP_SPAN.md) |
 | **W25** | Güvenli paylaşım (KVKK smoke) | **%100** ✅ | [MADDE_W25](./MADDE_W25_WINLRTZIP_SECURE_SHARE.md) |
+| **W26** | Mobil okuyucu smoke (Faz 6) | **%100** ✅ | [MADDE_W26](./MADDE_W26_WINLRTZIP_MOBILE_READER.md) |
 
 RAR hattı: [POST_V2_SIRA.md](./POST_V2_SIRA.md) (Q2 tamam).

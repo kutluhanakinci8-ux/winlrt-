@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://winlrt.com.tr/schemas/mobile-reader-v1.json",
+  "title": "winlrtZIP MobileReaderCapabilities",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "product",
+    "create_archive",
+    "extract_archive",
+    "list_entries",
+    "verify_share_pack",
+    "lerta_share_intent_ready"
+  ],
+  "properties": {
+    "contract_version": { "type": "string", "const": "1" },
+    "product": { "type": "string", "const": "winlrtZIP" },
+    "create_archive": { "type": "boolean" },
+    "extract_archive": { "type": "boolean" },
+    "list_entries": { "type": "boolean" },
+    "verify_share_pack": { "type": "boolean" },
+    "lerta_share_intent_ready": { "type": "boolean" }
+  },
+  "additionalProperties": false
+}

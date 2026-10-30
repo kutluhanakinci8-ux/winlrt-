@@ -14,6 +14,7 @@ use winlrt_archive::crypto::{self, PasswordFeedback};
 use winlrt_archive::enterprise;
 use winlrt_archive::password_policy::{self, PasswordPolicy};
 use winlrt_archive::profile::CompressionProfile;
+use winlrt_archive::mobile_reader;
 use winlrt_archive::zip_io;
 
 fn cli_secure_create() -> bool {
@@ -368,6 +369,31 @@ pub struct EnterprisePolicyInfo {
 }
 
 #[tauri::command]
+fn mobile_capabilities() -> mobile_reader::MobileCapabilities {
+    mobile_reader::capabilities()
+}
+
+#[tauri::command]
+fn mobile_inspect_zip(
+    archive: String,
+    password: Option<String>,
+) -> Result<mobile_reader::MobileInspectReport, String> {
+    mobile_reader::inspect(Path::new(&archive), password.as_deref()).map_err(map_err)
+}
+
+#[tauri::command]
+fn mobile_lerta_share_intent(
+    archive: String,
+    download_url: Option<String>,
+) -> Result<mobile_reader::LertaShareIntentPayload, String> {
+    mobile_reader::lerta_share_intent_from_zip(
+        Path::new(&archive),
+        download_url.as_deref(),
+    )
+    .map_err(map_err)
+}
+
+#[tauri::command]
 fn enterprise_policy_info() -> EnterprisePolicyInfo {
     use winlrt_archive::enterprise::{self, PolicySource};
     let (source, id) = enterprise::resolve_policy_source();
@@ -433,7 +459,10 @@ pub fn run() {
             create_zip,
             create_zip_from_paths,
             audit_log_path_hint,
-            enterprise_policy_info
+            enterprise_policy_info,
+            mobile_capabilities,
+            mobile_inspect_zip,
+            mobile_lerta_share_intent
         ])
         .build(tauri::generate_context!())
         .expect("winlrtZIP build hatası")
