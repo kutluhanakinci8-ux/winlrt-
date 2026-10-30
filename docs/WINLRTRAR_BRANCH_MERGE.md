@@ -17,9 +17,10 @@ PR açılamıyorsa (`must be a collaborator`) **Compare & pull request** ile `ma
 | 11 | `cursor/bench-large-kpi-explorer-ea18` | mixed fixture + Explorer QA |
 | 12 | `cursor/signing-banner-status-ea18` | durum doc, imza Mac script, vitrin KPI şeridi |
 | 13 | `cursor/post-merge-vitrin-ci-ea18` | post-merge rehber, vitrin KPI workflow, smoke |
+| 14 | `cursor/pilot-runbook-ea18` | GitHub runbook + pilot kickoff (banka/sendika/KOBİ) |
 
 **Tek compare (zincirin tamamı → main):**  
-https://github.com/kutluhanakinci8-ux/winlrt-/compare/main...cursor/post-merge-vitrin-ci-ea18
+https://github.com/kutluhanakinci8-ux/winlrt-/compare/main...cursor/pilot-runbook-ea18
 
 Merge sonrası:
 

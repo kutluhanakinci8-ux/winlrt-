@@ -45,6 +45,7 @@ Detay: [AUTO_DEPLOY.md](./AUTO_DEPLOY.md) · Mac: `scripts/mac-set-github-vps-se
 
 ## 6. Kurumsal pilot
 
+- [ ] Segment rehberi: [WINLRTRAR_PILOT_KICKOFF.md](./WINLRTRAR_PILOT_KICKOFF.md) (banka / sendika / KOBİ)
 - [ ] ADMX: `deploy/gpo/winlrtRAR.admx` → PolicyDefinitions
 - [ ] Örnek politika: `scripts/winlrt-corporate-policy-sample.reg`
 - [ ] Denetim mirror / HTTP forward test (isteğe bağlı)
