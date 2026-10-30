@@ -5,6 +5,7 @@ use pbkdf2::pbkdf2_hmac;
 use rand::RngCore;
 use sha2::Sha256;
 
+use crate::password_policy::{self, PasswordPolicy};
 use crate::{ArchiveError, Result};
 
 const PBKDF2_ITER: u32 = 100_000;
@@ -86,6 +87,14 @@ pub fn decrypt_blob(
 }
 
 pub fn evaluate_password(password: &str, for_create: bool) -> PasswordFeedback {
+    evaluate_password_with_policy(password, for_create, password_policy::active_policy())
+}
+
+pub fn evaluate_password_with_policy(
+    password: &str,
+    for_create: bool,
+    policy: PasswordPolicy,
+) -> PasswordFeedback {
     let len = password.chars().count();
     let mut score = 0u8;
     if len >= 8 {
@@ -110,19 +119,48 @@ pub fn evaluate_password(password: &str, for_create: bool) -> PasswordFeedback {
         2..=3 => "orta",
         _ => "güçlü",
     };
-    let ok_for_create = !for_create || len >= 8;
+    let violations = if for_create {
+        policy.violations(password)
+    } else {
+        Vec::new()
+    };
+    let ok_for_create = !for_create || violations.is_empty();
+    let hint = if for_create && !violations.is_empty() {
+        policy_hint(&policy, &violations)
+    } else if for_create {
+        "ZIP: AES-256 (WinZip AE-2). .wlrt v2: AES-256-GCM + Argon2id."
+    } else {
+        "Parolalı RAR / 7z / ZIP / .wlrt için girin."
+    };
     PasswordFeedback {
         length: len as u32,
         strength,
         ok_for_create,
-        hint: if for_create && len < 8 {
-            "Oluşturma için en az 8 karakter önerilir (kurumsal: 12+)."
-        } else if for_create {
-            "ZIP: AES-256 (WinZip AE-2). .wlrt v2: AES-256-GCM + Argon2id."
-        } else {
-            "Parolalı RAR / 7z / ZIP / .wlrt için girin."
-        },
+        hint,
+        policy_id: policy.id,
+        policy_label: policy.label,
+        violations: violations.into_iter().map(|v| v.to_string()).collect(),
     }
+}
+
+fn policy_hint(policy: &PasswordPolicy, violations: &[&str]) -> &'static str {
+    let _ = (policy, violations);
+    if violations.contains(&"min_length") {
+        return "Parola politikası: minimum uzunluk karşılanmıyor.";
+    }
+    if violations.contains(&"upper") {
+        return "Parola politikası: büyük harf gerekli.";
+    }
+    if violations.contains(&"lower") {
+        return "Parola politikası: küçük harf gerekli.";
+    }
+    if violations.contains(&"digit") {
+        return "Parola politikası: rakam gerekli.";
+    }
+    if violations.contains(&"symbol") {
+        return "Parola politikası: özel karakter gerekli.";
+    }
+    "Parola politikası karşılanmıyor."
 }
 
 #[derive(Debug, Clone, serde::Serialize)]
@@ -131,4 +169,7 @@ pub struct PasswordFeedback {
     pub strength: &'static str,
     pub ok_for_create: bool,
     pub hint: &'static str,
+    pub policy_id: &'static str,
+    pub policy_label: &'static str,
+    pub violations: Vec<String>,
 }

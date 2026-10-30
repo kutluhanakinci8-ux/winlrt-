@@ -49,11 +49,31 @@ interface CompressSelectionHint {
   secure_create?: boolean;
 }
 
+interface PasswordPolicyView {
+  id: string;
+  label: string;
+  min_length: number;
+  require_upper: boolean;
+  require_lower: boolean;
+  require_digit: boolean;
+  require_symbol: boolean;
+}
+
 interface PasswordFeedback {
   length: number;
   strength: string;
   ok_for_create: boolean;
   hint: string;
+  policy_id?: string;
+  policy_label?: string;
+  violations?: string[];
+}
+
+interface SecureCreateWizard {
+  suggested_output: string;
+  folder: string | null;
+  sources: string[];
+  policy: PasswordPolicyView;
 }
 
 interface VolumeInfo {
@@ -109,6 +129,14 @@ function App() {
   const [transitionStep, setTransitionStep] = useState(0);
   const [volumeInfo, setVolumeInfo] = useState<VolumeInfo | null>(null);
   const [repairDir, setRepairDir] = useState("");
+  const [secureWizard, setSecureWizard] = useState<SecureCreateWizard | null>(
+    null,
+  );
+  const [wizardPassword, setWizardPassword] = useState("");
+  const [wizardConfirm, setWizardConfirm] = useState("");
+  const [wizardFeedback, setWizardFeedback] = useState<PasswordFeedback | null>(
+    null,
+  );
 
   const pushJob = useCallback((label: string, status: JobStatus = "running") => {
     const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -140,7 +168,7 @@ function App() {
     setTab("archive");
     setStatus(
       hint.secure_create
-        ? "Şifreli klasör sıkıştırma: parola girin, profili seçin, Oluştur."
+        ? "Explorer şifreli sıkıştırma — parola sihirbazını tamamlayın."
         : "Klasör sıkıştırma hazır: profili seçin, gerekirse Kaydet… ile yolu değiştirin, Oluştur.",
     );
     setTransitionStep((s) => Math.max(s, 4));
@@ -155,7 +183,7 @@ function App() {
     setTab("archive");
     setStatus(
       hint.secure_create
-        ? `${hint.sources.length} öğe — şifreli sıkıştırma: parola girin, Oluştur.`
+        ? `${hint.sources.length} öğe — parola sihirbazını tamamlayın.`
         : `${hint.sources.length} öğe seçildi — profili seçin, gerekirse Kaydet… ile yolu değiştirin, Oluştur.`,
     );
     setTransitionStep((s) => Math.max(s, 4));
@@ -188,6 +216,12 @@ function App() {
     invoke<CompressSelectionHint | null>("startup_compress_selection")
       .then((hint) => {
         if (hint) applyCompressSelection(hint);
+      })
+      .catch(() => undefined);
+
+    invoke<SecureCreateWizard | null>("startup_secure_wizard")
+      .then((wizard) => {
+        if (wizard) setSecureWizard(wizard);
       })
       .catch(() => undefined);
 
@@ -227,12 +261,20 @@ function App() {
       },
     );
 
+    const unlistenSecureWizard = listen<SecureCreateWizard>(
+      "secure-create-wizard",
+      (event) => {
+        if (event.payload) setSecureWizard(event.payload);
+      },
+    );
+
     return () => {
       unlistenOpen.then((un) => un()).catch(() => undefined);
       unlistenDone.then((un) => un()).catch(() => undefined);
       unlistenErr.then((un) => un()).catch(() => undefined);
       unlistenCompress.then((un) => un()).catch(() => undefined);
       unlistenSelection.then((un) => un()).catch(() => undefined);
+      unlistenSecureWizard.then((un) => un()).catch(() => undefined);
     };
   }, [applyArchivePath, applyCompressFolder, applyCompressSelection]);
 
@@ -241,13 +283,26 @@ function App() {
       setCreatePwFeedback(null);
       return;
     }
-    invoke<PasswordFeedback>("evaluate_password", {
+    invoke<PasswordFeedback>("evaluate_create_password", {
       password: createPassword,
-      forCreate: true,
+      secureCreate: false,
     })
       .then(setCreatePwFeedback)
       .catch(() => setCreatePwFeedback(null));
   }, [createPassword, encryptCreate]);
+
+  useEffect(() => {
+    if (!secureWizard || !wizardPassword) {
+      setWizardFeedback(null);
+      return;
+    }
+    invoke<PasswordFeedback>("evaluate_create_password", {
+      password: wizardPassword,
+      secureCreate: true,
+    })
+      .then(setWizardFeedback)
+      .catch(() => setWizardFeedback(null));
+  }, [wizardPassword, secureWizard]);
 
   useEffect(() => {
     if (!archivePath || format !== "rar") {
@@ -438,12 +493,12 @@ function App() {
       return;
     }
     if (encryptCreate) {
-      if (!createPassword || createPassword.length < 8) {
-        setError("Şifreli arşiv için en az 8 karakterlik parola girin.");
+      if (!createPassword) {
+        setError("Şifreli arşiv için parola girin.");
         return;
       }
       if (createPwFeedback && !createPwFeedback.ok_for_create) {
-        setError("Parola politikası karşılanmıyor.");
+        setError(createPwFeedback.hint || "Parola politikası karşılanmıyor.");
         return;
       }
     }
@@ -474,6 +529,52 @@ function App() {
   }
 
   const createFormat = CREATE_FORMATS.includes(format) ? format : "zip";
+
+  async function submitSecureWizard() {
+    if (!secureWizard) return;
+    setError("");
+    if (wizardPassword !== wizardConfirm) {
+      setError("Parolalar eşleşmiyor.");
+      return;
+    }
+    if (!wizardFeedback?.ok_for_create) {
+      setError(wizardFeedback?.hint || "Parola politikası karşılanmıyor.");
+      return;
+    }
+    const createFormatLocal = "wlrt" as Format;
+    const jobId = pushJob(
+      `Şifreli: ${secureWizard.suggested_output.split(/[/\\]/).pop()}`,
+    );
+    try {
+      const res =
+        secureWizard.sources.length > 0
+          ? await invoke<{ message: string }>("create_archive_from_paths", {
+              sources: secureWizard.sources,
+              dest: secureWizard.suggested_output,
+              format: createFormatLocal,
+              profile,
+              password: wizardPassword,
+            })
+          : await invoke<{ message: string }>("create_archive", {
+              source: secureWizard.folder ?? createSource,
+              dest: secureWizard.suggested_output,
+              format: createFormatLocal,
+              profile,
+              password: wizardPassword,
+            });
+      setCreatePassword(wizardPassword);
+      setEncryptCreate(true);
+      setCreateOutput(secureWizard.suggested_output);
+      setSecureWizard(null);
+      setWizardPassword("");
+      setWizardConfirm("");
+      setStatus(res.message);
+      finishJob(jobId, true);
+    } catch (e) {
+      setError(String(e));
+      finishJob(jobId, false);
+    }
+  }
 
   async function openDefaultApps() {
     setError("");
@@ -751,6 +852,83 @@ function App() {
           )}
         </section>
       </div>
+      )}
+
+      {secureWizard && (
+        <div
+          className="modal-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="secure-wizard-title"
+        >
+          <div className="modal secure-wizard">
+            <h2 id="secure-wizard-title">Explorer — şifreli arşiv</h2>
+            <p className="muted">
+              WinRAR tarzı parola adımı · Politika:{" "}
+              <strong>{secureWizard.policy.label}</strong> (min.{" "}
+              {secureWizard.policy.min_length} karakter)
+            </p>
+            <p className="path wizard-path">
+              Çıktı: {secureWizard.suggested_output.split(/[/\\]/).pop()}
+            </p>
+            <label>
+              Parola
+              <input
+                type="password"
+                value={wizardPassword}
+                onChange={(e) => setWizardPassword(e.target.value)}
+                autoFocus
+                autoComplete="new-password"
+              />
+            </label>
+            <label>
+              Parola (tekrar)
+              <input
+                type="password"
+                value={wizardConfirm}
+                onChange={(e) => setWizardConfirm(e.target.value)}
+                autoComplete="new-password"
+              />
+            </label>
+            <label>
+              Profil
+              <select
+                value={profile}
+                onChange={(e) => setProfile(e.target.value as Profile)}
+              >
+                <option value="fast">Hızlı</option>
+                <option value="balanced">Dengeli</option>
+                <option value="maximum">Maksimum sıkıştırma</option>
+                <option value="email">E-posta eki</option>
+              </select>
+            </label>
+            {wizardFeedback && (
+              <p className={`pw-feedback strength-${wizardFeedback.strength}`}>
+                Güç: {wizardFeedback.strength} · {wizardFeedback.hint}
+              </p>
+            )}
+            <div className="row modal-actions">
+              <button
+                type="button"
+                className="btn primary"
+                onClick={() => void submitSecureWizard()}
+              >
+                Oluştur
+              </button>
+              <button
+                type="button"
+                className="btn"
+                onClick={() => {
+                  setSecureWizard(null);
+                  setWizardPassword("");
+                  setWizardConfirm("");
+                }}
+              >
+                İptal
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </main>
   );

@@ -2,6 +2,7 @@
 
 pub mod bench;
 pub mod crypto;
+pub mod password_policy;
 pub mod error;
 pub mod profile;
 pub mod rar;

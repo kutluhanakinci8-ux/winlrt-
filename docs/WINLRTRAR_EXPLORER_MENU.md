@@ -30,4 +30,6 @@ Yapılandırma: `tauri.conf.json` → `bundle.windows.nsis.installerHooks`
 
 Kaldırma: Program kaldırıldığında `NSIS_HOOK_POSTUNINSTALL` anahtarları siler.
 
-Parolalı RAR/7z için Explorer menüsünden açma henüz parola sormaz; uygulama içinden parola girin.
+Şifreli sıkıştırma (`--secure`): uygulama açılır → **parola sihirbazı** (kurumsal politika varsayılan).
+
+Parolalı RAR/7z için «buraya aç» henüz parola sormaz; uygulama içinden parola girin.

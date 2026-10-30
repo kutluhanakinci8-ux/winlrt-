@@ -27,6 +27,10 @@ CLI: `winlrt-archive create … --password '…'`
 
 Tauri: «Arşivi parola ile şifrele» + güç göstergesi.
 
+## Explorer parola sihirbazı
+
+`--secure` → modal (parola + tekrar + profil). Bkz. [WINLRTRAR_CORPORATE_POLICY.md](./WINLRTRAR_CORPORATE_POLICY.md).
+
 ## Sonraki
 
-Kurumsal parola politikası (Faz 4), Explorer’dan doğrudan parola diyalogu (WinRAR tam parity).
+Yerel Win32 parola diyalogu (opsiyonel), GPO ile politika (Faz 4).

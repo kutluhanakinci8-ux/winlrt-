@@ -8,6 +8,7 @@ use tauri::{AppHandle, Emitter, RunEvent};
 use tauri_plugin_opener::OpenerExt;
 use winlrt_archive::profile::CompressionProfile;
 use winlrt_archive::crypto::{self, PasswordFeedback};
+use winlrt_archive::password_policy::{self, PasswordPolicy};
 use winlrt_archive::{rar, sevenz, volumes, wlrt, zip_io};
 
 use cli::{
@@ -70,6 +71,56 @@ fn cli_secure_create() -> bool {
     std::env::args().any(|a| a == "--secure")
 }
 
+#[derive(Clone, Serialize)]
+pub struct PasswordPolicyView {
+    pub id: String,
+    pub label: String,
+    pub min_length: u32,
+    pub require_upper: bool,
+    pub require_lower: bool,
+    pub require_digit: bool,
+    pub require_symbol: bool,
+}
+
+impl From<PasswordPolicy> for PasswordPolicyView {
+    fn from(p: PasswordPolicy) -> Self {
+        Self {
+            id: p.id.into(),
+            label: p.label.into(),
+            min_length: p.min_length,
+            require_upper: p.require_upper,
+            require_lower: p.require_lower,
+            require_digit: p.require_digit,
+            require_symbol: p.require_symbol,
+        }
+    }
+}
+
+#[derive(Clone, Serialize)]
+pub struct SecureCreateWizard {
+    pub suggested_output: String,
+    pub folder: Option<String>,
+    pub sources: Vec<String>,
+    pub policy: PasswordPolicyView,
+}
+
+fn secure_wizard_payload(
+    folder: Option<String>,
+    sources: Vec<String>,
+    suggested_output: String,
+) -> SecureCreateWizard {
+    SecureCreateWizard {
+        suggested_output,
+        folder,
+        sources,
+        policy: password_policy::policy_for_secure_create().into(),
+    }
+}
+
+fn maybe_emit_secure_wizard(app: &AppHandle, wizard: SecureCreateWizard) {
+    let _ = app.emit("secure-create-wizard", wizard);
+}
+
 fn emit_startup_events(app: &AppHandle) {
     match parse_startup_mode() {
         StartupMode::OpenArchive(path) => {
@@ -77,26 +128,40 @@ fn emit_startup_events(app: &AppHandle) {
         }
         StartupMode::CompressFolder(folder) => {
             if let Ok(suggested) = suggested_archive_path(&folder, "wlrt") {
+                let secure = cli_secure_create();
                 let _ = app.emit(
                     "compress-folder",
                     CompressFolderHint {
                         folder: folder.clone(),
-                        suggested_output: suggested,
-                        secure_create: cli_secure_create(),
+                        suggested_output: suggested.clone(),
+                        secure_create: secure,
                     },
                 );
+                if secure {
+                    maybe_emit_secure_wizard(
+                        app,
+                        secure_wizard_payload(Some(folder), vec![], suggested),
+                    );
+                }
             }
         }
         StartupMode::CompressSelection(sources) => {
             if let Ok(suggested) = suggested_selection_archive_path(&sources, "wlrt") {
+                let secure = cli_secure_create();
                 let _ = app.emit(
                     "compress-selection",
                     CompressSelectionHint {
                         sources: sources.clone(),
-                        suggested_output: suggested,
-                        secure_create: cli_secure_create(),
+                        suggested_output: suggested.clone(),
+                        secure_create: secure,
                     },
                 );
+                if secure {
+                    maybe_emit_secure_wizard(
+                        app,
+                        secure_wizard_payload(None, sources, suggested),
+                    );
+                }
             }
         }
         StartupMode::ExtractHere(_)
@@ -291,6 +356,44 @@ fn evaluate_password(password: String, for_create: bool) -> PasswordFeedback {
 }
 
 #[tauri::command]
+fn evaluate_create_password(password: String, secure_create: bool) -> PasswordFeedback {
+    let policy = if secure_create {
+        password_policy::policy_for_secure_create()
+    } else {
+        password_policy::active_policy()
+    };
+    crypto::evaluate_password_with_policy(&password, true, policy)
+}
+
+#[tauri::command]
+fn password_policy_info(secure_create: bool) -> PasswordPolicyView {
+    let policy = if secure_create {
+        password_policy::policy_for_secure_create()
+    } else {
+        password_policy::active_policy()
+    };
+    policy.into()
+}
+
+#[tauri::command]
+fn startup_secure_wizard() -> Option<SecureCreateWizard> {
+    if !cli_secure_create() {
+        return None;
+    }
+    match parse_startup_mode() {
+        StartupMode::CompressFolder(folder) => {
+            let suggested = suggested_archive_path(&folder, "wlrt").ok()?;
+            Some(secure_wizard_payload(Some(folder), vec![], suggested))
+        }
+        StartupMode::CompressSelection(sources) => {
+            let suggested = suggested_selection_archive_path(&sources, "wlrt").ok()?;
+            Some(secure_wizard_payload(None, sources, suggested))
+        }
+        _ => None,
+    }
+}
+
+#[tauri::command]
 fn create_archive(
     source: String,
     dest: String,
@@ -392,6 +495,9 @@ pub fn run() {
             startup_compress_folder,
             startup_compress_selection,
             evaluate_password,
+            evaluate_create_password,
+            password_policy_info,
+            startup_secure_wizard,
             inspect_archive,
             repair_archive,
             list_archive,
