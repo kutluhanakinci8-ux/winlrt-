@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import { listen } from "@tauri-apps/api/event";
 import { getCurrentWindow } from "@tauri-apps/api/window";
-import { open } from "@tauri-apps/plugin-dialog";
+import { open, save } from "@tauri-apps/plugin-dialog";
 import "./App.css";
 
 type Format = "zip" | "wlrt" | "rar" | "7z";
@@ -26,6 +27,8 @@ interface Job {
   status: JobStatus;
 }
 
+const CREATE_FORMATS: Format[] = ["zip", "wlrt"];
+
 function formatFromPath(filePath: string): Format | null {
   const ext = filePath.split(".").pop()?.toLowerCase();
   if (ext === "zip" || ext === "wlrt" || ext === "rar" || ext === "7z") {
@@ -34,12 +37,19 @@ function formatFromPath(filePath: string): Format | null {
   return null;
 }
 
+function saveExtension(format: Format): string {
+  if (format === "wlrt") return "wlrt";
+  return format;
+}
+
 function App() {
   const [info, setInfo] = useState<EngineInfo | null>(null);
   const [format, setFormat] = useState<Format>("zip");
   const [profile, setProfile] = useState<Profile>("balanced");
-  const [path, setPath] = useState("");
-  const [destDir, setDestDir] = useState("");
+  const [archivePath, setArchivePath] = useState("");
+  const [extractDir, setExtractDir] = useState("");
+  const [createSource, setCreateSource] = useState("");
+  const [createOutput, setCreateOutput] = useState("");
   const [password, setPassword] = useState("");
   const [entries, setEntries] = useState<string[]>([]);
   const [status, setStatus] = useState("");
@@ -62,16 +72,37 @@ function App() {
   }, []);
 
   const applyArchivePath = useCallback((filePath: string) => {
-    setPath(filePath);
+    setArchivePath(filePath);
     const f = formatFromPath(filePath);
     if (f) setFormat(f);
+    setEntries([]);
   }, []);
 
   useEffect(() => {
     invoke<EngineInfo>("engine_info")
       .then(setInfo)
       .catch(() => undefined);
-  }, []);
+
+    invoke<string[]>("startup_archives")
+      .then((paths) => {
+        if (paths[0]) {
+          applyArchivePath(paths[0]);
+          setStatus("Arşiv çift tık / komut satırı ile açıldı.");
+        }
+      })
+      .catch(() => undefined);
+
+    const unlistenPromise = listen<string>("open-archive", (event) => {
+      if (event.payload) {
+        applyArchivePath(event.payload);
+        setStatus("Arşiv otomatik yüklendi.");
+      }
+    });
+
+    return () => {
+      unlistenPromise.then((un) => un()).catch(() => undefined);
+    };
+  }, [applyArchivePath]);
 
   useEffect(() => {
     let unlisten: (() => void) | undefined;
@@ -113,31 +144,44 @@ function App() {
     }
   }
 
-  async function pickDest() {
+  async function pickExtractDir() {
     const selected = await open({ directory: true, multiple: false });
     if (selected && typeof selected === "string") {
-      setDestDir(selected);
+      setExtractDir(selected);
     }
   }
 
-  async function pickSourceForCreate() {
+  async function pickCreateSource() {
     const selected = await open({ directory: true, multiple: false });
     if (selected && typeof selected === "string") {
-      setDestDir(selected);
+      setCreateSource(selected);
+    }
+  }
+
+  async function pickCreateOutput() {
+    const createFormat = CREATE_FORMATS.includes(format) ? format : "zip";
+    const ext = saveExtension(createFormat);
+    const selected = await save({
+      title: "Arşiv kaydet",
+      filters: [{ name: createFormat.toUpperCase(), extensions: [ext] }],
+      defaultPath: `winlrt.${ext}`,
+    });
+    if (selected) {
+      setCreateOutput(selected);
     }
   }
 
   async function listArchive() {
     setError("");
     setStatus("");
-    if (!path) {
+    if (!archivePath) {
       setError("Önce bir arşiv seçin.");
       return;
     }
-    const jobId = pushJob(`Listele: ${path.split(/[/\\]/).pop()}`);
+    const jobId = pushJob(`Listele: ${archivePath.split(/[/\\]/).pop()}`);
     try {
       const res = await invoke<ListResult>("list_archive", {
-        path,
+        path: archivePath,
         format,
         password: password || null,
       });
@@ -154,14 +198,14 @@ function App() {
   async function testArchive() {
     setError("");
     setStatus("");
-    if (!path) {
+    if (!archivePath) {
       setError("Önce bir arşiv seçin.");
       return;
     }
-    const jobId = pushJob(`Test: ${path.split(/[/\\]/).pop()}`);
+    const jobId = pushJob(`Test: ${archivePath.split(/[/\\]/).pop()}`);
     try {
       await invoke("test_archive", {
-        path,
+        path: archivePath,
         format,
         password: password || null,
       });
@@ -176,15 +220,15 @@ function App() {
   async function extractArchive() {
     setError("");
     setStatus("");
-    if (!path || !destDir) {
+    if (!archivePath || !extractDir) {
       setError("Arşiv ve hedef klasör gerekli.");
       return;
     }
-    const jobId = pushJob(`Aç: ${path.split(/[/\\]/).pop()}`);
+    const jobId = pushJob(`Aç: ${archivePath.split(/[/\\]/).pop()}`);
     try {
       const res = await invoke<{ message: string }>("extract_archive", {
-        path,
-        dest: destDir,
+        path: archivePath,
+        dest: extractDir,
         format,
         password: password || null,
       });
@@ -199,16 +243,21 @@ function App() {
   async function createArchive() {
     setError("");
     setStatus("");
-    if (!destDir || !path) {
-      setError("Kaynak klasör ve çıktı dosya yolu gerekli.");
+    const createFormat = CREATE_FORMATS.includes(format) ? format : "zip";
+    if (!createSource) {
+      setError("Kaynak klasör seçin.");
       return;
     }
-    const jobId = pushJob(`Oluştur: ${path.split(/[/\\]/).pop()}`);
+    if (!createOutput) {
+      setError("Kaydet konumu seçin (Kaydet…).");
+      return;
+    }
+    const jobId = pushJob(`Oluştur: ${createOutput.split(/[/\\]/).pop()}`);
     try {
       const res = await invoke<{ message: string }>("create_archive", {
-        source: destDir,
-        dest: path,
-        format,
+        source: createSource,
+        dest: createOutput,
+        format: createFormat,
         profile,
       });
       setStatus(res.message);
@@ -219,6 +268,8 @@ function App() {
     }
   }
 
+  const createFormat = CREATE_FORMATS.includes(format) ? format : "zip";
+
   return (
     <main className="app">
       <header className="header">
@@ -226,8 +277,8 @@ function App() {
           <p className="eyebrow">winlrt · Faz 2 beta</p>
           <h1>winlrtRAR</h1>
           <p className="sub">
-            ZIP, .wlrt, RAR5 ve 7z açma; ZIP / .wlrt oluşturma. Arşivi pencereye
-            sürükleyebilirsiniz.
+            Açma: ZIP, .wlrt, RAR, 7z · Oluşturma: ZIP / .wlrt (profil + Kaydet
+            diyalogu). Kurulum sonrası çift tık desteklenir.
           </p>
         </div>
         {info && (
@@ -240,6 +291,7 @@ function App() {
 
       <section className={`panel drop-zone ${dragOver ? "drag-over" : ""}`}>
         <p className="drop-hint">Arşivi buraya sürükleyin veya dosya seçin</p>
+        <h3 className="panel-title">Aç / listele</h3>
         <div className="row">
           <label>
             Format
@@ -251,18 +303,6 @@ function App() {
               <option value="wlrt">.wlrt</option>
               <option value="rar">RAR</option>
               <option value="7z">7z</option>
-            </select>
-          </label>
-          <label>
-            Profil (oluştur)
-            <select
-              value={profile}
-              onChange={(e) => setProfile(e.target.value as Profile)}
-            >
-              <option value="fast">Hızlı</option>
-              <option value="balanced">Dengeli</option>
-              <option value="maximum">Maksimum</option>
-              <option value="email">E-posta eki</option>
             </select>
           </label>
           <label className="grow">
@@ -279,8 +319,8 @@ function App() {
           <button type="button" className="btn primary" onClick={pickArchive}>
             Arşiv seç…
           </button>
-          <button type="button" className="btn" onClick={pickDest}>
-            Hedef klasör…
+          <button type="button" className="btn" onClick={pickExtractDir}>
+            Aç — hedef klasör…
           </button>
           <button type="button" className="btn" onClick={listArchive}>
             Listele
@@ -292,16 +332,41 @@ function App() {
             Aç
           </button>
         </div>
+        {archivePath && <p className="path">Arşiv: {archivePath}</p>}
+        {extractDir && <p className="path">Aç hedefi: {extractDir}</p>}
+
+        <h3 className="panel-title">Oluştur (ZIP / .wlrt)</h3>
         <div className="row">
-          <button type="button" className="btn" onClick={pickSourceForCreate}>
-            Oluştur — kaynak klasör…
+          <label>
+            Profil
+            <select
+              value={profile}
+              onChange={(e) => setProfile(e.target.value as Profile)}
+            >
+              <option value="fast">Hızlı</option>
+              <option value="balanced">Dengeli</option>
+              <option value="maximum">Maksimum sıkıştırma</option>
+              <option value="email">E-posta eki</option>
+            </select>
+          </label>
+          <span className="muted inline">
+            Çıktı formatı: <strong>{createFormat}</strong> (RAR/7z oluşturma yok)
+          </span>
+        </div>
+        <div className="row">
+          <button type="button" className="btn" onClick={pickCreateSource}>
+            Kaynak klasör…
+          </button>
+          <button type="button" className="btn" onClick={pickCreateOutput}>
+            Kaydet…
           </button>
           <button type="button" className="btn primary" onClick={createArchive}>
-            Oluştur (çıktı = arşiv yolu)
+            Oluştur
           </button>
         </div>
-        {path && <p className="path">Arşiv / çıktı: {path}</p>}
-        {destDir && <p className="path">Klasör: {destDir}</p>}
+        {createSource && <p className="path">Kaynak: {createSource}</p>}
+        {createOutput && <p className="path">Çıktı: {createOutput}</p>}
+
         {status && <p className="status ok">{status}</p>}
         {error && <p className="status err">{error}</p>}
       </section>

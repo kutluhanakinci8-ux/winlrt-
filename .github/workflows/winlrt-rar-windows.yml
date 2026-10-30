@@ -3,6 +3,9 @@ name: winlrtRAR Windows beta build
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-windows:
     runs-on: windows-latest
@@ -21,7 +24,7 @@ jobs:
       - name: Build winlrtRAR (Tauri)
         run: npm run build:rar
 
-      - name: Upload Windows bundle
+      - name: Upload Windows bundle (artifact)
         uses: actions/upload-artifact@v4
         with:
           name: winlrt-rar-windows-bundle
@@ -29,3 +32,14 @@ jobs:
             apps/winlrt-rar/src-tauri/target/release/bundle/**/*.exe
             apps/winlrt-rar/src-tauri/target/release/bundle/**/*.msi
           if-no-files-found: warn
+
+      - name: GitHub Release (beta)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: winlrt-rar-beta.${{ github.run_number }}
+          name: winlrtRAR Beta ${{ github.run_number }}
+          prerelease: true
+          generate_release_notes: true
+          files: |
+            apps/winlrt-rar/src-tauri/target/release/bundle/**/*.exe
+            apps/winlrt-rar/src-tauri/target/release/bundle/**/*.msi

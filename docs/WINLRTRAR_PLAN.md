@@ -144,9 +144,10 @@ benchmarks/                # Rakip karşılaştırma seti
 - [x] **RAR5 okuma** (beta) — `rar` crate + CLI/Tauri; RAR4 / UnRAR statik link sırada
 - [x] 7z okuma (`sevenz-rust`; parolalı → 7z CLI)
 - [x] Sürükle-bırak + iş kuyruğu (Tauri beta)
-- [ ] Çift tık / dosya ilişkilendirme (Faz 3)
-- [ ] Profiller: Hızlı / Dengeli / Maksimum / E-posta
-- [ ] winlrt.com.tr’de **beta .exe**
+- [x] Çift tık / dosya ilişkilendirme (beta: bundle `fileAssociations` + argv)
+- [ ] Geçiş sihirbazı — varsayılan uygulama (Faz 3)
+- [x] Profiller: Hızlı / Dengeli / Maksimum / E-posta (oluştur akışı)
+- [x] winlrt.com.tr **beta indirme linki** (GitHub Releases)
 
 **Kapı:** 10 gerçek kullanıcı “günlük işimi yapıyorum” anketi ≥ 8/10.
 

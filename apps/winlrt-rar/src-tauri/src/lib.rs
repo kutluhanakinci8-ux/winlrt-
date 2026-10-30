@@ -1,6 +1,7 @@
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use serde::Serialize;
+use tauri::{AppHandle, Emitter, RunEvent};
 use winlrt_archive::profile::CompressionProfile;
 use winlrt_archive::{rar, sevenz, wlrt, zip_io};
 
@@ -32,6 +33,29 @@ fn parse_profile(profile: &str) -> Result<CompressionProfile, String> {
         "email" | "eposta" => Ok(CompressionProfile::EmailAttachment),
         _ => Err("Profil: fast | balanced | maximum | email".into()),
     }
+}
+
+fn is_archive_path(path: &str) -> bool {
+    let lower = path.to_lowercase();
+    ["zip", "wlrt", "rar", "7z"]
+        .iter()
+        .any(|ext| lower.ends_with(&format!(".{ext}")))
+}
+
+fn emit_startup_archives(app: &AppHandle) {
+    for arg in std::env::args().skip(1) {
+        if is_archive_path(&arg) && Path::new(&arg).is_file() {
+            let _ = app.emit("open-archive", arg);
+        }
+    }
+}
+
+#[tauri::command]
+fn startup_archives() -> Vec<String> {
+    std::env::args()
+        .skip(1)
+        .filter(|a| is_archive_path(a) && Path::new(a).is_file())
+        .collect()
 }
 
 #[tauri::command]
@@ -139,11 +163,17 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![
             engine_info,
+            startup_archives,
             list_archive,
             test_archive,
             extract_archive,
             create_archive
         ])
-        .run(tauri::generate_context!())
-        .expect("winlrtRAR başlatılamadı");
+        .build(tauri::generate_context!())
+        .expect("winlrtRAR build hatası")
+        .run(|app, event| {
+            if let RunEvent::Ready = event {
+                emit_startup_archives(app);
+            }
+        });
 }

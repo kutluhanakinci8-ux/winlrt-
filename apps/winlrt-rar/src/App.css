@@ -122,6 +122,21 @@ select {
   box-shadow: 0 0 0 1px #6366f1 inset;
 }
 
+.panel-title {
+  margin: 1rem 0 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.panel-title:first-of-type {
+  margin-top: 0;
+}
+
+.muted.inline {
+  align-self: center;
+  font-size: 0.85rem;
+}
+
 .drop-hint {
   margin: 0 0 0.75rem;
   font-size: 0.85rem;

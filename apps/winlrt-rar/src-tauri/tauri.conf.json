@@ -24,6 +24,29 @@
   "bundle": {
     "active": true,
     "targets": "all",
+    "shortDescription": "winlrt yerli arşiv — winlrtRAR",
+    "fileAssociations": [
+      {
+        "ext": ["zip"],
+        "name": "ZIP arşivi",
+        "description": "ZIP arşiv dosyası"
+      },
+      {
+        "ext": ["wlrt"],
+        "name": "winlrt arşivi",
+        "description": "winlrt .wlrt arşivi"
+      },
+      {
+        "ext": ["rar"],
+        "name": "RAR arşivi",
+        "description": "RAR arşiv dosyası"
+      },
+      {
+        "ext": ["7z"],
+        "name": "7z arşivi",
+        "description": "7-Zip arşiv dosyası"
+      }
+    ],
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
