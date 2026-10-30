@@ -10,6 +10,7 @@ use crate::profile::CompressionProfile;
 use crate::archive_sign;
 use crate::lerta_api;
 use crate::lerta_mail;
+use crate::lerta_message;
 use crate::mobile_reader;
 use crate::secure_share;
 use crate::store_gate;
@@ -91,6 +92,23 @@ pub enum ZipCommands {
         #[arg(long, value_enum, default_value_t = LertaTierArg::Standard10Mb)]
         tier: LertaTierArg,
     },
+    LertaMessagePrepare {
+        source: PathBuf,
+        dest: PathBuf,
+        #[arg(long, value_enum, default_value_t = LertaMessageFormatArg::WlrtV0)]
+        format: LertaMessageFormatArg,
+    },
+    LertaMessageValidate {
+        attachment: PathBuf,
+        #[arg(long, value_enum, default_value_t = LertaMessageFormatArg::WlrtV0)]
+        format: LertaMessageFormatArg,
+    },
+    LertaMessageSubmit {
+        source: PathBuf,
+        dest: PathBuf,
+        #[arg(long, value_enum, default_value_t = LertaMessageFormatArg::WlrtV0)]
+        format: LertaMessageFormatArg,
+    },
     Bench {
         #[arg(long)]
         fixture: Option<PathBuf>,
@@ -115,6 +133,22 @@ impl From<LertaTierArg> for lerta_mail::LertaAttachmentTier {
         match t {
             LertaTierArg::Standard10Mb => lerta_mail::LertaAttachmentTier::Standard10Mb,
             LertaTierArg::Extended25Mb => lerta_mail::LertaAttachmentTier::Extended25Mb,
+        }
+    }
+}
+
+#[derive(Clone, Copy, ValueEnum, Default)]
+pub enum LertaMessageFormatArg {
+    #[default]
+    WlrtV0,
+    AesZip,
+}
+
+impl From<LertaMessageFormatArg> for lerta_message::LertaMessageFormat {
+    fn from(f: LertaMessageFormatArg) -> Self {
+        match f {
+            LertaMessageFormatArg::WlrtV0 => lerta_message::LertaMessageFormat::WlrtV0,
+            LertaMessageFormatArg::AesZip => lerta_message::LertaMessageFormat::AesZip,
         }
     }
 }
@@ -460,6 +494,71 @@ pub fn run() -> Result<()> {
             } else {
                 println!(
                     "OK Lerta submit dry_run={} detail={}",
+                    submit.dry_run, submit.detail
+                );
+            }
+        }
+        ZipCommands::LertaMessagePrepare {
+            source,
+            dest,
+            format,
+        } => {
+            let prep = lerta_message::prepare_lerta_message_attachment(
+                &source,
+                &dest,
+                format.into(),
+                pw,
+            )?;
+            if json_out {
+                print_json(&lerta_message::webhook_payload_from_prepare(&prep))?;
+            } else {
+                println!(
+                    "OK Lerta mesaj eki: {} ({} B, format={})",
+                    prep.filename,
+                    prep.size_bytes,
+                    prep.format.id()
+                );
+            }
+        }
+        ZipCommands::LertaMessageValidate { attachment, format } => {
+            lerta_message::validate_lerta_message_attachment(&attachment, format.into())?;
+            if json_out {
+                print_json(&OkJson {
+                    ok: true,
+                    action: "lerta-message-validate",
+                })?;
+            } else {
+                println!("OK Lerta mesaj eki dogrulandi");
+            }
+        }
+        ZipCommands::LertaMessageSubmit {
+            source,
+            dest,
+            format,
+        } => {
+            let prep = lerta_message::prepare_lerta_message_attachment(
+                &source,
+                &dest,
+                format.into(),
+                pw,
+            )?;
+            let webhook = lerta_message::webhook_payload_from_prepare(&prep);
+            let submit = lerta_api::submit_message_attachment_metadata(&webhook)?;
+            if json_out {
+                #[derive(Serialize)]
+                struct LertaMessageSubmitJson {
+                    prepare: lerta_message::LertaMessagePrepareResult,
+                    webhook: lerta_message::LertaMessageWebhookPayload,
+                    submit: lerta_api::LertaApiSubmitResult,
+                }
+                print_json(&LertaMessageSubmitJson {
+                    prepare: prep,
+                    webhook,
+                    submit,
+                })?;
+            } else {
+                println!(
+                    "OK Lerta mesaj submit dry_run={} detail={}",
                     submit.dry_run, submit.detail
                 );
             }

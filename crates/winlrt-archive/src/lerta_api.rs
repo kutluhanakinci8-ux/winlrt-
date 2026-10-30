@@ -4,12 +4,14 @@ use serde::{Deserialize, Serialize};
 
 use crate::audit;
 use crate::lerta_mail::LertaMailWebhookPayload;
+use crate::lerta_message::LertaMessageWebhookPayload;
 use crate::{ArchiveError, Result};
 
 pub const LERTA_API_CONTRACT_VERSION: &str = "1";
 pub const LERTA_PRODUCTION_HOST: &str = "lerta.com.tr";
 pub const LERTA_DEFAULT_API_BASE: &str = "https://u88.lerta.com.tr/api/v1";
 pub const LERTA_MAIL_REGISTER_PATH: &str = "/integrations/winlrt-zip/mail-attachment";
+pub const LERTA_MESSAGE_REGISTER_PATH: &str = "/integrations/winlrt-zip/message-attachment";
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct LertaApiConfig {
@@ -115,10 +117,59 @@ pub fn submit_mail_attachment_metadata(
     })
 }
 
+pub fn message_register_url_from_config(cfg: &LertaApiConfig) -> String {
+    format!(
+        "{}{LERTA_MESSAGE_REGISTER_PATH}",
+        cfg.api_base.trim_end_matches('/')
+    )
+}
+
+/// W30 mesaj eki metadata (içerik yüklenmez).
+pub fn submit_message_attachment_metadata(
+    payload: &LertaMessageWebhookPayload,
+) -> Result<LertaApiSubmitResult> {
+    let cfg = lerta_api_config_from_env();
+    let register_url = message_register_url_from_config(&cfg);
+    if cfg.dry_run {
+        audit::event_lerta_api("zip", true, "dry_run_message_submit");
+        return Ok(LertaApiSubmitResult {
+            ok: true,
+            dry_run: true,
+            http_status: None,
+            register_url,
+            detail: "message_metadata_dry_run".into(),
+        });
+    }
+    let bearer = trim_env("LERTA_API_BEARER").ok_or_else(|| {
+        ArchiveError::Zip("LERTA_API_BEARER gerekli (canli gonderim)".into())
+    })?;
+    let body = serde_json::to_string(payload).map_err(|e| ArchiveError::Zip(e.to_string()))?;
+    let resp = ureq::post(&register_url)
+        .set("Content-Type", "application/json")
+        .set("Authorization", &format!("Bearer {bearer}"))
+        .send_string(&body)
+        .map_err(|e| ArchiveError::Zip(format!("Lerta API: {e}")))?;
+    let status = resp.status();
+    let ok = (200..300).contains(&status);
+    audit::event_lerta_api(
+        "zip",
+        ok,
+        &format!("message_submit_http_{status}"),
+    );
+    Ok(LertaApiSubmitResult {
+        ok,
+        dry_run: false,
+        http_status: Some(status),
+        register_url,
+        detail: if ok { "submitted".into() } else { format!("http_{status}") },
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::lerta_mail::{LertaAttachmentTier, webhook_payload_from_prepare, LertaAttachmentPrepareResult};
+    use crate::lerta_mail::{LertaAttachmentPrepareResult, LertaAttachmentTier, webhook_payload_from_prepare};
+    use crate::lerta_message::{LertaMessageFormat, LertaMessagePrepareResult, webhook_payload_from_prepare as message_webhook};
 
     fn sample_payload() -> LertaMailWebhookPayload {
         let prep = LertaAttachmentPrepareResult {
@@ -150,6 +201,34 @@ mod tests {
         let r = submit_mail_attachment_metadata(&sample_payload()).unwrap();
         assert!(r.dry_run);
         assert!(r.ok);
+        std::env::remove_var("WINLRT_LERTA_API_DRY_RUN");
+    }
+
+    fn sample_message_payload() -> LertaMessageWebhookPayload {
+        let prep = LertaMessagePrepareResult {
+            contract_version: "1".into(),
+            product: "winlrtZIP".into(),
+            format: LertaMessageFormat::WlrtV0,
+            attachment_path: "/tmp/m.wlrt".into(),
+            filename: "m.wlrt".into(),
+            size_bytes: 64,
+            sha256_hex: "def".into(),
+            mime: "application/vnd.winlrt.wlrt".into(),
+            within_limit: true,
+            kvkk_local_only: true,
+            content_stays_on_device: true,
+        };
+        message_webhook(&prep)
+    }
+
+    #[test]
+    fn message_submit_dry_run_without_bearer() {
+        std::env::remove_var("LERTA_API_BEARER");
+        std::env::set_var("WINLRT_LERTA_API_DRY_RUN", "1");
+        let r = submit_message_attachment_metadata(&sample_message_payload()).unwrap();
+        assert!(r.dry_run);
+        assert!(r.ok);
+        assert!(r.register_url.contains("message-attachment"));
         std::env::remove_var("WINLRT_LERTA_API_DRY_RUN");
     }
 }

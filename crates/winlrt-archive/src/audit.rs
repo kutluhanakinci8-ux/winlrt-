@@ -160,6 +160,19 @@ pub fn event_lerta_mail(channel: &str, ok: bool, detail: &str) {
     });
 }
 
+pub fn event_lerta_message(channel: &str, ok: bool, detail: &str) {
+    log(AuditRecord {
+        ts_unix: now_unix(),
+        event: "lerta_message_attachment",
+        channel: channel.into(),
+        ok,
+        path_hint: None,
+        format: Some("wlrt|zip".into()),
+        policy_id: None,
+        detail: Some(detail.into()),
+    });
+}
+
 pub fn event_lerta_api(channel: &str, ok: bool, detail: &str) {
     log(AuditRecord {
         ts_unix: now_unix(),

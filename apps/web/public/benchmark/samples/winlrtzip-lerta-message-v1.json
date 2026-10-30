@@ -1,0 +1,13 @@
+{
+  "contract_version": "1",
+  "product": "winlrtZIP",
+  "channel": "lerta_message",
+  "format": "wlrt_v0",
+  "filename": "mesaj.wlrt",
+  "size_bytes": 72,
+  "sha256_hex": "38a390e6eb098e233967cc987cb15bad21e7affa08bacca57c8be9da70086905",
+  "mime": "application/vnd.winlrt.wlrt",
+  "within_limit": true,
+  "kvkk_local_only": true,
+  "content_stays_on_device": true
+}

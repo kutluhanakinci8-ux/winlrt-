@@ -16,6 +16,7 @@ use winlrt_archive::password_policy::{self, PasswordPolicy};
 use winlrt_archive::profile::CompressionProfile;
 use winlrt_archive::lerta_api;
 use winlrt_archive::lerta_mail;
+use winlrt_archive::lerta_message;
 use winlrt_archive::mobile_reader;
 use winlrt_archive::zip_io;
 
@@ -432,6 +433,64 @@ fn lerta_submit_mail_attachment(
     lerta_api::submit_mail_attachment_metadata(&hook).map_err(map_err)
 }
 
+fn parse_lerta_message_format(s: &str) -> Result<lerta_message::LertaMessageFormat, String> {
+    match s {
+        "wlrt_v0" | "wlrt" => Ok(lerta_message::LertaMessageFormat::WlrtV0),
+        "aes_zip" | "aes" => Ok(lerta_message::LertaMessageFormat::AesZip),
+        _ => Err(format!("bilinmeyen Lerta mesaj formati: {s}")),
+    }
+}
+
+#[tauri::command]
+fn lerta_prepare_message_attachment(
+    source: String,
+    dest: String,
+    format: String,
+    password: Option<String>,
+) -> Result<lerta_message::LertaMessagePrepareResult, String> {
+    let format = parse_lerta_message_format(&format)?;
+    lerta_message::prepare_lerta_message_attachment(
+        Path::new(&source),
+        Path::new(&dest),
+        format,
+        password.as_deref(),
+    )
+    .map_err(map_err)
+}
+
+#[tauri::command]
+fn lerta_validate_message_attachment(
+    attachment: String,
+    format: String,
+) -> Result<ActionResult, String> {
+    let format = parse_lerta_message_format(&format)?;
+    lerta_message::validate_lerta_message_attachment(Path::new(&attachment), format)
+        .map_err(map_err)?;
+    Ok(ActionResult {
+        ok: true,
+        message: "Lerta mesaj eki OK".into(),
+    })
+}
+
+#[tauri::command]
+fn lerta_submit_message_attachment(
+    source: String,
+    dest: String,
+    format: String,
+    password: Option<String>,
+) -> Result<lerta_api::LertaApiSubmitResult, String> {
+    let format = parse_lerta_message_format(&format)?;
+    let prep = lerta_message::prepare_lerta_message_attachment(
+        Path::new(&source),
+        Path::new(&dest),
+        format,
+        password.as_deref(),
+    )
+    .map_err(map_err)?;
+    let hook = lerta_message::webhook_payload_from_prepare(&prep);
+    lerta_api::submit_message_attachment_metadata(&hook).map_err(map_err)
+}
+
 #[tauri::command]
 fn mobile_capabilities() -> mobile_reader::MobileCapabilities {
     mobile_reader::capabilities()
@@ -530,7 +589,10 @@ pub fn run() {
             lerta_prepare_mail_attachment,
             lerta_validate_mail_attachment,
             lerta_api_status,
-            lerta_submit_mail_attachment
+            lerta_submit_mail_attachment,
+            lerta_prepare_message_attachment,
+            lerta_validate_message_attachment,
+            lerta_submit_message_attachment
         ])
         .build(tauri::generate_context!())
         .expect("winlrtZIP build hatası")

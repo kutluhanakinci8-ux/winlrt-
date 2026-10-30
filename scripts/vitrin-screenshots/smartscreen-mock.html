@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <title>SmartScreen placeholder</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0078d4 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath fill='%23ffffff15' d='M0 0h40v40H0zm40 40h40v40H40z'/%3E%3C/svg%3E");
+        font-family: "Segoe UI", system-ui, sans-serif;
+        display: grid;
+        place-items: center;
+      }
+      .dlg {
+        width: 420px;
+        background: #fff;
+        border: 1px solid #888;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        padding: 0;
+      }
+      .hdr {
+        padding: 16px 20px 8px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+      .body {
+        padding: 0 20px 16px;
+        font-size: 13px;
+        color: #333;
+        line-height: 1.5;
+      }
+      .warn {
+        color: #c50f1f;
+        font-weight: 600;
+      }
+      .foot {
+        background: #f0f0f0;
+        padding: 12px 16px;
+        text-align: right;
+        border-top: 1px solid #ccc;
+      }
+      button {
+        padding: 6px 20px;
+        margin-left: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dlg">
+      <div class="hdr">Windows protected your PC</div>
+      <div class="body">
+        <p class="warn">Microsoft Defender SmartScreen</p>
+        <p>
+          winlrtRAR_0.1.0_x64-setup.exe — imzasız resmi sürüm (v1.0.0). Kurumsal dağıtımda
+          Authenticode imzalı paket veya GPO kullanın.
+        </p>
+        <p class="meta" style="font-size: 11px; color: #666">Vitrin placeholder — gerçek ekran görüntüsü: assets/gallery/incoming/</p>
+      </div>
+      <div class="foot">
+        <button>Don't run</button>
+        <button>More info</button>
+      </div>
+    </div>
+  </body>
+</html>

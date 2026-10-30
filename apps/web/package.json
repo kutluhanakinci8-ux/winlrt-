@@ -4,6 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "npx --yes serve public -p 3020",
-    "build": "bash ../../scripts/package-corporate-gpo-zip.sh && bash ../../scripts/generate-pilot-status-json.sh && bash ../../scripts/render-vitrin-tauri-screenshots.sh && node scripts/sync-public.js"
+    "build": "bash ../../scripts/package-corporate-gpo-zip.sh && bash ../../scripts/generate-pilot-status-json.sh && bash ../../scripts/render-vitrin-tauri-screenshots.sh && bash ../../scripts/import-real-installer-screenshots.sh && node scripts/sync-public.js"
   }
 }

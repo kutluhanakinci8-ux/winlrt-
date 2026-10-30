@@ -5,7 +5,7 @@ window.WINLRT_I18N = {
     "meta.description":
       "winlrtRAR v1.0.0 ve winlrtZIP beta — yerli arşiv motoru, KVKK odaklı denetim, kurumsal GPO ve Lerta entegrasyonu.",
     "topbar.live": "Canlı vitrin",
-    "topbar.sync": "repo ile senkron · Post-v3 winlrtZIP W29 · winlrtRAR v1.0.0",
+    "topbar.sync": "repo ile senkron · Post-v3 winlrtZIP W30 · winlrtRAR v1.0.0",
     "topbar.kpi.loading": "KPI yükleniyor…",
     "topbar.kpi.fallback": "KPI örnekleri /benchmark/ sayfasında",
     "nav.menu": "Menü",
@@ -31,7 +31,7 @@ window.WINLRT_I18N = {
     "hero.tagline":
       "Enterprise archive software — built in Türkiye, measured on Windows KPI gates.",
     "hero.lead":
-      "winlrtRAR resmi Windows sürümü yayında; winlrtZIP WinZip sınıfı ZIP/ZIP64 hattında CLI, Tauri, Explorer, kurumsal GPO, split ZIP, imzalı arşiv ve Lerta posta metadata entegrasyonuna kadar Post-v3 (W0–W29) tamamlandı. Ortak motor: winlrt-archive.",
+      "winlrtRAR resmi Windows sürümü yayında; winlrtZIP WinZip sınıfı ZIP/ZIP64 hattında CLI, Tauri, Explorer, kurumsal GPO, split ZIP, imzalı arşiv ve Lerta posta/mesaj metadata entegrasyonuna kadar Post-v3 (W0–W30) tamamlandı. Ortak motor: winlrt-archive.",
     "hero.cta.download": "İndirme merkezi",
     "hero.cta.kpi": "KPI vitrin",
     "hero.trust.p0": "Sıkıştırma · hız · güven kapıları",
@@ -39,7 +39,7 @@ window.WINLRT_I18N = {
     "hero.trust.gpo": "Kurumsal politika paketleri",
     "preview.platform": "winlrt platform",
     "preview.maturity": "Ürün olgunluğu (repo)",
-    "preview.zip.sub": "Post-v3 W0–W29 · beta Windows/macOS CI",
+    "preview.zip.sub": "Post-v3 W0–W30 · beta Windows/macOS CI",
     "preview.rar.sub": "Post-v2 · v1.0.0 Windows resmi",
     "status.label": "Senkronizasyon",
     "status.title": "Vitrin ↔ geliştirme durumu",
@@ -52,7 +52,7 @@ window.WINLRT_I18N = {
     "gallery.label": "Ürün vitrini",
     "gallery.title": "Arayüz ve kurumsal kanıt önizlemeleri",
     "gallery.lead":
-      "Tauri kabuk düzenine uygun vitrin görüntüleri (App.tsx) + KPI/GPO önizlemeleri. Windows installer ekranları sürüm notlarıyla güncellenir.",
+      "Tauri ve NSIS kurulum önizlemeleri (vitrin render veya incoming/ gerçek PNG). SmartScreen bilgilendirme mock’u imzasız beta için referans içindir.",
     "gallery.caption.zipTauri": "winlrtZIP — Tauri masaüstü (vitrin render)",
     "gallery.caption.rarTauri": "winlrtRAR — Tauri masaüstü (vitrin render)",
     "gallery.caption.zip": "winlrtZIP — arşiv ve e-posta eki profili",
@@ -92,7 +92,7 @@ window.WINLRT_I18N = {
     "page.downloads.label": "İndirme merkezi",
     "page.downloads.h1": "Resmi sürümler ve kurumsal paketler",
     "page.downloads.lead":
-      "winlrtRAR v1.0.0 Windows resmi sürümü yayında. winlrtZIP beta (Post-v3 W0–W29) Windows installer ve macOS CI build hattında.",
+      "winlrtRAR v1.0.0 Windows resmi sürümü yayında. winlrtZIP beta (Post-v3 W0–W30) Windows installer ve macOS CI build hattında.",
     "page.downloads.topbar": "imzasız paketler SmartScreen uyarısı verebilir",
     "page.downloads.zipHeading": "winlrtZIP",
     "page.downloads.rarHeading": "winlrtRAR",
@@ -138,8 +138,9 @@ window.WINLRT_I18N = {
     "page.downloads.installerHeading": "Kurulum ekranları (Windows)",
     "page.downloads.installerLead":
       "NSIS/Tauri installer düzenine uygun vitrin render’ları. Gerçek makine ekran görüntüsü sürüm duyurusuyla değiştirilebilir.",
-    "gallery.caption.installerRar": "winlrtRAR v1.0.0 — kurulum sihirbazı",
-    "gallery.caption.installerZip": "winlrtZIP beta — kurulum sihirbazı",
+    "gallery.caption.installerRar": "winlrtRAR v1.0.0 — kurulum sihirbazı (vitrin render)",
+    "gallery.caption.installerZip": "winlrtZIP beta — kurulum sihirbazı (vitrin render)",
+    "gallery.caption.smartscreen": "Windows SmartScreen — imzasız beta bilgilendirme (vitrin mock)",
     "page.kvkk.s4.title": "İşlenen veri kategorileri (vitrin)",
     "page.kvkk.s4.body":
       "IP adresi, tarayıcı türü, erişim zamanı (barındırma logları); çerez kullanılmaz (tercihler localStorage: tema/dil). İndirme tıklamaları GitHub Releases’a yönlendirilir.",
@@ -157,7 +158,7 @@ window.WINLRT_I18N = {
       "Bu metin vitrin deploy’ları ile güncellenir. Tam ticari unvan yayımlandığında legal-entity.json esas alınır.",
     "page.kvkk.s2.title": "Masaüstü ürünler ve denetim",
     "page.kvkk.s2.body":
-      "winlrtRAR / winlrtZIP yerel audit.jsonl kayıtları parola veya anahtar materyali içermez. Kurumsal SIEM yönlendirme isteğe bağlıdır. Lerta API entegrasyonu (W29) yalnızca metadata gönderir; arşiv içeriği cihazda kalır.",
+      "winlrtRAR / winlrtZIP yerel audit.jsonl kayıtları parola veya anahtar materyali içermez. Kurumsal SIEM yönlendirme isteğe bağlıdır. Lerta API (W29–W30) yalnızca metadata gönderir; arşiv içeriği cihazda kalır.",
     "page.kvkk.s3.title": "Haklarınız",
     "page.kvkk.s3.body":
       "KVKK m.11 kapsamındaki taleplerinizi iletişim kanallarımız üzerinden iletebilirsiniz. Güncelleme tarihi vitrin deploy tarihi ile uyumludur.",
@@ -173,7 +174,7 @@ window.WINLRT_I18N = {
     "meta.description":
       "winlrtRAR v1.0.0 and winlrtZIP beta — domestic archive engine, GDPR/KVKK-oriented audit, corporate GPO, Lerta integration.",
     "topbar.live": "Live site",
-    "topbar.sync": "in sync with repo · Post-v3 winlrtZIP W29 · winlrtRAR v1.0.0",
+    "topbar.sync": "in sync with repo · Post-v3 winlrtZIP W30 · winlrtRAR v1.0.0",
     "topbar.kpi.loading": "Loading KPI…",
     "topbar.kpi.fallback": "KPI samples on /benchmark/",
     "nav.menu": "Menu",
@@ -199,7 +200,7 @@ window.WINLRT_I18N = {
     "hero.tagline":
       "Enterprise archive software — built in Türkiye, measured on Windows KPI gates.",
     "hero.lead":
-      "winlrtRAR official Windows release is live; winlrtZIP covers WinZip-class ZIP/ZIP64 with CLI, Tauri, Explorer, corporate GPO, split ZIP, signed archives, and Lerta mail metadata through Post-v3 (W0–W29). Shared engine: winlrt-archive.",
+      "winlrtRAR official Windows release is live; winlrtZIP covers WinZip-class ZIP/ZIP64 with CLI, Tauri, Explorer, corporate GPO, split ZIP, signed archives, and Lerta mail/message metadata through Post-v3 (W0–W30). Shared engine: winlrt-archive.",
     "hero.cta.download": "Download center",
     "hero.cta.kpi": "KPI dashboard",
     "hero.trust.p0": "Compression · speed · security gates",
@@ -207,7 +208,7 @@ window.WINLRT_I18N = {
     "hero.trust.gpo": "Corporate policy packs",
     "preview.platform": "winlrt platform",
     "preview.maturity": "Product maturity (repo)",
-    "preview.zip.sub": "Post-v3 W0–W29 · beta Windows/macOS CI",
+    "preview.zip.sub": "Post-v3 W0–W30 · beta Windows/macOS CI",
     "preview.rar.sub": "Post-v2 · v1.0.0 Windows GA",
     "status.label": "Synchronization",
     "status.title": "Site ↔ engineering status",
@@ -220,7 +221,7 @@ window.WINLRT_I18N = {
     "gallery.label": "Product gallery",
     "gallery.title": "UI and enterprise evidence previews",
     "gallery.lead":
-      "Vitrin renders aligned with Tauri shells (App.tsx) plus KPI/GPO previews. Installer screenshots ship with release notes.",
+      "Tauri and NSIS setup previews (vitrin render or incoming/ PNG). SmartScreen mock illustrates unsigned beta guidance.",
     "gallery.caption.zipTauri": "winlrtZIP — Tauri desktop (vitrin render)",
     "gallery.caption.rarTauri": "winlrtRAR — Tauri desktop (vitrin render)",
     "gallery.caption.zip": "winlrtZIP — archive and mail attachment profile",
@@ -260,7 +261,7 @@ window.WINLRT_I18N = {
     "page.downloads.label": "Download center",
     "page.downloads.h1": "Official releases and corporate packs",
     "page.downloads.lead":
-      "winlrtRAR v1.0.0 Windows GA is live. winlrtZIP beta (Post-v3 W0–W29) on Windows installer and macOS CI pipeline.",
+      "winlrtRAR v1.0.0 Windows GA is live. winlrtZIP beta (Post-v3 W0–W30) on Windows installer and macOS CI pipeline.",
     "page.downloads.topbar": "unsigned packages may trigger SmartScreen",
     "page.downloads.zipHeading": "winlrtZIP",
     "page.downloads.rarHeading": "winlrtRAR",
@@ -306,8 +307,9 @@ window.WINLRT_I18N = {
     "page.downloads.installerHeading": "Setup screens (Windows)",
     "page.downloads.installerLead":
       "Vitrin renders matching NSIS/Tauri installer layout. Replace with real machine captures per release.",
-    "gallery.caption.installerRar": "winlrtRAR v1.0.0 — setup wizard",
-    "gallery.caption.installerZip": "winlrtZIP beta — setup wizard",
+    "gallery.caption.installerRar": "winlrtRAR v1.0.0 — setup wizard (vitrin render)",
+    "gallery.caption.installerZip": "winlrtZIP beta — setup wizard (vitrin render)",
+    "gallery.caption.smartscreen": "Windows SmartScreen — unsigned beta notice (vitrin mock)",
     "page.kvkk.s4.title": "Data categories (site)",
     "page.kvkk.s4.body":
       "IP address, browser type, access time (hosting logs); no cookies (preferences in localStorage). Download clicks redirect to GitHub Releases.",
@@ -325,7 +327,7 @@ window.WINLRT_I18N = {
       "This text updates with vitrin deploys. When registered company name is published, legal-entity.json is authoritative.",
     "page.kvkk.s2.title": "Desktop products and audit",
     "page.kvkk.s2.body":
-      "Local audit.jsonl never stores passwords or key material. SIEM forwarding is optional. Lerta API (W29) sends metadata only; archive content stays on device.",
+      "Local audit.jsonl never stores passwords or key material. SIEM forwarding is optional. Lerta API (W29–W30) sends metadata only; archive content stays on device.",
     "page.kvkk.s3.title": "Your rights",
     "page.kvkk.s3.body":
       "You may exercise KVKK Art. 11 rights via our contact channels. This notice aligns with vitrin deploy updates.",

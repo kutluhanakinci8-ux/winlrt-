@@ -11,7 +11,7 @@
     <meta property="og:title" content="winlrt — Kurumsal arşiv platformu" />
     <meta
       property="og:description"
-      content="winlrtRAR resmi sürüm · winlrtZIP Post-v3 (W0–W29). KPI vitrin, kurumsal dağıtım, Lerta metadata API."
+      content="winlrtRAR resmi sürüm · winlrtZIP Post-v3 (W0–W30). KPI vitrin, kurumsal dağıtım, Lerta metadata API."
     />
     <meta property="og:url" content="https://winlrt.com.tr/" />
     <meta property="og:type" content="website" />
@@ -25,7 +25,7 @@
       <div class="site-topbar-inner">
         <span
           ><strong data-i18n="topbar.live">Canlı vitrin</strong> —
-          <span data-i18n="topbar.sync">repo ile senkron · Post-v3 winlrtZIP W29 · winlrtRAR v1.0.0</span></span
+          <span data-i18n="topbar.sync">repo ile senkron · Post-v3 winlrtZIP W30 · winlrtRAR v1.0.0</span></span
         >
         <span id="topbar-kpi" data-i18n="topbar.kpi.loading">KPI yükleniyor…</span>
       </div>
@@ -135,7 +135,7 @@
                   <div class="preview-icon zip">ZIP</div>
                   <div>
                     <strong>winlrtZIP</strong>
-                    <small data-i18n="preview.zip.sub">Post-v3 W0–W29 · beta Windows/macOS CI</small>
+                    <small data-i18n="preview.zip.sub">Post-v3 W0–W30 · beta Windows/macOS CI</small>
                     <div class="preview-bar"><span style="width: 96%"></span></div>
                   </div>
                 </div>
@@ -188,8 +188,8 @@
                 <td>winlrtZIP</td>
                 <td><span class="status status-beta">Beta 0.1.0</span></td>
                 <td>
-                  W0–W29: CLI/Tauri, Explorer, P0 kapı, GPO, split ZIP, imza, KVKK paylaşım,
-                  mobil okuyucu sözleşmesi, mağaza kapısı, Lerta posta + API (dry-run)
+                  W0–W30: CLI/Tauri, Explorer, P0 kapı, GPO, split ZIP, imza, KVKK paylaşım,
+                  mobil okuyucu, mağaza kapısı, Lerta posta + API + mesaj eki (dry-run)
                 </td>
                 <td>
                   <a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-zip-beta.1"
@@ -202,9 +202,10 @@
               <tr>
                 <td>Lerta</td>
                 <td><span class="status status-beta">Entegrasyon smoke</span></td>
-                <td>W28 posta eki tier · W29 metadata API (içerik cihazda)</td>
+                <td>W28 posta · W29 API · W30 mesaj eki (.wlrt / AES-ZIP, metadata-only)</td>
                 <td>
-                  <a href="/benchmark/samples/winlrtzip-lerta-api-v1.json">API durum JSON</a> ·
+                  <a href="/benchmark/samples/winlrtzip-lerta-message-v1.json">Mesaj eki JSON</a> ·
+                  <a href="/benchmark/samples/winlrtzip-lerta-api-v1.json">API durum</a> ·
                   <a href="https://www.lerta.com.tr">lerta.com.tr</a>
                 </td>
               </tr>
@@ -276,8 +277,8 @@
             <h3>Belge &amp; iletişim</h3>
             <p>PDF, sertifika ve mesaj ekleri — olgun arşiv modülleri Lerta ile birleşir.</p>
             <ul class="feature-list">
-              <li>Lerta posta eki otomasyonu (W28) vitrinde</li>
-              <li>Mesaj eki `.wlrt` profili — sıradaki madde</li>
+              <li>Lerta posta eki (W28) ve mesaj eki (W30) vitrinde</li>
+              <li>`.wlrt` veya AES-ZIP — 16 MiB limit, SHA-256 metadata</li>
             </ul>
           </article>
         </div>
@@ -311,6 +312,36 @@
               loading="lazy"
             />
             <figcaption data-i18n="gallery.caption.rarTauri">winlrtRAR — Tauri masaüstü</figcaption>
+          </figure>
+          <figure class="gallery-item">
+            <img
+              src="/assets/gallery/installer-winlrtrar-setup.png"
+              width="1024"
+              height="720"
+              alt=""
+              loading="lazy"
+            />
+            <figcaption data-i18n="gallery.caption.installerRar">winlrtRAR v1.0.0 — kurulum sihirbazı</figcaption>
+          </figure>
+          <figure class="gallery-item">
+            <img
+              src="/assets/gallery/installer-winlrtzip-setup.png"
+              width="1024"
+              height="720"
+              alt=""
+              loading="lazy"
+            />
+            <figcaption data-i18n="gallery.caption.installerZip">winlrtZIP beta — kurulum sihirbazı</figcaption>
+          </figure>
+          <figure class="gallery-item">
+            <img
+              src="/assets/gallery/smartscreen-winlrt.png"
+              width="1024"
+              height="720"
+              alt=""
+              loading="lazy"
+            />
+            <figcaption data-i18n="gallery.caption.smartscreen">Windows SmartScreen — imzasız beta bilgilendirme (vitrin mock)</figcaption>
           </figure>
           <figure class="gallery-item">
             <img src="/assets/gallery/vitrin-kpi.svg" width="800" height="500" alt="" loading="lazy" />
@@ -461,6 +492,16 @@
             </p>
           </article>
         </div>
+        <article class="card" style="margin-top: 1.5rem">
+          <h3>Mesaj eki (W30)</h3>
+          <p>
+            Lerta mesaj kanalı için <code>.wlrt</code> veya AES-ZIP profili; 16 MiB üst sınır, SHA-256
+            metadata — dosya içeriği yüklenmez.
+          </p>
+          <p class="meta">
+            <a href="/benchmark/samples/winlrtzip-lerta-message-v1.json">Mesaj eki webhook örneği</a>
+          </p>
+        </article>
       </div>
     </section>
 

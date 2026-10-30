@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://winlrt.com.tr/schemas/lerta-message-v1.json",
+  "title": "LertaMessageWebhookPayload",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "product",
+    "channel",
+    "format",
+    "filename",
+    "size_bytes",
+    "sha256_hex",
+    "mime",
+    "within_limit",
+    "kvkk_local_only",
+    "content_stays_on_device"
+  ],
+  "properties": {
+    "contract_version": { "type": "string", "const": "1" },
+    "product": { "type": "string", "const": "winlrtZIP" },
+    "channel": { "type": "string", "const": "lerta_message" },
+    "format": { "enum": ["wlrt_v0", "aes_zip"] },
+    "filename": { "type": "string" },
+    "size_bytes": { "type": "integer", "minimum": 0, "maximum": 16777216 },
+    "sha256_hex": { "type": "string", "pattern": "^[0-9a-fA-F]{64}$" },
+    "mime": { "enum": ["application/vnd.winlrt.wlrt", "application/zip"] },
+    "within_limit": { "type": "boolean" },
+    "kvkk_local_only": { "type": "boolean" },
+    "content_stays_on_device": { "type": "boolean" }
+  },
+  "additionalProperties": false
+}

@@ -803,6 +803,31 @@ fn w29_lerta_api_metadata_submit_dry_run() {
 }
 
 #[test]
+fn w30_lerta_message_attachment_metadata_dry_run() {
+    std::env::set_var("WINLRT_LERTA_API_DRY_RUN", "1");
+    std::env::remove_var("LERTA_API_BEARER");
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("msg.txt");
+    fs::write(&src, b"w30-lerta-message").unwrap();
+    let wlrt = base.path().join("mesaj.wlrt");
+    let prep = winlrt_archive::lerta_message::prepare_lerta_message_attachment(
+        &src,
+        &wlrt,
+        winlrt_archive::lerta_message::LertaMessageFormat::WlrtV0,
+        None,
+    )
+    .unwrap();
+    assert_eq!(prep.mime, "application/vnd.winlrt.wlrt");
+    let hook = winlrt_archive::lerta_message::webhook_payload_from_prepare(&prep);
+    assert_eq!(hook.channel, "lerta_message");
+    let sub = winlrt_archive::lerta_api::submit_message_attachment_metadata(&hook).unwrap();
+    assert!(sub.ok);
+    assert!(sub.dry_run);
+    assert!(sub.register_url.contains("message-attachment"));
+    std::env::remove_var("WINLRT_LERTA_API_DRY_RUN");
+}
+
+#[test]
 fn w27_store_gate_all_pass_in_repo() {
     let root = winlrt_archive::store_gate::default_workspace_root();
     let report = winlrt_archive::store_gate::evaluate_store_gate(&root).unwrap();
