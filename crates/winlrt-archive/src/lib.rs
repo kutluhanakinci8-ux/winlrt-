@@ -1,5 +1,6 @@
 //! winlrt arşiv motoru — Faz 1: ZIP + `.wlrt` v0.
 
+pub mod audit;
 pub mod bench;
 pub mod crypto;
 pub mod password_policy;

@@ -166,7 +166,9 @@ Taslak: [WINLRTRAR_FAZ3_TRANSITION.md](./WINLRTRAR_FAZ3_TRANSITION.md)
 - [x] Explorer şifreli sıkıştır (`--secure` + NSIS menüleri)
 - [x] ZIP AES-256 yazma · `.wlrt` v2 Argon2id
 - [x] Explorer parola sihirbazı (modal) + kurumsal politika modülü
-- [ ] Tam WinRAR menü parity (yerel Win32 diyalog, birleşik arşiv adı)
+- [x] Win32 parola diyalogu (`--secure` headless / web yedek)
+- [x] Denetim günlüğü iskeleti (`audit.jsonl`, parolasız)
+- [ ] Tam WinRAR menü parity (birleşik arşiv adı, GPO)
 - [x] Parola + şifreleme UI (beta: ZIP ZipCrypto, .wlrt v1 AES-GCM)
 - [ ] Argon2id + AES-ZIP (WinZip AE-2) — kurumsal kapı
 - [x] Çok ciltli RAR (ilk cilt çözümleme) + onarım (UnRAR `r`, beta)

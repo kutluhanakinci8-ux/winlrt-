@@ -28,6 +28,15 @@ Explorer **şifreli sıkıştır** menüsü, env tanımlı değilse otomatik **k
 
 Kaynak: `secure-create-wizard` event · `startup_secure_wizard` komutu.
 
+## Windows yerel parola penceresi
+
+Explorer `--secure`: önce **Win32 parola diyalogu**; iptal → web sihirbazı.  
+Kapatma: `WINLRT_DISABLE_NATIVE_PASSWORD=1`
+
+## Denetim
+
+Bkz. [WINLRTRAR_AUDIT.md](./WINLRTRAR_AUDIT.md).
+
 ## Sonraki (Faz 4)
 
-GPO/MDM ile politika dağıtımı, denetim günlüğü (parola denemesi sayısı — parola metni **loglanmaz**).
+GPO/MDM ile politika dağıtımı, merkezi log toplama.

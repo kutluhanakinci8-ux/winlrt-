@@ -35,6 +35,7 @@ interface Job {
 interface PlatformInfo {
   os: string;
   explorer_context_menu: string;
+  native_password_dialog?: boolean;
 }
 
 interface CompressFolderHint {
@@ -908,6 +909,25 @@ function App() {
               </p>
             )}
             <div className="row modal-actions">
+              {platform?.native_password_dialog && (
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => {
+                    void invoke<string | null>("prompt_native_password", {
+                      title: "winlrtRAR — arşiv parolası",
+                      message: "Parolayı girin:",
+                    }).then((p) => {
+                      if (p) {
+                        setWizardPassword(p);
+                        setWizardConfirm(p);
+                      }
+                    });
+                  }}
+                >
+                  Windows parola penceresi…
+                </button>
+              )}
               <button
                 type="button"
                 className="btn primary"
