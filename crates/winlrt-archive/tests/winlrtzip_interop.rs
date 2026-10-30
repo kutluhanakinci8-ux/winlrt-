@@ -1,4 +1,4 @@
-//! winlrtZIP interop — I6 (W7), I4 AES (W8), I1/I2 Explorer proxy (W12), KOBİ pilot (W13), split ZIP (W20).
+//! winlrtZIP interop — I6 (W7), I4 AES (W8), I1/I2 Explorer proxy (W12), KOBİ pilot (W13), split ZIP (W20–W21).
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -681,4 +681,22 @@ fn w20_normal_zip_not_split() {
     let zip = base.path().join("n.zip");
     zip_io::create_with_profile(&src, &zip, CompressionProfile::Fast, None).unwrap();
     assert!(!zip_io::archive_indicates_split_zip(&zip).unwrap());
+}
+
+#[test]
+fn w21_split_zip_synthetic_merge_extract() {
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("w21.txt");
+    fs::write(&src, b"w21-interop-merge").unwrap();
+    let whole = base.path().join("full.zip");
+    zip_io::create_with_profile(&src, &whole, CompressionProfile::Fast, None).unwrap();
+    let bytes = fs::read(&whole).unwrap();
+    let mid = bytes.len() / 2;
+    fs::write(base.path().join("w21.z01"), &bytes[..mid]).unwrap();
+    fs::write(base.path().join("w21.zip"), &bytes[mid..]).unwrap();
+    assert!(zip_io::archive_indicates_split_zip(&base.path().join("w21.zip")).unwrap());
+    zip_io::test(&base.path().join("w21.zip"), None).unwrap();
+    let out = base.path().join("out");
+    zip_io::extract(&base.path().join("w21.z01"), &out, None).unwrap();
+    assert_eq!(fs::read(out.join("w21.txt")).unwrap(), b"w21-interop-merge");
 }

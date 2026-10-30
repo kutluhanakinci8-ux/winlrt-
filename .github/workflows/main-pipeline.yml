@@ -128,6 +128,9 @@ jobs:
       - name: winlrtZIP Split ZIP smoke (W20)
         run: bash scripts/verify-madde-w20.sh
 
+      - name: winlrtZIP Split ZIP birleştirme (W21)
+        run: bash scripts/verify-madde-w21.sh
+
       - name: Faz 1 benchmark raporu
         run: |
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json

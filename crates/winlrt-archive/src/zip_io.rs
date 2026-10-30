@@ -2,6 +2,8 @@ use std::fs::File;
 use std::io::{copy, Write};
 use std::path::{Path, PathBuf};
 
+use tempfile::NamedTempFile;
+
 use walkdir::WalkDir;
 use zip::write::SimpleFileOptions;
 use zip::{AesMode, CompressionMethod, ZipArchive, ZipWriter};
@@ -63,7 +65,8 @@ fn open_zip_entry<'a>(
 }
 
 pub fn list(archive: &Path, password: Option<&str>) -> Result<Vec<String>> {
-    let file = File::open(archive)?;
+    let opened = SplitZipOpen::resolve(archive)?;
+    let file = File::open(&opened.path)?;
     let mut zip = ZipArchive::new(file).map_err(map_zip_err)?;
     let pw = password_bytes(password);
     let mut names = Vec::with_capacity(zip.len());
@@ -75,7 +78,8 @@ pub fn list(archive: &Path, password: Option<&str>) -> Result<Vec<String>> {
 }
 
 pub fn extract(archive: &Path, dest: &Path, password: Option<&str>) -> Result<()> {
-    let file = File::open(archive)?;
+    let opened = SplitZipOpen::resolve(archive)?;
+    let file = File::open(&opened.path)?;
     let mut zip = ZipArchive::new(file).map_err(map_zip_err)?;
     let pw = password_bytes(password);
     for i in 0..zip.len() {
@@ -172,53 +176,147 @@ pub fn create_from_paths(
 /// Zip64 eşiği (zip crate `ZIP64_BYTES_THR` ile uyumlu).
 pub const ZIP64_SIZE_THRESHOLD: u64 = u32::MAX as u64;
 
-/// WinZip tarzı split ZIP: `arsiv.zip` + `arsiv.z01`, `arsiv.z02`, …
+/// WinZip / Info-ZIP split: `arsiv.z01` … `arsiv.zNN` + son cilt `arsiv.zip`.
 pub const SPLIT_ZIP_MAX_VOLUMES: u32 = 999;
 
-fn eocd_indicates_spanning(bytes: &[u8]) -> bool {
-    let Some(max_start) = bytes.len().checked_sub(22) else {
-        return false;
-    };
-    for i in (0..=max_start).rev() {
-        if bytes[i..i + 4] != [0x50, 0x4b, 0x05, 0x06] {
-            continue;
-        }
-        let disk = u16::from_le_bytes([bytes[i + 4], bytes[i + 5]]);
-        let cd_disk = u16::from_le_bytes([bytes[i + 6], bytes[i + 7]]);
-        return disk != 0 || cd_disk != 0;
-    }
-    false
+/// Birleştirilmiş geçici arşiv (W21); `_merged` kapanınca silinir.
+struct SplitZipOpen {
+    path: PathBuf,
+    _merged: Option<NamedTempFile>,
 }
 
-/// Birinci cilt yolu (`*.zip`) için olası split cilt yolları (W20).
-pub fn split_zip_expected_companion_paths(first_volume: &Path) -> Vec<PathBuf> {
-    let Some(stem) = first_volume.file_stem().and_then(|s| s.to_str()) else {
-        return Vec::new();
-    };
-    let parent = first_volume.parent().unwrap_or_else(|| Path::new("."));
-    (1..=SPLIT_ZIP_MAX_VOLUMES)
-        .map(|n| parent.join(format!("{stem}.z{n:02}")))
-        .collect()
+impl SplitZipOpen {
+    fn resolve(archive: &Path) -> Result<Self> {
+        let vols = split_zip_ordered_volumes(archive);
+        if vols.len() <= 1 {
+            return Ok(Self {
+                path: archive.to_path_buf(),
+                _merged: None,
+            });
+        }
+        let mut tmp = NamedTempFile::new().map_err(ArchiveError::Io)?;
+        for v in &vols {
+            let mut f = File::open(v).map_err(ArchiveError::Io)?;
+            copy(&mut f, &mut tmp).map_err(ArchiveError::Io)?;
+        }
+        tmp.flush().map_err(ArchiveError::Io)?;
+        let mut merged = std::fs::read(tmp.path()).map_err(ArchiveError::Io)?;
+        normalize_merged_split_eocd(&mut merged);
+        std::fs::write(tmp.path(), &merged).map_err(ArchiveError::Io)?;
+        Ok(Self {
+            path: tmp.path().to_path_buf(),
+            _merged: Some(tmp),
+        })
+    }
 }
 
-/// Diskte mevcut ciltler (ilk cilt dahil).
-pub fn split_zip_volumes_on_disk(first_volume: &Path) -> Vec<PathBuf> {
-    let mut out = Vec::new();
-    if first_volume.is_file() {
-        out.push(first_volume.to_path_buf());
+fn split_zip_part_number(name: &str, stem: &str) -> Option<u32> {
+    let prefix = format!("{stem}.");
+    if !name.starts_with(&prefix) {
+        return None;
     }
-    for p in split_zip_expected_companion_paths(first_volume) {
-        if p.is_file() {
-            out.push(p);
-        } else if !out.is_empty() && out.len() > 1 {
-            break;
-        } else if out.len() == 1 {
+    let ext = &name[prefix.len()..];
+    let digits = ext.strip_prefix('z').or_else(|| ext.strip_prefix('Z'))?;
+    if digits.len() != 2 {
+        return None;
+    }
+    let n: u32 = digits.parse().ok()?;
+    (1..=SPLIT_ZIP_MAX_VOLUMES).contains(&n).then_some(n)
+}
+
+fn split_zip_stem_from_name(file_name: &str) -> Option<String> {
+    if file_name.len() > 4 && file_name.ends_with(".zip") {
+        return Some(file_name[..file_name.len() - 4].to_string());
+    }
+    let dot = file_name.rfind('.')?;
+    let stem = &file_name[..dot];
+    split_zip_part_number(file_name, stem).map(|_| stem.to_string())
+}
+
+/// Diskteki ciltler, birleştirme sırasıyla (`.z01` … `.zip`).
+pub fn split_zip_ordered_volumes(selected: &Path) -> Vec<PathBuf> {
+    let Some(file_name) = selected.file_name().and_then(|s| s.to_str()) else {
+        return selected
+            .is_file()
+            .then(|| vec![selected.to_path_buf()])
+            .unwrap_or_default();
+    };
+    let Some(stem) = split_zip_stem_from_name(file_name) else {
+        return vec![selected.to_path_buf()];
+    };
+    let parent = selected.parent().unwrap_or_else(|| Path::new("."));
+    let mut parts: Vec<(u32, PathBuf)> = Vec::new();
+    let mut last_zip: Option<PathBuf> = None;
+    let Ok(read_dir) = std::fs::read_dir(parent) else {
+        return vec![selected.to_path_buf()];
+    };
+    for ent in read_dir.flatten() {
+        let Some(name) = ent.file_name().to_str().map(|s| s.to_string()) else {
             continue;
-        } else {
-            break;
+        };
+        if name == format!("{stem}.zip") {
+            last_zip = Some(ent.path());
+        } else if let Some(n) = split_zip_part_number(&name, &stem) {
+            parts.push((n, ent.path()));
         }
+    }
+    parts.sort_by_key(|(n, _)| *n);
+    let mut out: Vec<PathBuf> = parts.into_iter().map(|(_, p)| p).collect();
+    if let Some(z) = last_zip {
+        out.push(z);
+    }
+    if out.is_empty() && selected.is_file() {
+        out.push(selected.to_path_buf());
     }
     out
+}
+
+fn eocd_scan_last(bytes: &[u8]) -> Option<usize> {
+    let max_start = bytes.len().checked_sub(22)?;
+    (0..=max_start).rev().find(|&i| bytes[i..i + 4] == [0x50, 0x4b, 0x05, 0x06])
+}
+
+fn eocd_indicates_spanning(bytes: &[u8]) -> bool {
+    let Some(i) = eocd_scan_last(bytes) else {
+        return false;
+    };
+    let disk = u16::from_le_bytes([bytes[i + 4], bytes[i + 5]]);
+    let cd_disk = u16::from_le_bytes([bytes[i + 6], bytes[i + 7]]);
+    disk != 0 || cd_disk != 0
+}
+
+/// Birleştirilmiş arşivde EOCD disk alanlarını tek cilt olarak işaretler (zip crate uyumu).
+fn normalize_merged_split_eocd(bytes: &mut [u8]) {
+    let Some(i) = eocd_scan_last(bytes) else {
+        return;
+    };
+    bytes[i + 4] = 0;
+    bytes[i + 5] = 0;
+    bytes[i + 6] = 0;
+    bytes[i + 7] = 0;
+}
+
+/// Diskte mevcut ciltler (birleştirme sırasıyla).
+pub fn split_zip_volumes_on_disk(entry: &Path) -> Vec<PathBuf> {
+    split_zip_ordered_volumes(entry)
+}
+
+/// Çok ciltli arşivi tek geçici dosyada birleştirir (W21); tek ciltte `Ok(None)`.
+pub fn split_zip_materialize_merged(entry: &Path) -> Result<Option<NamedTempFile>> {
+    let vols = split_zip_ordered_volumes(entry);
+    if vols.len() <= 1 {
+        return Ok(None);
+    }
+    let mut tmp = NamedTempFile::new().map_err(ArchiveError::Io)?;
+    for v in &vols {
+        let mut f = File::open(v).map_err(ArchiveError::Io)?;
+        copy(&mut f, &mut tmp).map_err(ArchiveError::Io)?;
+    }
+    tmp.flush().map_err(ArchiveError::Io)?;
+    let mut merged = std::fs::read(tmp.path()).map_err(ArchiveError::Io)?;
+    normalize_merged_split_eocd(&mut merged);
+    std::fs::write(tmp.path(), &merged).map_err(ArchiveError::Io)?;
+    Ok(Some(tmp))
 }
 
 /// Split / spanned ZIP göstergesi (EOCD disk alanları veya `.zNN` ciltleri).
@@ -338,7 +436,8 @@ pub fn create_zip64_smoke(dest: &Path) -> Result<()> {
 }
 
 pub fn test(archive: &Path, password: Option<&str>) -> Result<()> {
-    let file = File::open(archive)?;
+    let opened = SplitZipOpen::resolve(archive)?;
+    let file = File::open(&opened.path)?;
     let mut zip = ZipArchive::new(file).map_err(map_zip_err)?;
     let pw = password_bytes(password);
     for i in 0..zip.len() {
@@ -372,6 +471,7 @@ pub fn corrupt_first_local_crc_for_test(archive: &Path) -> Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::process::Command;
     use tempfile::tempdir;
 
     #[test]
@@ -485,9 +585,58 @@ mod tests {
         let dir = tempdir().unwrap();
         let first = dir.path().join("paket.zip");
         std::fs::write(&first, b"PK").unwrap();
-        std::fs::write(dir.path().join("paket.z01"), b"vol2").unwrap();
+        std::fs::write(dir.path().join("paket.z01"), b"vol1").unwrap();
         let vols = split_zip_volumes_on_disk(&first);
         assert_eq!(vols.len(), 2);
+        assert_eq!(vols[0].file_name().unwrap(), "paket.z01");
+        assert_eq!(vols[1].file_name().unwrap(), "paket.zip");
         assert!(archive_indicates_split_zip(&first).unwrap());
+    }
+
+    #[test]
+    fn split_zip_merge_synthetic_two_part_roundtrip() {
+        let dir = tempdir().unwrap();
+        let src = dir.path().join("piece.txt");
+        std::fs::write(&src, b"w21-synthetic-split-merge").unwrap();
+        let whole = dir.path().join("whole.zip");
+        create_with_profile(&src, &whole, CompressionProfile::Fast, None).unwrap();
+        let bytes = std::fs::read(&whole).unwrap();
+        let mid = bytes.len() / 2;
+        std::fs::write(dir.path().join("syn.z01"), &bytes[..mid]).unwrap();
+        std::fs::write(dir.path().join("syn.zip"), &bytes[mid..]).unwrap();
+        let vols = split_zip_volumes_on_disk(&dir.path().join("syn.zip"));
+        assert_eq!(vols.len(), 2);
+        test(&dir.path().join("syn.zip"), None).unwrap();
+        let out = dir.path().join("out");
+        extract(&dir.path().join("syn.z01"), &out, None).unwrap();
+        assert_eq!(
+            std::fs::read(out.join("piece.txt")).unwrap(),
+            b"w21-synthetic-split-merge"
+        );
+    }
+
+    #[test]
+    fn split_zip_infozip_volume_order_and_byte_len() {
+        if Command::new("zip").arg("-h").output().is_err() {
+            return;
+        }
+        let dir = tempdir().unwrap();
+        std::fs::write(dir.path().join("payload.bin"), vec![0u8; 200 * 1024]).unwrap();
+        let status = Command::new("zip")
+            .current_dir(dir.path())
+            .args(["-0", "-s", "64k", "split.zip", "payload.bin"])
+            .status()
+            .unwrap();
+        if !status.success() {
+            return;
+        }
+        let vols = split_zip_volumes_on_disk(&dir.path().join("split.zip"));
+        assert!(vols.len() >= 2);
+        assert_eq!(vols.last().unwrap().file_name().unwrap(), "split.zip");
+        let sum: u64 = vols.iter().map(|p| std::fs::metadata(p).unwrap().len()).sum();
+        let merged = split_zip_materialize_merged(&dir.path().join("split.zip"))
+            .unwrap()
+            .unwrap();
+        assert_eq!(std::fs::metadata(merged.path()).unwrap().len(), sum);
     }
 }

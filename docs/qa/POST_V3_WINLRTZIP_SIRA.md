@@ -23,5 +23,6 @@
 | **W18** | Kurumsal GPO + denetim | **%100** ✅ | [MADDE_W18](./MADDE_W18_WINLRTZIP_CORPORATE.md) |
 | **W19** | Kurumsal pilot signoff kapısı | **%100** ✅ | [MADDE_W19](./MADDE_W19_WINLRTZIP_CORPORATE_SIGNOFF.md) |
 | **W20** | Split ZIP smoke (Faz 5) | **%100** ✅ | [MADDE_W20](./MADDE_W20_WINLRTZIP_SPLIT_ZIP.md) |
+| **W21** | Split ZIP birleştirme / açma | **%100** ✅ | [MADDE_W21](./MADDE_W21_WINLRTZIP_SPLIT_ZIP_MERGE.md) |
 
 RAR hattı: [POST_V2_SIRA.md](./POST_V2_SIRA.md) (Q2 tamam).
