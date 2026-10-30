@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use serde::Serialize;
 use winlrt_archive::profile::CompressionProfile;
-use winlrt_archive::{rar, wlrt, zip_io};
+use winlrt_archive::{rar, sevenz, wlrt, zip_io};
 
 #[derive(Serialize)]
 pub struct ListResult {
@@ -39,7 +39,7 @@ fn engine_info() -> EngineInfo {
     EngineInfo {
         product: "winlrtRAR",
         phase: "Faz 2 beta",
-        motor: "winlrt-archive 0.1.0 (RAR5 okuma)",
+        motor: "winlrt-archive 0.1.0 (ZIP · wlrt · RAR5 · 7z)",
     }
 }
 
@@ -58,7 +58,8 @@ fn list_archive(
         "zip" => zip_io::list(&archive).map_err(|e| e.to_string())?,
         "wlrt" => wlrt::list(&archive).map_err(|e| e.to_string())?,
         "rar" => rar::list(&archive, pw).map_err(|e| e.to_string())?,
-        _ => return Err("Desteklenmeyen format (zip | wlrt | rar)".into()),
+        "7z" => sevenz::list(&archive, pw).map_err(|e| e.to_string())?,
+        _ => return Err("Desteklenmeyen format (zip | wlrt | rar | 7z)".into()),
     };
     Ok(ListResult {
         entries,
@@ -79,6 +80,7 @@ fn test_archive(
         "zip" => zip_io::test(&archive).map_err(|e| e.to_string())?,
         "wlrt" => wlrt::test(&archive).map_err(|e| e.to_string())?,
         "rar" => rar::test(&archive, pw).map_err(|e| e.to_string())?,
+        "7z" => sevenz::test(&archive, pw).map_err(|e| e.to_string())?,
         _ => return Err("Desteklenmeyen format".into()),
     }
     Ok(())
@@ -98,6 +100,7 @@ fn extract_archive(
         "zip" => zip_io::extract(&archive, &dest).map_err(|e| e.to_string())?,
         "wlrt" => wlrt::extract(&archive, &dest).map_err(|e| e.to_string())?,
         "rar" => rar::extract(&archive, &dest, pw).map_err(|e| e.to_string())?,
+        "7z" => sevenz::extract(&archive, &dest, pw).map_err(|e| e.to_string())?,
         _ => return Err("Desteklenmeyen format".into()),
     }
     Ok(ActionResult {
@@ -120,6 +123,7 @@ fn create_archive(
         "zip" => zip_io::create_with_profile(&source, &dest, profile).map_err(|e| e.to_string())?,
         "wlrt" => wlrt::create(&source, &dest, profile).map_err(|e| e.to_string())?,
         "rar" => return Err("RAR yazma desteklenmiyor".into()),
+        "7z" => return Err("7z yazma henüz desteklenmiyor".into()),
         _ => return Err("Desteklenmeyen format".into()),
     }
     Ok(ActionResult {

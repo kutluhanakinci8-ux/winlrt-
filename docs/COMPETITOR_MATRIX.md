@@ -10,7 +10,7 @@ WinRAR / WinZip / 7-Zip / Bandizip karşılaştırması — winlrtRAR ve winlrtZ
 | ZIP64 | ✅ | ✅ | ✅ | ✅ | 🟡 Faz 1 hazırlık | 🟡 Faz 1 |
 | RAR okuma | ✅ | kısıtlı | ✅ | ✅ | 🟡 **Faz 2** | miras |
 | RAR yazma | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| 7z okuma | ❌ | ❌ | ✅ | ✅ | 🟡 Faz 2–3 | ikincil |
+| 7z okuma | ❌ | ❌ | ✅ | ✅ | ✅ Faz 2 beta | ikincil |
 | Yerli `.wlrt` | ❌ | ❌ | ❌ | ❌ | ✅ **Faz 1** | ✅ preset |
 | Çok çekirdek | kısıtlı | kısıtlı | ✅ | ✅ | ✅ Faz 1 | ✅ |
 | AES şifre | ✅ | ✅ | ✅ | ✅ | 🟡 Faz 2–3 | 🟡 Faz 2–3 |

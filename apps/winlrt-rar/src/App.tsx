@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import { getCurrentWindow } from "@tauri-apps/api/window";
 import { open } from "@tauri-apps/plugin-dialog";
 import "./App.css";
 
-type Format = "zip" | "wlrt" | "rar";
+type Format = "zip" | "wlrt" | "rar" | "7z";
 type Profile = "fast" | "balanced" | "maximum" | "email";
+type JobStatus = "pending" | "running" | "done" | "error";
 
 interface EngineInfo {
   product: string;
@@ -18,6 +20,20 @@ interface ListResult {
   path: string;
 }
 
+interface Job {
+  id: string;
+  label: string;
+  status: JobStatus;
+}
+
+function formatFromPath(filePath: string): Format | null {
+  const ext = filePath.split(".").pop()?.toLowerCase();
+  if (ext === "zip" || ext === "wlrt" || ext === "rar" || ext === "7z") {
+    return ext;
+  }
+  return null;
+}
+
 function App() {
   const [info, setInfo] = useState<EngineInfo | null>(null);
   const [format, setFormat] = useState<Format>("zip");
@@ -28,6 +44,28 @@ function App() {
   const [entries, setEntries] = useState<string[]>([]);
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
+  const [dragOver, setDragOver] = useState(false);
+  const [jobs, setJobs] = useState<Job[]>([]);
+
+  const pushJob = useCallback((label: string, status: JobStatus = "running") => {
+    const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    setJobs((prev) => [{ id, label, status }, ...prev].slice(0, 12));
+    return id;
+  }, []);
+
+  const finishJob = useCallback((id: string, ok: boolean) => {
+    setJobs((prev) =>
+      prev.map((j) =>
+        j.id === id ? { ...j, status: ok ? "done" : "error" } : j,
+      ),
+    );
+  }, []);
+
+  const applyArchivePath = useCallback((filePath: string) => {
+    setPath(filePath);
+    const f = formatFromPath(filePath);
+    if (f) setFormat(f);
+  }, []);
 
   useEffect(() => {
     invoke<EngineInfo>("engine_info")
@@ -35,18 +73,43 @@ function App() {
       .catch(() => undefined);
   }, []);
 
+  useEffect(() => {
+    let unlisten: (() => void) | undefined;
+    getCurrentWindow()
+      .onDragDropEvent((event) => {
+        const payload = event.payload;
+        if (payload.type === "over") {
+          setDragOver(true);
+        } else if (payload.type === "drop") {
+          setDragOver(false);
+          const dropped = payload.paths[0];
+          if (dropped) {
+            applyArchivePath(dropped);
+            setStatus("Arşiv sürüklenerek seçildi.");
+          }
+        } else {
+          setDragOver(false);
+        }
+      })
+      .then((fn) => {
+        unlisten = fn;
+      })
+      .catch(() => undefined);
+    return () => {
+      unlisten?.();
+    };
+  }, [applyArchivePath]);
+
   async function pickArchive() {
     setError("");
     const selected = await open({
       multiple: false,
-      filters: [{ name: "Arşiv", extensions: ["zip", "wlrt", "rar"] }],
+      filters: [
+        { name: "Arşiv", extensions: ["zip", "wlrt", "rar", "7z"] },
+      ],
     });
     if (selected && typeof selected === "string") {
-      setPath(selected);
-      const ext = selected.split(".").pop()?.toLowerCase();
-      if (ext === "wlrt" || ext === "zip" || ext === "rar") {
-        setFormat(ext);
-      }
+      applyArchivePath(selected);
     }
   }
 
@@ -71,6 +134,7 @@ function App() {
       setError("Önce bir arşiv seçin.");
       return;
     }
+    const jobId = pushJob(`Listele: ${path.split(/[/\\]/).pop()}`);
     try {
       const res = await invoke<ListResult>("list_archive", {
         path,
@@ -79,9 +143,11 @@ function App() {
       });
       setEntries(res.entries);
       setStatus(`${res.entries.length} girdi listelendi.`);
+      finishJob(jobId, true);
     } catch (e) {
       setEntries([]);
       setError(String(e));
+      finishJob(jobId, false);
     }
   }
 
@@ -92,6 +158,7 @@ function App() {
       setError("Önce bir arşiv seçin.");
       return;
     }
+    const jobId = pushJob(`Test: ${path.split(/[/\\]/).pop()}`);
     try {
       await invoke("test_archive", {
         path,
@@ -99,8 +166,10 @@ function App() {
         password: password || null,
       });
       setStatus("Bütünlük testi: OK");
+      finishJob(jobId, true);
     } catch (e) {
       setError(String(e));
+      finishJob(jobId, false);
     }
   }
 
@@ -111,6 +180,7 @@ function App() {
       setError("Arşiv ve hedef klasör gerekli.");
       return;
     }
+    const jobId = pushJob(`Aç: ${path.split(/[/\\]/).pop()}`);
     try {
       const res = await invoke<{ message: string }>("extract_archive", {
         path,
@@ -119,8 +189,10 @@ function App() {
         password: password || null,
       });
       setStatus(res.message);
+      finishJob(jobId, true);
     } catch (e) {
       setError(String(e));
+      finishJob(jobId, false);
     }
   }
 
@@ -128,9 +200,10 @@ function App() {
     setError("");
     setStatus("");
     if (!destDir || !path) {
-      setError("Kaynak klasör (hedef alanı) ve çıktı dosya yolu gerekli.");
+      setError("Kaynak klasör ve çıktı dosya yolu gerekli.");
       return;
     }
+    const jobId = pushJob(`Oluştur: ${path.split(/[/\\]/).pop()}`);
     try {
       const res = await invoke<{ message: string }>("create_archive", {
         source: destDir,
@@ -139,8 +212,10 @@ function App() {
         profile,
       });
       setStatus(res.message);
+      finishJob(jobId, true);
     } catch (e) {
       setError(String(e));
+      finishJob(jobId, false);
     }
   }
 
@@ -151,8 +226,8 @@ function App() {
           <p className="eyebrow">winlrt · Faz 2 beta</p>
           <h1>winlrtRAR</h1>
           <p className="sub">
-            ZIP, .wlrt ve RAR5 açma; ZIP / .wlrt oluşturma. Profiller: hız,
-            sıkıştırma, e-posta eki.
+            ZIP, .wlrt, RAR5 ve 7z açma; ZIP / .wlrt oluşturma. Arşivi pencereye
+            sürükleyebilirsiniz.
           </p>
         </div>
         {info && (
@@ -163,7 +238,8 @@ function App() {
         )}
       </header>
 
-      <section className="panel">
+      <section className={`panel drop-zone ${dragOver ? "drag-over" : ""}`}>
+        <p className="drop-hint">Arşivi buraya sürükleyin veya dosya seçin</p>
         <div className="row">
           <label>
             Format
@@ -173,7 +249,8 @@ function App() {
             >
               <option value="zip">ZIP</option>
               <option value="wlrt">.wlrt</option>
-              <option value="rar">RAR (okuma)</option>
+              <option value="rar">RAR</option>
+              <option value="7z">7z</option>
             </select>
           </label>
           <label>
@@ -189,7 +266,7 @@ function App() {
             </select>
           </label>
           <label className="grow">
-            RAR parola
+            Parola (RAR / 7z)
             <input
               type="password"
               value={password}
@@ -229,18 +306,35 @@ function App() {
         {error && <p className="status err">{error}</p>}
       </section>
 
-      <section className="panel list">
-        <h2>İçerik</h2>
-        {entries.length === 0 ? (
-          <p className="muted">Henüz girdi yok.</p>
-        ) : (
-          <ul>
-            {entries.map((name) => (
-              <li key={name}>{name}</li>
-            ))}
-          </ul>
-        )}
-      </section>
+      <div className="split">
+        <section className="panel list">
+          <h2>İçerik</h2>
+          {entries.length === 0 ? (
+            <p className="muted">Henüz girdi yok.</p>
+          ) : (
+            <ul>
+              {entries.map((name) => (
+                <li key={name}>{name}</li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        <section className="panel list">
+          <h2>İş kuyruğu</h2>
+          {jobs.length === 0 ? (
+            <p className="muted">Son işlemler burada görünür.</p>
+          ) : (
+            <ul className="jobs">
+              {jobs.map((j) => (
+                <li key={j.id} className={`job job-${j.status}`}>
+                  {j.label}
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </div>
     </main>
   );
 }

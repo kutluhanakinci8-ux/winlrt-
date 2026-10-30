@@ -4,7 +4,7 @@ use clap::{Parser, Subcommand, ValueEnum};
 use serde::Serialize;
 use winlrt_archive::bench::{self, BenchReport, BenchSuite};
 use winlrt_archive::profile::CompressionProfile;
-use winlrt_archive::{rar, wlrt, zip_io, Result};
+use winlrt_archive::{rar, sevenz, wlrt, zip_io, Result};
 
 #[derive(Parser)]
 #[command(name = "winlrt-archive", about = "winlrt arşiv CLI — winlrtRAR motoru")]
@@ -68,6 +68,8 @@ enum FormatArg {
     Zip,
     Wlrt,
     Rar,
+    #[value(name = "7z")]
+    SevenZ,
 }
 
 #[derive(Clone, Copy, ValueEnum, Default)]
@@ -121,6 +123,7 @@ fn run() -> Result<()> {
                 FormatArg::Zip => zip_io::list(&archive)?,
                 FormatArg::Wlrt => wlrt::list(&archive)?,
                 FormatArg::Rar => rar::list(&archive, pw)?,
+                FormatArg::SevenZ => sevenz::list(&archive, pw)?,
             };
             if json_out {
                 print_json(&ListJson {
@@ -138,6 +141,7 @@ fn run() -> Result<()> {
             FormatArg::Zip => zip_io::extract(&archive, &dest)?,
             FormatArg::Wlrt => wlrt::extract(&archive, &dest)?,
             FormatArg::Rar => rar::extract(&archive, &dest, pw)?,
+            FormatArg::SevenZ => sevenz::extract(&archive, &dest, pw)?,
         },
         Commands::Create {
             source,
@@ -154,6 +158,11 @@ fn run() -> Result<()> {
                         "RAR yazma desteklenmiyor".into(),
                     ))
                 }
+                FormatArg::SevenZ => {
+                    return Err(winlrt_archive::ArchiveError::SevenZ(
+                        "7z yazma Faz 5 planında".into(),
+                    ))
+                }
             }
         }
         Commands::Test { archive, format } => {
@@ -161,6 +170,7 @@ fn run() -> Result<()> {
                 FormatArg::Zip => zip_io::test(&archive)?,
                 FormatArg::Wlrt => wlrt::test(&archive)?,
                 FormatArg::Rar => rar::test(&archive, pw)?,
+                FormatArg::SevenZ => sevenz::test(&archive, pw)?,
             }
             if json_out {
                 print_json(&OkJson {
@@ -206,6 +216,7 @@ fn format_label(format: FormatArg) -> String {
         FormatArg::Zip => "zip".into(),
         FormatArg::Wlrt => "wlrt".into(),
         FormatArg::Rar => "rar".into(),
+        FormatArg::SevenZ => "7z".into(),
     }
 }
 

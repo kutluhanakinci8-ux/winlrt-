@@ -12,6 +12,8 @@ pub enum ArchiveError {
     Wlrt(String),
     #[error("RAR: {0}")]
     Rar(String),
+    #[error("7z: {0}")]
+    SevenZ(String),
     #[error("henüz desteklenmiyor: {0}")]
     NotYet(&'static str),
 }

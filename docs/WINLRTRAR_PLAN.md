@@ -142,8 +142,9 @@ benchmarks/                # Rakip karşılaştırma seti
 
 - [x] Tauri iskelet (`apps/winlrt-rar`), TR arayüz başlangıcı
 - [x] **RAR5 okuma** (beta) — `rar` crate + CLI/Tauri; RAR4 / UnRAR statik link sırada
-- [ ] 7z okuma (yaygın rakip format)
-- [ ] Sürükle-bırak, çift tık, iş kuyruğu
+- [x] 7z okuma (`sevenz-rust`; parolalı → 7z CLI)
+- [x] Sürükle-bırak + iş kuyruğu (Tauri beta)
+- [ ] Çift tık / dosya ilişkilendirme (Faz 3)
 - [ ] Profiller: Hızlı / Dengeli / Maksimum / E-posta
 - [ ] winlrt.com.tr’de **beta .exe**
 

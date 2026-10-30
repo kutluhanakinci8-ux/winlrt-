@@ -1,0 +1,31 @@
+name: winlrtRAR Windows beta build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - run: npm ci
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Build winlrtRAR (Tauri)
+        run: npm run build:rar
+
+      - name: Upload Windows bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: winlrt-rar-windows-bundle
+          path: |
+            apps/winlrt-rar/src-tauri/target/release/bundle/**/*.exe
+            apps/winlrt-rar/src-tauri/target/release/bundle/**/*.msi
+          if-no-files-found: warn
