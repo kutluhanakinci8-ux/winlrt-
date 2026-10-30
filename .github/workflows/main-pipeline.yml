@@ -107,6 +107,9 @@ jobs:
       - name: winlrtZIP KOBİ pilot proxy (W13)
         run: cargo test -p winlrt-archive --test winlrtzip_interop kobi_
 
+      - name: winlrtZIP macOS kapı (W14)
+        run: bash scripts/verify-madde-w14.sh
+
       - name: Faz 1 benchmark raporu
         run: |
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json

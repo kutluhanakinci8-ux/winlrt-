@@ -172,8 +172,10 @@ fn engine_info() -> EngineInfo {
         motor: "winlrt-archive (zip_io)",
         explorer_context_menu: if cfg!(target_os = "windows") {
             "NSIS: ZIP ac/buraya ac · sikistir · sifreli sikistir (--secure)"
+        } else if cfg!(target_os = "macos") {
+            "macOS: .zip cift tik / Surukle-birak · imza/notarize W14 beta CI"
         } else {
-            "Explorer yalnizca Windows NSIS kurulumunda"
+            "Kabuk entegrasyonu: Windows NSIS · macOS dmg (W14)"
         },
     }
 }
@@ -369,4 +371,19 @@ pub fn run() {
                 emit_startup_events(app);
             }
         });
+}
+
+#[cfg(test)]
+mod platform_info_tests {
+    use super::engine_info;
+
+    #[test]
+    fn engine_info_platform_hint_non_empty() {
+        let hint = engine_info().explorer_context_menu;
+        assert!(!hint.is_empty());
+        #[cfg(target_os = "macos")]
+        assert!(hint.contains("macOS"));
+        #[cfg(target_os = "windows")]
+        assert!(hint.contains("NSIS"));
+    }
 }

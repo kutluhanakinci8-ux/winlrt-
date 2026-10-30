@@ -1,0 +1,89 @@
+name: winlrtZIP macOS beta build
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip_release:
+        description: Yalnızca artifact (Release oluşturma)
+        type: boolean
+        default: false
+  push:
+    branches: [main]
+    paths:
+      - .github/flags/trigger-zip-macos-build
+      - .github/flags/trigger-zip-macos-release
+      - .github/workflows/winlrt-zip-macos.yml
+
+permissions:
+  contents: write
+
+jobs:
+  build-macos:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - run: npm ci
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Build winlrtZIP (Tauri dmg)
+        env:
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: npm run tauri build -w @winlrt/zip -- --bundles dmg
+
+      - name: Notarize / imza durumu
+        id: signing
+        shell: bash
+        env:
+          APPLE_CERT: ${{ secrets.APPLE_CERTIFICATE }}
+        run: |
+          if [ -z "${APPLE_CERT}" ]; then
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::APPLE_* secret yok — dmg imzasiz / notarize edilmedi (W14 beta)."
+          else
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload macOS bundle (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: winlrt-zip-macos-bundle
+          path: |
+            target/release/bundle/dmg/*.dmg
+            target/release/bundle/macos/*.app
+          if-no-files-found: error
+
+      - name: Release modu (push flag)
+        id: rel
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          FILES="$(git show --pretty='' --name-only HEAD || true)"
+          if echo "${FILES}" | tr '\\' '/' | grep -q 'trigger-zip-macos-release'; then
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: GitHub Release (macOS beta)
+        if: |
+          (github.event_name == 'workflow_dispatch' && inputs.skip_release != true) ||
+          (github.event_name == 'push' && steps.rel.outputs.publish == 'true')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: winlrt-zip-macos-beta.${{ github.run_number }}
+          name: winlrtZIP macOS Beta ${{ github.run_number }}
+          prerelease: true
+          generate_release_notes: true
+          files: target/release/bundle/dmg/*.dmg

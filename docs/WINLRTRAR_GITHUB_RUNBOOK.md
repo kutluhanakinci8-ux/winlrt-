@@ -8,6 +8,7 @@ Repo: `kutluhanakinci8-ux/winlrt-`
 | **winlrt Windows benchmark (resmi)** | `main` (bench paths), manual | Resmi KPI + 7-Zip/WinRAR; artifact `bench-report-windows` |
 | **winlrtRAR Windows beta build** | manual + beta flags | Tauri beta + Release; imza verify (secret varsa) |
 | **winlrtZIP Windows beta build** | `trigger-zip-beta-*` push | winlrtZIP NSIS beta + Release |
+| **winlrtZIP macOS beta build** | `trigger-zip-macos-*` push | winlrtZIP dmg beta + isteğe Release |
 | **Vitrin KPI samples (Linux)** | manual | Linux KPI JSON → artifact `vitrin-kpi-samples` |
 | **Deploy VPS** | (varsa ayrı) | Ek deploy — bkz. `deploy-vps.yml` |
 
