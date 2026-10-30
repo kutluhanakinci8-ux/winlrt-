@@ -75,9 +75,9 @@ jobs:
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json
           cargo run -p winlrt-archive --release -- bench --all --markdown > BENCH_REPORT.md
 
-      - name: KPI özeti (Linux Balanced)
+      - name: KPI özeti (Linux Balanced, Madde C strict)
         env:
-          WINLRT_KPI_STRICT: ${{ vars.WINLRT_KPI_STRICT == '1' && '1' || '0' }}
+          WINLRT_KPI_STRICT: ${{ (vars.WINLRT_KPI_STRICT == '1' || github.ref == 'refs/heads/main') && '1' || '0' }}
         run: |
           command -v jq >/dev/null || sudo apt-get install -y -qq jq
           chmod +x scripts/evaluate-bench-kpi.sh

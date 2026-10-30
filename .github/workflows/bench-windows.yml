@@ -60,13 +60,17 @@ jobs:
           Write-BenchJson -CargoArgs @('bench','--all','--profile','fast','--json') -OutPath 'bench-report-windows-fast.json'
           Write-BenchMd -CargoArgs @('bench','--all','--profile','fast','--markdown') -OutPath 'BENCH_REPORT_FAST.md'
 
-      - name: KPI özeti (Balanced + Fast)
+      - name: KPI özeti — Balanced (strict kapı, Madde C)
         shell: pwsh
         env:
-          WINLRT_KPI_STRICT: ${{ (vars.WINLRT_KPI_STRICT == '1' || (github.event_name == 'workflow_dispatch' && inputs.kpi_strict == true)) && '1' || '0' }}
-        run: |
-          ./scripts/evaluate-bench-kpi.ps1 -JsonPath bench-report-windows.json
-          ./scripts/evaluate-bench-kpi.ps1 -JsonPath bench-report-windows-fast.json
+          WINLRT_KPI_STRICT: ${{ (vars.WINLRT_KPI_STRICT == '1' || github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.kpi_strict == true)) && '1' || '0' }}
+        run: ./scripts/evaluate-bench-kpi.ps1 -JsonPath bench-report-windows.json
+
+      - name: KPI özeti — Fast (rapor; hız kapısı izlenir)
+        shell: pwsh
+        env:
+          WINLRT_KPI_STRICT: "0"
+        run: ./scripts/evaluate-bench-kpi.ps1 -JsonPath bench-report-windows-fast.json
 
       - name: Vitrin KPI snippet (artifact)
         shell: pwsh
