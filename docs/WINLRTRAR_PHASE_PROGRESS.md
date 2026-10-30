@@ -19,6 +19,6 @@ Otomatik takip: [WINLRTRAR_ROADMAP_TO_100.md](./WINLRTRAR_ROADMAP_TO_100.md)
 | Dalga | Durum | Sonraki |
 |-------|--------|---------|
 | **1** Deploy | **Agent VPS deploy OK** (yetkili kimlik) · CI `auth=skip` = token 403, opsiyonel panel | [DALGA1_GITHUB_VPS_SECRET.md](./DALGA1_GITHUB_VPS_SECRET.md) |
-| **2** Explorer QA | **Aktif sıra** — Windows pilot | [qa/DALGA2_EXPLORER_QA_KOPYA.md](./qa/DALGA2_EXPLORER_QA_KOPYA.md) · vitrin /downloads/ |
-| **3** Kurumsal + imza | Faz 2 sonrası | [qa/FAZ5_KURUMSAL_BASLANGIC.md](./qa/FAZ5_KURUMSAL_BASLANGIC.md) |
+| **2** Explorer QA | **Aktif sıra** — Windows pilot | [qa/DALGA2_EXPLORER_QA_KOPYA.md](./qa/DALGA2_EXPLORER_QA_KOPYA.md) |
+| **3** Kurumsal + imza | Hazır (Faz 2 sonrası) | [qa/DALGA3_KURUMSAL_KOPYA.md](./qa/DALGA3_KURUMSAL_KOPYA.md) · `verify-corporate-assets.sh` OK |
 | **4** v1.0 | Faz 3 sonrası | [qa/FAZ6_V1_KAPOR.md](./qa/FAZ6_V1_KAPOR.md) |
