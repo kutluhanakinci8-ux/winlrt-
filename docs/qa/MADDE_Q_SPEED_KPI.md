@@ -13,6 +13,6 @@ Vitrin: `apps/web/public/benchmark/samples/windows-fast-kpi.json` — `speed_gat
 
 1. Balanced resmi strict yeşil ([Madde C](./MADDE_C_WINDOWS_BENCHMARK.md))
 2. Fast adımı CI’da `-ReportOnly` (yanlış “Faz 3” uyarısı yok)
-3. Eksik fixture kayıtlı → performans işi ayrı PR (bloklayıcı değil)
+3. Performans iyileştirme → [Madde Q2](./MADDE_Q2_PERF.md)
 
-Doğrulama: `bash scripts/verify-madde-q.sh`
+Doğrulama: `bash scripts/verify-madde-q.sh` · perf: `bash scripts/verify-madde-q2.sh`

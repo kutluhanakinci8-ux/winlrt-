@@ -88,7 +88,7 @@ fn bench_elapsed_ms(d: Duration) -> u128 {
     }
 }
 
-/// Isınma + ölçüm (Faz 3 hız KPI — milisaniye çözünürlük).
+/// Isınma + birkaç ölçümün en iyisi (Faz 3 hız KPI — gürültü azaltma).
 fn time_extract_ms(
     archive: &Path,
     dest: &Path,
@@ -97,11 +97,15 @@ fn time_extract_ms(
     let _ = std::fs::remove_dir_all(dest);
     std::fs::create_dir_all(dest)?;
     let _ = extract(archive, dest);
-    let _ = std::fs::remove_dir_all(dest);
-    std::fs::create_dir_all(dest)?;
-    let t0 = Instant::now();
-    extract(archive, dest)?;
-    Ok(bench_elapsed_ms(t0.elapsed()))
+    let mut best = u128::MAX;
+    for _ in 0..5 {
+        let _ = std::fs::remove_dir_all(dest);
+        std::fs::create_dir_all(dest)?;
+        let t0 = Instant::now();
+        extract(archive, dest)?;
+        best = best.min(bench_elapsed_ms(t0.elapsed()));
+    }
+    Ok(if best == u128::MAX { 0 } else { best })
 }
 
 fn copy_bench_tree(from: &Path, to: &Path) -> Result<()> {
@@ -729,5 +733,34 @@ mod tests {
     fn speed_kpi_mixed_fixture_like() {
         assert!(speed_row_ok(&report(5, 3)));
         assert!(speed_row_ok(&report(7, 3)));
+    }
+
+    #[test]
+    fn speed_kpi_eval_mixed_row() {
+        let suite = BenchSuite {
+            profile: "Fast".into(),
+            platform: "test".into(),
+            generated_at: "0".into(),
+            reports: vec![BenchReport {
+                fixture: "mixed".into(),
+                profile: "Fast".into(),
+                zip_create_ms: 0,
+                wlrt_create_ms: 0,
+                zip_extract_ms: 5,
+                wlrt_extract_ms: 3,
+                zip_bytes: 1,
+                wlrt_bytes: 1,
+                raw_bytes: 1,
+                seven_zip_create_ms: None,
+                seven_zip_bytes: None,
+                seven_zip_extract_ms: None,
+                winrar_create_ms: None,
+                winrar_bytes: None,
+                winrar_extract_ms: None,
+            }],
+            kpi: None,
+        };
+        let kpi = evaluate_kpi(&suite);
+        assert_eq!(kpi.rows[0].speed_ok, Some(true));
     }
 }

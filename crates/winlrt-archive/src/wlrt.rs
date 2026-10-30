@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::{Read, Write};
+use std::io::{BufWriter, Read, Write};
 use std::path::{Path, PathBuf};
 
 use rayon::prelude::*;
@@ -15,6 +15,8 @@ const FOOTER: &[u8; 4] = b"TRLW";
 const VERSION: u16 = 0;
 const METHOD_ZSTD: u8 = 1;
 const METHOD_ZSTD_ENC: u8 = 2;
+/// Küçük arşivlerde rayon overhead’inden kaçın (text fixture hız KPI).
+const EXTRACT_PARALLEL_MIN_PAYLOAD_BYTES: usize = 256 * 1024;
 
 fn encrypted_wlrt_version() -> u16 {
     crypto::WLRT_KDF_ARGON2ID_V2
@@ -191,7 +193,12 @@ pub fn extract(archive: &Path, dest: &Path, password: Option<&str>) -> Result<()
     }
     read_footer(&mut file)?;
 
-    let parallel = header.salt.is_none() && entries.len() > 1;
+    prepare_extract_dirs(dest, &entries)?;
+
+    let payload_bytes: usize = entries.iter().map(|e| e.payload.len()).sum();
+    let parallel = header.salt.is_none()
+        && entries.len() > 1
+        && payload_bytes >= EXTRACT_PARALLEL_MIN_PAYLOAD_BYTES;
     if parallel {
         entries.par_iter().try_for_each(|entry| write_decoded_entry(dest, entry))?;
     } else {
@@ -202,15 +209,31 @@ pub fn extract(archive: &Path, dest: &Path, password: Option<&str>) -> Result<()
     Ok(())
 }
 
+fn prepare_extract_dirs(dest: &Path, entries: &[ParsedEntry]) -> Result<()> {
+    use std::collections::HashSet;
+    let mut dirs = HashSet::new();
+    for entry in entries {
+        let out_path = dest.join(sanitize_path(&entry.path));
+        if let Some(parent) = out_path.parent() {
+            dirs.insert(parent.to_path_buf());
+        }
+    }
+    let mut ordered: Vec<_> = dirs.into_iter().collect();
+    ordered.sort();
+    for d in ordered {
+        std::fs::create_dir_all(d)?;
+    }
+    Ok(())
+}
+
 fn write_decoded_entry(dest: &Path, entry: &ParsedEntry) -> Result<()> {
     let out_path = dest.join(sanitize_path(&entry.path));
-    if let Some(parent) = out_path.parent() {
-        std::fs::create_dir_all(parent)?;
-    }
     let mut dec = Decoder::new(&entry.payload[..])
         .map_err(|e| ArchiveError::Wlrt(format!("zstd: {e}")))?;
-    let mut out = File::create(&out_path)?;
+    let file = File::create(&out_path)?;
+    let mut out = BufWriter::with_capacity(64 * 1024, file);
     std::io::copy(&mut dec, &mut out)?;
+    out.flush()?;
     Ok(())
 }
 

@@ -14,7 +14,7 @@ pub enum CompressionProfile {
 impl CompressionProfile {
     pub fn zstd_level(self) -> i32 {
         match self {
-            Self::Fast => 1,
+            Self::Fast => 0,
             Self::Balanced => 6,
             Self::Maximum => 19,
             Self::EmailAttachment => 9,
