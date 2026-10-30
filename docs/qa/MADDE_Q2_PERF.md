@@ -14,10 +14,10 @@
 | Fast profil zstd seviye **0** (daha hızlı açma) | `profile.rs` |
 | Extract ölçümü 5× min | `bench.rs` |
 
-## Kalan
+## Doğrulandı
 
-- **Windows resmi run [41095710700](https://github.com/kutluhanakinci8-ux/winlrt-/actions/runs/41095710700):** `text` ✅ · **`mixed`** 12 ms vs zip 17 ms (kapı için ≤11 ms — 1 ms gap).
-- Paralel açma eşiği **ham byte** toplamına göre düzeltildi (`wlrt.rs`) — sonraki bench ile doğrulanacak.
+- Run [41096427848](https://github.com/kutluhanakinci8-ux/winlrt-/actions/runs/41096427848): **`speed_gate: true`** (vitrin `windows-fast-kpi.json`).
+- Kritik düzeltme: paralel açma eşiği **sıkıştırılmış değil, ham byte** toplamı (`EXTRACT_PARALLEL_MIN_RAW_BYTES`).
 
 Doğrulama (kod): `bash scripts/verify-madde-q2.sh`  
 Resmi kapı: `bash scripts/agent-madde-q2-bench.sh` → Windows bench + vitrin import.
