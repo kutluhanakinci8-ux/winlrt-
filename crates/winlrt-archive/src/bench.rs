@@ -36,11 +36,11 @@ pub fn run(fixture: &Path, profile: CompressionProfile) -> Result<BenchReport> {
     let raw_bytes = dir_size(&fixture)?;
 
     let t0 = Instant::now();
-    zip_io::create_with_profile(&fixture, &zip_path, profile)?;
+    zip_io::create_with_profile(&fixture, &zip_path, profile, None)?;
     let zip_create_ms = t0.elapsed().as_millis();
 
     let t1 = Instant::now();
-    wlrt::create(&fixture, &wlrt_path, profile)?;
+    wlrt::create(&fixture, &wlrt_path, profile, None)?;
     let wlrt_create_ms = t1.elapsed().as_millis();
 
     let zip_bytes = std::fs::metadata(&zip_path)?.len();
@@ -48,12 +48,12 @@ pub fn run(fixture: &Path, profile: CompressionProfile) -> Result<BenchReport> {
 
     let t2 = Instant::now();
     std::fs::create_dir_all(&zip_out)?;
-    zip_io::extract(&zip_path, &zip_out)?;
+    zip_io::extract(&zip_path, &zip_out, None)?;
     let zip_extract_ms = t2.elapsed().as_millis();
 
     let t3 = Instant::now();
     std::fs::create_dir_all(&wlrt_out)?;
-    wlrt::extract(&wlrt_path, &wlrt_out)?;
+    wlrt::extract(&wlrt_path, &wlrt_out, None)?;
     let wlrt_extract_ms = t3.elapsed().as_millis();
 
     let _ = std::fs::remove_dir_all(&work);

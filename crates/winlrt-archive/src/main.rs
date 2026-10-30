@@ -120,7 +120,7 @@ fn run() -> Result<()> {
     match cli.command {
         Commands::List { archive, format } => {
             let entries = match format {
-                FormatArg::Zip => zip_io::list(&archive)?,
+                FormatArg::Zip => zip_io::list(&archive, pw)?,
                 FormatArg::Wlrt => wlrt::list(&archive)?,
                 FormatArg::Rar => rar::list(&archive, pw)?,
                 FormatArg::SevenZ => sevenz::list(&archive, pw)?,
@@ -138,8 +138,8 @@ fn run() -> Result<()> {
             }
         }
         Commands::Extract { archive, dest, format } => match format {
-            FormatArg::Zip => zip_io::extract(&archive, &dest)?,
-            FormatArg::Wlrt => wlrt::extract(&archive, &dest)?,
+            FormatArg::Zip => zip_io::extract(&archive, &dest, pw)?,
+            FormatArg::Wlrt => wlrt::extract(&archive, &dest, pw)?,
             FormatArg::Rar => rar::extract(&archive, &dest, pw)?,
             FormatArg::SevenZ => sevenz::extract(&archive, &dest, pw)?,
         },
@@ -151,8 +151,8 @@ fn run() -> Result<()> {
         } => {
             let profile: CompressionProfile = profile.into();
             match format {
-                FormatArg::Zip => zip_io::create_with_profile(&source, &dest, profile)?,
-                FormatArg::Wlrt => wlrt::create(&source, &dest, profile)?,
+                FormatArg::Zip => zip_io::create_with_profile(&source, &dest, profile, pw)?,
+                FormatArg::Wlrt => wlrt::create(&source, &dest, profile, pw)?,
                 FormatArg::Rar => {
                     return Err(winlrt_archive::ArchiveError::Rar(
                         "RAR yazma desteklenmiyor".into(),
@@ -167,8 +167,8 @@ fn run() -> Result<()> {
         }
         Commands::Test { archive, format } => {
             match format {
-                FormatArg::Zip => zip_io::test(&archive)?,
-                FormatArg::Wlrt => wlrt::test(&archive)?,
+                FormatArg::Zip => zip_io::test(&archive, pw)?,
+                FormatArg::Wlrt => wlrt::test(&archive, pw)?,
                 FormatArg::Rar => rar::test(&archive, pw)?,
                 FormatArg::SevenZ => sevenz::test(&archive, pw)?,
             }

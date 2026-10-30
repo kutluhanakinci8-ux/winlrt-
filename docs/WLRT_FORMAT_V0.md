@@ -40,4 +40,6 @@ Faz 1 minimum spesifikasyon — winlrtRAR / winlrtZIP ortak yerli yazma formatı
 
 ## Sürümleme
 
-v1+: merkezi dizin, şifreleme, imza — Faz 2+.
+**v1 (beta şifreleme):** sürüm `1` + 16 bayt salt; girdi `method=2` → AES-256-GCM ile şifreli zstd gövde (PBKDF2-SHA256).
+
+v1+: merkezi dizin, imza — Faz 4+.

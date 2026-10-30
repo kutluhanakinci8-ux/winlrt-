@@ -163,7 +163,8 @@ Taslak: [WINLRTRAR_FAZ3_TRANSITION.md](./WINLRTRAR_FAZ3_TRANSITION.md)
 - [x] **Geçiş sihirbazı** (uygulama sekmesi + varsayılan uygulamalar)
 - [x] Klasör sağ tık «sıkıştır» + hızlı `.wlrt` (beta)
 - [ ] Tam WinRAR menü parity (çoklu dosya, parola ile sıkıştır)
-- [ ] Parola + güçlü şifreleme UI
+- [x] Parola + şifreleme UI (beta: ZIP ZipCrypto, .wlrt v1 AES-GCM)
+- [ ] Argon2id + AES-ZIP (WinZip AE-2) — kurumsal kapı
 - [ ] Çok ciltli arşiv, onarım/test
 - [ ] Resmi benchmark yayını (vitrinde özet)
 - [ ] v1.0 imzalı kurulum

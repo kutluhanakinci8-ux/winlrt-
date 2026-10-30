@@ -7,6 +7,7 @@ use tauri::{AppHandle, Emitter, RunEvent};
 #[cfg(target_os = "windows")]
 use tauri_plugin_opener::OpenerExt;
 use winlrt_archive::profile::CompressionProfile;
+use winlrt_archive::crypto::{self, PasswordFeedback};
 use winlrt_archive::{rar, sevenz, wlrt, zip_io};
 
 use cli::{
@@ -154,7 +155,7 @@ fn list_archive(
     }
     let pw = password.as_deref();
     let entries = match format.as_str() {
-        "zip" => zip_io::list(&archive).map_err(|e| e.to_string())?,
+        "zip" => zip_io::list(&archive, pw).map_err(|e| e.to_string())?,
         "wlrt" => wlrt::list(&archive).map_err(|e| e.to_string())?,
         "rar" => rar::list(&archive, pw).map_err(|e| e.to_string())?,
         "7z" => sevenz::list(&archive, pw).map_err(|e| e.to_string())?,
@@ -176,8 +177,8 @@ fn test_archive(
     let archive = std::path::PathBuf::from(&path);
     let pw = password.as_deref();
     match format.as_str() {
-        "zip" => zip_io::test(&archive).map_err(|e| e.to_string())?,
-        "wlrt" => wlrt::test(&archive).map_err(|e| e.to_string())?,
+        "zip" => zip_io::test(&archive, pw).map_err(|e| e.to_string())?,
+        "wlrt" => wlrt::test(&archive, pw).map_err(|e| e.to_string())?,
         "rar" => rar::test(&archive, pw).map_err(|e| e.to_string())?,
         "7z" => sevenz::test(&archive, pw).map_err(|e| e.to_string())?,
         _ => return Err("Desteklenmeyen format".into()),
@@ -196,8 +197,8 @@ fn extract_archive(
     let dest = std::path::PathBuf::from(&dest);
     let pw = password.as_deref();
     match format.as_str() {
-        "zip" => zip_io::extract(&archive, &dest).map_err(|e| e.to_string())?,
-        "wlrt" => wlrt::extract(&archive, &dest).map_err(|e| e.to_string())?,
+        "zip" => zip_io::extract(&archive, &dest, pw).map_err(|e| e.to_string())?,
+        "wlrt" => wlrt::extract(&archive, &dest, pw).map_err(|e| e.to_string())?,
         "rar" => rar::extract(&archive, &dest, pw).map_err(|e| e.to_string())?,
         "7z" => sevenz::extract(&archive, &dest, pw).map_err(|e| e.to_string())?,
         _ => return Err("Desteklenmeyen format".into()),
@@ -209,18 +210,26 @@ fn extract_archive(
 }
 
 #[tauri::command]
+fn evaluate_password(password: String, for_create: bool) -> PasswordFeedback {
+    crypto::evaluate_password(&password, for_create)
+}
+
+#[tauri::command]
 fn create_archive(
     source: String,
     dest: String,
     format: String,
     profile: String,
+    password: Option<String>,
 ) -> Result<ActionResult, String> {
     let source = std::path::PathBuf::from(&source);
     let dest = std::path::PathBuf::from(&dest);
     let profile = parse_profile(&profile)?;
+    let pw = password.as_deref();
     match format.as_str() {
-        "zip" => zip_io::create_with_profile(&source, &dest, profile).map_err(|e| e.to_string())?,
-        "wlrt" => wlrt::create(&source, &dest, profile).map_err(|e| e.to_string())?,
+        "zip" => zip_io::create_with_profile(&source, &dest, profile, pw)
+            .map_err(|e| e.to_string())?,
+        "wlrt" => wlrt::create(&source, &dest, profile, pw).map_err(|e| e.to_string())?,
         "rar" => return Err("RAR yazma desteklenmiyor".into()),
         "7z" => return Err("7z yazma henüz desteklenmiyor".into()),
         _ => return Err("Desteklenmeyen format".into()),
@@ -267,6 +276,7 @@ pub fn run() {
             open_windows_default_apps,
             startup_archives,
             startup_compress_folder,
+            evaluate_password,
             list_archive,
             test_archive,
             extract_archive,

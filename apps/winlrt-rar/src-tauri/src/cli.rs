@@ -104,8 +104,8 @@ pub fn extract_here(archive_path: &str) -> Result<ActionResult, String> {
     let format =
         format_from_path(&archive).ok_or_else(|| "Desteklenmeyen uzantı".to_string())?;
     match format {
-        "zip" => zip_io::extract(&archive, &dest).map_err(|e| e.to_string())?,
-        "wlrt" => wlrt::extract(&archive, &dest).map_err(|e| e.to_string())?,
+        "zip" => zip_io::extract(&archive, &dest, None).map_err(|e| e.to_string())?,
+        "wlrt" => wlrt::extract(&archive, &dest, None).map_err(|e| e.to_string())?,
         "rar" => rar::extract(&archive, &dest, None).map_err(|e| e.to_string())?,
         "7z" => sevenz::extract(&archive, &dest, None).map_err(|e| e.to_string())?,
         _ => return Err("Desteklenmeyen format".into()),
@@ -126,7 +126,8 @@ pub fn compress_folder_quick(folder_path: &str) -> Result<ActionResult, String> 
         return Err("Klasör bulunamadı".into());
     }
     let dest = PathBuf::from(suggested_archive_path(folder_path, "wlrt")?);
-    wlrt::create(&folder, &dest, CompressionProfile::Balanced).map_err(|e| e.to_string())?;
+    wlrt::create(&folder, &dest, CompressionProfile::Balanced, None)
+        .map_err(|e| e.to_string())?;
     Ok(ActionResult {
         ok: true,
         message: format!(

@@ -4,27 +4,47 @@ use std::path::{Path, PathBuf};
 
 use walkdir::WalkDir;
 use zip::write::FileOptions;
+use zip::unstable::write::FileOptionsExt;
 use zip::{CompressionMethod, ZipArchive, ZipWriter};
 
+use crate::crypto;
 use crate::profile::CompressionProfile;
 use crate::{ArchiveError, Result};
 
-pub fn list(archive: &Path) -> Result<Vec<String>> {
+fn password_bytes(password: Option<&str>) -> Option<&[u8]> {
+    password.filter(|p| !p.is_empty()).map(|p| p.as_bytes())
+}
+
+pub fn list(archive: &Path, password: Option<&str>) -> Result<Vec<String>> {
     let file = File::open(archive)?;
     let mut zip = ZipArchive::new(file).map_err(|e| ArchiveError::Zip(e.to_string()))?;
+    let pw = password_bytes(password);
     let mut names = Vec::with_capacity(zip.len());
     for i in 0..zip.len() {
-        let entry = zip.by_index(i).map_err(|e| ArchiveError::Zip(e.to_string()))?;
+        let entry = if let Some(p) = pw {
+            zip.by_index_decrypt(i, p)
+                .map_err(|e| ArchiveError::Zip(e.to_string()))?
+                .map_err(|_| ArchiveError::Zip("ZIP parola hatalı".into()))?
+        } else {
+            zip.by_index(i).map_err(|e| ArchiveError::Zip(e.to_string()))?
+        };
         names.push(entry.name().to_string());
     }
     Ok(names)
 }
 
-pub fn extract(archive: &Path, dest: &Path) -> Result<()> {
+pub fn extract(archive: &Path, dest: &Path, password: Option<&str>) -> Result<()> {
     let file = File::open(archive)?;
     let mut zip = ZipArchive::new(file).map_err(|e| ArchiveError::Zip(e.to_string()))?;
+    let pw = password_bytes(password);
     for i in 0..zip.len() {
-        let mut entry = zip.by_index(i).map_err(|e| ArchiveError::Zip(e.to_string()))?;
+        let mut entry = if let Some(p) = pw {
+            zip.by_index_decrypt(i, p)
+                .map_err(|e| ArchiveError::Zip(e.to_string()))?
+                .map_err(|_| ArchiveError::Zip("ZIP parola hatalı".into()))?
+        } else {
+            zip.by_index(i).map_err(|e| ArchiveError::Zip(e.to_string()))?
+        };
         let name = entry.name().to_string();
         let out_path = dest.join(sanitize_path(&name));
         if entry.is_dir() {
@@ -41,15 +61,26 @@ pub fn extract(archive: &Path, dest: &Path) -> Result<()> {
 }
 
 pub fn create(source: &Path, dest: &Path) -> Result<()> {
-    create_with_profile(source, dest, CompressionProfile::Balanced)
+    create_with_profile(source, dest, CompressionProfile::Balanced, None)
 }
 
-pub fn create_with_profile(source: &Path, dest: &Path, profile: CompressionProfile) -> Result<()> {
+pub fn create_with_profile(
+    source: &Path,
+    dest: &Path,
+    profile: CompressionProfile,
+    password: Option<&str>,
+) -> Result<()> {
     if !source.exists() {
         return Err(ArchiveError::Io(std::io::Error::new(
             std::io::ErrorKind::NotFound,
             source.display().to_string(),
         )));
+    }
+    if password.is_some_and(|p| !p.is_empty()) {
+        let fb = crypto::evaluate_password(password.unwrap(), true);
+        if !fb.ok_for_create {
+            return Err(ArchiveError::Zip("parola çok kısa (min. 8)".into()));
+        }
     }
     let out = File::create(dest)?;
     let mut writer = ZipWriter::new(out);
@@ -60,13 +91,14 @@ pub fn create_with_profile(source: &Path, dest: &Path, profile: CompressionProfi
             &source,
             &source.file_name().unwrap().to_string_lossy(),
             profile,
+            password,
         )?;
     } else {
         for entry in WalkDir::new(&source).into_iter().filter_map(|e| e.ok()) {
             let path = entry.path();
             if path.is_file() {
                 let rel = path.strip_prefix(&source).unwrap_or(path);
-                add_file(&mut writer, path, &rel.to_string_lossy(), profile)?;
+                add_file(&mut writer, path, &rel.to_string_lossy(), profile, password)?;
             }
         }
     }
@@ -84,15 +116,19 @@ fn add_file(
     path: &Path,
     name: &str,
     profile: CompressionProfile,
+    password: Option<&str>,
 ) -> Result<()> {
     let file_len = std::fs::metadata(path)?.len();
     let method = match profile {
         CompressionProfile::Fast => CompressionMethod::Stored,
         _ => CompressionMethod::Deflated,
     };
-    let options = FileOptions::default()
+    let mut options = FileOptions::default()
         .compression_method(method)
         .large_file(file_len >= ZIP64_SIZE_THRESHOLD);
+    if let Some(pw) = password_bytes(password) {
+        options = options.with_deprecated_encryption(pw);
+    }
     writer
         .start_file(name.replace('\\', "/"), options)
         .map_err(|e| ArchiveError::Zip(e.to_string()))?;
@@ -129,11 +165,18 @@ pub fn create_zip64_smoke(dest: &Path) -> Result<()> {
     Ok(())
 }
 
-pub fn test(archive: &Path) -> Result<()> {
+pub fn test(archive: &Path, password: Option<&str>) -> Result<()> {
     let file = File::open(archive)?;
     let mut zip = ZipArchive::new(file).map_err(|e| ArchiveError::Zip(e.to_string()))?;
+    let pw = password_bytes(password);
     for i in 0..zip.len() {
-        let mut entry = zip.by_index(i).map_err(|e| ArchiveError::Zip(e.to_string()))?;
+        let mut entry = if let Some(p) = pw {
+            zip.by_index_decrypt(i, p)
+                .map_err(|e| ArchiveError::Zip(e.to_string()))?
+                .map_err(|_| ArchiveError::Zip("ZIP parola hatalı".into()))?
+        } else {
+            zip.by_index(i).map_err(|e| ArchiveError::Zip(e.to_string()))?
+        };
         std::io::copy(&mut entry, &mut std::io::sink())?;
     }
     Ok(())
@@ -151,10 +194,10 @@ mod tests {
         std::fs::create_dir_all(&src).unwrap();
         std::fs::write(src.join("a.txt"), b"zip test").unwrap();
         let archive = dir.path().join("t.zip");
-        create_with_profile(&src, &archive, CompressionProfile::Balanced).unwrap();
-        test(&archive).unwrap();
+        create_with_profile(&src, &archive, CompressionProfile::Balanced, None).unwrap();
+        test(&archive, None).unwrap();
         let out = dir.path().join("out");
-        extract(&archive, &out).unwrap();
+        extract(&archive, &out, None).unwrap();
         assert_eq!(std::fs::read(out.join("a.txt")).unwrap(), b"zip test");
     }
 
@@ -163,9 +206,9 @@ mod tests {
         let dir = tempdir().unwrap();
         let archive = dir.path().join("z64.zip");
         create_zip64_smoke(&archive).unwrap();
-        test(&archive).unwrap();
+        test(&archive, None).unwrap();
         let out = dir.path().join("out");
-        extract(&archive, &out).unwrap();
+        extract(&archive, &out, None).unwrap();
         assert_eq!(
             std::fs::read(out.join("zip64-smoke.txt")).unwrap(),
             b"zip64"

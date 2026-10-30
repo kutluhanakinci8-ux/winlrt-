@@ -6,38 +6,69 @@ use rayon::prelude::*;
 use walkdir::WalkDir;
 use zstd::stream::{read::Decoder, write::Encoder};
 
+use crate::crypto::{self, random_salt};
 use crate::profile::CompressionProfile;
 use crate::{ArchiveError, Result};
 
 const MAGIC: &[u8; 4] = b"WLRT";
 const FOOTER: &[u8; 4] = b"TRLW";
 const VERSION: u16 = 0;
+const VERSION_ENCRYPTED: u16 = 1;
 const METHOD_ZSTD: u8 = 1;
+const METHOD_ZSTD_ENC: u8 = 2;
+
+struct WlrtHeader {
+    file_count: u32,
+    salt: Option<[u8; 16]>,
+}
 
 struct EntryMeta {
     path: String,
     raw_size: u64,
     comp_size: u64,
+    method: u8,
     level: u8,
     payload: Vec<u8>,
 }
 
-pub fn create(source: &Path, dest: &Path, profile: CompressionProfile) -> Result<()> {
+pub fn create(
+    source: &Path,
+    dest: &Path,
+    profile: CompressionProfile,
+    password: Option<&str>,
+) -> Result<()> {
     if !source.exists() {
         return Err(ArchiveError::Io(std::io::Error::new(
             std::io::ErrorKind::NotFound,
             source.display().to_string(),
         )));
     }
+    let encrypt = password.is_some_and(|p| !p.is_empty());
+    if encrypt {
+        let fb = crypto::evaluate_password(password.unwrap(), true);
+        if !fb.ok_for_create {
+            return Err(ArchiveError::Wlrt("parola çok kısa (min. 8)".into()));
+        }
+    }
     let level = profile.zstd_level();
     let files = collect_files(source)?;
+    let salt = if encrypt {
+        Some(random_salt())
+    } else {
+        None
+    };
     let entries: Vec<EntryMeta> = files
         .par_iter()
-        .map(|(path, rel)| compress_file(path, rel, level))
+        .map(|(path, rel)| compress_file(path, rel, level, password, salt.as_ref()))
         .collect::<Result<Vec<_>>>()?;
 
     let mut out = File::create(dest)?;
-    write_header(&mut out, entries.len() as u32)?;
+    write_header(
+        &mut out,
+        entries.len() as u32,
+        if encrypt { VERSION_ENCRYPTED } else { VERSION },
+        salt.as_ref(),
+    )?;
     for e in &entries {
         write_entry(&mut out, e)?;
     }
@@ -45,11 +76,14 @@ pub fn create(source: &Path, dest: &Path, profile: CompressionProfile) -> Result
     Ok(())
 }
 
-pub fn extract(archive: &Path, dest: &Path) -> Result<()> {
+pub fn extract(archive: &Path, dest: &Path, password: Option<&str>) -> Result<()> {
     let mut file = File::open(archive)?;
-    let count = read_header(&mut file)?;
-    for _ in 0..count {
-        let entry = read_entry(&mut file)?;
+    let header = read_header(&mut file)?;
+    if header.salt.is_some() && password.is_none_or(|p| p.is_empty()) {
+        return Err(ArchiveError::Wlrt("parola gerekli (şifreli .wlrt v1)".into()));
+    }
+    for _ in 0..header.file_count {
+        let entry = read_entry(&mut file, header.salt.as_ref(), password)?;
         let out_path = dest.join(sanitize_path(&entry.path));
         if let Some(parent) = out_path.parent() {
             std::fs::create_dir_all(parent)?;
@@ -65,10 +99,10 @@ pub fn extract(archive: &Path, dest: &Path) -> Result<()> {
 
 pub fn list(archive: &Path) -> Result<Vec<String>> {
     let mut file = File::open(archive)?;
-    let count = read_header(&mut file)?;
-    let mut names = Vec::with_capacity(count as usize);
-    for _ in 0..count {
-        let (path, comp_size) = read_entry_meta(&mut file)?;
+    let header = read_header(&mut file)?;
+    let mut names = Vec::with_capacity(header.file_count as usize);
+    for _ in 0..header.file_count {
+        let (path, comp_size, _method) = read_entry_meta(&mut file)?;
         names.push(path);
         skip_bytes(&mut file, comp_size)?;
     }
@@ -76,11 +110,14 @@ pub fn list(archive: &Path) -> Result<Vec<String>> {
     Ok(names)
 }
 
-pub fn test(archive: &Path) -> Result<()> {
+pub fn test(archive: &Path, password: Option<&str>) -> Result<()> {
     let mut file = File::open(archive)?;
-    let count = read_header(&mut file)?;
-    for _ in 0..count {
-        let entry = read_entry(&mut file)?;
+    let header = read_header(&mut file)?;
+    if header.salt.is_some() && password.is_none_or(|p| p.is_empty()) {
+        return Err(ArchiveError::Wlrt("parola gerekli (şifreli .wlrt v1)".into()));
+    }
+    for _ in 0..header.file_count {
+        let entry = read_entry(&mut file, header.salt.as_ref(), password)?;
         let mut dec = Decoder::new(&entry.payload[..])
             .map_err(|e| ArchiveError::Wlrt(format!("zstd: {e}")))?;
         let mut sink = std::io::sink();
@@ -125,7 +162,13 @@ fn collect_files(source: &Path) -> Result<Vec<(PathBuf, String)>> {
     Ok(out)
 }
 
-fn compress_file(path: &Path, rel: &str, level: i32) -> Result<EntryMeta> {
+fn compress_file(
+    path: &Path,
+    rel: &str,
+    level: i32,
+    password: Option<&str>,
+    salt: Option<&[u8; 16]>,
+) -> Result<EntryMeta> {
     let mut raw = Vec::new();
     File::open(path)?.read_to_end(&mut raw)?;
     let raw_size = raw.len() as u64;
@@ -133,22 +176,39 @@ fn compress_file(path: &Path, rel: &str, level: i32) -> Result<EntryMeta> {
         .map_err(|e| ArchiveError::Wlrt(format!("zstd enc: {e}")))?;
     enc.write_all(&raw)
         .map_err(|e| ArchiveError::Wlrt(format!("zstd enc: {e}")))?;
-    let payload = enc
+    let compressed = enc
         .finish()
         .map_err(|e| ArchiveError::Wlrt(format!("zstd enc: {e}")))?;
+    let (method, payload) = if let (Some(pw), Some(s)) = (password.filter(|p| !p.is_empty()), salt)
+    {
+        let enc_payload = crypto::encrypt_blob(pw, s, &compressed)?;
+        (METHOD_ZSTD_ENC, enc_payload)
+    } else {
+        (METHOD_ZSTD, compressed)
+    };
     Ok(EntryMeta {
         path: rel.to_string(),
         raw_size,
         comp_size: payload.len() as u64,
+        method,
         level: level.clamp(0, 255) as u8,
         payload,
     })
 }
 
-fn write_header(w: &mut File, file_count: u32) -> Result<()> {
+fn write_header(
+    w: &mut File,
+    file_count: u32,
+    version: u16,
+    salt: Option<&[u8; 16]>,
+) -> Result<()> {
     w.write_all(MAGIC)?;
-    w.write_all(&VERSION.to_le_bytes())?;
+    w.write_all(&version.to_le_bytes())?;
     w.write_all(&file_count.to_le_bytes())?;
+    if version == VERSION_ENCRYPTED {
+        let s = salt.ok_or_else(|| ArchiveError::Wlrt("salt eksik".into()))?;
+        w.write_all(s)?;
+    }
     Ok(())
 }
 
@@ -161,12 +221,12 @@ fn write_entry(w: &mut File, e: &EntryMeta) -> Result<()> {
     w.write_all(path_bytes)?;
     w.write_all(&e.raw_size.to_le_bytes())?;
     w.write_all(&e.comp_size.to_le_bytes())?;
-    w.write_all(&[METHOD_ZSTD, e.level])?;
+    w.write_all(&[e.method, e.level])?;
     w.write_all(&e.payload)?;
     Ok(())
 }
 
-fn read_header(r: &mut File) -> Result<u32> {
+fn read_header(r: &mut File) -> Result<WlrtHeader> {
     let mut magic = [0u8; 4];
     r.read_exact(&mut magic)?;
     if &magic != MAGIC {
@@ -174,12 +234,25 @@ fn read_header(r: &mut File) -> Result<u32> {
     }
     let mut ver = [0u8; 2];
     r.read_exact(&mut ver)?;
-    if u16::from_le_bytes(ver) != VERSION {
+    let version = u16::from_le_bytes(ver);
+    if version != VERSION && version != VERSION_ENCRYPTED {
         return Err(ArchiveError::Wlrt("desteklenmeyen sürüm".into()));
     }
     let mut count = [0u8; 4];
     r.read_exact(&mut count)?;
-    Ok(u32::from_le_bytes(count))
+    let file_count = u32::from_le_bytes(count);
+    let salt = if version == VERSION_ENCRYPTED {
+        let mut s = [0u8; 16];
+        r.read_exact(&mut s)?;
+        Some(s)
+    } else {
+        None
+    };
+    Ok(WlrtHeader {
+        version,
+        file_count,
+        salt,
+    })
 }
 
 struct ParsedEntry {
@@ -188,7 +261,7 @@ struct ParsedEntry {
     payload: Vec<u8>,
 }
 
-fn read_entry_meta(r: &mut File) -> Result<(String, u64)> {
+fn read_entry_meta(r: &mut File) -> Result<(String, u64, u8)> {
     let path = read_path(r)?;
     let mut raw_size = [0u8; 8];
     r.read_exact(&mut raw_size)?;
@@ -198,16 +271,20 @@ fn read_entry_meta(r: &mut File) -> Result<(String, u64)> {
     let comp = u64::from_le_bytes(comp_size);
     let mut method_level = [0u8; 2];
     r.read_exact(&mut method_level)?;
-    if method_level[0] != METHOD_ZSTD {
+    if method_level[0] != METHOD_ZSTD && method_level[0] != METHOD_ZSTD_ENC {
         return Err(ArchiveError::Wlrt(format!(
             "desteklenmeyen method {}",
             method_level[0]
         )));
     }
-    Ok((path, comp))
+    Ok((path, comp, method_level[0]))
 }
 
-fn read_entry(r: &mut File) -> Result<ParsedEntry> {
+fn read_entry(
+    r: &mut File,
+    salt: Option<&[u8; 16]>,
+    password: Option<&str>,
+) -> Result<ParsedEntry> {
     let path = read_path(r)?;
     let mut raw_size = [0u8; 8];
     r.read_exact(&mut raw_size)?;
@@ -217,14 +294,23 @@ fn read_entry(r: &mut File) -> Result<ParsedEntry> {
     let comp_size = u64::from_le_bytes(comp_size);
     let mut method_level = [0u8; 2];
     r.read_exact(&mut method_level)?;
-    if method_level[0] != METHOD_ZSTD {
+    let method = method_level[0];
+    if method != METHOD_ZSTD && method != METHOD_ZSTD_ENC {
         return Err(ArchiveError::Wlrt(format!(
-            "desteklenmeyen method {}",
-            method_level[0]
+            "desteklenmeyen method {method}"
         )));
     }
     let mut payload = vec![0u8; comp_size as usize];
     r.read_exact(&mut payload)?;
+    let payload = if method == METHOD_ZSTD_ENC {
+        let s = salt.ok_or_else(|| ArchiveError::Wlrt("salt eksik".into()))?;
+        let pw = password.filter(|p| !p.is_empty()).ok_or_else(|| {
+            ArchiveError::Wlrt("parola gerekli (şifreli girdi)".into())
+        })?;
+        crypto::decrypt_blob(pw, s, &payload)?
+    } else {
+        payload
+    };
     Ok(ParsedEntry {
         path,
         raw_size,
@@ -283,13 +369,38 @@ mod tests {
         std::fs::write(src.join("a.txt"), b"winlrt wlrt test").unwrap();
         let archive = dir.path().join("t.wlrt");
         let out = dir.path().join("out");
-        create(&src, &archive, CompressionProfile::Fast).unwrap();
-        test(&archive).unwrap();
+        create(&src, &archive, CompressionProfile::Fast, None).unwrap();
+        test(&archive, None).unwrap();
         let names = list(&archive).unwrap();
         assert_eq!(names, vec!["a.txt".to_string()]);
         std::fs::create_dir_all(&out).unwrap();
-        extract(&archive, &out).unwrap();
+        extract(&archive, &out, None).unwrap();
         let got = std::fs::read(out.join("a.txt")).unwrap();
         assert_eq!(got, b"winlrt wlrt test");
+    }
+
+    #[test]
+    fn wlrt_encrypted_roundtrip() {
+        let dir = tempdir().unwrap();
+        let src = dir.path().join("src");
+        std::fs::create_dir_all(&src).unwrap();
+        std::fs::write(src.join("secret.txt"), b"encrypted wlrt").unwrap();
+        let archive = dir.path().join("enc.wlrt");
+        create(
+            &src,
+            &archive,
+            CompressionProfile::Balanced,
+            Some("test-password-12"),
+        )
+        .unwrap();
+        list(&archive).unwrap();
+        test(&archive, Some("test-password-12")).unwrap();
+        let out = dir.path().join("out");
+        std::fs::create_dir_all(&out).unwrap();
+        extract(&archive, &out, Some("test-password-12")).unwrap();
+        assert_eq!(
+            std::fs::read(out.join("secret.txt")).unwrap(),
+            b"encrypted wlrt"
+        );
     }
 }

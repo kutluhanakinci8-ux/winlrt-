@@ -37,6 +37,13 @@ interface CompressFolderHint {
   suggested_output: string;
 }
 
+interface PasswordFeedback {
+  length: number;
+  strength: string;
+  ok_for_create: boolean;
+  hint: string;
+}
+
 type AppTab = "archive" | "transition";
 
 const CREATE_FORMATS: Format[] = ["zip", "wlrt"];
@@ -62,7 +69,14 @@ function App() {
   const [extractDir, setExtractDir] = useState("");
   const [createSource, setCreateSource] = useState("");
   const [createOutput, setCreateOutput] = useState("");
-  const [password, setPassword] = useState("");
+  const [openPassword, setOpenPassword] = useState("");
+  const [createPassword, setCreatePassword] = useState("");
+  const [encryptCreate, setEncryptCreate] = useState(false);
+  const [showOpenPassword, setShowOpenPassword] = useState(false);
+  const [showCreatePassword, setShowCreatePassword] = useState(false);
+  const [createPwFeedback, setCreatePwFeedback] = useState<PasswordFeedback | null>(
+    null,
+  );
   const [entries, setEntries] = useState<string[]>([]);
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
@@ -166,6 +180,19 @@ function App() {
   }, [applyArchivePath, applyCompressFolder]);
 
   useEffect(() => {
+    if (!encryptCreate || !createPassword) {
+      setCreatePwFeedback(null);
+      return;
+    }
+    invoke<PasswordFeedback>("evaluate_password", {
+      password: createPassword,
+      forCreate: true,
+    })
+      .then(setCreatePwFeedback)
+      .catch(() => setCreatePwFeedback(null));
+  }, [createPassword, encryptCreate]);
+
+  useEffect(() => {
     let unlisten: (() => void) | undefined;
     getCurrentWindow()
       .onDragDropEvent((event) => {
@@ -244,7 +271,7 @@ function App() {
       const res = await invoke<ListResult>("list_archive", {
         path: archivePath,
         format,
-        password: password || null,
+        password: openPassword || null,
       });
       setEntries(res.entries);
       setStatus(`${res.entries.length} girdi listelendi.`);
@@ -268,7 +295,7 @@ function App() {
       await invoke("test_archive", {
         path: archivePath,
         format,
-        password: password || null,
+        password: openPassword || null,
       });
       setStatus("Bütünlük testi: OK");
       finishJob(jobId, true);
@@ -291,7 +318,7 @@ function App() {
         path: archivePath,
         dest: extractDir,
         format,
-        password: password || null,
+        password: openPassword || null,
       });
       setStatus(res.message);
       finishJob(jobId, true);
@@ -313,6 +340,16 @@ function App() {
       setError("Kaydet konumu seçin (Kaydet…).");
       return;
     }
+    if (encryptCreate) {
+      if (!createPassword || createPassword.length < 8) {
+        setError("Şifreli arşiv için en az 8 karakterlik parola girin.");
+        return;
+      }
+      if (createPwFeedback && !createPwFeedback.ok_for_create) {
+        setError("Parola politikası karşılanmıyor.");
+        return;
+      }
+    }
     const jobId = pushJob(`Oluştur: ${createOutput.split(/[/\\]/).pop()}`);
     try {
       const res = await invoke<{ message: string }>("create_archive", {
@@ -320,6 +357,7 @@ function App() {
         dest: createOutput,
         format: createFormat,
         profile,
+        password: encryptCreate ? createPassword : null,
       });
       setStatus(res.message);
       finishJob(jobId, true);
@@ -436,13 +474,23 @@ function App() {
             </select>
           </label>
           <label className="grow">
-            Parola (RAR / 7z)
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Gerekirse"
-            />
+            Parola (aç / listele)
+            <div className="password-row">
+              <input
+                type={showOpenPassword ? "text" : "password"}
+                value={openPassword}
+                onChange={(e) => setOpenPassword(e.target.value)}
+                placeholder="ZIP / .wlrt / RAR / 7z"
+                autoComplete="off"
+              />
+              <button
+                type="button"
+                className="btn tiny"
+                onClick={() => setShowOpenPassword((v) => !v)}
+              >
+                {showOpenPassword ? "Gizle" : "Göster"}
+              </button>
+            </div>
           </label>
         </div>
         <div className="row">
@@ -480,9 +528,45 @@ function App() {
             </select>
           </label>
           <span className="muted inline">
-            Çıktı formatı: <strong>{createFormat}</strong> (RAR/7z oluşturma yok)
+            Çıktı: <strong>{createFormat}</strong>
           </span>
         </div>
+        <div className="row security-row">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={encryptCreate}
+              onChange={(e) => setEncryptCreate(e.target.checked)}
+            />
+            Arşivi parola ile şifrele
+          </label>
+          {encryptCreate && (
+            <label className="grow">
+              Oluşturma parolası
+              <div className="password-row">
+                <input
+                  type={showCreatePassword ? "text" : "password"}
+                  value={createPassword}
+                  onChange={(e) => setCreatePassword(e.target.value)}
+                  placeholder="Min. 8 karakter"
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  className="btn tiny"
+                  onClick={() => setShowCreatePassword((v) => !v)}
+                >
+                  {showCreatePassword ? "Gizle" : "Göster"}
+                </button>
+              </div>
+            </label>
+          )}
+        </div>
+        {encryptCreate && createPwFeedback && (
+          <p className={`pw-feedback strength-${createPwFeedback.strength}`}>
+            Güç: {createPwFeedback.strength} · {createPwFeedback.hint}
+          </p>
+        )}
         <div className="row">
           <button type="button" className="btn" onClick={pickCreateSource}>
             Kaynak klasör…
