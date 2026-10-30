@@ -123,7 +123,7 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 **Ön koşul:** winlrtRAR Faz 2 tamam (RAR açma + Windows MVP motor entegrasyonu).
 
 - [ ] ZIP/ZIP64 yaz/oku performans sprint
-- [ ] CLI `winlrt-zip`: create, extract, list, test, bench
+- [x] CLI `winlrt-zip`: create, extract, list, test, bench — [MADDE_W1](./qa/MADDE_W1_WINLRTZIP_CLI.md)
 - [ ] E-posta eki profili (boyut + hız hedefi)
 - [ ] Benchmark: WinZip / 7-Zip ZIP satırı CI’da
 

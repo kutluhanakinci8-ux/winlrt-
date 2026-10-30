@@ -2,6 +2,12 @@
 
 winlrtRAR / winlrtZIP ortak Rust motoru.
 
+## winlrt-zip CLI (Faz 1)
+
+```bash
+cargo run -p winlrt-archive --bin winlrt-zip -- create ./src ./out.zip --profile email
+```
+
 ## Geliştirme
 
 ```bash

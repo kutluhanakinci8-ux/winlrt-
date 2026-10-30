@@ -13,5 +13,6 @@ pub mod volumes;
 pub mod sevenz;
 pub mod wlrt;
 pub mod zip_io;
+pub mod zip_product_cli;
 
 pub use error::{ArchiveError, Result};

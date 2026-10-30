@@ -57,7 +57,7 @@ jobs:
           workspaces: crates/winlrt-archive
 
       - name: Test and build winlrt-archive
-        run: cargo test -p winlrt-archive && cargo build -p winlrt-archive --release
+        run: cargo test -p winlrt-archive && cargo build -p winlrt-archive --release --bins
 
       - name: Linux deps (winlrtRAR Tauri check)
         run: |

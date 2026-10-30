@@ -8,6 +8,10 @@ edition.workspace = true
 name = "winlrt-archive"
 path = "src/main.rs"
 
+[[bin]]
+name = "winlrt-zip"
+path = "src/bin/winlrt-zip.rs"
+
 [dependencies]
 anyhow.workspace = true
 clap.workspace = true
