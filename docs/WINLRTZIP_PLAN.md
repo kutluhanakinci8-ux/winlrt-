@@ -133,7 +133,7 @@ docs/WINLRTZIP_PLAN.md       # Bu dosya
 
 ### Faz 2 — Windows winlrtZIP (Tauri)
 
-- [ ] `apps/winlrt-zip` MVP: liste, çıkar, sıkıştır, şifre
+- [x] `apps/winlrt-zip` MVP: liste, çıkar, sıkıştır — [MADDE_W2](./qa/MADDE_W2_WINLRTZIP_TAURI.md) (şifre UI sonraki)
 - [ ] Explorer sağ tık (temel)
 - [ ] winlrt.com.tr indirme kanalı
 

@@ -10,7 +10,9 @@
     "dev:web": "npm run dev -w @winlrt/web",
     "build:web": "npm run build -w @winlrt/web",
     "dev:rar": "npm run tauri dev -w @winlrt/rar",
-    "build:rar": "npm run tauri build -w @winlrt/rar"
+    "build:rar": "npm run tauri build -w @winlrt/rar",
+    "dev:zip": "npm run tauri dev -w @winlrt/zip",
+    "build:zip": "npm run tauri build -w @winlrt/zip"
   },
   "engines": {
     "node": ">=20"

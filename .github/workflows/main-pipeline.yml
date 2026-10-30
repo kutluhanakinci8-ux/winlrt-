@@ -67,6 +67,9 @@ jobs:
       - name: Check winlrtRAR Tauri shell
         run: cargo check -p winlrt-rar
 
+      - name: Check winlrtZIP Tauri shell
+        run: cargo check -p winlrt-zip
+
       - name: Prepare mixed benchmark fixture (~10 MiB)
         run: bash benchmarks/fixtures/mixed/prepare.sh
 

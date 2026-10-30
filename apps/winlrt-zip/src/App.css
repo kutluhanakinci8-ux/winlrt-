@@ -1,0 +1,57 @@
+.app {
+  font-family: system-ui, sans-serif;
+  padding: 1.25rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.5rem;
+}
+
+.meta {
+  color: #555;
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.toolbar button {
+  padding: 0.45rem 0.85rem;
+}
+
+.path {
+  font-size: 0.85rem;
+  word-break: break-all;
+  color: #333;
+}
+
+.entries {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 280px;
+  overflow: auto;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.entries li {
+  padding: 0.35rem 0.75rem;
+  border-bottom: 1px solid #eee;
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+}
+
+.status {
+  margin-top: 1rem;
+  color: #0a5;
+}
