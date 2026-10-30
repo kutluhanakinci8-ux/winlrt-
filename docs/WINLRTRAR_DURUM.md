@@ -26,4 +26,5 @@ Cloud Agent **`origin/cursor/pilot-runbook-ea18` → `main`** fast-forward yapt�
 
 Sonraki: Windows KPI → `scripts/import-windows-kpi-to-vitrin.sh` → commit → deploy · [POST_MERGE](./WINLRTRAR_POST_MERGE.md) · [EXPLORER_QA](./WINLRTRAR_EXPLORER_QA.md)
 
-Tam checklist: [WINLRTRAR_PRODUCTION_CHECKLIST.md](./WINLRTRAR_PRODUCTION_CHECKLIST.md)
+Tam checklist: [WINLRTRAR_PRODUCTION_CHECKLIST.md](./WINLRTRAR_PRODUCTION_CHECKLIST.md)  
+A→L **%100 yol haritası:** [WINLRTRAR_ROADMAP_TO_100.md](./WINLRTRAR_ROADMAP_TO_100.md)
