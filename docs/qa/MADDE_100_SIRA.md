@@ -2,7 +2,7 @@
 
 | Sıra | Madde | Hedef | Durum |
 |------|-------|-------|--------|
-| **1** | **B** Main pipeline | %100 | [MADDE_B_MAIN_PIPELINE.md](./MADDE_B_MAIN_PIPELINE.md) |
+| **1** | **B** Main pipeline | **%100** ✅ | Run [41083861479+](https://github.com/kutluhanakinci8-ux/winlrt-/actions) web+rust success |
 | 2 | E + F | CI deploy secret | Bekliyor |
 | 3 | C | KPI strict | Bekliyor |
 | … | | | |
