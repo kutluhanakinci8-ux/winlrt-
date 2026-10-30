@@ -12,10 +12,13 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css?v=5" />
   </head>
-  <body>
+  <body data-page-title-key="page.downloads.title">
     <div class="site-topbar">
       <div class="site-topbar-inner">
-        <span><strong>İndirme merkezi</strong> — imzasız paketler SmartScreen uyarısı verebilir</span>
+        <span
+          ><strong data-i18n="page.downloads.label">İndirme merkezi</strong> —
+          <span data-i18n="page.downloads.topbar">imzasız paketler SmartScreen uyarısı verebilir</span></span
+        >
         <a href="/#durum">Durum tablosu</a>
       </div>
     </div>
@@ -47,17 +50,16 @@
     </header>
 
     <header class="page-hero container">
-      <span class="section-label">İndirme merkezi</span>
-      <h1>Resmi sürümler ve kurumsal paketler</h1>
-      <p class="lead">
-        winlrtRAR <strong>v1.0.0</strong> Windows resmi sürümü yayında. winlrtZIP
-        <strong>beta</strong> (Post-v3 W0–W29) Windows installer ve macOS CI build hattında.
-        Pilot durumu: <a href="/pilot/">dalga özeti</a>.
+      <span class="section-label" data-i18n="page.downloads.label">İndirme merkezi</span>
+      <h1 data-i18n="page.downloads.h1">Resmi sürümler ve kurumsal paketler</h1>
+      <p class="lead" data-i18n="page.downloads.lead"></p>
+      <p class="meta">
+        <a href="/pilot/">Pilot</a>
       </p>
     </header>
 
     <main class="container" style="padding-bottom: 4rem">
-      <h2 class="section-label" id="winlrtzip" style="margin-bottom: 1rem">winlrtZIP</h2>
+      <h2 class="section-label" id="winlrtzip" style="margin-bottom: 1rem" data-i18n="page.downloads.zipHeading">winlrtZIP</h2>
       <p class="meta" style="margin-bottom: 1rem">
         Post-v3 tamamlandı (CLI, Tauri, Explorer, P0 KPI, GPO, split ZIP, imza, Lerta W28–W29).
         Dokümantasyon:
@@ -110,7 +112,7 @@
         </li>
       </ul>
 
-      <h2 class="section-label" id="winlrtrar" style="margin: 2rem 0 1rem">winlrtRAR</h2>
+      <h2 class="section-label" id="winlrtrar" style="margin: 2rem 0 1rem" data-i18n="page.downloads.rarHeading">winlrtRAR</h2>
       <ul class="product-list">
         <li>
           <div>
@@ -175,11 +177,8 @@
       </ul>
 
       <article class="card" style="margin-top: 2rem">
-        <h3>İmza ve üretim kapısı</h3>
-        <p>
-          Authenticode / notarize için GitHub <code>TAURI_SIGNING_*</code> secret’ları gerekir.
-          Kurumsal kabul: Explorer QA signoff → Dalga 3 IT pilotu.
-        </p>
+        <h3 data-i18n="page.downloads.signingTitle">İmza ve üretim kapısı</h3>
+        <p data-i18n="page.downloads.signingBody"></p>
         <p class="meta">
           <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/WINLRTRAR_CODE_SIGNING.md"
             >Code signing</a

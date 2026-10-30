@@ -7,7 +7,7 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css?v=5" />
   </head>
-  <body>
+  <body data-page-title-key="page.benchmark.title">
     <header class="site-header">
       <div class="site-header-inner">
         <a class="logo" href="/">
@@ -30,14 +30,8 @@
       </div>
     </header>
     <main class="container" style="padding: 2rem 1rem 4rem">
-      <h1>KPI ve benchmark merkezi</h1>
-      <p class="lead">
-        Linux CI (<code>bench-report</code>) ve Windows resmi workflow
-        (<code>bench-report-windows</code>): ZIP, <strong>.wlrt</strong>, Windows’ta
-        <strong>7-Zip</strong>, <strong>WinRAR (ZIP)</strong> ve opsiyonel <strong>WinZip</strong> referansı.
-        <strong>winlrtZIP</strong> satırı: JSON <code>zip_kpi</code>. Faz 3 kapısı
-        <strong>iki profil</strong> ile ölçülür.
-      </p>
+      <h1 data-i18n="page.benchmark.h1">KPI ve benchmark merkezi</h1>
+      <p class="lead" data-i18n="page.benchmark.lead"></p>
 
       <h2 class="section-label">Profiller ve artifact’lar</h2>
       <table class="meta" style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem">
@@ -62,11 +56,11 @@
         </tbody>
       </table>
 
-      <h2 class="section-label">winlrtZIP P0×3 kapı özeti</h2>
+      <h2 class="section-label" data-i18n="page.benchmark.p0heading">winlrtZIP P0×3 kapı özeti</h2>
       <p class="meta" id="p0-gate-meta">P0 özeti yükleniyor…</p>
       <article class="card" id="p0-gate-card" style="margin-bottom: 1.5rem"></article>
 
-      <h2 class="section-label">Canlı KPI özeti (referans)</h2>
+      <h2 class="section-label" data-i18n="page.benchmark.liveKpi">Canlı KPI özeti (referans)</h2>
       <p class="meta" id="kpi-sample-meta">
         Repo örnekleri yükleniyor… (Linux CI referans; resmi kapı Windows workflow artifact).
       </p>
@@ -97,15 +91,12 @@
         <code>bash scripts/refresh-benchmark-vitrin-samples.sh</code>
       </p>
 
-      <h2 class="section-label">winlrtZIP — Lerta &amp; mağaza örnekleri</h2>
+      <h2 class="section-label" data-i18n="page.benchmark.lertaHeading">winlrtZIP — Lerta &amp; mağaza örnekleri</h2>
       <div id="zip-integration-cards" style="display: grid; gap: 1rem; margin-bottom: 1.5rem"></div>
 
-      <h2 class="section-label">Pilot sırası (beta → v1.0)</h2>
+      <h2 class="section-label" data-i18n="page.benchmark.pilotHeading">Pilot sırası (beta → v1.0)</h2>
       <article class="card" style="margin-bottom: 1.5rem">
-        <p>
-          winlrtRAR: <strong>Windows Explorer QA</strong> (Dalga 2) ve kurumsal GPO (Dalga 3).
-          winlrtZIP Post-v3 kapıları repo’da tamam; beta indirme vitrinde.
-        </p>
+        <p data-i18n="page.benchmark.pilotBody"></p>
         <p>
           <a class="btn btn-primary" href="/downloads/">Beta indir + pilot rehberi</a>
           <a

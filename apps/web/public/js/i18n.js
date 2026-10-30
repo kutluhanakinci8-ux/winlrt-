@@ -52,7 +52,9 @@ window.WINLRT_I18N = {
     "gallery.label": "Ürün vitrini",
     "gallery.title": "Arayüz ve kurumsal kanıt önizlemeleri",
     "gallery.lead":
-      "Ekran görüntüsü yer tutucuları; resmi UI fotoğrafları sürüm duyurularıyla güncellenir.",
+      "Tauri kabuk düzenine uygun vitrin görüntüleri (App.tsx) + KPI/GPO önizlemeleri. Windows installer ekranları sürüm notlarıyla güncellenir.",
+    "gallery.caption.zipTauri": "winlrtZIP — Tauri masaüstü (vitrin render)",
+    "gallery.caption.rarTauri": "winlrtRAR — Tauri masaüstü (vitrin render)",
     "gallery.caption.zip": "winlrtZIP — arşiv ve e-posta eki profili",
     "gallery.caption.kpi": "KPI vitrin — P0 kapı özeti",
     "gallery.caption.gpo": "Kurumsal GPO ve denetim hattı",
@@ -81,7 +83,32 @@ window.WINLRT_I18N = {
     "page.kvkk.lead": "6698 sayılı Kanun kapsamında özet bilgilendirme (winlrt.com.tr vitrini).",
     "page.kvkk.s1.title": "Veri sorumlusu",
     "page.kvkk.s1.body":
-      "winlrt vitrin hizmeti kapsamında işlenen veriler sınırlıdır: site ziyareti teknik logları (barındırma sağlayıcısı), indirme yönlendirmeleri ve vitrin JSON örnekleri kişisel veri içermez.",
+      "Aşağıdaki resmi vitrin kaydı geçerlidir. Site ziyareti teknik logları barındırma sağlayıcısında işlenebilir; vitrin JSON örnekleri kişisel veri içermez.",
+    "legal.entity.controller": "Veri sorumlusu",
+    "legal.entity.trade": "Ticari unvan / marka",
+    "legal.entity.address": "Adres",
+    "legal.entity.updated": "Son güncelleme",
+    "page.downloads.title": "İndirme merkezi — winlrt",
+    "page.downloads.label": "İndirme merkezi",
+    "page.downloads.h1": "Resmi sürümler ve kurumsal paketler",
+    "page.downloads.lead":
+      "winlrtRAR v1.0.0 Windows resmi sürümü yayında. winlrtZIP beta (Post-v3 W0–W29) Windows installer ve macOS CI build hattında.",
+    "page.downloads.topbar": "imzasız paketler SmartScreen uyarısı verebilir",
+    "page.downloads.zipHeading": "winlrtZIP",
+    "page.downloads.rarHeading": "winlrtRAR",
+    "page.downloads.signingTitle": "İmza ve üretim kapısı",
+    "page.downloads.signingBody":
+      "Authenticode / notarize için GitHub TAURI_SIGNING_* secret’ları gerekir. Kurumsal kabul: Explorer QA signoff → Dalga 3 IT pilotu.",
+    "page.benchmark.title": "KPI ve benchmark merkezi — winlrt",
+    "page.benchmark.h1": "KPI ve benchmark merkezi",
+    "page.benchmark.lead":
+      "Linux CI ve Windows resmi workflow: ZIP, .wlrt, 7-Zip, WinRAR (ZIP) ve opsiyonel WinZip referansı. winlrtZIP satırı zip_kpi ile ölçülür.",
+    "page.benchmark.p0heading": "winlrtZIP P0×3 kapı özeti",
+    "page.benchmark.liveKpi": "Canlı KPI özeti (referans)",
+    "page.benchmark.lertaHeading": "winlrtZIP — Lerta ve mağaza örnekleri",
+    "page.benchmark.pilotHeading": "Pilot sırası (beta → v1.0)",
+    "page.benchmark.pilotBody":
+      "winlrtRAR: Windows Explorer QA (Dalga 2) ve kurumsal GPO (Dalga 3). winlrtZIP Post-v3 kapıları repo’da tamam.",
     "page.kvkk.s2.title": "Masaüstü ürünler ve denetim",
     "page.kvkk.s2.body":
       "winlrtRAR / winlrtZIP yerel audit.jsonl kayıtları parola veya anahtar materyali içermez. Kurumsal SIEM yönlendirme isteğe bağlıdır. Lerta API entegrasyonu (W29) yalnızca metadata gönderir; arşiv içeriği cihazda kalır.",
@@ -147,7 +174,9 @@ window.WINLRT_I18N = {
     "gallery.label": "Product gallery",
     "gallery.title": "UI and enterprise evidence previews",
     "gallery.lead":
-      "Placeholder visuals; official UI screenshots ship with release announcements.",
+      "Vitrin renders aligned with Tauri shells (App.tsx) plus KPI/GPO previews. Installer screenshots ship with release notes.",
+    "gallery.caption.zipTauri": "winlrtZIP — Tauri desktop (vitrin render)",
+    "gallery.caption.rarTauri": "winlrtRAR — Tauri desktop (vitrin render)",
     "gallery.caption.zip": "winlrtZIP — archive and mail attachment profile",
     "gallery.caption.kpi": "KPI dashboard — P0 gate summary",
     "gallery.caption.gpo": "Corporate GPO and audit pipeline",
@@ -176,7 +205,32 @@ window.WINLRT_I18N = {
     "page.kvkk.lead": "Summary under Turkish Law no. 6698 (winlrt.com.tr).",
     "page.kvkk.s1.title": "Data controller",
     "page.kvkk.s1.body":
-      "Processing on the vitrin is limited: hosting technical logs, download redirects, and public JSON samples contain no personal data by design.",
+      "The official vitrin record below applies. Hosting may process technical access logs; public JSON samples contain no personal data by design.",
+    "legal.entity.controller": "Data controller",
+    "legal.entity.trade": "Trade name / brand",
+    "legal.entity.address": "Address",
+    "legal.entity.updated": "Last updated",
+    "page.downloads.title": "Download center — winlrt",
+    "page.downloads.label": "Download center",
+    "page.downloads.h1": "Official releases and corporate packs",
+    "page.downloads.lead":
+      "winlrtRAR v1.0.0 Windows GA is live. winlrtZIP beta (Post-v3 W0–W29) on Windows installer and macOS CI pipeline.",
+    "page.downloads.topbar": "unsigned packages may trigger SmartScreen",
+    "page.downloads.zipHeading": "winlrtZIP",
+    "page.downloads.rarHeading": "winlrtRAR",
+    "page.downloads.signingTitle": "Signing and production gate",
+    "page.downloads.signingBody":
+      "Authenticode / notarize requires GitHub TAURI_SIGNING_* secrets. Corporate acceptance: Explorer QA signoff → Wave 3 IT pilot.",
+    "page.benchmark.title": "KPI and benchmark hub — winlrt",
+    "page.benchmark.h1": "KPI and benchmark hub",
+    "page.benchmark.lead":
+      "Linux CI and official Windows workflow: ZIP, .wlrt, 7-Zip, WinRAR (ZIP), optional WinZip. winlrtZIP row uses zip_kpi.",
+    "page.benchmark.p0heading": "winlrtZIP P0×3 gate summary",
+    "page.benchmark.liveKpi": "Live KPI summary (reference)",
+    "page.benchmark.lertaHeading": "winlrtZIP — Lerta and store samples",
+    "page.benchmark.pilotHeading": "Pilot sequence (beta → v1.0)",
+    "page.benchmark.pilotBody":
+      "winlrtRAR: Windows Explorer QA (Wave 2) and corporate GPO (Wave 3). winlrtZIP Post-v3 gates complete in repo.",
     "page.kvkk.s2.title": "Desktop products and audit",
     "page.kvkk.s2.body":
       "Local audit.jsonl never stores passwords or key material. SIEM forwarding is optional. Lerta API (W29) sends metadata only; archive content stays on device.",

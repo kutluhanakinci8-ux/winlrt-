@@ -102,9 +102,53 @@
         localStorage.setItem(STORAGE_LANG, lang);
         applyI18n(lang);
         applyTheme(getTheme());
+        loadLegalEntity();
         window.dispatchEvent(new CustomEvent("winlrt:lang", { detail: { lang: lang } }));
       });
     });
+  }
+
+  function loadLegalEntity() {
+    var block = document.getElementById("legal-entity-block");
+    if (!block) return;
+    fetch("/data/legal-entity.json", { cache: "no-store" })
+      .then(function (r) {
+        return r.ok ? r.json() : null;
+      })
+      .then(function (data) {
+        if (!data) return;
+        var lang = getLang();
+        var name =
+          lang === "en" ? data.controller_name_en : data.controller_name_tr;
+        var trade = lang === "en" ? data.trade_name_en : data.trade_name_tr;
+        var addr = lang === "en" ? data.address_en : data.address_tr;
+        var note = lang === "en" ? data.note_en : data.note_tr;
+        block.innerHTML =
+          "<p><strong>" +
+          t("legal.entity.controller") +
+          ":</strong> " +
+          name +
+          "</p><p><strong>" +
+          t("legal.entity.trade") +
+          ":</strong> " +
+          trade +
+          "</p><p><strong>" +
+          t("legal.entity.address") +
+          ":</strong> " +
+          addr +
+          "</p>" +
+          (data.mersis_no
+            ? "<p><strong>MERSİS:</strong> " + data.mersis_no + "</p>"
+            : "") +
+          "<p class=\"meta\">" +
+          t("legal.entity.updated") +
+          ": " +
+          (data.updated_at || "") +
+          "</p><p class=\"meta\">" +
+          note +
+          "</p>";
+      })
+      .catch(function () {});
   }
 
   window.WinlrtSite = {
@@ -117,5 +161,6 @@
     initMenu();
     initTheme();
     initLang();
+    loadLegalEntity();
   });
 })();

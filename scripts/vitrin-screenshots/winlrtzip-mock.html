@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <title>winlrtZIP mock</title>
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        background: #f5f5f5;
+        padding: 24px;
+      }
+      .app {
+        max-width: 960px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12);
+        padding: 20px 24px 28px;
+      }
+      h1 { margin: 0 0 4px; font-size: 1.5rem; color: #0f172a; }
+      .meta { color: #64748b; margin: 0 0 12px; font-size: 0.9rem; }
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+      button {
+        padding: 7px 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        background: #f8fafc;
+        font-size: 0.85rem;
+      }
+      button.primary { background: #2563eb; color: #fff; border-color: #2563eb; }
+      select, input { padding: 6px 8px; font-size: 0.85rem; }
+      .path { font-size: 0.85rem; color: #334155; word-break: break-all; margin-bottom: 8px; }
+      ul.entries {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        max-height: 280px;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      ul.entries li {
+        padding: 6px 12px;
+        border-bottom: 1px solid #f1f5f9;
+        font-family: ui-monospace, monospace;
+        font-size: 0.82rem;
+      }
+      .status { margin-top: 12px; color: #059669; font-size: 0.9rem; }
+      .titlebar {
+        height: 32px;
+        background: linear-gradient(90deg, #1e3a5f, #2563eb);
+        border-radius: 8px 8px 0 0;
+        margin: -20px -24px 16px;
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        gap: 6px;
+      }
+      .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.35); }
+      .titlebar span { color: #e2e8f0; font-size: 12px; margin-left: 8px; }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="titlebar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span>winlrtZIP 0.1.0</span>
+      </div>
+      <header>
+        <h1>winlrtZIP</h1>
+        <p class="meta">winlrt-archive · ZIP/ZIP64</p>
+        <p class="meta">Explorer: sağ tık menüsü (Windows)</p>
+      </header>
+      <div class="toolbar">
+        <button class="primary">ZIP aç</button>
+        <button>Çıkar</button>
+        <button>Test</button>
+        <label>Profil <select><option>E-posta eki</option></select></label>
+        <label><input type="checkbox" checked /> AES ZIP (oluştur)</label>
+        <button>Klasörden ZIP</button>
+        <button>WinZip geçiş</button>
+      </div>
+      <p class="path">C:\Kullanıcı\Belgeler\kurumsal-ek.zip</p>
+      <ul class="entries">
+        <li>README.txt</li>
+        <li>Sözlesme_2026.pdf</li>
+        <li>Ekler/ozet.xlsx</li>
+        <li>Ekler/imza.png</li>
+      </ul>
+      <p class="status">4 öğe · E-posta eki profili (10 MiB kapısı)</p>
+    </div>
+  </body>
+</html>

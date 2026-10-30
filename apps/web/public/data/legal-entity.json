@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "updated_at": "2026-10-30",
+  "domain": "winlrt.com.tr",
+  "controller_name_tr": "winlrt Platform Vitrini (winlrt.com.tr)",
+  "controller_name_en": "winlrt Platform Site (winlrt.com.tr)",
+  "trade_name_tr": "winlrt — yerli arşiv yazılım platformu",
+  "trade_name_en": "winlrt — domestic archive software platform",
+  "address_tr": "Türkiye (ticari merkez — vitrin güncellemesi ile duyurulur)",
+  "address_en": "Türkiye (registered office — to be announced on this site)",
+  "mersis_no": null,
+  "contact_email": null,
+  "contact_web": "https://winlrt.com.tr/iletisim/",
+  "contact_issues": "https://github.com/kutluhanakinci8-ux/winlrt-/issues",
+  "note_tr": "Resmi ticari unvan ve MERSİS numarası kurumsal tescil sonrası legal-entity.json üzerinden yayımlanır.",
+  "note_en": "Registered legal name and MERSİS ID will be published in legal-entity.json after corporate registration."
+}
