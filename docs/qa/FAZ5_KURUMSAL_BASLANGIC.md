@@ -23,7 +23,7 @@
 
 ## 4. Kayıt
 
-[KURUMSAL_PILOT_SIGNOFF.md](./KURUMSAL_PILOT_SIGNOFF.md) → commit → agent deploy.
+Chat’e kurumsal pilot sonucu → agent [KURUMSAL_PILOT_SIGNOFF.md](./KURUMSAL_PILOT_SIGNOFF.md) commit · push · deploy.
 
 ## 5. v1.0 kapısı (Faz 6)
 

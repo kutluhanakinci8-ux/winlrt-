@@ -6,6 +6,7 @@
    (`winlrtRAR_0.1.0_x64-setup.exe`)
 2. Veya Actions → **winlrtRAR Windows beta build** → artifact **winlrt-rar-windows-bundle**
 3. Kur: `winlrtRAR_*_x64-setup.exe` (SmartScreen uyarısı — imza secret yoksa normal)
+4. Preflight: `scripts/windows/explorer-qa-preflight.ps1` (kayıt defteri + exe SHA256)
 
 ## 2. Checklist
 
@@ -13,7 +14,7 @@
 
 ## 3. Kayıt
 
-[EXPLORER_QA_SIGNOFF.md](./EXPLORER_QA_SIGNOFF.md) doldurun → `main` commit → agent deploy.
+Chat’e **QA bitti** + preflight SHA256 → agent [EXPLORER_QA_SIGNOFF.md](./EXPLORER_QA_SIGNOFF.md) commit · push · deploy.
 
 ## 4. Sorun
 

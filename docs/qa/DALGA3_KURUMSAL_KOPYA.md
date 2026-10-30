@@ -2,6 +2,8 @@
 
 **Önkoşul:** [EXPLORER_QA_SIGNOFF.md](./EXPLORER_QA_SIGNOFF.md) PASS.
 
+**Preflight (politika sonrası):** `scripts/windows/corporate-pilot-preflight.ps1`
+
 ## Paket
 
 | Dosya | Kullanım |

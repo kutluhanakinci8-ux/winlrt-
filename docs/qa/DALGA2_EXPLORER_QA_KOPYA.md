@@ -4,6 +4,16 @@
 
 Tam liste: [WINLRTRAR_EXPLORER_QA.md](../WINLRTRAR_EXPLORER_QA.md)
 
+## 0. Preflight (kurulumdan hemen sonra)
+
+PowerShell (repo veya kopyalanmış script):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/windows/explorer-qa-preflight.ps1
+```
+
+PASS ise aşağıdaki manuel maddelere geçin. Çıktıdaki **SHA256** değerini signoff tablosuna yapıştırın.
+
 ## Kurulum
 - [ ] NSIS setup kuruldu
 - [ ] Kaldır-yeniden-kur menü çiftlenmedi
