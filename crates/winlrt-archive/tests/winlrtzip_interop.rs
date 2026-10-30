@@ -341,3 +341,69 @@ fn i5_7zip_extracts_turkish_paths() {
     assert!(status.success());
     assert_eq!(fs::read(dest.join(I5_TURKISH_REL)).unwrap(), b"7z-tr");
 }
+
+fn assert_crc_error(err: impl std::fmt::Display) {
+    let s = err.to_string();
+    assert!(
+        s.contains(winlrt_archive::zip_io::ZIP_INTEGRITY_CRC_MSG),
+        "I7 mesaji bekleniyordu, alinan: {s}"
+    );
+}
+
+#[test]
+fn i7_corrupt_zip_test_fails_controlled_message() {
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("veri.txt");
+    fs::write(&src, b"winlrtZIP I7").unwrap();
+    let zip = base.path().join("bad.zip");
+    zip_io::create_with_profile(&src, &zip, CompressionProfile::Balanced, None).unwrap();
+    zip_io::corrupt_first_local_crc_for_test(&zip).unwrap();
+    assert_crc_error(zip_io::test(&zip, None).unwrap_err());
+}
+
+#[test]
+fn i7_corrupt_zip_extract_fails_controlled_message() {
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("veri.txt");
+    fs::write(&src, b"winlrtZIP I7 extract").unwrap();
+    let zip = base.path().join("bad.zip");
+    zip_io::create_with_profile(&src, &zip, CompressionProfile::Balanced, None).unwrap();
+    zip_io::corrupt_first_local_crc_for_test(&zip).unwrap();
+    let out = base.path().join("out");
+    assert_crc_error(zip_io::extract(&zip, &out, None).unwrap_err());
+}
+
+#[test]
+fn i7_winlrt_zip_cli_test_corrupt() {
+    let bin = env!("CARGO_BIN_EXE_winlrt-zip");
+    let base = tempfile::tempdir().unwrap();
+    let src = base.path().join("x.txt");
+    fs::write(&src, b"cli i7").unwrap();
+    let zip = base.path().join("bad-cli.zip");
+    let create = Command::new(bin)
+        .args([
+            "create",
+            src.to_str().unwrap(),
+            zip.to_str().unwrap(),
+            "--profile",
+            "balanced",
+        ])
+        .output()
+        .unwrap();
+    assert!(create.status.success());
+    zip_io::corrupt_first_local_crc_for_test(&zip).unwrap();
+    let test = Command::new(bin)
+        .args(["test", zip.to_str().unwrap()])
+        .output()
+        .unwrap();
+    assert!(!test.status.success());
+    let combined = format!(
+        "{}{}",
+        String::from_utf8_lossy(&test.stderr),
+        String::from_utf8_lossy(&test.stdout)
+    );
+    assert!(
+        combined.contains("CRC") || combined.contains("bozuk"),
+        "cli cikti: {combined}"
+    );
+}

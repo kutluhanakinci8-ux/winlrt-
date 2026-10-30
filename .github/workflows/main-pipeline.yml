@@ -93,6 +93,11 @@ jobs:
           cargo test -p winlrt-archive zip64_smoke
           cargo test -p winlrt-archive --test winlrtzip_interop i3_
 
+      - name: winlrtZIP bozuk CRC (I7 / W11)
+        run: |
+          cargo test -p winlrt-archive zip_corrupt_crc
+          cargo test -p winlrt-archive --test winlrtzip_interop i7_
+
       - name: Faz 1 benchmark raporu
         run: |
           cargo run -p winlrt-archive --release -- bench --all --json > bench-report.json

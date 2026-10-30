@@ -10,8 +10,45 @@ use crate::crypto;
 use crate::profile::CompressionProfile;
 use crate::{ArchiveError, Result};
 
+/// I7 — bozuk CRC / bütünlük hatası kullanıcı mesajı öneki.
+pub const ZIP_INTEGRITY_CRC_MSG: &str = "ZIP bütünlük hatası (CRC)";
+
 fn password_bytes(password: Option<&str>) -> Option<&[u8]> {
     password.filter(|p| !p.is_empty()).map(|p| p.as_bytes())
+}
+
+fn map_zip_err(e: zip::result::ZipError) -> ArchiveError {
+    let msg = e.to_string().to_lowercase();
+    if msg.contains("password") || msg.contains("decrypt") {
+        return ArchiveError::Zip("ZIP parola hatalı".into());
+    }
+    if integrity_read_failure(&msg) {
+        return ArchiveError::Zip(format!(
+            "{ZIP_INTEGRITY_CRC_MSG} — arşiv bozuk veya eksik"
+        ));
+    }
+    ArchiveError::Zip(e.to_string())
+}
+
+fn integrity_read_failure(msg: &str) -> bool {
+    let m = msg.to_lowercase();
+    m.contains("crc")
+        || m.contains("checksum")
+        || m.contains("corrupt")
+        || m.contains("invalid stream")
+        || m.contains("incomplete deflate")
+        || (m.contains("deflate") && (m.contains("corrupt") || m.contains("invalid") || m.contains("incomplete")))
+}
+
+fn map_read_err(e: std::io::Error) -> ArchiveError {
+    let msg = e.to_string();
+    if integrity_read_failure(&msg) {
+        ArchiveError::Zip(format!(
+            "{ZIP_INTEGRITY_CRC_MSG} — arşiv bozuk veya eksik"
+        ))
+    } else {
+        ArchiveError::Io(e)
+    }
 }
 
 fn open_zip_entry<'a>(
@@ -20,25 +57,14 @@ fn open_zip_entry<'a>(
     password: Option<&[u8]>,
 ) -> Result<zip::read::ZipFile<'a, File>> {
     match password {
-        Some(p) => zip.by_index_decrypt(index, p).map_err(map_zip_password_err),
-        None => zip
-            .by_index(index)
-            .map_err(|e| ArchiveError::Zip(e.to_string())),
-    }
-}
-
-fn map_zip_password_err(e: zip::result::ZipError) -> ArchiveError {
-    let msg = e.to_string().to_lowercase();
-    if msg.contains("password") || msg.contains("decrypt") {
-        ArchiveError::Zip("ZIP parola hatalı".into())
-    } else {
-        ArchiveError::Zip(e.to_string())
+        Some(p) => zip.by_index_decrypt(index, p).map_err(map_zip_err),
+        None => zip.by_index(index).map_err(map_zip_err),
     }
 }
 
 pub fn list(archive: &Path, password: Option<&str>) -> Result<Vec<String>> {
     let file = File::open(archive)?;
-    let mut zip = ZipArchive::new(file).map_err(|e| ArchiveError::Zip(e.to_string()))?;
+    let mut zip = ZipArchive::new(file).map_err(map_zip_err)?;
     let pw = password_bytes(password);
     let mut names = Vec::with_capacity(zip.len());
     for i in 0..zip.len() {
@@ -50,7 +76,7 @@ pub fn list(archive: &Path, password: Option<&str>) -> Result<Vec<String>> {
 
 pub fn extract(archive: &Path, dest: &Path, password: Option<&str>) -> Result<()> {
     let file = File::open(archive)?;
-    let mut zip = ZipArchive::new(file).map_err(|e| ArchiveError::Zip(e.to_string()))?;
+    let mut zip = ZipArchive::new(file).map_err(map_zip_err)?;
     let pw = password_bytes(password);
     for i in 0..zip.len() {
         let mut entry = open_zip_entry(&mut zip, i, pw)?;
@@ -63,7 +89,7 @@ pub fn extract(archive: &Path, dest: &Path, password: Option<&str>) -> Result<()
                 std::fs::create_dir_all(parent)?;
             }
             let mut out = File::create(&out_path)?;
-            copy(&mut entry, &mut out)?;
+            copy(&mut entry, &mut out).map_err(map_read_err)?;
         }
     }
     Ok(())
@@ -237,12 +263,33 @@ pub fn create_zip64_smoke(dest: &Path) -> Result<()> {
 
 pub fn test(archive: &Path, password: Option<&str>) -> Result<()> {
     let file = File::open(archive)?;
-    let mut zip = ZipArchive::new(file).map_err(|e| ArchiveError::Zip(e.to_string()))?;
+    let mut zip = ZipArchive::new(file).map_err(map_zip_err)?;
     let pw = password_bytes(password);
     for i in 0..zip.len() {
         let mut entry = open_zip_entry(&mut zip, i, pw)?;
-        std::io::copy(&mut entry, &mut std::io::sink())?;
+        std::io::copy(&mut entry, &mut std::io::sink()).map_err(map_read_err)?;
     }
+    Ok(())
+}
+
+/// Test / I7: ilk dosya girdisinin sıkıştırılmış gövdesinde tek bayt bozar (CRC tetikler).
+pub fn corrupt_first_local_crc_for_test(archive: &Path) -> Result<()> {
+    let mut bytes = std::fs::read(archive)?;
+    let pos = bytes
+        .windows(4)
+        .position(|w| w == [0x50, 0x4b, 0x03, 0x04])
+        .ok_or_else(|| ArchiveError::Zip("ZIP yerel baslik bulunamadi".into()))?;
+    if pos + 30 > bytes.len() {
+        return Err(ArchiveError::Zip("ZIP baslik cok kisa".into()));
+    }
+    let fn_len = u16::from_le_bytes([bytes[pos + 26], bytes[pos + 27]]) as usize;
+    let extra_len = u16::from_le_bytes([bytes[pos + 28], bytes[pos + 29]]) as usize;
+    let data_start = pos + 30 + fn_len + extra_len;
+    if data_start >= bytes.len() {
+        return Err(ArchiveError::Zip("ZIP girdi verisi yok".into()));
+    }
+    bytes[data_start] ^= 0xff;
+    std::fs::write(archive, bytes)?;
     Ok(())
 }
 
@@ -250,6 +297,21 @@ pub fn test(archive: &Path, password: Option<&str>) -> Result<()> {
 mod tests {
     use super::*;
     use tempfile::tempdir;
+
+    #[test]
+    fn zip_corrupt_crc_controlled_error() {
+        let dir = tempdir().unwrap();
+        let src = dir.path().join("a.txt");
+        std::fs::write(&src, b"integrity").unwrap();
+        let archive = dir.path().join("bad.zip");
+        create_with_profile(&src, &archive, CompressionProfile::Balanced, None).unwrap();
+        corrupt_first_local_crc_for_test(&archive).unwrap();
+        let err = test(&archive, None).unwrap_err().to_string();
+        assert!(
+            err.contains(ZIP_INTEGRITY_CRC_MSG),
+            "beklenen CRC mesaji, alinan: {err}"
+        );
+    }
 
     #[test]
     fn zip_turkish_utf8_entry_names() {
