@@ -164,6 +164,9 @@ jobs:
       - name: Lertiva Zip Lerta birleşik staging (W31)
         run: bash scripts/verify-madde-w31.sh
 
+      - name: Lertiva marka kalıntı taraması
+        run: bash scripts/verify-lertiva-brand.sh
+
       - name: Faz 1 benchmark raporu
         run: |
           cargo run -p lertiva-archive --release -- bench --all --json > bench-report.json
