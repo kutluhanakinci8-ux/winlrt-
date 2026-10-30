@@ -33,6 +33,15 @@ Kaynak: `secure-create-wizard` event · `startup_secure_wizard` komutu.
 Explorer `--secure`: önce **Win32 parola diyalogu**; iptal → web sihirbazı.  
 Kapatma: `WINLRT_DISABLE_NATIVE_PASSWORD=1`
 
+## Modern şifreleme kapısı (Faz 3)
+
+`RequireModernCrypto=1` (GPO / kayıt) veya `WINLRT_REQUIRE_MODERN_CRYPTO=1` — **kurumsal** politika ile birlikte:
+
+- Şifreli `.wlrt` → v2 **Argon2id**
+- Şifreli ZIP → **AES-256** (ZipCrypto yok)
+
+Tauri: `enterprise_policy_info.require_modern_crypto` · ADMX: `deploy/gpo/winlrtRAR.admx`
+
 ## Denetim
 
 Bkz. [WINLRTRAR_AUDIT.md](./WINLRTRAR_AUDIT.md).
