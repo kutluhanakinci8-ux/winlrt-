@@ -19,8 +19,29 @@ Repo → **Settings → Secrets and variables → Actions**
 | `VPS_HOST` | `37.230.105.99` |
 | `VPS_PORT` | `23422` |
 | `VPS_USER` | `root` |
-| `VPS_SSH_KEY` | Private key (PEM) |
+| `VPS_SSH_KEY` | OpenSSH private key (`~/.ssh/winlrt-gha-deploy`) — **veya** aşağıdaki Base64 |
+| `VPS_SSH_KEY_B64` | Aynı anahtarın **tek satır** Base64 hali (yapıştırma sorunluysa bunu kullanın) |
 | `VPS_WEB_ROOT` | `/var/www/winlrt/apps/web/dist` |
+
+İkisinden **biri** yeterli (`VPS_SSH_KEY` veya `VPS_SSH_KEY_B64`).
+
+### Mac’te secret kutusuna yapıştırma çalışmıyorsa
+
+**Önerilen (yapıştırma yok):** repoyu Mac’e clone etmişseniz veya sadece script’i indirip:
+
+```bash
+bash scripts/mac-set-github-vps-secret.sh
+```
+
+Script gerekirse `brew install gh` yapar; `gh auth login` tarayıcı ile oturum açar; anahtarı **dosyadan** `VPS_SSH_KEY` olarak yükler.
+
+**Alternatif (tek satır secret):**
+
+```bash
+bash scripts/mac-vps-key-base64-for-github.sh
+```
+
+Masaüstündeki `VPS_SSH_KEY_B64.txt` içeriğini GitHub’da secret adı **`VPS_SSH_KEY_B64`** olarak kaydedin (tek satır).
 
 Secrets tanımlı değilse deploy **atlanır** (uyarı log); CI yine çalışır.
 
