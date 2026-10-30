@@ -6,6 +6,7 @@ use walkdir::WalkDir;
 use zip::write::FileOptions;
 use zip::{CompressionMethod, ZipArchive, ZipWriter};
 
+use crate::profile::CompressionProfile;
 use crate::{ArchiveError, Result};
 
 pub fn list(archive: &Path) -> Result<Vec<String>> {
@@ -40,6 +41,10 @@ pub fn extract(archive: &Path, dest: &Path) -> Result<()> {
 }
 
 pub fn create(source: &Path, dest: &Path) -> Result<()> {
+    create_with_profile(source, dest, CompressionProfile::Balanced)
+}
+
+pub fn create_with_profile(source: &Path, dest: &Path, profile: CompressionProfile) -> Result<()> {
     if !source.exists() {
         return Err(ArchiveError::Io(std::io::Error::new(
             std::io::ErrorKind::NotFound,
@@ -54,13 +59,14 @@ pub fn create(source: &Path, dest: &Path) -> Result<()> {
             &mut writer,
             &source,
             &source.file_name().unwrap().to_string_lossy(),
+            profile,
         )?;
     } else {
         for entry in WalkDir::new(&source).into_iter().filter_map(|e| e.ok()) {
             let path = entry.path();
             if path.is_file() {
                 let rel = path.strip_prefix(&source).unwrap_or(path);
-                add_file(&mut writer, path, &rel.to_string_lossy())?;
+                add_file(&mut writer, path, &rel.to_string_lossy(), profile)?;
             }
         }
     }
@@ -70,8 +76,17 @@ pub fn create(source: &Path, dest: &Path) -> Result<()> {
     Ok(())
 }
 
-fn add_file(writer: &mut ZipWriter<File>, path: &Path, name: &str) -> Result<()> {
-    let options = FileOptions::default().compression_method(CompressionMethod::Deflated);
+fn add_file(
+    writer: &mut ZipWriter<File>,
+    path: &Path,
+    name: &str,
+    profile: CompressionProfile,
+) -> Result<()> {
+    let method = match profile {
+        CompressionProfile::Fast => CompressionMethod::Stored,
+        _ => CompressionMethod::Deflated,
+    };
+    let options = FileOptions::default().compression_method(method);
     writer
         .start_file(name.replace('\\', "/"), options)
         .map_err(|e| ArchiveError::Zip(e.to_string()))?;

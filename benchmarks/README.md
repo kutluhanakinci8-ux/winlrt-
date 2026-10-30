@@ -8,9 +8,9 @@
 | Sıkıştırma | `.wlrt` vs ZIP: **≥ %10** küçük veya eşit boyutta daha hızlı |
 | Kurumsal güven | Şifreleme/imza checklist (Faz 2–4) |
 
-## Test seti (oluşturulacak)
+## Test seti
 
-- `fixtures/text/` — log + UTF-8
+- `fixtures/text/` — log + UTF-8 (**Faz 1 başladı**)
 - `fixtures/office/` — küçük örnek dosyalar
 - `fixtures/binary/` — rastgele + tekrarlayan veri (dedup testi)
 

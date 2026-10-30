@@ -1,18 +1,25 @@
 use std::path::PathBuf;
 
 use clap::{Parser, Subcommand, ValueEnum};
-use winlrt_archive::{profile::CompressionProfile, wlrt, zip_io, Result};
+use serde::Serialize;
+use winlrt_archive::bench::{self, BenchReport};
+use winlrt_archive::profile::CompressionProfile;
+use winlrt_archive::{wlrt, zip_io, Result};
 
 #[derive(Parser)]
 #[command(name = "winlrt-archive", about = "winlrt arşiv CLI — winlrtRAR motoru")]
 struct Cli {
+    /// JSON çıktı (list / test / bench)
+    #[arg(long, global = true)]
+    json: bool,
+
     #[command(subcommand)]
     command: Commands,
 }
 
 #[derive(Subcommand)]
 enum Commands {
-    /// ZIP arşiv içeriğini listele
+    /// Arşiv içeriğini listele
     List {
         archive: PathBuf,
         #[arg(long, value_enum, default_value_t = FormatArg::Zip)]
@@ -40,10 +47,12 @@ enum Commands {
         #[arg(long, value_enum, default_value_t = FormatArg::Zip)]
         format: FormatArg,
     },
-    /// Benchmark (Faz 1 — genişletilecek)
+    /// ZIP vs `.wlrt` süre ve boyut (Faz 1 KPI hazırlığı)
     Bench {
         #[arg(long)]
         fixture: Option<PathBuf>,
+        #[arg(long, value_enum, default_value_t = ProfileArg::Balanced)]
+        profile: ProfileArg,
     },
 }
 
@@ -73,6 +82,19 @@ impl From<ProfileArg> for CompressionProfile {
     }
 }
 
+#[derive(Serialize)]
+struct ListJson {
+    archive: String,
+    format: String,
+    entries: Vec<String>,
+}
+
+#[derive(Serialize)]
+struct OkJson {
+    ok: bool,
+    action: &'static str,
+}
+
 fn main() {
     if let Err(e) = run() {
         eprintln!("hata: {e}");
@@ -83,18 +105,23 @@ fn main() {
 fn run() -> Result<()> {
     let cli = Cli::parse();
     match cli.command {
-        Commands::List { archive, format } => match format {
-            FormatArg::Zip => {
-                for name in zip_io::list(&archive)? {
+        Commands::List { archive, format } => {
+            let entries = match format {
+                FormatArg::Zip => zip_io::list(&archive)?,
+                FormatArg::Wlrt => wlrt::list(&archive)?,
+            };
+            if cli.json {
+                print_json(&ListJson {
+                    archive: archive.display().to_string(),
+                    format: format_label(format),
+                    entries,
+                })?;
+            } else {
+                for name in entries {
                     println!("{name}");
                 }
             }
-            FormatArg::Wlrt => {
-                for name in wlrt::list(&archive)? {
-                    println!("{name}");
-                }
-            }
-        },
+        }
         Commands::Extract { archive, dest, format } => match format {
             FormatArg::Zip => zip_io::extract(&archive, &dest)?,
             FormatArg::Wlrt => wlrt::extract(&archive, &dest)?,
@@ -105,20 +132,67 @@ fn run() -> Result<()> {
             format,
             profile,
         } => {
-            let _profile: CompressionProfile = profile.into();
+            let profile: CompressionProfile = profile.into();
             match format {
-                FormatArg::Zip => zip_io::create(&source, &dest)?,
-                FormatArg::Wlrt => wlrt::create(&source, &dest)?,
+                FormatArg::Zip => zip_io::create_with_profile(&source, &dest, profile)?,
+                FormatArg::Wlrt => wlrt::create(&source, &dest, profile)?,
             }
         }
-        Commands::Test { archive, format } => match format {
-            FormatArg::Zip => zip_io::test(&archive)?,
-            FormatArg::Wlrt => wlrt::test(&archive)?,
-        },
-        Commands::Bench { fixture } => {
-            println!("benchmark: Faz 1 — fixture={:?}", fixture);
-            println!("KPI (P0): hız | sıkıştırma | kurumsal güven — benchmarks/README.md");
+        Commands::Test { archive, format } => {
+            match format {
+                FormatArg::Zip => zip_io::test(&archive)?,
+                FormatArg::Wlrt => wlrt::test(&archive)?,
+            }
+            if cli.json {
+                print_json(&OkJson {
+                    ok: true,
+                    action: "test",
+                })?;
+            } else {
+                println!("OK");
+            }
+        }
+        Commands::Bench { fixture, profile } => {
+            let profile: CompressionProfile = profile.into();
+            let fixture = fixture.unwrap_or_else(|| {
+                bench::default_fixture(&std::env::current_dir().unwrap_or_default())
+            });
+            let report = bench::run(&fixture, profile)?;
+            if cli.json {
+                print_json(&report)?;
+            } else {
+                print_bench_human(&report);
+            }
         }
     }
     Ok(())
+}
+
+fn format_label(format: FormatArg) -> String {
+    match format {
+        FormatArg::Zip => "zip".into(),
+        FormatArg::Wlrt => "wlrt".into(),
+    }
+}
+
+fn print_json<T: Serialize>(value: &T) -> Result<()> {
+    println!("{}", serde_json::to_string_pretty(value).map_err(|e| {
+        winlrt_archive::ArchiveError::Wlrt(format!("json: {e}"))
+    })?);
+    Ok(())
+}
+
+fn print_bench_human(r: &BenchReport) {
+    println!("fixture: {}", r.fixture);
+    println!("profile: {}", r.profile);
+    println!("raw_bytes: {}", r.raw_bytes);
+    println!("zip: {} bytes | create {} ms | extract {} ms", r.zip_bytes, r.zip_create_ms, r.zip_extract_ms);
+    println!(
+        "wlrt: {} bytes | create {} ms | extract {} ms",
+        r.wlrt_bytes, r.wlrt_create_ms, r.wlrt_extract_ms
+    );
+    if r.wlrt_bytes > 0 && r.zip_bytes > 0 {
+        let ratio = (1.0 - (r.wlrt_bytes as f64 / r.zip_bytes as f64)) * 100.0;
+        println!("wlrt vs zip boyut farkı: {ratio:.1}%");
+    }
 }

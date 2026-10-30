@@ -1,0 +1,11 @@
+winlrt benchmark fixture — tekrarlayan metin (sıkıştırma KPI)
+satır 001: kurumsal arşiv test verisi
+satır 002: kurumsal arşiv test verisi
+satır 003: kurumsal arşiv test verisi
+satır 004: kurumsal arşiv test verisi
+satır 005: kurumsal arşiv test verisi
+satır 006: kurumsal arşiv test verisi
+satır 007: kurumsal arşiv test verisi
+satır 008: kurumsal arşiv test verisi
+satır 009: kurumsal arşiv test verisi
+satır 010: kurumsal arşiv test verisi

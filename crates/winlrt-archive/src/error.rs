@@ -8,6 +8,8 @@ pub enum ArchiveError {
     Io(#[from] std::io::Error),
     #[error("ZIP: {0}")]
     Zip(String),
+    #[error("WLRT: {0}")]
+    Wlrt(String),
     #[error("henüz desteklenmiyor: {0}")]
     NotYet(&'static str),
 }

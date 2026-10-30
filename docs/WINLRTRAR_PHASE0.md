@@ -36,7 +36,7 @@ Onay tarihi: 2026-10-30 · Plan: [WINLRTRAR_PLAN.md](./WINLRTRAR_PLAN.md)
 - [x] Stakeholder kararları (4 soru)
 - [x] Pilot segmentleri: banka, sendika, KOBİ
 - [ ] Rakip özellik matrisi (WinRAR, WinZip, 7-Zip, Bandizip) — Faz 1 paralel
-- [ ] `.wlrt` v0 binary spec taslağı — Faz 1 ilk sprint
+- [x] `.wlrt` v0 binary spec — [WLRT_FORMAT_V0.md](./WLRT_FORMAT_V0.md)
 - [ ] RAR okuma hukuk/lisans notu (UnRAR yolu) — Faz 2 öncesi zorunlu
 
 **Faz 0 kapısı:** Kararlar onaylı → **Faz 1 başladı** (`crates/winlrt-archive`).

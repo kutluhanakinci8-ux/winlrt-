@@ -47,8 +47,8 @@ jobs:
         with:
           workspaces: crates/winlrt-archive
 
-      - name: Build winlrt-archive
-        run: cargo build -p winlrt-archive --release
+      - name: Test and build winlrt-archive
+        run: cargo test -p winlrt-archive && cargo build -p winlrt-archive --release
 
   deploy:
     needs: web
