@@ -13,9 +13,24 @@ HKCU\Software\winlrt\winlrtRAR   (HKCU öncelikli okuma)
 |--------|-----|--------|------|
 | `PasswordPolicy` | REG_SZ | `corporate` | Parola politikası (`consumer` / `corporate`) |
 | `AuditMirrorPath` | REG_SZ | `\\fileserver\logs\winlrt\audit.jsonl` | Her denetim satırının kopyası |
+| `AuditForwardUrl` | REG_SZ | `https://siem.example/api/winlrt-audit` | Denetim satırını HTTP POST (beta) |
 | `ProductVersion` | REG_SZ | `0.1.0` | Envanter (kurulum yazar) |
 
-Ortam değişkenleri (`WINLRT_PASSWORD_POLICY`, `WINLRT_AUDIT_MIRROR`) kayıt defterinden **önce** uygulanır.
+Ortam değişkenleri (`WINLRT_PASSWORD_POLICY`, `WINLRT_AUDIT_MIRROR`, `WINLRT_AUDIT_FORWARD_URL`) kayıt defterinden **önce** uygulanır.
+
+## ADMX (Group Policy Administrative Templates)
+
+Repoda: `deploy/gpo/winlrtRAR.admx` + `deploy/gpo/en-US/winlrtRAR.adml` + `deploy/gpo/tr-TR/winlrtRAR.adml`
+
+**Merkezi mağaza (önerilen):**
+
+1. `%SystemRoot%\PolicyDefinitions\winlrtRAR.admx`
+2. `%SystemRoot%\PolicyDefinitions\en-US\winlrtRAR.adml` (ve `tr-TR` isteğe bağlı)
+3. `gpupdate /force`
+
+GPO yolu: **Computer Configuration** veya **User Configuration** → **Policies** → **Administrative Templates** → **Windows Components** → **winlrtRAR**
+
+Politikalar: parola profili, denetim mirror yolu, HTTP forward URL.
 
 ## Örnek .reg
 

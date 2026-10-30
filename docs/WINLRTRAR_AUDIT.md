@@ -11,7 +11,10 @@ JSON Lines dosyası; **parola / anahtar metni asla yazılmaz**.
 
 Override: `WINLRT_AUDIT_LOG=/yol/audit.jsonl`  
 Kapatma: `WINLRT_AUDIT_DISABLE=1`  
-**Merkezi kopya:** `WINLRT_AUDIT_MIRROR` veya GPO `AuditMirrorPath` (bkz. [WINLRTRAR_GPO.md](./WINLRTRAR_GPO.md))
+**Merkezi kopya:** `WINLRT_AUDIT_MIRROR` veya GPO `AuditMirrorPath`  
+**HTTP iletim (beta):** `WINLRT_AUDIT_FORWARD_URL` veya GPO `AuditForwardUrl` — satır başına POST (`Content-Type: application/x-ndjson`); hata uygulamayı durdurmaz.
+
+(bkz. [WINLRTRAR_GPO.md](./WINLRTRAR_GPO.md))
 
 Tauri: `audit_log_path` komutu.
 

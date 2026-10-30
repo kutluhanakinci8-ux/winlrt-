@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<policyDefinitionResources xmlns="http://schemas.microsoft.com/GroupPolicy/2006/07/PolicyDefinitions" revision="1.0" schemaVersion="1.0">
+  <displayName>winlrtRAR</displayName>
+  <description>Enterprise settings for winlrtRAR (password policy and audit forwarding).</description>
+  <resources>
+    <stringTable>
+      <string id="SUPPORTED_Windows10_AndLater">Windows 10 / Windows Server 2016 and later</string>
+      <string id="Category_winlrtRAR">winlrtRAR</string>
+      <string id="PasswordPolicy">Password policy profile</string>
+      <string id="PasswordPolicy_Help">Sets WINLRT password policy via registry. Use consumer or corporate. Environment variable WINLRT_PASSWORD_POLICY overrides this value.</string>
+      <string id="PasswordPolicy_Label">Policy id (consumer or corporate)</string>
+      <string id="AuditMirrorPath">Audit log mirror path</string>
+      <string id="AuditMirrorPath_Help">Append-only copy of each audit JSON line (UNC or local path). Does not contain passwords.</string>
+      <string id="AuditMirrorPath_Label">Mirror file path</string>
+      <string id="AuditForwardUrl">Audit HTTP forward URL</string>
+      <string id="AuditForwardUrl_Help">Optional HTTPS endpoint; each audit line is POSTed as application/x-ndjson. Failures are ignored.</string>
+      <string id="AuditForwardUrl_Label">Collector URL</string>
+    </stringTable>
+  </resources>
+</policyDefinitionResources>

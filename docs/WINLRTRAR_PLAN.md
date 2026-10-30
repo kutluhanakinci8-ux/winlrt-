@@ -170,7 +170,7 @@ Taslak: [WINLRTRAR_FAZ3_TRANSITION.md](./WINLRTRAR_FAZ3_TRANSITION.md)
 - [x] Denetim günlüğü iskeleti (`audit.jsonl`, parolasız)
 - [x] Çoklu seçim arşiv adı (ilk dosya stem, aynı klasör)
 - [x] GPO kayıt defteri iskeleti + audit mirror
-- [ ] Tam WinRAR menü parity (karma klasör seçimi, ADMX)
+- [x] Tam WinRAR menü parity (karma klasör seçimi, ADMX) — beta: ilk seçim klasörü/adı, `deploy/gpo/*.admx`
 - [x] Parola + şifreleme UI (beta: ZIP ZipCrypto, .wlrt v1 AES-GCM)
 - [ ] Argon2id + AES-ZIP (WinZip AE-2) — kurumsal kapı
 - [x] Çok ciltli RAR (ilk cilt çözümleme) + onarım (UnRAR `r`, beta)

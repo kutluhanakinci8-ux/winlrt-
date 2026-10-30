@@ -6,3 +6,4 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\Software\winlrt\winlrtRAR]
 "PasswordPolicy"="corporate"
 "AuditMirrorPath"="\\\\FILESERVER\\share\\winlrt-audit\\audit.jsonl"
+"AuditForwardUrl"=""

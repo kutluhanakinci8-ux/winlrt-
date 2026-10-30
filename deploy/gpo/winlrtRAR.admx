@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<policyDefinitions
+  xmlns="http://schemas.microsoft.com/GroupPolicy/2006/07/PolicyDefinitions"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <policyNamespaces>
+    <target prefix="winlrt" namespace="winlrt.Admx.Gpo" />
+  </policyNamespaces>
+  <supersededAdmx fileName="winlrtRAR.admx" />
+  <resources minRequiredRevision="1.0.0.0" />
+  <supportedOn>
+    <definitions>
+      <definition name="SUPPORTED_Windows10_AndLater" displayName="$(string.SUPPORTED_Windows10_AndLater)" />
+    </definitions>
+  </supportedOn>
+  <categories>
+    <category name="winlrtRAR" displayName="$(string.Category_winlrtRAR)">
+      <parentCategory ref="windows:WindowsComponents" />
+    </category>
+  </categories>
+  <policies>
+    <policy
+      name="PasswordPolicy"
+      class="Both"
+      displayName="$(string.PasswordPolicy)"
+      explainText="$(string.PasswordPolicy_Help)"
+      key="Software\winlrt\winlrtRAR"
+      presentation="$(presentation.PasswordPolicy)">
+      <parentCategory ref="winlrtRAR" />
+      <supportedOn ref="SUPPORTED_Windows10_AndLater" />
+      <elements>
+        <text id="PasswordPolicy" valueName="PasswordPolicy" required="true" maxLength="32" />
+      </elements>
+    </policy>
+    <policy
+      name="AuditMirrorPath"
+      class="Both"
+      displayName="$(string.AuditMirrorPath)"
+      explainText="$(string.AuditMirrorPath_Help)"
+      key="Software\winlrt\winlrtRAR"
+      presentation="$(presentation.AuditMirrorPath)">
+      <parentCategory ref="winlrtRAR" />
+      <supportedOn ref="SUPPORTED_Windows10_AndLater" />
+      <elements>
+        <text id="AuditMirrorPath" valueName="AuditMirrorPath" required="false" maxLength="512" />
+      </elements>
+    </policy>
+    <policy
+      name="AuditForwardUrl"
+      class="Both"
+      displayName="$(string.AuditForwardUrl)"
+      explainText="$(string.AuditForwardUrl_Help)"
+      key="Software\winlrt\winlrtRAR"
+      presentation="$(presentation.AuditForwardUrl)">
+      <parentCategory ref="winlrtRAR" />
+      <supportedOn ref="SUPPORTED_Windows10_AndLater" />
+      <elements>
+        <text id="AuditForwardUrl" valueName="AuditForwardUrl" required="false" maxLength="512" />
+      </elements>
+    </policy>
+  </policies>
+  <presentationDefinitions>
+    <presentation id="PasswordPolicy">
+      <textBox refId="PasswordPolicy">
+        <label>$(string.PasswordPolicy_Label)</label>
+      </textBox>
+    </presentation>
+    <presentation id="AuditMirrorPath">
+      <textBox refId="AuditMirrorPath">
+        <label>$(string.AuditMirrorPath_Label)</label>
+      </textBox>
+    </presentation>
+    <presentation id="AuditForwardUrl">
+      <textBox refId="AuditForwardUrl">
+        <label>$(string.AuditForwardUrl_Label)</label>
+      </textBox>
+    </presentation>
+  </presentationDefinitions>
+</policyDefinitions>

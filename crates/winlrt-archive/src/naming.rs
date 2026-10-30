@@ -16,22 +16,39 @@ pub fn suggested_selection_archive_path(paths: &[String], ext: &str) -> Result<S
     }
 
     if same_parent(&parsed)? {
-        if parsed.iter().all(|p| p.is_file()) {
-            let stem = first
-                .file_stem()
-                .map(|s| s.to_string_lossy().into_owned())
-                .unwrap_or_else(|| "arsiv".into());
-            return Ok(parent
-                .join(format!("{stem}.{ext}"))
-                .to_string_lossy()
-                .into_owned());
-        }
+        return archive_name_in_parent(&parsed[0], parent, ext);
     }
 
-    Ok(parent
-        .join(format!("winlrt-secim.{ext}"))
-        .to_string_lossy()
-        .into_owned())
+    // Karma üst klasör (WinRAR): hedef = ilk seçimin klasörü, ad = ilk öğe kuralı.
+    let first_c = parsed[0].canonicalize().map_err(|e| e.to_string())?;
+    let dest_parent = first_c
+        .parent()
+        .ok_or_else(|| "Hedef klasör belirlenemedi".to_string())?;
+    if parsed.iter().all(|p| p.is_file()) {
+        let stem = first_c
+            .file_stem()
+            .map(|s| s.to_string_lossy().into_owned())
+            .unwrap_or_else(|| "arsiv".into());
+        return Ok(dest_parent
+            .join(format!("{stem}.{ext}"))
+            .to_string_lossy()
+            .into_owned());
+    }
+    archive_name_in_parent(&parsed[0], dest_parent, ext)
+}
+
+fn archive_name_in_parent(first: &Path, parent: &Path, ext: &str) -> Result<String, String> {
+    if first.is_file() {
+        let stem = first
+            .file_stem()
+            .map(|s| s.to_string_lossy().into_owned())
+            .unwrap_or_else(|| "arsiv".into());
+        return Ok(parent
+            .join(format!("{stem}.{ext}"))
+            .to_string_lossy()
+            .into_owned());
+    }
+    suggested_single_path(first, parent, ext)
 }
 
 fn suggested_single_path(path: &Path, parent: &Path, ext: &str) -> Result<String, String> {
@@ -85,6 +102,28 @@ fn same_parent(paths: &[PathBuf]) -> Result<bool, String> {
 mod tests {
     use super::*;
     use std::fs;
+
+    #[test]
+    fn mixed_folder_files_use_first_stem_in_first_folder() {
+        let base = std::env::temp_dir().join(format!("winlrt-mix-{}", std::process::id()));
+        let _ = fs::remove_dir_all(&base);
+        let dir_a = base.join("a");
+        let dir_b = base.join("b");
+        fs::create_dir_all(&dir_a).unwrap();
+        fs::create_dir_all(&dir_b).unwrap();
+        let a = dir_a.join("Rapor.pdf");
+        let b = dir_b.join("Ek.xlsx");
+        fs::write(&a, b"x").unwrap();
+        fs::write(&b, b"y").unwrap();
+        let s = suggested_selection_archive_path(
+            &[a.to_string_lossy().into(), b.to_string_lossy().into()],
+            "wlrt",
+        )
+        .unwrap();
+        assert!(s.ends_with("Rapor.wlrt"));
+        assert!(s.contains("a"));
+        let _ = fs::remove_dir_all(&base);
+    }
 
     #[test]
     fn multi_select_uses_first_file_stem_winrar_style() {

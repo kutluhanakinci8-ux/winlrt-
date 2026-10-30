@@ -46,6 +46,20 @@ pub fn audit_mirror_path() -> Option<PathBuf> {
     registry_audit_mirror_path()
 }
 
+/// Merkezi HTTP/HTTPS toplayıcı (beta) — `AuditForwardUrl` / `WINLRT_AUDIT_FORWARD_URL`.
+pub fn registry_audit_forward_url() -> Option<String> {
+    registry_value("AuditForwardUrl")
+}
+
+pub fn audit_forward_url() -> Option<String> {
+    if let Ok(p) = std::env::var("WINLRT_AUDIT_FORWARD_URL") {
+        if !p.trim().is_empty() {
+            return Some(p);
+        }
+    }
+    registry_audit_forward_url()
+}
+
 pub fn policy_id_from_env() -> Option<String> {
     std::env::var("WINLRT_PASSWORD_POLICY")
         .ok()

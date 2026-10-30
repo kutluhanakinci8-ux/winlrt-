@@ -39,6 +39,19 @@ pub fn log(record: AuditRecord) {
         let _ = writeln!(f, "{line}");
     }
     mirror_audit_line(&line);
+    forward_audit_line(&line);
+}
+
+fn forward_audit_line(line: &str) {
+    let Some(url) = crate::enterprise::audit_forward_url() else {
+        return;
+    };
+    let body = line.to_string();
+    std::thread::spawn(move || {
+        let _ = ureq::post(&url)
+            .set("Content-Type", "application/x-ndjson")
+            .send_string(&body);
+    });
 }
 
 fn mirror_audit_line(line: &str) {
