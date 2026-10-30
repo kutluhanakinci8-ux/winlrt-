@@ -5,6 +5,7 @@ pub mod crypto;
 pub mod error;
 pub mod profile;
 pub mod rar;
+pub mod volumes;
 pub mod sevenz;
 pub mod wlrt;
 pub mod zip_io;

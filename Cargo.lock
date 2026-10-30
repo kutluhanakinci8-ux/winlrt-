@@ -5263,6 +5263,7 @@ dependencies = [
  "rand",
  "rar",
  "rayon",
+ "regex",
  "serde",
  "serde_json",
  "sevenz-rust",

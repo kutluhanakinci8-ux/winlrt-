@@ -4,7 +4,7 @@ use clap::{Parser, Subcommand, ValueEnum};
 use serde::Serialize;
 use winlrt_archive::bench::{self, BenchReport, BenchSuite};
 use winlrt_archive::profile::CompressionProfile;
-use winlrt_archive::{rar, sevenz, wlrt, zip_io, Result};
+use winlrt_archive::{rar, sevenz, volumes, wlrt, zip_io, Result};
 
 #[derive(Parser)]
 #[command(name = "winlrt-archive", about = "winlrt arşiv CLI — winlrtRAR motoru")]
@@ -49,6 +49,19 @@ enum Commands {
     Test {
         archive: PathBuf,
         #[arg(long, value_enum, default_value_t = FormatArg::Zip)]
+        format: FormatArg,
+    },
+    /// Çok cilt / birleşik arşiv bilgisi
+    Inspect {
+        archive: PathBuf,
+        #[arg(long, value_enum, default_value_t = FormatArg::Rar)]
+        format: FormatArg,
+    },
+    /// RAR kurtarma onarımı (UnRAR `r`, beta)
+    Repair {
+        archive: PathBuf,
+        dest: PathBuf,
+        #[arg(long, value_enum, default_value_t = FormatArg::Rar)]
         format: FormatArg,
     },
     /// ZIP vs `.wlrt` süre ve boyut (Faz 1 KPI hazırlığı)
@@ -179,6 +192,45 @@ fn run() -> Result<()> {
                 })?;
             } else {
                 println!("OK");
+            }
+        }
+        Commands::Inspect { archive, format } => {
+            let info = match format {
+                FormatArg::Rar => rar::inspect(&archive),
+                _ => volumes::VolumeInfo {
+                    multipart: false,
+                    open_path: archive.display().to_string(),
+                    selected_path: archive.display().to_string(),
+                    format: "other",
+                    hint: "Çok cilt algılama şu an yalnızca RAR için.".into(),
+                    can_repair: false,
+                },
+            };
+            if json_out {
+                print_json(&info)?;
+            } else if info.hint.is_empty() {
+                println!("Tek parça arşiv: {}", info.open_path);
+            } else {
+                println!("{}", info.hint);
+                println!("Açılacak yol: {}", info.open_path);
+            }
+        }
+        Commands::Repair { archive, dest, format } => {
+            match format {
+                FormatArg::Rar => rar::repair(&archive, &dest, pw)?,
+                _ => {
+                    return Err(winlrt_archive::ArchiveError::NotYet(
+                        "onarım yalnızca RAR (beta)",
+                    ))
+                }
+            }
+            if json_out {
+                print_json(&OkJson {
+                    ok: true,
+                    action: "repair",
+                })?;
+            } else {
+                println!("Onarım OK → {}", dest.display());
             }
         }
         Commands::Bench { fixture, all, profile } => {

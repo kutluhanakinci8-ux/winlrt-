@@ -8,7 +8,7 @@ use tauri::{AppHandle, Emitter, RunEvent};
 use tauri_plugin_opener::OpenerExt;
 use winlrt_archive::profile::CompressionProfile;
 use winlrt_archive::crypto::{self, PasswordFeedback};
-use winlrt_archive::{rar, sevenz, wlrt, zip_io};
+use winlrt_archive::{rar, sevenz, volumes, wlrt, zip_io};
 
 use cli::{
     compress_folder_quick, extract_here, is_archive_path, parse_startup_mode,
@@ -146,6 +146,37 @@ fn open_windows_default_apps(app: AppHandle) -> Result<(), String> {
 }
 
 #[tauri::command]
+fn inspect_archive(path: String, format: String) -> Result<volumes::VolumeInfo, String> {
+    let archive = std::path::PathBuf::from(&path);
+    match format.as_str() {
+        "rar" => Ok(rar::inspect(&archive)),
+        _ => Ok(volumes::VolumeInfo {
+            multipart: false,
+            open_path: path.clone(),
+            selected_path: path,
+            format: "other",
+            hint: "Çok cilt bilgisi şu an RAR için.".into(),
+            can_repair: false,
+        }),
+    }
+}
+
+#[tauri::command]
+fn repair_archive(
+    path: String,
+    dest: String,
+    password: Option<String>,
+) -> Result<ActionResult, String> {
+    let archive = std::path::PathBuf::from(&path);
+    let dest = std::path::PathBuf::from(&dest);
+    rar::repair(&archive, &dest, password.as_deref()).map_err(|e| e.to_string())?;
+    Ok(ActionResult {
+        ok: true,
+        message: format!("Onarım tamamlandı: {}", dest.display()),
+    })
+}
+
+#[tauri::command]
 fn list_archive(
     path: String,
     format: String,
@@ -279,6 +310,8 @@ pub fn run() {
             startup_archives,
             startup_compress_folder,
             evaluate_password,
+            inspect_archive,
+            repair_archive,
             list_archive,
             test_archive,
             extract_archive,

@@ -49,6 +49,15 @@ interface PasswordFeedback {
   hint: string;
 }
 
+interface VolumeInfo {
+  multipart: boolean;
+  open_path: string;
+  selected_path: string;
+  format: string;
+  hint: string;
+  can_repair: boolean;
+}
+
 type AppTab = "archive" | "transition";
 
 const CREATE_FORMATS: Format[] = ["zip", "wlrt"];
@@ -90,6 +99,8 @@ function App() {
   const [tab, setTab] = useState<AppTab>("archive");
   const [platform, setPlatform] = useState<PlatformInfo | null>(null);
   const [transitionStep, setTransitionStep] = useState(0);
+  const [volumeInfo, setVolumeInfo] = useState<VolumeInfo | null>(null);
+  const [repairDir, setRepairDir] = useState("");
 
   const pushJob = useCallback((label: string, status: JobStatus = "running") => {
     const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -198,6 +209,16 @@ function App() {
   }, [createPassword, encryptCreate]);
 
   useEffect(() => {
+    if (!archivePath || format !== "rar") {
+      setVolumeInfo(null);
+      return;
+    }
+    invoke<VolumeInfo>("inspect_archive", { path: archivePath, format })
+      .then(setVolumeInfo)
+      .catch(() => setVolumeInfo(null));
+  }, [archivePath, format]);
+
+  useEffect(() => {
     let unlisten: (() => void) | undefined;
     getCurrentWindow()
       .onDragDropEvent((event) => {
@@ -303,6 +324,35 @@ function App() {
         password: openPassword || null,
       });
       setStatus("Bütünlük testi: OK");
+      finishJob(jobId, true);
+    } catch (e) {
+      setError(String(e));
+      finishJob(jobId, false);
+    }
+  }
+
+  async function pickRepairDir() {
+    const selected = await open({ directory: true, multiple: false });
+    if (selected && typeof selected === "string") {
+      setRepairDir(selected);
+    }
+  }
+
+  async function repairArchive() {
+    setError("");
+    setStatus("");
+    if (!archivePath || !repairDir) {
+      setError("RAR onarım için arşiv ve hedef klasör gerekli.");
+      return;
+    }
+    const jobId = pushJob("RAR onarım (recovery)");
+    try {
+      const res = await invoke<{ message: string }>("repair_archive", {
+        path: archivePath,
+        dest: repairDir,
+        password: openPassword || null,
+      });
+      setStatus(res.message);
       finishJob(jobId, true);
     } catch (e) {
       setError(String(e));
@@ -523,6 +573,21 @@ function App() {
         </div>
         {archivePath && <p className="path">Arşiv: {archivePath}</p>}
         {extractDir && <p className="path">Aç hedefi: {extractDir}</p>}
+        {volumeInfo?.hint && (
+          <p className="status ok volume-hint">{volumeInfo.hint}</p>
+        )}
+        {format === "rar" && volumeInfo?.can_repair && (
+          <div className="row repair-row">
+            <button type="button" className="btn" onClick={pickRepairDir}>
+              Onarım — hedef klasör…
+            </button>
+            <button type="button" className="btn" onClick={repairArchive}>
+              RAR onarım dene
+            </button>
+            <span className="muted inline">UnRAR recovery (beta)</span>
+          </div>
+        )}
+        {repairDir && <p className="path">Onarım hedefi: {repairDir}</p>}
 
         <h3 className="panel-title">Oluştur (ZIP / .wlrt)</h3>
         <div className="row">

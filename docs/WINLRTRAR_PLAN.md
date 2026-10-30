@@ -165,8 +165,9 @@ Taslak: [WINLRTRAR_FAZ3_TRANSITION.md](./WINLRTRAR_FAZ3_TRANSITION.md)
 - [ ] Tam WinRAR menü parity (çoklu dosya, parola ile sıkıştır)
 - [x] Parola + şifreleme UI (beta: ZIP ZipCrypto, .wlrt v1 AES-GCM)
 - [ ] Argon2id + AES-ZIP (WinZip AE-2) — kurumsal kapı
-- [ ] Çok ciltli arşiv, onarım/test
-- [ ] Resmi benchmark yayını (vitrinde özet)
+- [x] Çok ciltli RAR (ilk cilt çözümleme) + onarım (UnRAR `r`, beta)
+- [x] Benchmark vitrin özeti (`/benchmark/`, CI artifact)
+- [ ] Resmi Windows rakip benchmark yayını (kapı)
 - [ ] v1.0 imzalı kurulum
 
 **Kapı:** Benchmark KPI (Bölüm 2) **Windows’ta** karşılandı; 1 kurumsal pilot.

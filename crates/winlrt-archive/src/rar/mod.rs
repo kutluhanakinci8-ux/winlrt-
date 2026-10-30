@@ -8,6 +8,7 @@ use std::path::Path;
 
 use serde::Serialize;
 
+use crate::volumes;
 use crate::Result;
 
 #[derive(Debug, Clone, Serialize)]
@@ -35,17 +36,30 @@ fn dispatch_order() -> Vec<&'static str> {
     order
 }
 
+pub fn inspect(path: &Path) -> volumes::VolumeInfo {
+    volumes::inspect_rar(path)
+}
+
 /// RAR / RAR4 / RAR5 okuma — gömülü UnRAR, CLI, `rar` crate sırası.
 pub fn list(archive: &Path, password: Option<&str>) -> Result<Vec<String>> {
-    try_backends(archive, password, BackendOp::List)
+    let archive = volumes::resolve_rar(archive);
+    try_backends(&archive, password, BackendOp::List)
 }
 
 pub fn extract(archive: &Path, dest: &Path, password: Option<&str>) -> Result<()> {
-    try_backends(archive, password, BackendOp::Extract(dest)).map(|_| ())
+    let archive = volumes::resolve_rar(archive);
+    try_backends(&archive, password, BackendOp::Extract(dest)).map(|_| ())
 }
 
 pub fn test(archive: &Path, password: Option<&str>) -> Result<()> {
-    try_backends(archive, password, BackendOp::Test).map(|_| ())
+    let archive = volumes::resolve_rar(archive);
+    try_backends(&archive, password, BackendOp::Test).map(|_| ())
+}
+
+/// Kurtarma kaydı ile onarım (UnRAR `r` — beta).
+pub fn repair(archive: &Path, dest: &Path, password: Option<&str>) -> Result<()> {
+    let archive = volumes::resolve_rar(archive);
+    cli::repair(&archive, dest, password)
 }
 
 pub(crate) enum BackendOp<'a> {

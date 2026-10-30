@@ -136,6 +136,20 @@ fn cli_extract(archive: &str, dest: &str, password: Option<&str>) -> Result<()> 
     map_cli_output(&output, "açma")
 }
 
+pub fn repair(archive: &Path, dest: &Path, password: Option<&str>) -> Result<()> {
+    std::fs::create_dir_all(dest)?;
+    let archive = path_str(archive)?;
+    let dest = path_str(dest)?;
+    let mut args = vec!["r", "-idq"];
+    let pw = password_args(password);
+    args.extend(pw.iter().map(String::as_str));
+    args.push(archive);
+    args.push(dest);
+    args.push("-y");
+    let output = run_unrar(&args)?;
+    map_cli_output(&output, "onarım")
+}
+
 fn cli_test(archive: &str, password: Option<&str>) -> Result<()> {
     let mut args = vec!["t", "-idq"];
     let pw = password_args(password);
