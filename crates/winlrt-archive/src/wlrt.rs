@@ -16,7 +16,7 @@ const VERSION: u16 = 0;
 const METHOD_ZSTD: u8 = 1;
 const METHOD_ZSTD_ENC: u8 = 2;
 /// Küçük arşivlerde rayon overhead’inden kaçın (text fixture hız KPI).
-const EXTRACT_PARALLEL_MIN_PAYLOAD_BYTES: usize = 256 * 1024;
+const EXTRACT_PARALLEL_MIN_RAW_BYTES: u64 = 256 * 1024;
 
 fn encrypted_wlrt_version() -> u16 {
     crypto::WLRT_KDF_ARGON2ID_V2
@@ -195,10 +195,10 @@ pub fn extract(archive: &Path, dest: &Path, password: Option<&str>) -> Result<()
 
     prepare_extract_dirs(dest, &entries)?;
 
-    let payload_bytes: usize = entries.iter().map(|e| e.payload.len()).sum();
+    let raw_bytes: u64 = entries.iter().map(|e| e.raw_size).sum();
     let parallel = header.salt.is_none()
         && entries.len() > 1
-        && payload_bytes >= EXTRACT_PARALLEL_MIN_PAYLOAD_BYTES;
+        && raw_bytes >= EXTRACT_PARALLEL_MIN_RAW_BYTES;
     if parallel {
         entries.par_iter().try_for_each(|entry| write_decoded_entry(dest, entry))?;
     } else {

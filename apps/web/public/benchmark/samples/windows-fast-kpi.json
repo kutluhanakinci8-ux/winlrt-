@@ -1,7 +1,7 @@
 {
   "profile": "Fast",
   "platform": "windows / x86_64",
-  "generated_at": "1793378475 UTC",
+  "generated_at": "1793380133 UTC",
   "source": "windows-official-ci",
   "disclaimer": "Resmi hız kapısı.",
   "kpi": {
@@ -20,7 +20,7 @@
       {
         "fixture": "mixed",
         "compression_ok": true,
-        "speed_ok": true
+        "speed_ok": false
       },
       {
         "fixture": "office",
@@ -40,7 +40,7 @@
       {
         "fixture": "text",
         "compression_ok": true,
-        "speed_ok": false
+        "speed_ok": true
       }
     ],
     "notes": [

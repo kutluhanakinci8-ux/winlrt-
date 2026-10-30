@@ -16,8 +16,8 @@
 
 ## Kalan
 
-- **Linux `mixed`:** zip 4 ms / wlrt 3 ms → %30 kapısı için wlrt ≤2 ms gerekir (sınırda).
-- **Windows `text`:** resmi koşuda tek kırmızı satır — yeni bench koşusu ile doğrulanacak.
+- **Windows resmi run [41095710700](https://github.com/kutluhanakinci8-ux/winlrt-/actions/runs/41095710700):** `text` ✅ · **`mixed`** 12 ms vs zip 17 ms (kapı için ≤11 ms — 1 ms gap).
+- Paralel açma eşiği **ham byte** toplamına göre düzeltildi (`wlrt.rs`) — sonraki bench ile doğrulanacak.
 
 Doğrulama (kod): `bash scripts/verify-madde-q2.sh`  
 Resmi kapı: `bash scripts/agent-madde-q2-bench.sh` → Windows bench + vitrin import.

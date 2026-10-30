@@ -3,7 +3,7 @@
 | Sıra | Madde | Hedef | Not |
 |------|-------|-------|-----|
 | **Q** | Fast hız KPI izleme | **%100** ✅ | [MADDE_Q](./MADDE_Q_SPEED_KPI.md) |
-| **Q2** | Fast hız KPI performans | **Devam** | [MADDE_Q2_PERF.md](./MADDE_Q2_PERF.md) · `agent-madde-q2-bench.sh` |
+| **Q2** | Fast hız KPI performans | **Devam** | text ✅ · mixed 1 ms (Win) · [MADDE_Q2_PERF.md](./MADDE_Q2_PERF.md) |
 | **R** | Operasyon checklist | **%100** | [WINLRTRAR_POST_MERGE.md](../WINLRTRAR_POST_MERGE.md) güncel |
 | **S** | Explorer NSIS menü | **%100** | ASCII shell etiketleri (CI); Türkçe karakter Faz sonrası |
 | **T** | CI VPS secret rehberi | **%100** | [DALGA1_GITHUB_VPS_SECRET.md](../DALGA1_GITHUB_VPS_SECRET.md) |
