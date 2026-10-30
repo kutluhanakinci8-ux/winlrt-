@@ -7,7 +7,7 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css?v=5" />
   </head>
-  <body>
+  <body data-page-title-key="page.pilot.title">
     <header class="site-header">
       <div class="site-header-inner">
         <a class="logo" href="/">
@@ -22,65 +22,86 @@
           </div>
         </div>
         <nav class="nav" id="main-nav" aria-label="Ana menü">
-          <a href="/#durum">Durum</a>
-          <a href="/downloads/">İndir</a>
-          <a href="/benchmark/">KPI</a>
-          <a class="nav-cta nav-active" href="/pilot/">Pilot</a>
+          <a href="/#durum" data-i18n="nav.status">Durum</a>
+          <a href="/downloads/" data-i18n="nav.download">İndir</a>
+          <a href="/benchmark/" data-i18n="nav.kpi">KPI</a>
+          <a class="nav-cta nav-active" href="/pilot/" data-i18n="nav.pilot">Pilot</a>
         </nav>
       </div>
     </header>
     <main class="container" style="padding: 2rem 1rem 4rem">
-      <span class="section-label">Pilot</span>
-      <h1>winlrtRAR kabul dalgaları</h1>
-      <p class="lead" id="lead">Durum yükleniyor…</p>
+      <span class="section-label" data-i18n="page.pilot.label">Pilot</span>
+      <h1 data-i18n="page.pilot.h1">winlrtRAR kabul dalgaları</h1>
+      <p class="lead" id="lead" data-i18n="pilot.loading">Durum yükleniyor…</p>
       <p class="meta">
-        winlrtZIP KOBİ e-posta pilotu (W13) ayrı rehberdedir —
-        <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/WINLRTZIP_KOBI_PILOT_KOPYA.md"
-          >WINLRTZIP_KOBI_PILOT</a
-        >. Ana vitrin
-        <a href="/#durum">durum tablosu</a>.
+        <span data-i18n="page.pilot.kobiPrefix">winlrtZIP KOBİ e-posta pilotu (W13) ayrı rehberdedir —</span>
+        <a
+          href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/WINLRTZIP_KOBI_PILOT_KOPYA.md"
+          data-i18n="page.pilot.kobiLink"
+          >WINLRTZIP KOBİ pilot</a
+        >.
+        <a href="/#durum" data-i18n="page.pilot.statusTable">Ana vitrin durum tablosu.</a>
       </p>
       <div id="waves" style="display: grid; gap: 1rem; margin: 1.5rem 0"></div>
       <p class="meta" id="meta"></p>
       <p>
-        <a class="btn btn-primary" id="beta-link" href="/downloads/">İndir</a>
-        <a class="btn btn-ghost" id="doc-link" href="#">Aktif dalga rehberi</a>
+        <a class="btn btn-primary" id="beta-link" href="/downloads/" data-i18n="nav.download">İndir</a>
+        <a class="btn btn-ghost" id="doc-link" href="#" data-i18n="pilot.btn.guide">Aktif dalga rehberi</a>
         <a
           class="btn btn-ghost"
+          id="wave2-link"
           href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/DALGA2_TEK_MESAJ.md"
+          data-i18n="pilot.btn.wave2msg"
           >Dalga 2 — tek mesaj</a
         >
       </p>
     </main>
     <footer class="site-footer">
       <div class="container footer-bottom" style="border: none; padding-top: 0">
-        <span>© winlrt</span>
-        <a href="/hakkimizda/">Hakkımızda</a>
-        <a href="/">Ana sayfa</a>
+        <span data-i18n="footer.copy">© winlrt</span>
+        <a href="/hakkimizda/" data-i18n="nav.about">Hakkımızda</a>
+        <a href="/" data-i18n="nav.home">Ana sayfa</a>
       </div>
     </footer>
     <script src="/js/i18n.js"></script>
     <script src="/js/site.js"></script>
     <script>
-      const labels = {
-        1: "Dalga 1 — Deploy / vitrin",
-        2: "Dalga 2 — Explorer QA (Windows)",
-        3: "Dalga 3 — Kurumsal pilot",
-        4: "Dalga 4 — v1.0 kapı",
-      };
-      const stateLabel = (s) =>
-        s === "pass" ? "PASS" : s === "pending" ? "bekliyor" : s;
+      function pt(key) {
+        return window.WinlrtSite ? WinlrtSite.t(key) : key;
+      }
 
-      async function load() {
+      function waveLabels() {
+        return {
+          1: pt("pilot.wave1"),
+          2: pt("pilot.wave2"),
+          3: pt("pilot.wave3"),
+          4: pt("pilot.wave4"),
+        };
+      }
+
+      function stateLabel(s) {
+        if (s === "pass") return pt("pilot.state.pass");
+        if (s === "pending") return pt("pilot.state.pending");
+        return s;
+      }
+
+      async function loadPilot() {
+        const labels = waveLabels();
         const res = await fetch("/pilot/status.json", { cache: "no-store" });
         const data = await res.json();
         const w = data.active_wave || 2;
         const blocker = data.blocker || "";
-        document.getElementById("lead").textContent =
-          "Aktif dalga: " +
+        const lead = document.getElementById("lead");
+        lead.removeAttribute("data-i18n");
+        lead.textContent =
+          pt("pilot.leadPrefix") +
+          " " +
           (labels[w] || w) +
-          (blocker && blocker !== "none" ? " · blok: " + blocker : "") +
-          ". Test sonrası chat şablonunu Cursor agent’a gönderin.";
+          (blocker && blocker !== "none"
+            ? " · " + pt("pilot.blockPrefix") + " " + blocker
+            : "") +
+          ". " +
+          pt("pilot.afterTest");
         const root = document.getElementById("waves");
         const order = [
           ["2_explorer_qa", 2],
@@ -94,12 +115,18 @@
           root.insertAdjacentHTML(
             "beforeend",
             `<article class="card"><h3>${labels[num]}${
-              active ? " ← şimdi" : ""
-            }</h3><p class="meta">Durum: <strong>${stateLabel(st)}</strong></p></article>`
+              active ? pt("pilot.activeNow") : ""
+            }</h3><p class="meta">${pt("pilot.statusWord")}: <strong>${stateLabel(
+              st
+            )}</strong></p></article>`
           );
         }
         document.getElementById("meta").textContent =
-          "Güncelleme: " + (data.generated_at || "") + " · deploy sonrası yenilenir.";
+          pt("pilot.updatedMeta") +
+          " " +
+          (data.generated_at || "") +
+          " " +
+          pt("pilot.updatedSuffix");
         if (data.links && data.links.beta_release) {
           document.getElementById("beta-link").href = data.links.beta_release;
         }
@@ -109,7 +136,9 @@
         if (scriptUrl) {
           root.insertAdjacentHTML(
             "beforeend",
-            `<article class="card"><h3>Windows script</h3><p class="meta"><a href="${scriptUrl}">pilot-dalga${w}-start.ps1</a></p></article>`
+            `<article class="card"><h3>${pt(
+              "pilot.scriptTitle"
+            )}</h3><p class="meta"><a href="${scriptUrl}">pilot-dalga${w}-start.ps1</a></p></article>`
           );
         }
         const doc =
@@ -120,11 +149,18 @@
               : data.links.dalga2_doc;
         const a = document.getElementById("doc-link");
         a.href = doc;
-        a.textContent = w === 3 ? "Kurumsal ZIP" : "Rehber (GitHub)";
+        a.textContent =
+          w === 3 ? pt("pilot.btn.corporateZip") : pt("pilot.btn.githubGuide");
       }
-      load().catch(() => {
-        document.getElementById("lead").textContent =
-          "status.json yüklenemedi — deploy/build sonrası tekrar deneyin.";
+
+      loadPilot().catch(function () {
+        const lead = document.getElementById("lead");
+        lead.removeAttribute("data-i18n");
+        lead.textContent = pt("pilot.loadError");
+      });
+
+      window.addEventListener("winlrt:lang", function () {
+        loadPilot().catch(function () {});
       });
     </script>
   </body>

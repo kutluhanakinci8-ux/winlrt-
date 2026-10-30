@@ -25,3 +25,5 @@ shot() {
 
 shot "$SRC/winlrtzip-mock.html" "$OUT/tauri-winlrtzip-main.png"
 shot "$SRC/winlrtrar-mock.html" "$OUT/tauri-winlrtrar-main.png"
+shot "$SRC/winlrtrar-installer-mock.html" "$OUT/installer-winlrtrar-setup.png"
+shot "$SRC/winlrtzip-installer-mock.html" "$OUT/installer-winlrtzip-setup.png"

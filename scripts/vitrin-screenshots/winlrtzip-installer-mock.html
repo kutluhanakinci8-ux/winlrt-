@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <title>winlrtZIP Setup</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #1e3a5f;
+        font-family: "Segoe UI", system-ui, sans-serif;
+      }
+      .wizard {
+        width: 503px;
+        background: #f3f3f3;
+        border: 1px solid #888;
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+      }
+      .title {
+        background: linear-gradient(180deg, #fff, #ececec);
+        padding: 8px 12px;
+        font-size: 12px;
+        border-bottom: 1px solid #ccc;
+      }
+      .body {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        min-height: 280px;
+      }
+      .side {
+        background: #fff;
+        border-right: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .main {
+        padding: 20px 24px;
+        background: #fff;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+      p {
+        margin: 0 0 12px;
+        font-size: 13px;
+        color: #444;
+        line-height: 1.45;
+      }
+      .badge {
+        display: inline-block;
+        font-size: 11px;
+        background: #fef3c7;
+        color: #92400e;
+        padding: 2px 8px;
+        border-radius: 4px;
+        margin-bottom: 8px;
+      }
+      .foot {
+        padding: 10px 12px;
+        background: #f3f3f3;
+        border-top: 1px solid #ccc;
+        text-align: right;
+      }
+      button {
+        min-width: 75px;
+        padding: 4px 14px;
+        margin-left: 6px;
+        font-size: 12px;
+      }
+      .primary {
+        border: 1px solid #2563eb;
+        background: #2563eb;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wizard">
+      <div class="title">winlrtZIP 0.1.0 Setup (beta)</div>
+      <div class="body">
+        <div class="side">
+          <svg width="72" height="72" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="14" fill="#2563eb" />
+            <path d="M18 44V20l14 10.5L46 20v24h-6.2V28.8L32 37.2 24.2 28.8V44H18z" fill="#fff" />
+          </svg>
+        </div>
+        <div class="main">
+          <span class="badge">Beta · imzasız</span>
+          <h1>winlrtZIP kurulumu</h1>
+          <p>
+            ZIP/ZIP64, AES-256, Explorer sağ tık ve e-posta eki profili. SmartScreen uyarısı
+            görülebilir — resmi imza sürümü yol haritasında.
+          </p>
+        </div>
+      </div>
+      <div class="foot">
+        <button>İptal</button>
+        <button class="primary">İleri &gt;</button>
+      </div>
+    </div>
+  </body>
+</html>
