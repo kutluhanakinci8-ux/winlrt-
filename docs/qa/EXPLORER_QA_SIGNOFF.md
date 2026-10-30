@@ -4,8 +4,8 @@ Checklist: [WINLRTRAR_EXPLORER_QA.md](../WINLRTRAR_EXPLORER_QA.md)
 
 | Alan | Değer |
 |------|--------|
-| Tarih | |
-| Beta sürüm / Release | |
+| Tarih | _(pilot doldurur)_ |
+| Beta sürüm / Release | [winlrt-rar-beta.41064653814](https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.41064653814) |
 | Pilot makine OS | |
 | Kurulum dosyası SHA256 | |
 | QA yapan | |

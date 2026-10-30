@@ -2,7 +2,8 @@
 
 ## 1. Beta indir
 
-1. https://github.com/kutluhanakinci8-ux/winlrt-/releases (en yeni **winlrtRAR Beta** / `winlrt-rar-beta.*`)
+1. **Güncel beta:** https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.41064653814  
+   (`winlrtRAR_0.1.0_x64-setup.exe`)
 2. Veya Actions → **winlrtRAR Windows beta build** → artifact **winlrt-rar-windows-bundle**
 3. Kur: `winlrtRAR_*_x64-setup.exe` (SmartScreen uyarısı — imza secret yoksa normal)
 
