@@ -13,22 +13,27 @@ mod win32 {
     use std::sync::Mutex;
 
     use windows::core::w;
-    use windows::Win32::Foundation::{HWND, LPARAM, LRESULT, WPARAM};
+    use windows::Win32::Foundation::{HINSTANCE, HWND, LPARAM, LRESULT, WPARAM};
     use windows::Win32::System::LibraryLoader::GetModuleHandleW;
     use windows::Win32::UI::WindowsAndMessaging::{
         CreateWindowExW, DefWindowProcW, DestroyWindow, DispatchMessageW, GetMessageW,
-        GetWindowTextLengthW, GetWindowTextW, PostQuitMessage, RegisterClassW, ShowWindow,
+        GetWindowTextLengthW, GetWindowTextW, HMENU, PostQuitMessage, RegisterClassW, ShowWindow,
         TranslateMessage, CS_HREDRAW, CS_VREDRAW, CW_USEDEFAULT, ES_PASSWORD, MSG, SW_SHOW,
         WINDOW_EX_STYLE, WINDOW_STYLE, WM_CLOSE, WM_COMMAND, WM_CREATE, WM_DESTROY, WNDCLASSW,
         WS_BORDER, WS_CAPTION, WS_CHILD, WS_POPUP, WS_SYSMENU, WS_TABSTOP, WS_VISIBLE,
     };
+
+    fn app_instance() -> HINSTANCE {
+        unsafe { HINSTANCE(GetModuleHandleW(None).unwrap_or_default().0) }
+    }
 
     const ID_OK: usize = 1002;
     const ID_CANCEL: usize = 1003;
 
     static PROMPT_TEXT: Mutex<Option<String>> = Mutex::new(None);
     static RESULT: Mutex<Option<Option<String>>> = Mutex::new(None);
-    static EDIT_HWND: Mutex<Option<HWND>> = Mutex::new(None);
+    /// HWND raw handle — `HWND` is not `Send`; store as `isize` for the message-loop thread.
+    static EDIT_HWND: Mutex<Option<isize>> = Mutex::new(None);
 
     unsafe extern "system" fn wnd_proc(
         hwnd: HWND,
@@ -55,7 +60,7 @@ mod win32 {
                     20,
                     hwnd,
                     None,
-                    GetModuleHandleW(None).ok(),
+                    app_instance(),
                     None,
                 );
                 if let Ok(edit) = CreateWindowExW(
@@ -69,11 +74,11 @@ mod win32 {
                     24,
                     hwnd,
                     None,
-                    GetModuleHandleW(None).ok(),
+                    app_instance(),
                     None,
                 ) {
                     if let Ok(mut slot) = EDIT_HWND.lock() {
-                        *slot = Some(edit);
+                        *slot = Some(edit.0 as isize);
                     }
                 }
                 let _ = CreateWindowExW(
@@ -86,8 +91,8 @@ mod win32 {
                     80,
                     28,
                     hwnd,
-                    windows::Win32::Foundation::HMENU(ID_OK as _),
-                    GetModuleHandleW(None).ok(),
+                    HMENU(ID_OK as _),
+                    app_instance(),
                     None,
                 );
                 let _ = CreateWindowExW(
@@ -100,8 +105,8 @@ mod win32 {
                     80,
                     28,
                     hwnd,
-                    windows::Win32::Foundation::HMENU(ID_CANCEL as _),
-                    GetModuleHandleW(None).ok(),
+                    HMENU(ID_CANCEL as _),
+                    app_instance(),
                     None,
                 );
                 LRESULT(0)
@@ -110,7 +115,8 @@ mod win32 {
                 let id = wparam.0 as usize;
                 if id == ID_OK {
                     if let Ok(guard) = EDIT_HWND.lock() {
-                        if let Some(edit) = *guard {
+                        if let Some(raw) = *guard {
+                            let edit = HWND(raw as _);
                             let len = GetWindowTextLengthW(edit) as usize;
                             let mut buf = vec![0u16; len + 1];
                             let read = GetWindowTextW(edit, &mut buf);
@@ -161,7 +167,7 @@ mod win32 {
             let class_name = w!("WinlrtPasswordDlg");
             let wc = WNDCLASSW {
                 lpfnWndProc: Some(wnd_proc),
-                hInstance: GetModuleHandleW(None).ok().into(),
+                hInstance: app_instance(),
                 lpszClassName: class_name,
                 style: CS_HREDRAW | CS_VREDRAW,
                 ..Default::default()
@@ -180,7 +186,7 @@ mod win32 {
                 150,
                 None,
                 None,
-                GetModuleHandleW(None).ok(),
+                app_instance(),
                 None,
             );
             let Ok(hwnd) = hwnd else {
