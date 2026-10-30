@@ -7,7 +7,7 @@
 | 1 | `scripts/windows/pilot-dalga2-start.ps1` **veya** [Beta setup](https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.41064653814) kur |
 | 2 | `scripts/windows/explorer-qa-preflight.ps1` — **SHA256** kopyala |
 | 3 | [DALGA2_EXPLORER_QA_KOPYA.md](./DALGA2_EXPLORER_QA_KOPYA.md) tüm kutular |
-| 4 | Chat şablonu: [PILOT_CHAT_SABLONLARI.md](./PILOT_CHAT_SABLONLARI.md) (**QA bitti** + SHA256 + OS) |
+| 4 | [DALGA2_TEK_MESAJ.md](./DALGA2_TEK_MESAJ.md) yapıştır (**QA bitti** + SHA256 + OS) |
 
 Agent: `scripts/agent-explorer-signoff.sh` (ortam: `EXPLORER_QA_OS`, `EXPLORER_QA_SHA256`, `EXPLORER_QA_BY`) → commit · push · deploy → **Dalga 3**.
 
