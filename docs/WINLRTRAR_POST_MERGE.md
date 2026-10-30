@@ -1,6 +1,7 @@
 # winlrt — `main` merge sonrası sıra (15 dk checklist)
 
-Merge tamamlandıktan sonra **bu sırayı** izleyin. Özet durum: [WINLRTRAR_DURUM.md](./WINLRTRAR_DURUM.md).
+Merge tamamlandıktan sonra **bu sırayı** izleyin. Özet durum: [WINLRTRAR_DURUM.md](./WINLRTRAR_DURUM.md).  
+Workflow listesi: [WINLRTRAR_GITHUB_RUNBOOK.md](./WINLRTRAR_GITHUB_RUNBOOK.md).
 
 ## 1. GitHub Actions (otomatik)
 

@@ -26,6 +26,7 @@
 ## Agent’ın son dalı
 
 - `cursor/bench-large-kpi-explorer-ea18` — mixed fixture, KPI strict variable, Explorer QA, merge rehberi
-- Devam dalı: `cursor/signing-banner-status-ea18` — imza secret script, vitrin KPI şeridi, bu özet
+- Son dal: `cursor/post-merge-vitrin-ci-ea18` — post-merge rehber, vitrin KPI workflow  
+- Sıradaki merge ucu: `cursor/pilot-runbook-ea18` — pilot kickoff + Actions runbook
 
 Tam checklist: [WINLRTRAR_PRODUCTION_CHECKLIST.md](./WINLRTRAR_PRODUCTION_CHECKLIST.md)
