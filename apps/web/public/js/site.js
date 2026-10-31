@@ -24,7 +24,11 @@
 
   function t(key, lang) {
     var d = dict(lang || getLang());
-    return d[key] != null ? d[key] : key;
+    var val = d[key] != null ? d[key] : key;
+    if (key === "footer.copy" && val.indexOf("{year}") !== -1) {
+      val = val.replace("{year}", String(new Date().getFullYear()));
+    }
+    return val;
   }
 
   function applyI18n(lang) {
@@ -158,6 +162,9 @@
   };
 
   document.addEventListener("DOMContentLoaded", function () {
+    if (typeof window.mountSiteFooter === "function") {
+      window.mountSiteFooter();
+    }
     initMenu();
     initTheme();
     initLang();

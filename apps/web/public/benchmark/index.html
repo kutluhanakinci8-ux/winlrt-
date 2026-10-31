@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Lertiva — Benchmark özeti (Faz 3)</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/styles.css?v=5" />
+    <link rel="stylesheet" href="/styles.css?v=6" />
   </head>
   <body data-page-title-key="page.benchmark.title">
     <header class="site-header">
@@ -427,13 +427,8 @@ cargo run -p lertiva-archive -- bench --all --profile fast --json --zip-kpi</cod
       loadKpiSamples();
       loadIntegrationSamples();
     </script>
-    <footer class="site-footer">
-      <div class="container footer-bottom" style="border: none; padding-top: 2rem">
-        <span>© Lertiva</span>
-        <a href="/kvkk/">KVKK</a>
-        <a href="/">Ana sayfa</a>
-      </div>
-    </footer>
+    <footer class="site-footer" data-site-footer></footer>
+    <script src="/js/footer.js"></script>
     <script src="/js/i18n.js"></script>
     <script src="/js/site.js"></script>
   </body>
