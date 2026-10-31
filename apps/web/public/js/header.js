@@ -65,7 +65,7 @@
       { href: "/destek/", key: "nav.drop.allSupport" },
       { href: "/iletisim/", key: "nav.contact" },
       { href: "/kvkk/", key: "nav.kvkk" },
-      { href: "/downloads/#imza", key: "nav.drop.signing" },
+      { href: "/destek/smartscreen-imza/", key: "nav.drop.signing" },
       { href: "/hakkimizda/", key: "nav.about" },
     ]);
 

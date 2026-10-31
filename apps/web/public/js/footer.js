@@ -76,7 +76,7 @@
         link("/kvkk/", "footer.link.kvkk") +
           link("/hakkimizda/", "footer.link.about") +
           link("/iletisim/", "footer.link.imprint") +
-          link("/downloads/#imza", "footer.link.signing") +
+          link("/destek/smartscreen-imza/", "footer.link.signing") +
           link("/kvkk/#cerez", "footer.link.cookies")
       ) +
       "</div>" +

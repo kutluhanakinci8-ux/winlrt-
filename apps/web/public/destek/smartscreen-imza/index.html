@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SmartScreen &amp; kod imzası — Lertiva</title>
+    <meta
+      name="description"
+      content="Windows SmartScreen, Authenticode ve kurumsal imza yol haritası — Lertiva Arc resmi sürüm ve EV/OV güven pisti."
+    />
+    <link rel="icon" href="/favicon.svg?v=11" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css?v=15" />
+  </head>
+  <body data-page-title-key="page.signing.title">
+    <div data-site-header></div>
+
+    <section class="page-banner page-banner--signing">
+      <div class="page-banner-bg" style="background-image: url(/assets/stock/feature-security.jpg)"></div>
+      <div class="container">
+        <span class="section-label" data-i18n="page.signing.label">Güven &amp; dağıtım</span>
+        <h1 data-i18n="page.signing.h1">SmartScreen ve kod imzası</h1>
+        <p class="lead" data-i18n="page.signing.heroLead"></p>
+        <div class="signing-trust-chips" aria-hidden="true">
+          <span class="signing-chip" data-i18n="page.signing.chip1">Authenticode</span>
+          <span class="signing-chip" data-i18n="page.signing.chip2">Kurumsal IT</span>
+          <span class="signing-chip" data-i18n="page.signing.chip3">Şeffaf durum</span>
+        </div>
+      </div>
+    </section>
+
+    <main class="page-shell">
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <span class="section-label" data-i18n="page.signing.tracks.label">İki paralel hat</span>
+            <h2 data-i18n="page.signing.tracks.title">Resmi sürüm ve güvenilir imza pisti</h2>
+            <p data-i18n="page.signing.tracks.lead"></p>
+          </div>
+          <div class="signing-track-grid">
+            <article class="card signing-track-card signing-track-card--a">
+              <span class="signing-track-badge" data-i18n="page.signing.trackA.badge">Hat A</span>
+              <h3 data-i18n="page.signing.trackA.title">Resmi Windows kurulumu</h3>
+              <p data-i18n="page.signing.trackA.body"></p>
+              <ul class="signing-checklist meta">
+                <li data-i18n="page.signing.trackA.l1">Lertiva Arc v1.0.1 — GitHub Releases</li>
+                <li data-i18n="page.signing.trackA.l2">İmza yoksa SmartScreen bilgilendirmesi beklenir</li>
+                <li data-i18n="page.signing.trackA.l3">Kurumsal pilot: GPO + kullanıcı rehberi</li>
+              </ul>
+              <a class="btn btn-primary" href="/downloads/" data-i18n="page.signing.trackA.cta">İndirme merkezi</a>
+            </article>
+            <article class="card signing-track-card signing-track-card--b">
+              <span class="signing-track-badge signing-track-badge--gold" data-i18n="page.signing.trackB.badge">Hat B</span>
+              <h3 data-i18n="page.signing.trackB.title">EV/OV Authenticode</h3>
+              <p data-i18n="page.signing.trackB.body"></p>
+              <ul class="signing-checklist meta">
+                <li data-i18n="page.signing.trackB.l1">CI: signtool + sertifika secret’ları</li>
+                <li data-i18n="page.signing.trackB.l2">SmartScreen güveni — kurumsal PFX ile</li>
+                <li data-i18n="page.signing.trackB.l3">Yeni tag ile imzalı resmi yayın</li>
+              </ul>
+              <a class="btn btn-ghost" href="/benchmark/" data-i18n="page.signing.trackB.cta">G2 KPI panosu</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="feature-split">
+            <div>
+              <span class="section-label" data-i18n="page.signing.smartscreen.label">SmartScreen</span>
+              <h2 data-i18n="page.signing.smartscreen.title">Kullanıcı ne görür, IT ne yapar?</h2>
+              <p data-i18n="page.signing.smartscreen.body"></p>
+              <ol class="signing-steps">
+                <li>
+                  <strong data-i18n="page.signing.step1.title">Daha fazla bilgi</strong>
+                  <span data-i18n="page.signing.step1.body"></span>
+                </li>
+                <li>
+                  <strong data-i18n="page.signing.step2.title">Yine de çalıştır</strong>
+                  <span data-i18n="page.signing.step2.body"></span>
+                </li>
+                <li>
+                  <strong data-i18n="page.signing.step3.title">Kurumsal dağıtım</strong>
+                  <span data-i18n="page.signing.step3.body"></span>
+                </li>
+              </ol>
+            </div>
+            <figure class="signing-screenshot-wrap">
+              <img
+                src="/assets/gallery/smartscreen-lertiva.png"
+                alt=""
+                loading="lazy"
+                width="640"
+                height="400"
+              />
+              <figcaption class="about-media-caption">
+                <span data-i18n="page.signing.screenshot.caption"></span>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <span class="section-label" data-i18n="page.signing.status.label">Canlı durum</span>
+            <h2 data-i18n="page.signing.status.title">G2 imza kapısı (vitrin)</h2>
+            <p class="meta" id="signing-gate-meta" data-i18n="page.signing.status.loading">Durum yükleniyor…</p>
+          </div>
+          <div class="signing-status-grid" id="signing-gate-grid"></div>
+          <p class="meta" style="margin-top: 1rem">
+            <a href="/benchmark/samples/lertiva-windows-signing-gate.json" data-i18n="page.signing.status.json">G2 JSON</a>
+            ·
+            <a href="/benchmark/samples/lertiva-ev-ov-signing-gate.json" data-i18n="page.signing.status.evJson">EV/OV JSON</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="trust-quote">
+            <div>
+              <span class="section-label" data-i18n="page.signing.it.label">Kurumsal IT</span>
+              <h2 data-i18n="page.signing.it.title">Pilot ve toplu dağıtım</h2>
+              <p data-i18n="page.signing.it.body"></p>
+              <p style="margin-top: 1.25rem">
+                <a href="/pilot/" data-i18n="nav.pilot">Pilot</a>
+                ·
+                <a href="/benchmark/corporate/" data-i18n="nav.drop.gpoArc">Kurumsal pano</a>
+                ·
+                <a href="/guven/" data-i18n="nav.guven">Güven merkezi</a>
+              </p>
+            </div>
+            <img src="/assets/stock/hero-workspace.jpg" alt="" loading="lazy" />
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container" style="max-width: 44rem">
+          <h2 data-i18n="page.signing.faq.title">Sık sorulan sorular</h2>
+          <div class="faq-list">
+            <details open>
+              <summary data-i18n="page.signing.faq.q1">İmzasız kurulum güvenli mi?</summary>
+              <p data-i18n="page.signing.faq.a1"></p>
+            </details>
+            <details>
+              <summary data-i18n="page.signing.faq.q2">SmartScreen ne zaman kaybolur?</summary>
+              <p data-i18n="page.signing.faq.a2"></p>
+            </details>
+            <details>
+              <summary data-i18n="page.signing.faq.q3">Arşiv içi imza (Ed25519) farklı mı?</summary>
+              <p data-i18n="page.signing.faq.a3"></p>
+            </details>
+            <details>
+              <summary data-i18n="page.signing.faq.q4">macOS notarize?</summary>
+              <p data-i18n="page.signing.faq.a4"></p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="container" style="text-align: center; max-width: 40rem">
+          <h2 data-i18n="page.signing.cta.title">Kurumsal imza veya basın</h2>
+          <p data-i18n="page.signing.cta.body"></p>
+          <p style="margin-top: 1.5rem">
+            <a class="btn btn-primary" href="/iletisim/" data-i18n="nav.contact">İletişim</a>
+            <a class="btn btn-ghost" href="/destek/" style="margin-left: 0.5rem" data-i18n="nav.drop.allSupport">Destek merkezi</a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" data-site-footer></footer>
+    <script src="/js/header.js?v=11"></script>
+    <script src="/js/footer.js?v=11"></script>
+    <script src="/js/i18n.js?v=15"></script>
+    <script src="/js/site.js?v=11"></script>
+    <script>
+      (function () {
+        function pill(ok, label) {
+          var cls = ok === true ? "signing-pill signing-pill--ok" : ok === false ? "signing-pill signing-pill--warn" : "signing-pill";
+          var t = ok === true ? "✓" : ok === false ? "…" : "—";
+          return '<span class="' + cls + '">' + t + " " + label + "</span>";
+        }
+        function gateCard(title, pass, note) {
+          return (
+            '<article class="card signing-gate-card"><h3>' +
+            title +
+            '</h3><p class="meta">' +
+            (note || "") +
+            "</p>" +
+            pill(pass, pass ? "GEÇTİ" : "izleniyor") +
+            "</article>"
+          );
+        }
+        fetch("/benchmark/samples/lertiva-windows-signing-gate.json", { cache: "no-store" })
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (data) {
+            var g = data.gates || {};
+            var grid = document.getElementById("signing-gate-grid");
+            grid.innerHTML =
+              gateCard("Zip CI imza", g.ci_zip_signed_build && g.ci_zip_signed_build.pass, g.ci_zip_signed_build && g.ci_zip_signed_build.workflow) +
+              gateCard("Arc CI imza", g.ci_arc_signed_build && g.ci_arc_signed_build.pass, g.ci_arc_signed_build && g.ci_arc_signed_build.workflow) +
+              gateCard("İmza hattı", g.signing_pipeline && g.signing_pipeline.pass, g.signing_pipeline && g.signing_pipeline.note) +
+              gateCard("SmartScreen vitrin", g.vitrin_smartscreen_real && g.vitrin_smartscreen_real.pass, g.vitrin_smartscreen_real && g.vitrin_smartscreen_real.note);
+            document.getElementById("signing-gate-meta").textContent =
+              (data.disclaimer || "") + " · " + (data.generated_at || "") + " · " + (data.ev_ov_next || "");
+          })
+          .catch(function () {
+            document.getElementById("signing-gate-meta").textContent = "G2 özeti yüklenemedi.";
+          });
+      })();
+    </script>
+  </body>
+</html>

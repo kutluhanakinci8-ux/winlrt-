@@ -806,6 +806,178 @@ a.card.hub-teaser:hover {
   background: rgba(0, 0, 0, 0.2);
 }
 
+.page-banner--signing .lead {
+  max-width: 36rem;
+}
+
+.signing-trust-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+.signing-chip {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  background: rgba(56, 189, 248, 0.08);
+  color: var(--accent);
+}
+
+.signing-track-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .signing-track-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.signing-track-card {
+  position: relative;
+  padding-top: 2.5rem;
+}
+
+.signing-track-card--b {
+  border-color: rgba(234, 179, 8, 0.25);
+  box-shadow: 0 0 0 1px rgba(234, 179, 8, 0.08);
+}
+
+.signing-track-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1.25rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.signing-track-badge--gold {
+  color: #eab308;
+}
+
+.signing-track-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  margin: 0 0 0.75rem;
+}
+
+.signing-checklist {
+  margin: 1rem 0 1.25rem;
+  padding-left: 1.1rem;
+}
+
+.signing-checklist li {
+  margin-bottom: 0.35rem;
+}
+
+.signing-steps {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 0;
+  counter-reset: signing-step;
+}
+
+.signing-steps li {
+  position: relative;
+  padding-left: 2.75rem;
+  margin-bottom: 1.25rem;
+  counter-increment: signing-step;
+}
+
+.signing-steps li::before {
+  content: counter(signing-step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-radius: 50%;
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--accent);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+}
+
+.signing-steps strong {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.signing-steps span {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.signing-screenshot-wrap {
+  margin: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-glow);
+}
+
+.signing-screenshot-wrap img {
+  width: 100%;
+  display: block;
+}
+
+.signing-status-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .signing-status-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .signing-status-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.signing-gate-card h3 {
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+}
+
+.signing-pill {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.signing-pill--ok {
+  border-color: rgba(34, 197, 94, 0.45);
+  color: #4ade80;
+}
+
+.signing-pill--warn {
+  border-color: rgba(234, 179, 8, 0.45);
+  color: #facc15;
+}
+
 /* —— Hero —— */
 .hero {
   padding: 4.5rem 0 5rem;
