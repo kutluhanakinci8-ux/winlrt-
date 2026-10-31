@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-31T09:44:06Z",
+  "generated_at": "2026-10-31T09:58:29Z",
   "active_wave": 4,
   "blocker": "none",
   "waves": {
@@ -9,7 +9,7 @@
     "4_v1": "pass"
   },
   "links": {
-    "beta_release": "https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.0",
+    "beta_release": "https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.1",
     "dalga2_doc": "https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/DALGA2_PILOT_OTURUM.md",
     "corporate_zip": "/downloads/lertiva-arc-corporate-gpo.zip",
     "chat_templates": "https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/PILOT_CHAT_SABLONLARI.md",
