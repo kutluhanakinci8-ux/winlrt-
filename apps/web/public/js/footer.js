@@ -8,7 +8,7 @@
       '<div class="footer-grid">' +
       '<div class="footer-brand">' +
       '<a class="logo footer-logo" href="/">' +
-      '<img class="logo-img" src="/assets/logo-mark.svg?v=10" width="56" height="56" alt="" />' +
+      '<img class="logo-img" src="/assets/logo-mark.svg?v=11" width="112" height="112" alt="" />' +
       '<span>Lertiva</span></a>' +
       '<p class="footer-eyebrow" data-i18n="footer.eyebrow">Yerli arşiv yazılımı</p>' +
       '<p data-i18n="footer.tagline"></p>' +
