@@ -57,6 +57,7 @@ all_pass=true
 if [[ -n "$speed_gate" ]]; then
   [[ "$speed_gate" == "true" ]] || all_pass=false
 else
+  echo "::warning::Hız KPI ölçülmedi (7-Zip/WinRAR referansı yok); resmi Windows bench gerekir."
   all_pass=false
 fi
 

@@ -50,7 +50,11 @@ jobs:
         run: |
           function Write-BenchJson {
             param([string[]]$CargoArgs, [string]$OutPath)
-            cargo run -p lertiva-archive --release -- @CargoArgs 2>$null | Set-Content -Path $OutPath -Encoding utf8NoBOM
+            $raw = (cargo run -p lertiva-archive --release -- @CargoArgs 2>$null | Out-String).Trim()
+            $start = $raw.IndexOf('{')
+            $end = $raw.LastIndexOf('}')
+            if ($start -lt 0 -or $end -lt $start) { throw "Bench JSON bulunamadi" }
+            $raw.Substring($start, $end - $start + 1) | Set-Content -Path $OutPath -Encoding utf8NoBOM
           }
           function Write-BenchMd {
             param([string[]]$CargoArgs, [string]$OutPath)

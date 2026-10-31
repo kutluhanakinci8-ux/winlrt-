@@ -1,5 +1,5 @@
 use std::path::{Path, PathBuf};
-use std::process::Command;
+use std::process::{Command, Stdio};
 use std::time::{Duration, Instant};
 
 use serde::Serialize;
@@ -267,12 +267,20 @@ fn which_7z_via_path() -> Option<PathBuf> {
 
 #[cfg(not(windows))]
 fn seven_zip_exe() -> Option<PathBuf> {
-    Command::new("7z")
-        .arg("--help")
+    let out = Command::new("sh")
+        .args(["-c", "command -v 7z"])
         .output()
-        .ok()
-        .filter(|o| o.status.success())
-        .map(|_| PathBuf::from("7z"))
+        .ok()?;
+    if !out.status.success() {
+        return None;
+    }
+    let line = String::from_utf8_lossy(&out.stdout);
+    let path = line.lines().next()?.trim();
+    if path.is_empty() {
+        None
+    } else {
+        Some(PathBuf::from(path))
+    }
 }
 
 fn seven_zip_level(profile: CompressionProfile) -> &'static str {
@@ -297,26 +305,41 @@ fn bench_7zip_zip(fixture: &Path, work: &Path, profile: CompressionProfile) -> R
     })?;
     let archive = work.join("7z-out.zip");
     let extract_dir = work.join("7z-extract");
+    let _ = std::fs::remove_file(&archive);
     let level = seven_zip_level(profile);
     let t0 = Instant::now();
     let mut src = fixture.display().to_string();
-    if fixture.is_dir() {
+    if fixture.is_dir() && !src.ends_with(std::path::MAIN_SEPARATOR) {
         src.push(std::path::MAIN_SEPARATOR);
     }
-    let status = Command::new(&exe)
+    let mx = format!("-mx{level}");
+    let create_out = Command::new(&exe)
         .args([
             "a",
             "-tzip",
-            "-mx",
-            level,
+            mx.as_str(),
+            "-bd",
+            "-bsp0",
+            "-ssw",
             "-y",
             &archive.to_string_lossy(),
             &src,
         ])
-        .status()
-        .map_err(|e| crate::ArchiveError::Io(e))?;
-    if !status.success() {
-        return Err(crate::ArchiveError::Zip("7-Zip oluşturma başarısız".into()));
+        .stdout(Stdio::null())
+        .stderr(Stdio::piped())
+        .output()
+        .map_err(crate::ArchiveError::Io)?;
+    if !create_out.status.success() {
+        let ok_file = archive.is_file()
+            && std::fs::metadata(&archive).map(|m| m.len()).unwrap_or(0) > 0;
+        if !ok_file {
+            let err = String::from_utf8_lossy(&create_out.stderr);
+            return Err(crate::ArchiveError::Zip(format!(
+                "7-Zip oluşturma başarısız (arc={} src={}): {err}",
+                archive.display(),
+                src
+            )));
+        }
     }
     let create_ms = t0.elapsed().as_millis();
     let bytes = std::fs::metadata(&archive)?.len();
@@ -327,8 +350,12 @@ fn bench_7zip_zip(fixture: &Path, work: &Path, profile: CompressionProfile) -> R
             "x",
             &archive.to_string_lossy(),
             &format!("-o{}", extract_dir.display()),
+            "-bd",
+            "-bsp0",
             "-y",
         ])
+        .stdout(Stdio::null())
+        .stderr(Stdio::null())
         .status()
         .map_err(|e| crate::ArchiveError::Io(e))?;
     if !status.success() {
@@ -469,10 +496,10 @@ fn bench_winrar_zip(fixture: &Path, work: &Path, profile: CompressionProfile) ->
         }
     }
     let t0 = Instant::now();
+    // `.zip` uzantısı ZIP formatını seçer; `-afzip` yeni WinRAR sürümlerinde reddedilebilir.
     let status = Command::new(&exe)
         .args([
             "a",
-            "-afzip",
             "-m",
             level,
             "-r",
@@ -637,7 +664,11 @@ pub fn evaluate_kpi(suite: &BenchSuite) -> BenchKpiSummary {
     BenchKpiSummary {
         compression_gate: total > 0 && compression_pass == total,
         speed_gate: if speed_kpi {
-            Some(speed_total > 0 && speed_pass == speed_total)
+            if speed_total == 0 {
+                None
+            } else {
+                Some(speed_pass == speed_total)
+            }
         } else {
             None
         },
@@ -700,7 +731,11 @@ pub fn evaluate_zip_product_kpi(suite: &BenchSuite) -> BenchKpiSummary {
     BenchKpiSummary {
         compression_gate: total > 0 && compression_pass == total,
         speed_gate: if speed_kpi {
-            Some(speed_total > 0 && speed_pass == speed_total)
+            if speed_total == 0 {
+                None
+            } else {
+                Some(speed_pass == speed_total)
+            }
         } else {
             None
         },
@@ -772,22 +807,20 @@ fn zip_product_extract_reference_ms(r: &BenchReport) -> u128 {
 }
 
 fn zip_product_speed_applicable(r: &BenchReport) -> bool {
-    let has_ref = r.seven_zip_extract_ms.is_some()
-        || r.winrar_extract_ms.is_some()
-        || r.winzip_extract_ms.is_some();
-    has_ref || r.zip_extract_ms > 0
+    zip_product_extract_reference_ms(r) > 0
 }
 
 fn zip_product_speed_ok(r: &BenchReport) -> bool {
     let reference = zip_product_extract_reference_ms(r);
     if reference == 0 {
-        return r.zip_extract_ms == 0;
+        return false;
     }
     if r.zip_extract_ms > reference {
         return false;
     }
     let target = reference as f64 * 0.70;
     if target < 1.0 {
+        // Sub-ms gürültü: en az rakip kadar hızlı yeterli.
         return true;
     }
     r.zip_extract_ms <= target.floor() as u128
@@ -1030,6 +1063,22 @@ mod tests {
         };
         let kpi = evaluate_kpi(&suite);
         assert_eq!(kpi.rows[0].speed_ok, Some(true));
+    }
+
+    #[test]
+    fn run_includes_7zip_when_enabled() {
+        std::env::set_var("WINLRT_BENCH_INCLUDE_7Z", "1");
+        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../benchmarks/fixtures/text");
+        let fixture = root.canonicalize().expect("text fixture");
+        let work = std::env::temp_dir().join(format!("7z-bench-test-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&work);
+        std::fs::create_dir_all(&work).unwrap();
+        let input = prepare_bench_input(&fixture, &work).expect("input");
+        let m = bench_7zip_zip(&input, &work, CompressionProfile::Fast)
+            .expect("7-Zip bench");
+        assert!(m.bytes > 0 && m.extract_ms > 0);
+        let report = run(&fixture, CompressionProfile::Fast).expect("bench run");
+        assert!(report.seven_zip_extract_ms.is_some());
     }
 
     #[test]
