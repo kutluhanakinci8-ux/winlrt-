@@ -73,7 +73,7 @@
       '<header class="site-header">' +
       '<div class="site-header-inner">' +
       '<a class="logo" href="/">' +
-      '<img class="logo-img" src="/assets/logo-mark.svg" width="36" height="36" alt="" />' +
+      '<img class="logo-img" src="/assets/logo-mark.svg?v=9" width="36" height="36" alt="" />' +
       "<span>Lertiva</span></a>" +
       '<button type="button" class="menu-toggle" aria-expanded="false" aria-controls="main-nav" data-i18n="nav.menu">Menü</button>' +
       '<div class="header-tools">' +
