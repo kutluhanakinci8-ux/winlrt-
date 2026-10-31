@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Lertiva Zip">
+  <defs>
+    <linearGradient id="zipG" x1="12" y1="8" x2="52" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0ea5e9"/>
+      <stop offset="1" stop-color="#2563eb"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#zipG)"/>
+  <path d="M22 18h20l8 8v26a4 4 0 01-4 4H18a4 4 0 01-4-4V22a4 4 0 014-4z" fill="#f8fafc" fill-opacity="0.95"/>
+  <path d="M42 18v8h8" stroke="#94a3b8" stroke-width="1.5" fill="none"/>
+  <path d="M26 34h20M26 40h14" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="32" y="30" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="#1e40af">ZIP</text>
+</svg>

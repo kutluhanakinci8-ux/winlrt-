@@ -629,23 +629,8 @@ h1 .gradient-text {
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.65rem;
   flex-shrink: 0;
-}
-
-.preview-icon.zip {
-  background: linear-gradient(135deg, #0ea5e9, #0284c7);
-  color: #fff;
-}
-
-.preview-icon.rar {
-  background: linear-gradient(135deg, #6366f1, #4f46e5);
-  color: #fff;
+  object-fit: cover;
 }
 
 .preview-row div:last-child {
@@ -752,6 +737,13 @@ h1 .gradient-text {
   border-color: rgba(56, 189, 248, 0.25);
   transform: translateY(-4px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.card-icon img,
+.product-icon img {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 10px;
 }
 
 .card-icon {
@@ -1129,6 +1121,15 @@ h1 .gradient-text {
   border-radius: var(--radius);
   border: 1px solid var(--border);
   background: linear-gradient(165deg, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.45));
+}
+
+.product-list li .product-icon {
+  flex-shrink: 0;
+}
+
+.product-list li > div {
+  flex: 1;
+  min-width: 12rem;
 }
 
 .product-list strong {

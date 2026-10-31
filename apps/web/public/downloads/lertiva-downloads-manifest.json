@@ -1,0 +1,38 @@
+{
+  "generated_at": "2026-10-31T09:23Z",
+  "brand": "Lertiva",
+  "products": {
+    "zip": {
+      "name": "Lertiva Zip",
+      "channel": "beta",
+      "display_label": "Lertiva Zip Beta 6",
+      "windows": {
+        "installer_url": "https://github.com/kutluhanakinci8-ux/winlrt-/releases/download/winlrt-zip-beta.6/Lertiva.Zip_0.1.0_x64-setup.exe",
+        "release_page": "https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-zip-beta.6"
+      },
+      "macos": {
+        "product": "Lertiva Zip macOS",
+        "generated_at": "2026-10-31T09:23Z",
+        "display_release_label": "Lertiva Zip Beta 6 (macOS)",
+        "release_tag": "winlrt-zip-beta.6",
+        "dmg_download_url": null,
+        "windows_exe_on_same_tag": "https://github.com/kutluhanakinci8-ux/winlrt-/releases/download/winlrt-zip-beta.6/Lertiva.Zip_0.1.0_x64-setup.exe",
+        "ci_workflow_url": "https://github.com/kutluhanakinci8-ux/winlrt-/actions/workflows/lertiva-zip-macos.yml",
+        "artifact_hint": "Actions run → lertiva-zip-macos-build (dmg) veya lertiva-zip-macos-bench (KPI)",
+        "notarize_deferred": true,
+        "note": "dmg GitHub Release yoksa workflow artifact kullanın (G3 notarize sonrası release)."
+      },
+      "corporate_gpo": "/downloads/lertiva-zip-corporate-gpo.zip"
+    },
+    "arc": {
+      "name": "Lertiva Arc",
+      "channel": "stable",
+      "display_label": "Lertiva Arc v1.0.0",
+      "windows": {
+        "installer_url": "https://github.com/kutluhanakinci8-ux/winlrt-/releases/download/v1.0.0/Lertiva%20Arc_0.1.0_x64-setup.exe",
+        "release_page": "https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.0"
+      },
+      "corporate_gpo": "/downloads/lertiva-arc-corporate-gpo.zip"
+    }
+  }
+}

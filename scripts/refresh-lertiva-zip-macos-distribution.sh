@@ -21,8 +21,14 @@ if [[ -n "$TAG" ]]; then
   done < <(gh release view "$TAG" --repo "$REPO" --json assets -q '.assets[].name' 2>/dev/null || true)
 fi
 
+display_label="Lertiva Zip macOS"
+if [[ "$TAG" =~ beta\.([0-9]+)$ ]]; then
+  display_label="Lertiva Zip Beta ${BASH_REMATCH[1]} (macOS)"
+fi
+
 jq -n \
   --arg generated_at "$(date -u +%Y-%m-%dT%H:%MZ)" \
+  --arg display_release_label "$display_label" \
   --arg tag "${TAG:-}" \
   --arg dmg "$DMG_URL" \
   --arg exe "$EXE_URL" \
@@ -30,6 +36,7 @@ jq -n \
   '{
     product: "Lertiva Zip macOS",
     generated_at: $generated_at,
+    display_release_label: $display_release_label,
     release_tag: ($tag | if . == "" then null else . end),
     dmg_download_url: ($dmg | if . == "" then null else . end),
     windows_exe_on_same_tag: ($exe | if . == "" then null else . end),

@@ -5,7 +5,7 @@ window.WINLRT_I18N = {
     "meta.description":
       "Lertiva Arc v1.0.0 ve Lertiva Zip beta — yerli arşiv motoru, KVKK odaklı denetim, kurumsal GPO ve Lerta entegrasyonu.",
     "topbar.live": "Canlı vitrin",
-    "topbar.sync": "repo ile senkron · Post-v3 Lertiva Zip W31 · Lertiva Arc v1.0.0",
+    "topbar.sync": "Lertiva Arc v1.0.0 · Lertiva Zip beta · repo ile senkron",
     "topbar.kpi.loading": "KPI yükleniyor…",
     "topbar.kpi.fallback": "KPI örnekleri /benchmark/ sayfasında",
     "nav.menu": "Menü",
@@ -31,7 +31,7 @@ window.WINLRT_I18N = {
     "hero.tagline":
       "Enterprise archive software — built in Türkiye, measured on Windows KPI gates.",
     "hero.lead":
-      "Lertiva Arc resmi Windows sürümü yayında; Lertiva Zip WinZip sınıfı ZIP/ZIP64 hattında CLI, Tauri, Explorer, kurumsal GPO, split ZIP, imzalı arşiv ve Lerta posta/mesaj/staging metadata entegrasyonuna kadar Post-v3 (W0–W31) tamamlandı. Ortak motor: lertiva-archive.",
+      "Lertiva Arc resmi Windows sürümü yayında. Lertiva Zip, WinZip sınıfı ZIP/ZIP64 için Explorer, kurumsal GPO, imzalı arşiv ve Lerta metadata entegrasyonunu kapsar. Ortak motor: lertiva-archive.",
     "hero.cta.download": "İndirme merkezi",
     "hero.cta.kpi": "KPI vitrin",
     "hero.trust.p0": "Sıkıştırma · hız · güven kapıları",
@@ -71,16 +71,16 @@ window.WINLRT_I18N = {
     "kpi.detail": "detay",
     "page.about.title": "Hakkımızda",
     "page.about.lead":
-      "winlrt, Türkiye merkezli yerli arşiv ve belge yazılımı platformudur. Lertiva Arc ve Lertiva Zip ürünleri ortak lertiva-archive motorunu kullanır; KPI vitrin, kurumsal GPO ve KVKK odaklı denetim şeffaf biçimde yayımlanır.",
+      "Lertiva, Türkiye merkezli yerli arşiv ve belge yazılımı platformudur. Lertiva Arc ve Lertiva Zip ortak lertiva-archive motorunu kullanır; KPI vitrin, kurumsal GPO ve KVKK odaklı denetim şeffaf biçimde yayımlanır.",
     "page.about.body":
-      "Misyonumuz: kurumsal ve bireysel kullanıcıların WinRAR / WinZip sınıfı ihtiyaçlarını abonelik bağımlılığı olmadan, ölçülebilir performans ve güven kapılarıyla karşılamak. Geliştirme süreci açık repoda izlenebilir; vitrin (winlrt.com.tr) yalnızca resmi indirme ve durum kanalıdır.",
+      "Misyonumuz: kurumsal ve bireysel kullanıcıların WinRAR / WinZip sınıfı ihtiyaçlarını abonelik bağımlılığı olmadan, ölçülebilir performans ve güven kapılarıyla karşılamak. Geliştirme açık repoda izlenebilir; resmi vitrin ve indirme kanalı winlrt.com.tr.",
     "page.contact.title": "İletişim",
     "page.contact.lead": "Kurumsal pilot, basın ve teknik sorular için aşağıdaki kanalları kullanın.",
     "page.contact.web": "Resmi vitrin ve indirme:",
     "page.contact.dev": "Geliştirme ve hata bildirimi:",
     "page.contact.lerta": "Lerta mesajlaşma / posta (ayrı ürün):",
     "page.kvkk.title": "KVKK aydınlatma metni",
-    "page.kvkk.lead": "6698 sayılı Kanun kapsamında özet bilgilendirme (winlrt.com.tr vitrini).",
+    "page.kvkk.lead": "6698 sayılı Kanun kapsamında özet bilgilendirme (Lertiva vitrini — winlrt.com.tr).",
     "page.kvkk.s1.title": "Veri sorumlusu",
     "page.kvkk.s1.body":
       "Aşağıdaki resmi vitrin kaydı geçerlidir. Site ziyareti teknik logları barındırma sağlayıcısında işlenebilir; vitrin JSON örnekleri kişisel veri içermez.",
@@ -94,7 +94,9 @@ window.WINLRT_I18N = {
     "page.downloads.lead":
       "Lertiva Arc v1.0.0 Windows resmi sürümü yayında. Lertiva Zip beta (Post-v3 W0–W31) Windows installer ve macOS CI build hattında.",
     "page.downloads.topbar":
-      "Zip/Arc: dev Authenticode CI aktif; eski v1.0.0 imzasız kalabilir — SmartScreen PNG: incoming/",
+      "İmzasız paketler SmartScreen uyarısı verebilir · dev Authenticode CI aktif",
+    "page.downloads.zipIntro":
+      "ZIP/ZIP64 masaüstü · Explorer · kurumsal GPO · Lerta staging",
     "page.downloads.zipHeading": "Lertiva Zip",
     "page.downloads.rarHeading": "Lertiva Arc",
     "page.downloads.signingTitle": "İmza ve üretim kapısı",
@@ -114,7 +116,7 @@ window.WINLRT_I18N = {
     "page.pilot.label": "Pilot",
     "page.pilot.h1": "Lertiva Arc kabul dalgaları",
     "page.pilot.kobiPrefix": "Lertiva Zip KOBİ e-posta pilotu (W13) ayrı rehberdedir —",
-    "page.pilot.kobiLink": "WINLRTZIP KOBİ pilot",
+    "page.pilot.kobiLink": "Lertiva Zip KOBİ pilot",
     "page.pilot.statusTable": "Ana vitrin durum tablosu.",
     "pilot.wave1": "Dalga 1 — Deploy / vitrin",
     "pilot.wave2": "Dalga 2 — Explorer QA (Windows)",
@@ -169,13 +171,16 @@ window.WINLRT_I18N = {
     "page.brand.logo": "Logo kullanımı",
     "page.brand.logo.body":
       "Birincil: logo-mark (kare). Minimum boşluk: x yüksekliği kadar. Arka plan koyu veya açık tema ile kontrast korunmalıdır.",
+    "page.brand.products": "Ürün ikonları",
+    "page.brand.products.body":
+      "Lertiva Zip (mavi) ve Lertiva Arc (mor) — indirme merkezi, ürün kartları ve marka materyallerinde kullanın.",
   },
   en: {
     "meta.title": "Lertiva — Enterprise archive platform",
     "meta.description":
       "Lertiva Arc v1.0.0 and Lertiva Zip beta — domestic archive engine, GDPR/KVKK-oriented audit, corporate GPO, Lerta integration.",
     "topbar.live": "Live site",
-    "topbar.sync": "in sync with repo · Post-v3 Lertiva Zip W31 · Lertiva Arc v1.0.0",
+    "topbar.sync": "Lertiva Arc v1.0.0 · Lertiva Zip beta · in sync with repo",
     "topbar.kpi.loading": "Loading KPI…",
     "topbar.kpi.fallback": "KPI samples on /benchmark/",
     "nav.menu": "Menu",
@@ -241,16 +246,16 @@ window.WINLRT_I18N = {
     "kpi.detail": "details",
     "page.about.title": "About us",
     "page.about.lead":
-      "winlrt is a Türkiye-based domestic archive and document software platform. Lertiva Arc and Lertiva Zip share the lertiva-archive engine; KPI site, corporate GPO, and KVKK-oriented audit are published transparently.",
+      "Lertiva is a Türkiye-based domestic archive and document software platform. Lertiva Arc and Lertiva Zip share the lertiva-archive engine; KPI site, corporate GPO, and KVKK-oriented audit are published transparently.",
     "page.about.body":
-      "Our mission is to meet WinRAR / WinZip-class needs without subscription lock-in, with measurable performance and security gates. Development is visible in the open repository; winlrt.com.tr is the official download and status channel only.",
+      "Our mission is to meet WinRAR / WinZip-class needs without subscription lock-in, with measurable performance and security gates. Development is visible in the open repository; winlrt.com.tr is the official download and status site.",
     "page.contact.title": "Contact",
     "page.contact.lead": "Use the channels below for enterprise pilots, press, and technical questions.",
     "page.contact.web": "Official site and downloads:",
     "page.contact.dev": "Development and issues:",
     "page.contact.lerta": "Lerta messaging / mail (separate product):",
     "page.kvkk.title": "KVKK privacy notice",
-    "page.kvkk.lead": "Summary under Turkish Law no. 6698 (winlrt.com.tr).",
+    "page.kvkk.lead": "Summary under Turkish Law no. 6698 (Lertiva site — winlrt.com.tr).",
     "page.kvkk.s1.title": "Data controller",
     "page.kvkk.s1.body":
       "The official vitrin record below applies. Hosting may process technical access logs; public JSON samples contain no personal data by design.",
@@ -258,13 +263,15 @@ window.WINLRT_I18N = {
     "legal.entity.trade": "Trade name / brand",
     "legal.entity.address": "Address",
     "legal.entity.updated": "Last updated",
-    "page.downloads.title": "Download center — winlrt",
+    "page.downloads.title": "Download center — Lertiva",
     "page.downloads.label": "Download center",
     "page.downloads.h1": "Official releases and corporate packs",
     "page.downloads.lead":
       "Lertiva Arc v1.0.0 Windows GA is live. Lertiva Zip beta (Post-v3 W0–W31) on Windows installer and macOS CI pipeline.",
     "page.downloads.topbar":
-      "Zip/Arc: dev Authenticode CI on; legacy v1.0.0 may stay unsigned — SmartScreen PNG: incoming/",
+      "Unsigned packages may trigger SmartScreen · dev Authenticode CI on",
+    "page.downloads.zipIntro":
+      "ZIP/ZIP64 desktop · Explorer · corporate GPO · Lerta staging",
     "page.downloads.zipHeading": "Lertiva Zip",
     "page.downloads.rarHeading": "Lertiva Arc",
     "page.downloads.signingTitle": "Signing and production gate",
@@ -280,11 +287,11 @@ window.WINLRT_I18N = {
     "page.benchmark.pilotHeading": "Pilot sequence (beta → v1.0)",
     "page.benchmark.pilotBody":
       "Lertiva Arc: Windows Explorer QA (Wave 2) and corporate GPO (Wave 3). Lertiva Zip Post-v3 gates complete in repo.",
-    "page.pilot.title": "Pilot status — winlrt",
+    "page.pilot.title": "Pilot status — Lertiva",
     "page.pilot.label": "Pilot",
     "page.pilot.h1": "Lertiva Arc acceptance waves",
     "page.pilot.kobiPrefix": "Lertiva Zip SMB mail pilot (W13) has a separate guide —",
-    "page.pilot.kobiLink": "WINLRTZIP KOBİ pilot",
+    "page.pilot.kobiLink": "Lertiva Zip SMB pilot",
     "page.pilot.statusTable": "Main site status table.",
     "pilot.wave1": "Wave 1 — Deploy / site",
     "pilot.wave2": "Wave 2 — Explorer QA (Windows)",
@@ -334,10 +341,13 @@ window.WINLRT_I18N = {
     "page.kvkk.s3.body":
       "You may exercise KVKK Art. 11 rights via our contact channels. This notice aligns with vitrin deploy updates.",
     "page.brand.title": "Brand kit",
-    "page.brand.lead": "winlrt corporate site — logo, color, and typography summary.",
+    "page.brand.lead": "Lertiva corporate site — logo, color, and typography summary.",
     "page.brand.colors": "Colors",
     "page.brand.logo": "Logo usage",
     "page.brand.logo.body":
       "Primary: logo-mark (square). Clear space: height of the x mark. Maintain contrast on light and dark themes.",
+    "page.brand.products": "Product icons",
+    "page.brand.products.body":
+      "Lertiva Zip (blue) and Lertiva Arc (purple) — use on download center, product cards, and brand assets.",
   },
 };

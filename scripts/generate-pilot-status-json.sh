@@ -44,7 +44,7 @@ cat >"$OUT" <<EOF
     "4_v1": "${v1_state}"
   },
   "links": {
-    "beta_release": "https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-rar-beta.41064653814",
+    "beta_release": "https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.0",
     "dalga2_doc": "https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/DALGA2_PILOT_OTURUM.md",
     "corporate_zip": "/downloads/lertiva-arc-corporate-gpo.zip",
     "chat_templates": "https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/PILOT_CHAT_SABLONLARI.md",

@@ -60,34 +60,21 @@
 
     <main class="container" style="padding-bottom: 4rem">
       <h2 class="section-label" id="lertiva-zip" style="margin-bottom: 1rem" data-i18n="page.downloads.zipHeading">Lertiva Zip</h2>
-      <p class="meta" style="margin-bottom: 1rem">
-        Post-v3 tamamlandı (CLI, Tauri, Explorer, P0 KPI, GPO, split ZIP, imza, Lerta W28–W31).
-        Dokümantasyon:
-        <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/POST_V3_WINLRTZIP_SIRA.md"
-          >POST_V3_WINLRTZIP_SIRA</a
-        >
-        · KOBİ pilot:
-        <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/WINLRTZIP_KOBI_PILOT_KOPYA.md"
-          >W13</a
-        >
+      <p class="meta" style="margin-bottom: 1rem" data-i18n="page.downloads.zipIntro">
+        ZIP/ZIP64 masaüstü · Explorer · kurumsal GPO ·
+        <a href="/benchmark/lerta/">Lerta staging</a>
       </p>
       <ul class="product-list">
-        <li>
+        <li id="zip-windows-download-row">
+          <img class="product-icon" src="/assets/lertiva-zip-icon.svg" width="40" height="40" alt="" />
           <div>
-            <strong>Windows 10+ (64-bit) — beta</strong>
-            <div class="meta">
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/download/winlrt-zip-beta.1/Lertiva Zip_0.1.0_x64-setup.exe"
-                >Lertiva Zip_0.1.0_x64-setup.exe</a
-              >
-              ·
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/winlrt-zip-beta.1"
-                >winlrt-zip-beta.1</a
-              >
-            </div>
+            <strong id="zip-windows-title">Lertiva Zip — Windows</strong>
+            <div class="meta" id="zip-windows-meta">Yükleniyor…</div>
           </div>
           <span class="status status-beta">Beta</span>
         </li>
         <li id="macos-zip-download-row">
+          <img class="product-icon" src="/assets/lertiva-zip-icon.svg" width="40" height="40" alt="" />
           <div>
             <strong>macOS 12+ — beta CI</strong>
             <div class="meta" id="macos-zip-distribution-meta">
@@ -98,8 +85,9 @@
           <span class="status status-beta">Beta CI</span>
         </li>
         <li>
+          <img class="product-icon" src="/assets/lertiva-zip-icon.svg" width="40" height="40" alt="" />
           <div>
-            <strong>Kurumsal GPO paketi (W18)</strong>
+            <strong>Kurumsal GPO</strong>
             <div class="meta">
               <a href="/downloads/lertiva-zip-corporate-gpo.zip">lertiva-zip-corporate-gpo.zip</a>
               · ADMX + örnek politika
@@ -111,65 +99,25 @@
 
       <h2 class="section-label" id="lertiva-arc" style="margin: 2rem 0 1rem" data-i18n="page.downloads.rarHeading">Lertiva Arc</h2>
       <ul class="product-list">
-        <li>
+        <li id="arc-windows-download-row">
+          <img class="product-icon" src="/assets/lertiva-arc-icon.svg" width="40" height="40" alt="" />
           <div>
-            <strong>Windows 10+ (64-bit) — v1.0.0 resmi</strong>
-            <div class="meta">
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.0"
-                >Lertiva Arc_0.1.0_x64-setup.exe</a
-              >
-              ·
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/V1_0_0_UNSIGNED_RELEASE.md"
-                >imzasız not</a
-              >
-            </div>
+            <strong id="arc-windows-title">Lertiva Arc — Windows</strong>
+            <div class="meta" id="arc-windows-meta">Yükleniyor…</div>
           </div>
           <span class="status status-live">v1.0</span>
         </li>
         <li>
+          <img class="product-icon" src="/assets/lertiva-arc-icon.svg" width="40" height="40" alt="" />
           <div>
-            <strong>Windows — v1.0.0-rc1 (arşiv)</strong>
-            <div class="meta">
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.0-rc1">rc1</a>
-              · signoff + CI doğrulama
-            </div>
-          </div>
-          <span class="status status-beta">rc1</span>
-        </li>
-        <li>
-          <div>
-            <strong>Windows — beta (arşiv)</strong>
-            <div class="meta">
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases?q=winlrt-rar-beta&amp;expanded=true"
-                >Tüm beta release’ler</a
-              >
-              ·
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/DALGA2_PILOT_OTURUM.md"
-                >Dalga 2 pilot</a
-              >
-            </div>
-          </div>
-          <span class="status status-beta">Beta</span>
-        </li>
-        <li>
-          <div>
-            <strong>Kurumsal GPO — Dalga 3</strong>
+            <strong>Kurumsal GPO</strong>
             <div class="meta">
               <a href="/downloads/lertiva-arc-corporate-gpo.zip">lertiva-arc-corporate-gpo.zip</a>
               ·
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/DALGA3_PILOT_OTURUM.md"
-                >Pilot oturumu</a
-              >
+              <a href="/benchmark/corporate/">Kurumsal pano</a>
             </div>
           </div>
           <span class="status status-live">GPO</span>
-        </li>
-        <li>
-          <div>
-            <strong>macOS 12+</strong>
-            <div class="meta">Disk imajı — yol haritasında</div>
-          </div>
-          <span class="status status-plan">Plan</span>
         </li>
       </ul>
 
@@ -248,14 +196,40 @@
           } · vitrin PNG ${g.vitrin_smartscreen_real?.pass ? "✓" : "bekleniyor"}`;
         })
         .catch(() => {});
+      fetch("/downloads/lertiva-downloads-manifest.json", { cache: "no-store" })
+        .then((r) => r.json())
+        .then((m) => {
+          const zip = m.products?.zip;
+          const arc = m.products?.arc;
+          const zw = document.getElementById("zip-windows-meta");
+          const zt = document.getElementById("zip-windows-title");
+          if (zip && zw) {
+            if (zt) zt.textContent = `${zip.name} — Windows (${zip.display_label})`;
+            const inst = zip.windows?.installer_url;
+            const rel = zip.windows?.release_page;
+            zw.innerHTML = inst
+              ? `<a href="${inst}">Installer indir</a>${rel ? ` · <a href="${rel}">Sürüm notları</a>` : ""}`
+              : `<a href="${rel || "#"}">GitHub Releases</a>`;
+          }
+          const aw = document.getElementById("arc-windows-meta");
+          const at = document.getElementById("arc-windows-title");
+          if (arc && aw) {
+            if (at) at.textContent = `${arc.name} — Windows (${arc.display_label})`;
+            const inst = arc.windows?.installer_url;
+            const rel = arc.windows?.release_page;
+            aw.innerHTML = `<a href="${inst}">Installer indir</a> · <a href="${rel}">Sürüm notları</a> · <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/V1_0_0_UNSIGNED_RELEASE.md">İmza notu</a>`;
+          }
+        })
+        .catch(() => {});
       fetch("/downloads/lertiva-zip-macos-distribution.json", { cache: "no-store" })
         .then((r) => r.json())
         .then((d) => {
           const el = document.getElementById("macos-zip-distribution-meta");
           if (!el) return;
+          const tagLabel = d.display_release_label || d.release_tag || "—";
           const tag = d.release_tag
-            ? `<a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/${d.release_tag}">${d.release_tag}</a>`
-            : "—";
+            ? `<a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/${d.release_tag}">${tagLabel}</a>`
+            : tagLabel;
           const wf = `<a href="${d.ci_workflow_url}">lertiva-zip-macos</a>`;
           const dmg = d.dmg_download_url
             ? `<a href="${d.dmg_download_url}">dmg indir</a>`
