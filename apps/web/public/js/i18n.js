@@ -93,12 +93,13 @@ window.WINLRT_I18N = {
     "page.downloads.h1": "Resmi sürümler ve kurumsal paketler",
     "page.downloads.lead":
       "Lertiva Arc v1.0.0 Windows resmi sürümü yayında. Lertiva Zip beta (Post-v3 W0–W31) Windows installer ve macOS CI build hattında.",
-    "page.downloads.topbar": "imzasız paketler SmartScreen uyarısı verebilir",
+    "page.downloads.topbar":
+      "Zip/Arc: dev Authenticode CI aktif; eski v1.0.0 imzasız kalabilir — SmartScreen PNG: incoming/",
     "page.downloads.zipHeading": "Lertiva Zip",
     "page.downloads.rarHeading": "Lertiva Arc",
     "page.downloads.signingTitle": "İmza ve üretim kapısı",
     "page.downloads.signingBody":
-      "Authenticode / notarize için GitHub TAURI_SIGNING_* secret’ları gerekir. Kurumsal kabul: Explorer QA signoff → Dalga 3 IT pilotu.",
+      "Windows CI: PFX secret + signtool (dev self-signed). EV/OV sonrası SmartScreen güveni. KPI: /benchmark/ G2 kartı. Kurumsal: Explorer + Dalga 3 signoff.",
     "page.benchmark.title": "KPI ve benchmark merkezi — Lertiva",
     "page.benchmark.h1": "KPI ve benchmark merkezi",
     "page.benchmark.lead":
@@ -262,12 +263,13 @@ window.WINLRT_I18N = {
     "page.downloads.h1": "Official releases and corporate packs",
     "page.downloads.lead":
       "Lertiva Arc v1.0.0 Windows GA is live. Lertiva Zip beta (Post-v3 W0–W31) on Windows installer and macOS CI pipeline.",
-    "page.downloads.topbar": "unsigned packages may trigger SmartScreen",
+    "page.downloads.topbar":
+      "Zip/Arc: dev Authenticode CI on; legacy v1.0.0 may stay unsigned — SmartScreen PNG: incoming/",
     "page.downloads.zipHeading": "Lertiva Zip",
     "page.downloads.rarHeading": "Lertiva Arc",
     "page.downloads.signingTitle": "Signing and production gate",
     "page.downloads.signingBody":
-      "Authenticode / notarize requires GitHub TAURI_SIGNING_* secrets. Corporate acceptance: Explorer QA signoff → Wave 3 IT pilot.",
+      "Windows CI: PFX secrets + signtool (dev self-signed). EV/OV for SmartScreen trust. KPI: /benchmark/ G2 card. Corporate: Explorer + Wave 3 signoff.",
     "page.benchmark.title": "KPI and benchmark hub — Lertiva",
     "page.benchmark.h1": "KPI and benchmark hub",
     "page.benchmark.lead":

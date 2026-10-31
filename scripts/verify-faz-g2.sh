@@ -10,9 +10,6 @@ test -f "$ROOT/docs/qa/MADDE_H_IMZA_SIGNED.md"
 
 jq -e '.all_pass == true' "$ROOT/apps/web/public/benchmark/samples/lertiva-windows-signing-gate.json" >/dev/null
 
-if ! jq -e '.gates.vitrin_smartscreen_real.pass == true' \
-  "$ROOT/apps/web/public/benchmark/samples/lertiva-windows-signing-gate.json" >/dev/null; then
-  echo "::warning::G2 vitrin: gerçek SmartScreen PNG yok — incoming/ + import-real-installer-screenshots.sh"
-fi
+bash "$ROOT/scripts/verify-madde-g2-vitrin.sh"
 
 echo "OK: Faz G2 — imza CI %100 (dev); EV/OV + gerçek vitrin PNG ayrı"

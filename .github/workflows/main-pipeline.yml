@@ -178,6 +178,9 @@ jobs:
       - name: Madde H — imzalı Windows CI (strict)
         run: bash scripts/verify-madde-h-signed.sh
 
+      - name: G2 vitrin PNG altyapısı
+        run: bash scripts/verify-madde-g2-vitrin.sh
+
       - name: Lertiva marka kalıntı taraması
         run: bash scripts/verify-lertiva-brand.sh
 

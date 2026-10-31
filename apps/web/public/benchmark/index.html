@@ -64,6 +64,10 @@
       <p class="meta" id="v1-gate-meta">v1 özeti yükleniyor…</p>
       <article class="card" id="v1-gate-card" style="margin-bottom: 1.5rem"></article>
 
+      <h2 class="section-label">Windows imza kapısı (G2)</h2>
+      <p class="meta" id="signing-gate-meta">G2 özeti yükleniyor…</p>
+      <article class="card" id="signing-gate-card" style="margin-bottom: 1.5rem"></article>
+
       <h2 class="section-label" data-i18n="page.benchmark.liveKpi">Canlı KPI özeti (referans)</h2>
       <p class="meta" id="kpi-sample-meta">
         Repo örnekleri yükleniyor… (Linux CI referans; resmi kapı Windows workflow artifact).
@@ -154,6 +158,29 @@ cargo run -p lertiva-archive -- bench --all --profile fast --json --zip-kpi</cod
         const cls = ok ? "status-dev" : "status-dev";
         const text = passed === null || passed === undefined ? "ölçülmedi" : ok ? "GEÇTİ" : "henüz değil";
         return `<span class="status ${cls}" style="margin-left:0.5rem">${label}: ${text}</span>`;
+      }
+      async function loadSigningGate() {
+        const meta = document.getElementById("signing-gate-meta");
+        const card = document.getElementById("signing-gate-card");
+        try {
+          const res = await fetch("/benchmark/samples/lertiva-windows-signing-gate.json", {
+            cache: "no-store",
+          });
+          if (!res.ok) throw new Error(res.statusText);
+          const data = await res.json();
+          const g = data.gates || {};
+          card.innerHTML = `<p>${gateBadge(g.ci_zip_signed_build?.pass, "Zip CI imza")}${gateBadge(
+            g.ci_arc_signed_build?.pass,
+            "Arc CI imza"
+          )}${gateBadge(g.vitrin_smartscreen_real?.pass, "Vitrin PNG")}</p>
+          <p class="meta">${data.disclaimer || ""}</p>
+          <p class="meta">Tümü: <strong>${data.all_pass ? "GEÇTİ" : "izleniyor"}</strong> · ${data.generated_at || ""}</p>
+          <p class="meta"><a href="/assets/gallery/incoming/">Gerçek PNG yükleme (incoming/)</a></p>`;
+          meta.textContent = "Kaynak: lertiva-windows-signing-gate.json (G2).";
+        } catch (e) {
+          meta.textContent = "G2 imza özeti yüklenemedi.";
+          card.innerHTML = `<p class="meta">${e}</p>`;
+        }
       }
       async function loadV1Gate() {
         const meta = document.getElementById("v1-gate-meta");
@@ -315,6 +342,10 @@ cargo run -p lertiva-archive -- bench --all --profile fast --json --zip-kpi</cod
             url: "/benchmark/samples/lertiva-zip-v1-gate.json",
             title: "v1.0 GA kapı (W33)",
           },
+          {
+            url: "/benchmark/samples/lertiva-windows-signing-gate.json",
+            title: "Windows imza (G2)",
+          },
         ];
         for (const it of items) {
           try {
@@ -343,6 +374,7 @@ cargo run -p lertiva-archive -- bench --all --profile fast --json --zip-kpi</cod
       }
       loadP0Gate();
       loadV1Gate();
+      loadSigningGate();
       loadKpiSamples();
       loadIntegrationSamples();
     </script>
