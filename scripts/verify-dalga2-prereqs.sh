@@ -2,8 +2,8 @@
 # Dalga 2: repo + vitrin kaynağı beta/QA hazır (Linux CI / agent).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-TAG="winlrt-rar-beta.41064653814"
-# Vitrin: sabit beta tag veya v1.0.0 + beta release araması (Post-v3 vitrin revizyonu).
+ARC_TAG="v1.0.0"
+# Vitrin: manifest tabanlı indirme veya doğrudan v1.0.0 release linki.
 
 for f in \
   docs/qa/DALGA2_EXPLORER_QA_KOPYA.md \
@@ -19,13 +19,15 @@ do
   test -f "$ROOT/$f" || { echo "Eksik: $f" >&2; exit 1; }
 done
 
-if ! grep -q "$TAG" "$ROOT/apps/web/public/downloads/index.html"; then
-  grep -qE 'winlrt-rar-beta|releases/tag/v1\.0\.0' "$ROOT/apps/web/public/downloads/index.html"
+if ! grep -qE 'lertiva-downloads-manifest|releases/tag/v1\.0\.0|Lertiva Arc' "$ROOT/apps/web/public/downloads/index.html"; then
+  echo "Eksik: downloads/index.html Lertiva Arc / manifest referansı" >&2
+  exit 1
 fi
+test -f "$ROOT/apps/web/public/downloads/lertiva-downloads-manifest.json"
 
 if command -v curl >/dev/null 2>&1; then
   curl -fsSL -o /dev/null -w '' \
-    "https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/${TAG}"
+    "https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/${ARC_TAG}"
 fi
 
 echo "OK: Dalga 2 önkoşullar (docs + vitrin link + release erişilebilir)"
