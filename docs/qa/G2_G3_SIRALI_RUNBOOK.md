@@ -135,12 +135,15 @@ KPI job (`macos-zip-kpi`) notarize **gerektirmez** — W34 ayrı.
 
 ```bash
 cd ~/winlrt-
-git pull origin main
+# quickcheck/evaluate gate JSON dosyalarini degistirir — pull oncesi:
+bash scripts/mac-sync-repo-main.sh
 brew install jq
 bash scripts/check-g2-g3-prerequisites.sh
-bash scripts/print-g2-g3-product-progress.sh
+bash scripts/mac-g2-g3-quickcheck.sh
 bash scripts/test-g2-g3-scenarios.sh
 ```
+
+`git pull` hata verirse: `git checkout -- apps/web/public/benchmark/samples/lertiva-*-signing-gate.json apps/web/public/benchmark/samples/lertiva-macos-notarize-gate.json` sonra tekrar pull.
 
 **Zorunlu:** `jq` (`brew install jq`).  
 **Opsiyonel:** `gh` — GitHub Actions logları (G2-S3). **macOS 11 (Big Sur):** `brew install gh` çoğu zaman **go** yüzünden düşer; `gh auth login` çalıştırmayın (gh yoksa). Alternatif:
