@@ -11,14 +11,15 @@ Cloud Agent **`gh secret set` yapamaz** (403 *Resource not accessible by integra
 
 Workflow sonrası **`TAURI_SIGNING_PRIVATE_KEY`** + **`TAURI_SIGNING_PRIVATE_KEY_PASSWORD`** oluşur; Zip/Arc Windows build otomatik tetiklenir.
 
-## Yol B — Doğrudan TAURI (PAT gerekmez)
+## Yol B — Doğrudan (PAT gerekmez)
 
-Aynı secrets sayfasında:
+Windows **Authenticode** için Tauri v2 **`WINDOWS_CERTIFICATE`** kullanır (PFX base64).  
+Workflow aynı değeri **`TAURI_SIGNING_PRIVATE_KEY`** adından da okur (geriye uyum).
 
 | Secret | Değer |
 |--------|--------|
-| `TAURI_SIGNING_PRIVATE_KEY` | `base64 -w0 .signing-local/lertiva-dev-codesign.pfx` çıktısı |
-| `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` | PFX parolası |
+| `TAURI_SIGNING_PRIVATE_KEY` veya `WINDOWS_CERTIFICATE` | PFX base64 (tek satır) |
+| `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` veya `WINDOWS_CERTIFICATE_PASSWORD` | PFX parolası |
 
 Sonra Actions → **Lertiva Zip Windows beta build** → Run workflow.
 

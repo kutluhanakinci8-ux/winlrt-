@@ -2,3 +2,4 @@
 # agent: bash scripts/agent-madde-w3-complete.sh
 # madde-w5 password + secure explorer 2026-10-30T18:15Z
 # TAURI_SIGNING secrets 2026-10-31T09:16Z
+# WINDOWS_CERTIFICATE env fix 2026-10-31T09:20Z
