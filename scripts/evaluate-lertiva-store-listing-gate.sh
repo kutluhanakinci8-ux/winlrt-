@@ -38,7 +38,7 @@ jq -n \
   '{
     product: "Lertiva Zip",
     generated_at: $generated_at,
-    disclaimer: "G7 repo: W27+W32+Data safety; Play/App URL vitrin dosyasi ile tamamlanir.",
+    disclaimer: "G7 repo: W27+W32+Data safety; urun: Play internal URL (masaustu once — G7_DESKTOP_FIRST_PLAY_INTERNAL.md).",
     gates: {
       w27_store_gate: { pass: $w27 },
       w32_store_pilot: { pass: $w32 },

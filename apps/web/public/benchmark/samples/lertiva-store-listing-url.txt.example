@@ -1,0 +1,4 @@
+# G7 — Play internal listing (masaüstü GA sonrası, yalnızca Android internal).
+# Kopyalayın: lertiva-store-listing-url.txt (bu dosya commit edilmez; .example şablondur)
+# Tek satır, yorum yok:
+https://play.google.com/apps/testing/com.lertiva.zip

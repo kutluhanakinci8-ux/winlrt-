@@ -8,7 +8,7 @@
 | **G4** | Signoff şablonları ✅ | Dış kullanıcı oturumu | `verify-faz-g4.sh` |
 | **G5** | Kurumsal repo ✅ | IT saha | `verify-faz-g5.sh` |
 | **G6** | W36 ✅ mobil MVP JSON | apk/ipa internal | `verify-faz-g6.sh` |
-| **G7** | W27+W32+Data safety ✅ | listing URL | `verify-faz-g7.sh` |
+| **G7** | W27+W32+Data safety ✅ | Play internal URL (masaüstü önce) | `verify-faz-g7.sh` · [G7_DESKTOP_FIRST](./G7_DESKTOP_FIRST_PLAY_INTERNAL.md) |
 | **G8** | W31 staging ✅ | LERTA prod bearer | `verify-faz-g8.sh` |
 | **G9** | Codec ✅ extract_one ✅ Arc UI tek dosya ✅ | solid/dedup R&D | `verify-faz-g9.sh` |
 | **G10** | Tur4 policy ✅ brand scan ✅ suite kickoff ✅ | PDF/imza modülü | `verify-faz-g10.sh` |

@@ -12,4 +12,8 @@ bash scripts/evaluate-lertiva-store-listing-gate.sh
 bash scripts/verify-faz-g7.sh
 ```
 
-**Ürün:** Play Console / App Store Connect internal track + inceleme gönderimi.
+**Strateji (onaylı):** Önce Windows/macOS masaüstü → sonra **yalnızca Google Play internal**; App Store sonra. Bkz. [G7_DESKTOP_FIRST_PLAY_INTERNAL.md](./G7_DESKTOP_FIRST_PLAY_INTERNAL.md).
+
+**Ürün:** Play Console internal testing URL → `lertiva-store-listing-url.txt` (App Store bu fazda **yok**).
+
+Şablon: `lertiva-store-listing-url.txt.example`
