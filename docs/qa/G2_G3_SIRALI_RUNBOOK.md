@@ -134,14 +134,23 @@ KPI job (`macos-zip-kpi`) notarize **gerektirmez** — W34 ayrı.
 ## Mac geliştirici kurulumu
 
 ```bash
-brew install jq gh
-gh auth login
+cd ~/winlrt-
+git pull origin main
+brew install jq
 bash scripts/check-g2-g3-prerequisites.sh
-cd ~/winlrt-   # repo kökü
+bash scripts/print-g2-g3-product-progress.sh
 bash scripts/test-g2-g3-scenarios.sh
 ```
 
-`jq` olmadan scriptler çalışmaz. `gh` yoksa yerel repo testleri ⚠️ ile devam eder; CI satırları atlanır.
+**Zorunlu:** `jq` (`brew install jq`).  
+**Opsiyonel:** `gh` — GitHub Actions logları (G2-S3). **macOS 11 (Big Sur):** `brew install gh` çoğu zaman **go** yüzünden düşer; `gh auth login` çalıştırmayın (gh yoksa). Alternatif:
+
+```bash
+# GitHub CLI — eski sürüm .pkg (Monterey+ şart değil, sürüme bakın)
+# https://github.com/cli/cli/releases — örn. gh_*_macOS_amd64.pkg
+```
+
+`gh` olmadan: `verify-madde-h-signing-repo-local.sh` + ⚠️ CI atlanır; imza hattı repo dosyaları yine kontrol edilir.
 
 ## Senaryo testleri (agent)
 

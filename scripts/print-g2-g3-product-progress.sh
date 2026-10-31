@@ -13,13 +13,12 @@ fi
 tick() { [[ "$1" == true ]] && echo "✅" || echo "⬜"; }
 
 dev_ok=false
+dev_note=""
 if bash "$ROOT/scripts/verify-madde-h-signed.sh" >/dev/null 2>&1; then
   dev_ok=true
 elif bash "$ROOT/scripts/verify-madde-h-signing-repo-local.sh" >/dev/null 2>&1; then
   dev_ok=true
   dev_note=" (yerel repo; tam CI: gh auth login)"
-else
-  dev_note=""
 fi
 
 ev_ov=false

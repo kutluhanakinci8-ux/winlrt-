@@ -14,7 +14,7 @@ need jq "brew install jq"
 need grep "grep"
 
 if ! command -v gh >/dev/null 2>&1; then
-  echo "Opsiyonel: gh — brew install gh && gh auth login (CI senaryolari icin)"
+  echo "Opsiyonel: gh yok — CI loglari atlanir (macOS 11: brew gh basarisiz olabilir; bkz. G2_G3_SIRALI_RUNBOOK Mac)"
 elif ! gh auth status >/dev/null 2>&1; then
   echo "Opsiyonel: gh auth login (CI log senaryolari icin)"
 fi
