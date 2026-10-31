@@ -114,18 +114,18 @@ window.WINLRT_I18N = {
     "page.signing.label": "Güven & dağıtım",
     "page.signing.h1": "SmartScreen ve kod imzası",
     "page.signing.heroLead":
-      "Windows’ta güvenilir dağıtım: resmi Lertiva kurulumları, Authenticode imza hattı ve SmartScreen için şeffaf rehber. Kurumsal ekipler için pilot, GPO ve canlı G2 durumu tek sayfada.",
+      "Bilgilendirme sayfası: Microsoft Defender SmartScreen™ davranışı, Windows Authenticode süreci ve Lertiva resmi indirme kanalları. Hukuki tavsiye değildir; kurumsal karar IT politikanıza tabidir.",
     "page.signing.chip1": "Authenticode",
     "page.signing.chip2": "Kurumsal IT",
     "page.signing.chip3": "Şeffaf durum",
     "page.signing.tracks.label": "İki paralel hat",
-    "page.signing.tracks.title": "Resmi sürüm ve güvenilir imza pisti",
+    "page.signing.tracks.title": "Resmi sürüm ve planlanan imza izleği",
     "page.signing.tracks.lead":
-      "Yayın stratejimiz iki izlek: hızlı resmi indirme (bilgilendirme SmartScreen) ve kurumsal EV/OV imza ile yerleşik güven. İkisi birbirini engellemez.",
+      "İki izlek: (A) imzasız veya resmi GitHub Releases dağıtımı — SmartScreen uyarısı beklenebilir; (B) gelecekteki kurumsal EV/OV Authenticode — Microsoft süreçlerine tabidir, zamanlama garanti edilmez.",
     "page.signing.trackA.badge": "Hat A",
     "page.signing.trackA.title": "Resmi Windows kurulumu",
     "page.signing.trackA.body":
-      "Lertiva Arc v1.0.1 GitHub Releases üzerinden sunulur. Sertifika secret’ı olmadan imzasız paketlerde Windows Defender SmartScreen “tanınmayan yayımcı” uyarısı normaldir; içerik bütünlüğü SHA-256 ve resmi kanalla doğrulanır.",
+      "Lertiva Arc v1.0.1 GitHub Releases üzerinden sunulur. İmza sertifikası olmadan Microsoft Defender SmartScreen “tanınmayan yayıncı” uyarısı görülebilir. Dosya bütünlüğü için yalnızca resmi sitedeki veya Release sayfasındaki SHA-256 özetlerini kendiniz doğrulayın; bu sayfa doğrulama yapmaz.",
     "page.signing.trackA.l1": "Lertiva Arc v1.0.1 — GitHub Releases",
     "page.signing.trackA.l2": "İmza yoksa SmartScreen bilgilendirmesi beklenir",
     "page.signing.trackA.l3": "Kurumsal pilot: GPO + kullanıcı rehberi",
@@ -133,24 +133,29 @@ window.WINLRT_I18N = {
     "page.signing.trackB.badge": "Hat B",
     "page.signing.trackB.title": "EV/OV Authenticode",
     "page.signing.trackB.body":
-      "Kurumsal PFX veya EV/OV sertifikası hazır olduğunda aynı CI hattı signtool ile kurulumu imzalar. SmartScreen güveni zamanla oluşur; imzalı sürüm yeni tag ile vitrine yansır.",
+      "Kurumsal EV/OV veya nitelikli PFX hazır olduğunda CI signtool ile imzalama hedeflenir. Bu, Microsoft itibarının veya uyarıların kalkacağının taahhüdü değildir; üretim sertifikası vitrin JSON’unda ayrı gösterilir (şu an geliştirme imzası ayrımı).",
     "page.signing.trackB.l1": "CI: signtool + sertifika secret’ları",
-    "page.signing.trackB.l2": "SmartScreen güveni — kurumsal PFX ile",
+    "page.signing.trackB.l2": "Microsoft itibar süreci — sertifikaya bağlı",
     "page.signing.trackB.l3": "Yeni tag ile imzalı resmi yayın",
     "page.signing.trackB.cta": "G2 KPI panosu",
     "page.signing.smartscreen.label": "SmartScreen",
     "page.signing.smartscreen.title": "Kullanıcı ne görür, IT ne yapar?",
     "page.signing.smartscreen.body":
-      "SmartScreen, bilinmeyen veya yeni yayımcılar için ek koruma katmanıdır. Lertiva resmi kanalından indirilen kurulumda kullanıcıya net adımlar ve kurumsal dağıtım alternatifi sunulur.",
+      "Microsoft Defender SmartScreen, Microsoft’un Windows güvenlik özelliğidir; Lertiva ile bağlantılı veya onaylı değildir. Bilinmeyen yayımcılar için uyarı gösterebilir. Aşağıdaki adımlar genel bilgilendirme içindir.",
     "page.signing.step1.title": "Daha fazla bilgi",
     "page.signing.step1.body": "Uyarı penceresinde yayımcı ve dosya adını kontrol edin; yalnızca winlrt.com.tr / GitHub Releases kaynağını kullanın.",
     "page.signing.step2.title": "Yine de çalıştır",
-    "page.signing.step2.body": "Pilot veya bireysel kurulumda, IT onayı sonrası “Yine de çalıştır” ile devam edilebilir — politika GPO ile kısıtlanabilir.",
+    "page.signing.step2.body":
+      "Yalnızca kuruluşunuzun IT ve bilgi güvenliği politikası uygun görürse devam edin. SmartScreen uyarısını geçmek risk değerlendirmesi gerektirir; bireysel kullanıcılar kendi sorumluluğundadır.",
     "page.signing.step3.title": "Kurumsal dağıtım",
-    "page.signing.step3.body": "Sessiz kurulum, ADMX ve Dalga 3 paketleri ile uyarıyı azaltın; imzalı hat (B) devreye girdiğinde aynı GPO hattı kullanılır.",
-    "page.signing.screenshot.caption": "Vitrin SmartScreen örneği — imzasız beta bilgilendirme (gerçek Windows diyaloğu).",
+    "page.signing.step3.body":
+      "Kurumsal dağıtım (sessiz kurulum, ADMX) IT kontrolü altında planlanmalıdır. Uyarıların azalması garanti edilmez.",
+    "page.signing.screenshot.caption":
+      "Temsili ekran görüntüsü (vitrin/galeri). Gerçek uyarı metni Windows sürümüne, diline ve imza durumuna göre değişir; Microsoft arayüzü Lertiva tarafından kontrol edilmez.",
     "page.signing.status.label": "Canlı durum",
-    "page.signing.status.title": "G2 imza kapısı (vitrin)",
+    "page.signing.status.title": "G2 mühendislik kapıları (vitrin)",
+    "page.signing.status.disclaimer":
+      "G2 kartları yalnızca repo/CI iç kontrolüdür; bağımsız güvenlik denetimi, sertifikasyon veya Microsoft onayı anlamına gelmez.",
     "page.signing.status.loading": "Durum yükleniyor…",
     "page.signing.status.json": "G2 JSON",
     "page.signing.status.evJson": "EV/OV JSON",
@@ -159,12 +164,12 @@ window.WINLRT_I18N = {
     "page.signing.it.body":
       "Explorer QA, kurumsal GPO zip ve pilot dalgaları imzasız dönemde dağıtımı standartlaştırır. KPI vitrininde G2 kartları CI ile senkron kalır.",
     "page.signing.faq.title": "Sık sorulan sorular",
-    "page.signing.faq.q1": "İmzasız kurulum güvenli mi?",
+    "page.signing.faq.q1": "İmzasız kurulum risk içerir mi?",
     "page.signing.faq.a1":
-      "Resmi kanaldan indirilen paketler repo tarafından üretilir; SmartScreen uyarısı yayımcı tanınmadığı için çıkar, dosyanın kötü amaçlı olduğu anlamına gelmez. Kurumsal ortamda pilot ve hash doğrulama önerilir.",
-    "page.signing.faq.q2": "SmartScreen ne zaman kaybolur?",
+      "Her indirme doğası gereği risk taşıyabilir. SmartScreen uyarısı yayımcı/itibar ile ilgilidir; zararlı yazılım olmadığı anlamına gelmez. Resmi kanal ve hash doğrulama riski azaltır, sıfırlamaz. Kurumsal ortamda IT onayı şarttır.",
+    "page.signing.faq.q2": "SmartScreen uyarısı ne zaman azalabilir?",
     "page.signing.faq.a2":
-      "EV/OV imzalı kurulumlar ve yeterli indirme/itibar birikimi sonrası uyarılar azalır. Hat B tamamlandığında vitrin ve indirme merkezi imzalı asset’i gösterir.",
+      "Microsoft’un itibar ve imza politikalarına bağlıdır; EV/OV imza sonrası bile uyarı sürebilir. Lertiva bunun zamanını garanti etmez. Güncel durum: vitrin EV/OV JSON.",
     "page.signing.faq.q3": "Arşiv içi imza (Ed25519) farklı mı?",
     "page.signing.faq.a3":
       "Evet — kurulum Authenticode’dan bağımsızdır. Ed25519 yan dosya kurumsal RequireSignedArchive politikası ile yönetilir; bkz. Güven merkezi.",
@@ -173,7 +178,15 @@ window.WINLRT_I18N = {
       "Lertiva Zip macOS hattı ayrı kapıdadır (G3). Windows SmartScreen sayfası Windows kurulumuna odaklanır; macOS durumu benchmark panosunda.",
     "page.signing.cta.title": "Kurumsal imza veya basın",
     "page.signing.cta.body":
-      "EV/OV sertifika koordinasyonu, toplu dağıtım runbook’u veya SmartScreen ekran görüntüsü talepleri için iletişime geçin.",
+      "EV/OV sertifika koordinasyonu, toplu dağıtım runbook’u veya basın talepleri için iletişime geçin.",
+    "page.signing.legal.label": "Yasal bilgilendirme",
+    "page.signing.legal.title": "Sorumluluk reddi ve marka notları",
+    "page.signing.legal.p1":
+      "Bu sayfa genel bilgilendirme sağlar; hukuki, güvenlik veya uyumluluk danışmanlığı değildir. Yazılımı indirme, kurma ve SmartScreen uyarılarını yönetme kararı kullanıcı ve kuruluş sorumluluğundadır (6502 sayılı Tüketicinin Korunması Hakkında Kanun ve ilgili mevzuat çerçevesinde açık bilgilendirme amaçlıdır).",
+    "page.signing.legal.p2":
+      "Microsoft®, Windows®, Microsoft Defender SmartScreen™ ve ilgili terimler Microsoft Corporation ticari markalarıdır. Lertiva, Microsoft tarafından onaylanmamıştır; SmartScreen davranışı yalnızca Microsoft tarafından belirlenir.",
+    "page.signing.legal.p3":
+      "Kişisel veri: bu sayfa ziyaretinde teknik erişim logları barındırıcıda işlenebilir; G2 JSON örnekleri kişisel veri içermez. Detay: KVKK aydınlatma metni. AB/UK ziyaretçileri için GDPR kapsamında aynı şeffaflık ilkesi geçerlidir; veri talepleri iletişim kanalından yapılır.",
     "page.arcProduct.title": "Lertiva Arc — Windows",
     "page.zipProduct.title": "Lertiva Zip — Beta",
     "home.workflows.title": "Kurumsal ekipler için ölçülebilir arşiv",
@@ -597,18 +610,18 @@ window.WINLRT_I18N = {
     "page.signing.label": "Trust & rollout",
     "page.signing.h1": "SmartScreen and code signing",
     "page.signing.heroLead":
-      "Trusted Windows rollout: official Lertiva installers, Authenticode pipeline, and a transparent SmartScreen guide — with pilot, GPO, and live G2 status in one place.",
+      "Informational page: Microsoft Defender SmartScreen™ behavior, Windows Authenticode, and official Lertiva download channels. Not legal advice; enterprise decisions follow your IT policy.",
     "page.signing.chip1": "Authenticode",
     "page.signing.chip2": "Enterprise IT",
     "page.signing.chip3": "Live status",
     "page.signing.tracks.label": "Two parallel tracks",
-    "page.signing.tracks.title": "Official release and trusted signing lane",
+    "page.signing.tracks.title": "Official release and planned signing lane",
     "page.signing.tracks.lead":
-      "We ship on two tracks: fast official downloads (informational SmartScreen) and corporate EV/OV signing for established trust. They do not block each other.",
+      "Two lanes: (A) unsigned or GitHub Releases distribution — SmartScreen warnings may appear; (B) future corporate EV/OV Authenticode — subject to Microsoft processes; timing not guaranteed.",
     "page.signing.trackA.badge": "Track A",
     "page.signing.trackA.title": "Official Windows installer",
     "page.signing.trackA.body":
-      "Lertiva Arc v1.0.1 is published on GitHub Releases. Unsigned packages may show SmartScreen “unknown publisher” — expected without cert secrets; verify SHA-256 and the official channel.",
+      "Lertiva Arc v1.0.1 is on GitHub Releases. Without a signing certificate, Microsoft Defender SmartScreen may show “unknown publisher”. Verify SHA-256 hashes yourself from the official site or Release page — this page does not verify files for you.",
     "page.signing.trackA.l1": "Lertiva Arc v1.0.1 — GitHub Releases",
     "page.signing.trackA.l2": "SmartScreen notice expected when unsigned",
     "page.signing.trackA.l3": "Corporate pilot: GPO + user guide",
@@ -616,24 +629,29 @@ window.WINLRT_I18N = {
     "page.signing.trackB.badge": "Track B",
     "page.signing.trackB.title": "EV/OV Authenticode",
     "page.signing.trackB.body":
-      "When corporate PFX or EV/OV is ready, the same CI signs installers with signtool. SmartScreen reputation builds over time; signed releases ship on a new tag to the site.",
+      "When qualified EV/OV or corporate PFX is available, CI may sign with signtool. This is not a promise of Microsoft reputation or removed warnings; production certs are shown separately in vitrin JSON (dev vs production).",
     "page.signing.trackB.l1": "CI: signtool + certificate secrets",
-    "page.signing.trackB.l2": "SmartScreen trust — with corporate PFX",
+    "page.signing.trackB.l2": "Microsoft reputation process — certificate-dependent",
     "page.signing.trackB.l3": "Signed GA on a new tag",
     "page.signing.trackB.cta": "G2 KPI dashboard",
     "page.signing.smartscreen.label": "SmartScreen",
     "page.signing.smartscreen.title": "What users see, what IT does",
     "page.signing.smartscreen.body":
-      "SmartScreen adds protection for unfamiliar publishers. For official Lertiva installs we document clear steps and enterprise rollout options.",
+      "Microsoft Defender SmartScreen is Microsoft’s Windows security feature; it is not affiliated with or endorsed by Lertiva. It may warn on unfamiliar publishers. Steps below are general information only.",
     "page.signing.step1.title": "More info",
     "page.signing.step1.body": "Check publisher and file name — use only winlrt.com.tr / GitHub Releases.",
     "page.signing.step2.title": "Run anyway",
-    "page.signing.step2.body": "After IT approval, pilot installs may continue — policy can restrict via GPO.",
+    "page.signing.step2.body":
+      "Proceed only if your organization’s IT and security policy allows it. Bypassing SmartScreen requires risk assessment; individual users act at their own responsibility.",
     "page.signing.step3.title": "Enterprise rollout",
-    "page.signing.step3.body": "Silent install, ADMX, and Wave 3 packs reduce friction; Track B reuses the same GPO path when live.",
-    "page.signing.screenshot.caption": "Site SmartScreen sample — unsigned beta guidance (real Windows dialog).",
+    "page.signing.step3.body":
+      "Enterprise rollout (silent install, ADMX) must be planned under IT control. Reduced warnings are not guaranteed.",
+    "page.signing.screenshot.caption":
+      "Illustrative screenshot (site gallery). Actual warning text varies by Windows version, language, and signing status; Microsoft UI is not controlled by Lertiva.",
     "page.signing.status.label": "Live status",
-    "page.signing.status.title": "G2 signing gate (vitrin)",
+    "page.signing.status.title": "G2 engineering gates (vitrin)",
+    "page.signing.status.disclaimer":
+      "G2 cards are internal repo/CI checks only — not independent security audit, certification, or Microsoft approval.",
     "page.signing.status.loading": "Loading status…",
     "page.signing.status.json": "G2 JSON",
     "page.signing.status.evJson": "EV/OV JSON",
@@ -642,12 +660,12 @@ window.WINLRT_I18N = {
     "page.signing.it.body":
       "Explorer QA, corporate GPO zips, and pilot waves standardize rollout while unsigned. G2 cards stay in sync with CI on the KPI site.",
     "page.signing.faq.title": "FAQ",
-    "page.signing.faq.q1": "Is an unsigned installer unsafe?",
+    "page.signing.faq.q1": "Does an unsigned installer involve risk?",
     "page.signing.faq.a1":
-      "Official-channel packages are built by the repo; SmartScreen warns about publisher reputation, not necessarily malware. Prefer pilot and hash verification in enterprise.",
-    "page.signing.faq.q2": "When does SmartScreen stop warning?",
+      "Any download may carry risk. SmartScreen warnings relate to publisher reputation — not proof of safety. Official channel plus hash checks reduce risk, not eliminate it. Enterprise use requires IT approval.",
+    "page.signing.faq.q2": "When may SmartScreen warnings decrease?",
     "page.signing.faq.a2":
-      "EV/OV signed builds and reputation over time reduce warnings. Track B updates the download center when signed assets ship.",
+      "Depends on Microsoft reputation and signing policies; warnings may persist after EV/OV. Lertiva does not guarantee timing. See vitrin EV/OV JSON for status.",
     "page.signing.faq.q3": "Is in-archive Ed25519 different?",
     "page.signing.faq.a3":
       "Yes — separate from Authenticode. Ed25519 sidecars are governed by RequireSignedArchive policy; see the trust hub.",
@@ -656,7 +674,15 @@ window.WINLRT_I18N = {
       "Lertiva Zip macOS is a separate gate (G3). This page focuses on Windows; see the benchmark dashboard for macOS.",
     "page.signing.cta.title": "Corporate signing or press",
     "page.signing.cta.body":
-      "Contact us for EV/OV coordination, mass-deployment runbooks, or SmartScreen screenshot requests.",
+      "Contact us for EV/OV coordination, mass-deployment runbooks, or press inquiries.",
+    "page.signing.legal.label": "Legal notice",
+    "page.signing.legal.title": "Disclaimer and trademarks",
+    "page.signing.legal.p1":
+      "This page is general information only — not legal, security, or compliance advice. Downloading, installing, and handling SmartScreen warnings is your and your organization’s responsibility.",
+    "page.signing.legal.p2":
+      "Microsoft®, Windows®, Microsoft Defender SmartScreen™, and related terms are trademarks of Microsoft Corporation. Lertiva is not endorsed by Microsoft; SmartScreen behavior is determined solely by Microsoft.",
+    "page.signing.legal.p3":
+      "Personal data: hosting may process technical access logs; G2 JSON samples contain no personal data by design. See our privacy notice (KVKK). EU/UK visitors: same transparency applies under GDPR; use contact channels for data requests.",
     "page.arcProduct.title": "Lertiva Arc — Windows",
     "page.zipProduct.title": "Lertiva Zip — Beta",
     "home.workflows.title": "Measurable archive for enterprise teams",

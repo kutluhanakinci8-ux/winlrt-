@@ -6,7 +6,7 @@
     <title>SmartScreen &amp; kod imzası — Lertiva</title>
     <meta
       name="description"
-      content="Windows SmartScreen, Authenticode ve kurumsal imza yol haritası — Lertiva Arc resmi sürüm ve EV/OV güven pisti."
+      content="Microsoft Defender SmartScreen ve Authenticode hakkında bilgilendirme — Lertiva resmi sürüm; EV/OV imza planı ayrı izlek."
     />
     <link rel="icon" href="/favicon.svg?v=11" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css?v=15" />
@@ -108,7 +108,9 @@
             <h2 data-i18n="page.signing.status.title">G2 imza kapısı (vitrin)</h2>
             <p class="meta" id="signing-gate-meta" data-i18n="page.signing.status.loading">Durum yükleniyor…</p>
           </div>
+          <article class="card signing-ev-banner" id="signing-ev-banner" hidden></article>
           <div class="signing-status-grid" id="signing-gate-grid"></div>
+          <p class="meta" data-i18n="page.signing.status.disclaimer"></p>
           <p class="meta" style="margin-top: 1rem">
             <a href="/benchmark/samples/lertiva-windows-signing-gate.json" data-i18n="page.signing.status.json">G2 JSON</a>
             ·
@@ -161,7 +163,24 @@
         </div>
       </section>
 
-      <section class="section section-alt">
+      <section class="section section-alt" id="yasal-uyari">
+        <div class="container legal-prose" style="max-width: 48rem">
+          <span class="section-label" data-i18n="page.signing.legal.label">Yasal bilgilendirme</span>
+          <h2 data-i18n="page.signing.legal.title">Sorumluluk reddi ve marka notları</h2>
+          <p data-i18n="page.signing.legal.p1"></p>
+          <p data-i18n="page.signing.legal.p2"></p>
+          <p data-i18n="page.signing.legal.p3"></p>
+          <p class="meta">
+            <a href="/kvkk/" data-i18n="nav.kvkk">KVKK</a>
+            ·
+            <a href="/iletisim/" data-i18n="nav.contact">İletişim</a>
+            ·
+            <a href="/guven/" data-i18n="nav.guven">Güven merkezi</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
         <div class="container" style="text-align: center; max-width: 40rem">
           <h2 data-i18n="page.signing.cta.title">Kurumsal imza veya basın</h2>
           <p data-i18n="page.signing.cta.body"></p>
@@ -176,13 +195,18 @@
     <footer class="site-footer" data-site-footer></footer>
     <script src="/js/header.js?v=11"></script>
     <script src="/js/footer.js?v=11"></script>
-    <script src="/js/i18n.js?v=15"></script>
+    <script src="/js/i18n.js?v=16"></script>
     <script src="/js/site.js?v=11"></script>
     <script>
       (function () {
-        function pill(ok, label) {
+        var lang = (window.WinlrtSite && WinlrtSite.lang && WinlrtSite.lang()) || "tr";
+        var passLabel = lang === "en" ? "CI pass" : "CI geçti";
+        var watchLabel = lang === "en" ? "CI watch" : "CI izleniyor";
+
+        function pill(ok) {
           var cls = ok === true ? "signing-pill signing-pill--ok" : ok === false ? "signing-pill signing-pill--warn" : "signing-pill";
           var t = ok === true ? "✓" : ok === false ? "…" : "—";
+          var label = ok === true ? passLabel : watchLabel;
           return '<span class="' + cls + '">' + t + " " + label + "</span>";
         }
         function gateCard(title, pass, note) {
@@ -192,10 +216,31 @@
             '</h3><p class="meta">' +
             (note || "") +
             "</p>" +
-            pill(pass, pass ? "GEÇTİ" : "izleniyor") +
+            pill(pass) +
             "</article>"
           );
         }
+        fetch("/benchmark/samples/lertiva-ev-ov-signing-gate.json", { cache: "no-store" })
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (ev) {
+            var prod = ev.gates && ev.gates.ev_ov_pfx_production;
+            if (prod && prod.pass === false) {
+              var banner = document.getElementById("signing-ev-banner");
+              banner.hidden = false;
+              banner.innerHTML =
+                "<p><strong>" +
+                (lang === "en" ? "Production EV/OV" : "Üretim EV/OV") +
+                ":</strong> " +
+                (ev.disclaimer || "") +
+                " · <code>" +
+                (ev.certificate_tier || "") +
+                "</code></p>";
+            }
+          })
+          .catch(function () {});
+
         fetch("/benchmark/samples/lertiva-windows-signing-gate.json", { cache: "no-store" })
           .then(function (r) {
             return r.json();
@@ -203,16 +248,21 @@
           .then(function (data) {
             var g = data.gates || {};
             var grid = document.getElementById("signing-gate-grid");
+            var tZip = lang === "en" ? "Zip CI signing" : "Zip CI imza";
+            var tArc = lang === "en" ? "Arc CI signing" : "Arc CI imza";
+            var tPipe = lang === "en" ? "Dev signing pipeline" : "Geliştirme imza hattı";
+            var tPng = lang === "en" ? "Site screenshot gate" : "Vitrin görsel kapısı";
             grid.innerHTML =
-              gateCard("Zip CI imza", g.ci_zip_signed_build && g.ci_zip_signed_build.pass, g.ci_zip_signed_build && g.ci_zip_signed_build.workflow) +
-              gateCard("Arc CI imza", g.ci_arc_signed_build && g.ci_arc_signed_build.pass, g.ci_arc_signed_build && g.ci_arc_signed_build.workflow) +
-              gateCard("İmza hattı", g.signing_pipeline && g.signing_pipeline.pass, g.signing_pipeline && g.signing_pipeline.note) +
-              gateCard("SmartScreen vitrin", g.vitrin_smartscreen_real && g.vitrin_smartscreen_real.pass, g.vitrin_smartscreen_real && g.vitrin_smartscreen_real.note);
+              gateCard(tZip, g.ci_zip_signed_build && g.ci_zip_signed_build.pass, g.ci_zip_signed_build && g.ci_zip_signed_build.workflow) +
+              gateCard(tArc, g.ci_arc_signed_build && g.ci_arc_signed_build.pass, g.ci_arc_signed_build && g.ci_arc_signed_build.workflow) +
+              gateCard(tPipe, g.signing_pipeline && g.signing_pipeline.pass, g.signing_pipeline && g.signing_pipeline.note) +
+              gateCard(tPng, g.vitrin_smartscreen_real && g.vitrin_smartscreen_real.pass, g.vitrin_smartscreen_real && g.vitrin_smartscreen_real.note);
             document.getElementById("signing-gate-meta").textContent =
-              (data.disclaimer || "") + " · " + (data.generated_at || "") + " · " + (data.ev_ov_next || "");
+              (data.disclaimer || "") + " · " + (data.generated_at || "");
           })
           .catch(function () {
-            document.getElementById("signing-gate-meta").textContent = "G2 özeti yüklenemedi.";
+            document.getElementById("signing-gate-meta").textContent =
+              lang === "en" ? "G2 summary failed to load." : "G2 özeti yüklenemedi.";
           });
       })();
     </script>

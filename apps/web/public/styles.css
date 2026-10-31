@@ -978,6 +978,17 @@ a.card.hub-teaser:hover {
   color: #facc15;
 }
 
+.signing-ev-banner {
+  margin-bottom: 1rem;
+  border-color: rgba(234, 179, 8, 0.35);
+  background: rgba(234, 179, 8, 0.06);
+}
+
+.signing-ev-banner p {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
 /* —— Hero —— */
 .hero {
   padding: 4.5rem 0 5rem;
