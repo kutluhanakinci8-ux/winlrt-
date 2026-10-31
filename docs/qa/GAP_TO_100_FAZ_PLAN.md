@@ -160,14 +160,14 @@ flowchart TB
 |------|-----------|-----|-----------|
 | Motor+CLI+bench+CI (ileri hariç) | 75% | G9 | 85% (+ seçili ileri) |
 | Arc Windows masaüstü | 65% | G2,G4 | 80% |
-| Zip P0×3 | 67% (all_pass hayır) | **G1** | 100% |
+| Zip P0×3 | **100%** (Windows resmi) | **G1** | W34 macOS |
 | Zip Windows beta → v1 | 55% | **G1,G2** | 85% |
 | macOS | 35% | **G3** | 65% |
 | Kurumsal saha | 25% | **G5** | 60% |
 | Mobil uygulama | 0% | **G6** | 40% (MVP) |
 | Mağaza gerçek | 0% | **G7** | 50% (beta listing) |
 | Lerta canlı | 15–25% | **G8** | 80% |
-| Authenticode/SmartScreen | 0% | **G2** | 70% |
+| Authenticode/SmartScreen | **~70%** (dev CI ✅) | **G2** | EV/OV + vitrin PNG |
 | Marka/suite | 25% | **G10** | 70% |
 
 ---

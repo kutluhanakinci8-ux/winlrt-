@@ -170,6 +170,14 @@ jobs:
       - name: Lertiva Zip v1.0 GA kapı (W33)
         run: bash scripts/verify-madde-w33.sh
 
+      - name: G2 Windows imza kapı özeti
+        run: |
+          chmod +x scripts/evaluate-lertiva-windows-signing-gate.sh
+          bash scripts/evaluate-lertiva-windows-signing-gate.sh
+
+      - name: Madde H — imzalı Windows CI (strict)
+        run: bash scripts/verify-madde-h-signed.sh
+
       - name: Lertiva marka kalıntı taraması
         run: bash scripts/verify-lertiva-brand.sh
 

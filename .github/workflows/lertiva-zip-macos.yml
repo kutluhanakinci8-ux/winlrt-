@@ -87,3 +87,27 @@ jobs:
           prerelease: true
           generate_release_notes: true
           files: target/release/bundle/dmg/*.dmg
+
+  macos-zip-kpi:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: 7-Zip (rakip referans)
+        run: brew install sevenzip
+      - name: Prepare mixed fixture
+        run: bash benchmarks/fixtures/mixed/prepare.sh
+      - name: Benchmark Balanced (zip_kpi — W34)
+        env:
+          WINLRT_BENCH_INCLUDE_7Z: "1"
+        run: |
+          cargo run -p lertiva-archive --release -- bench --all --json --zip-kpi > macos-bench-balanced.json
+          cargo run -p lertiva-archive --release -- bench --all --profile fast --json --zip-kpi > macos-bench-fast.json
+      - name: Upload macOS KPI
+        uses: actions/upload-artifact@v4
+        with:
+          name: lertiva-zip-macos-bench
+          path: |
+            macos-bench-balanced.json
+            macos-bench-fast.json
+          if-no-files-found: error

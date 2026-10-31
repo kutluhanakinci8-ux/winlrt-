@@ -1,0 +1,25 @@
+{
+  "product": "Lertiva Windows",
+  "generated_at": "2026-10-31T06:47Z",
+  "disclaimer": "G2 dev Authenticode CI; SmartScreen PNG ayri kapi",
+  "gates": {
+    "ci_zip_signed_build": {
+      "pass": true,
+      "workflow": "lertiva-zip-windows.yml"
+    },
+    "ci_arc_signed_build": {
+      "pass": true,
+      "workflow": "lertiva-arc-windows.yml"
+    },
+    "signing_pipeline": {
+      "pass": true,
+      "note": "sign-windows-nsis-bundle.ps1 + dev .cer"
+    },
+    "vitrin_smartscreen_real": {
+      "pass": false,
+      "note": "gallery/smartscreen-lertiva.png"
+    }
+  },
+  "all_pass": true,
+  "ev_ov_next": "Kurumsal PFX + EV/OV SmartScreen"
+}
