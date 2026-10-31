@@ -1,6 +1,6 @@
 {
   "product": "Lertiva Arc platforms",
-  "generated_at": "2026-10-31T14:15Z",
+  "generated_at": "2026-10-31T14:31Z",
   "plan_doc": "docs/qa/ARC_PLATFORM_FAZ_PLAN.md",
   "tauri_version": "1.0.2",
   "latest_stable_release": "v1.0.1",
@@ -24,7 +24,10 @@
     },
     "AP-3": {
       "pass": false,
-      "note": "macOS dmg — bekliyor"
+      "prep": true,
+      "notarized": false,
+      "workflow": "lertiva-arc-macos.yml",
+      "note": "macOS universal dmg — CI yeşil artifact (notarize APPLE_* ile)"
     },
     "AP-4": {
       "pass": false,

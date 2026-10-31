@@ -66,6 +66,23 @@ if [[ "$gh_usable" == true ]]; then
 fi
 ap2_pass="$ap2_ci_ok"
 
+ap3_prep=false
+[[ -f "$ROOT/.github/workflows/lertiva-arc-macos.yml" ]] \
+  && grep -q "universal-apple-darwin" "$ROOT/.github/workflows/lertiva-arc-macos.yml" \
+  && [[ -f "$ROOT/docs/qa/AP3_MACOS_ARC_RUNBOOK.md" ]] \
+  && ap3_prep=true
+
+ap3_ci_ok=false
+if [[ "$gh_usable" == true ]]; then
+  n="$(gh run list --workflow=lertiva-arc-macos.yml --repo "$REPO" --limit 10 --json conclusion \
+    | jq -r '[.[] | select(.conclusion=="success")] | length' 2>/dev/null || echo 0)"
+  [[ "${n:-0}" -gt 0 ]] && ap3_ci_ok=true
+fi
+ap3_pass="$ap3_ci_ok"
+ap3_notarized=false
+APPLE_FLAG="$ROOT/apps/web/public/benchmark/samples/lertiva-apple-notarize-configured.flag"
+[[ -f "$APPLE_FLAG" ]] && grep -q 'notarize' "$APPLE_FLAG" 2>/dev/null && ap3_notarized=true
+
 generated_at="$(date -u +%Y-%m-%dT%H:%MZ)"
 mkdir -p "$(dirname "$OUT")"
 jq -n \
@@ -78,6 +95,9 @@ jq -n \
   --argjson ev_ov "$([[ "$ev_ov" == true ]] && echo true || echo false)" \
   --argjson ap2_prep "$([[ "$ap2_prep" == true ]] && echo true || echo false)" \
   --argjson ap2_pass "$([[ "$ap2_pass" == true ]] && echo true || echo false)" \
+  --argjson ap3_prep "$([[ "$ap3_prep" == true ]] && echo true || echo false)" \
+  --argjson ap3_pass "$([[ "$ap3_pass" == true ]] && echo true || echo false)" \
+  --argjson ap3_notarized "$([[ "$ap3_notarized" == true ]] && echo true || echo false)" \
   '{
     product: "Lertiva Arc platforms",
     generated_at: $generated_at,
@@ -102,14 +122,21 @@ jq -n \
         workflow: "lertiva-arc-windows-arm64.yml",
         note: "Windows ARM64 NSIS — CI yeşil artifact (imza AP-1 ile)"
       },
-      "AP-3": { pass: false, note: "macOS dmg — bekliyor" },
+      "AP-3": {
+        pass: $ap3_pass,
+        prep: $ap3_prep,
+        notarized: $ap3_notarized,
+        workflow: "lertiva-arc-macos.yml",
+        note: "macOS universal dmg — CI yeşil artifact (notarize APPLE_* ile)"
+      },
       "AP-4": { pass: false, note: "Linux AppImage — bekliyor" },
       "AP-5": { pass: false, note: "Mobil Arc — bekliyor" },
       "AP-6": { pass: false, note: "Microsoft Store — bekliyor" }
     },
-    all_pass: ($ap1_pass and $ap2_pass),
+    all_pass: ($ap1_pass and $ap2_pass and $ap3_pass and $ap3_notarized),
     current_milestone: (
-      if $ap2_pass then "AP-2"
+      if $ap3_pass then "AP-3"
+      elif $ap2_pass then "AP-2"
       elif $ap1_pass then "AP-2-prep"
       elif $ap2_prep then "AP-1-prep+AP-2-prep"
       elif $ap0_pass then "AP-1-prep"
@@ -117,5 +144,5 @@ jq -n \
     )
   }' >"$OUT"
 
-echo "Arc platform — AP-0: $ap0_pass · AP-1 prep: $ap1_prep · AP-1: $ap1_pass · AP-2 prep: $ap2_prep · AP-2 CI: $ap2_pass · release: ${arc_release_tag:-—}"
+echo "Arc platform — AP-0: $ap0_pass · AP-1 prep: $ap1_prep · AP-1: $ap1_pass · AP-2 prep: $ap2_prep · AP-2 CI: $ap2_pass · AP-3 prep: $ap3_prep · AP-3 CI: $ap3_pass · release: ${arc_release_tag:-—}"
 echo "Yazıldı: $OUT"

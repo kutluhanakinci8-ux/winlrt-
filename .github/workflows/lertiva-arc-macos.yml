@@ -1,0 +1,100 @@
+name: Lertiva Arc macOS
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag (ör. v1.0.2) — boşsa yalnızca artifact
+        required: false
+        default: ""
+  push:
+    branches: [main]
+    tags:
+      - "v1.0.*"
+    paths:
+      - .github/flags/trigger-arc-macos-build
+      - .github/workflows/lertiva-arc-macos.yml
+
+permissions:
+  contents: write
+
+jobs:
+  build-macos:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - run: npm ci
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+
+      - name: Build Lertiva Arc (Tauri dmg, universal)
+        id: build
+        shell: bash
+        env:
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          set -uo pipefail
+          TARGET=universal-apple-darwin
+          if npm run tauri build -w @lertiva/arc -- --target "$TARGET" --features unrar-embedded --bundles dmg; then
+            echo "unrar_embedded=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::unrar-embedded macOS derlenemedi — RAR gömülü olmadan yeniden deneniyor"
+            npm run tauri build -w @lertiva/arc -- --target "$TARGET" --bundles dmg
+            echo "unrar_embedded=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: İmza / notarize durumu
+        id: signing
+        shell: bash
+        env:
+          APPLE_CERT: ${{ secrets.APPLE_CERTIFICATE }}
+        run: |
+          if [ -z "${APPLE_CERT}" ]; then
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::APPLE_* secret yok — dmg imzasız / notarize edilmedi (AP-3 beta)."
+          else
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: dmg adı ve mimari doğrulama
+        id: name
+        shell: bash
+        run: |
+          set -euo pipefail
+          DIR=target/universal-apple-darwin/release/bundle/dmg
+          SRC="$(ls "$DIR"/*.dmg | head -1)"
+          VER="$(grep -E '"version"' apps/lertiva-arc/src-tauri/tauri.conf.json | head -1 | sed 's/.*"\([0-9.]*\)".*/\1/')"
+          DEST="$DIR/Lertiva Arc_${VER}_macos-universal.dmg"
+          [ "$SRC" = "$DEST" ] || mv -f "$SRC" "$DEST"
+          echo "file=$DEST" >> "$GITHUB_OUTPUT"
+          APP="$(ls -d target/universal-apple-darwin/release/bundle/macos/*.app | head -1)"
+          BIN="$APP/Contents/MacOS/$(ls "$APP/Contents/MacOS" | head -1)"
+          lipo -archs "$BIN" | tee /tmp/archs.txt
+          grep -q arm64 /tmp/archs.txt && grep -q x86_64 /tmp/archs.txt
+
+      - name: Upload macOS bundle (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: lertiva-arc-macos-bundle
+          path: target/universal-apple-darwin/release/bundle/dmg/*_macos-universal.dmg
+          if-no-files-found: error
+
+      - name: Release asset (tag)
+        if: startsWith(github.ref, 'refs/tags/v1.0.') || (github.event_name == 'workflow_dispatch' && inputs.tag != '')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
+          files: target/universal-apple-darwin/release/bundle/dmg/*_macos-universal.dmg

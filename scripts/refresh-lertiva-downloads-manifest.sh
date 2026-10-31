@@ -60,6 +60,13 @@ fi
 arc_arm64_url=""
 [[ -n "$arc_arm64_exe" ]] && arc_arm64_url="https://github.com/${REPO}/releases/download/${arc_tag}/${arc_arm64_exe// /%20}"
 
+arc_dmg=""
+if [[ -n "$arc_tag" ]]; then
+  arc_dmg="$(gh release view "$arc_tag" --repo "$REPO" --json assets -q '.assets[].name' 2>/dev/null | grep -iE 'macos.*\.dmg$' | head -1 || true)"
+fi
+arc_dmg_url=""
+[[ -n "$arc_dmg" ]] && arc_dmg_url="https://github.com/${REPO}/releases/download/${arc_tag}/${arc_dmg// /%20}"
+
 arc_target_ver="$(grep -E '"version"' "$ROOT/apps/lertiva-arc/src-tauri/tauri.conf.json" | head -1 | sed 's/.*"\([0-9.]*\)".*/\1/')"
 arc_signed=false
 FLAG_EV="$ROOT/apps/web/public/benchmark/samples/lertiva-ev-ov-configured.flag"
@@ -79,6 +86,7 @@ jq -n \
   --arg arc_exe_url "$arc_exe_url" \
   --arg arc_target_ver "$arc_target_ver" \
   --arg arc_arm64_url "$arc_arm64_url" \
+  --arg arc_dmg_url "$arc_dmg_url" \
   --argjson arc_signed "$arc_signed" \
   --argjson macos "$MACOS" \
   '{
@@ -113,10 +121,18 @@ jq -n \
           workflow: "https://github.com/kutluhanakinci8-ux/winlrt-/actions/workflows/lertiva-arc-windows-arm64.yml",
           status: (if $arc_arm64_url == "" then "ci_artifact" else "shipped" end)
         },
+        macos: {
+          arch: "universal",
+          dmg_download_url: ($arc_dmg_url | if . == "" then null else . end),
+          workflow: "https://github.com/kutluhanakinci8-ux/winlrt-/actions/workflows/lertiva-arc-macos.yml",
+          status: (if $arc_dmg_url == "" then "ci_artifact" else "shipped" end),
+          notarize_deferred: true,
+          note: "Finder dosya ilişkileri; Explorer sağ tık menüsü yalnızca Windows."
+        },
         platform_roadmap: {
           windows_x64_signed: { phase: "AP-1", status: (if $arc_signed then "shipped" else "prep" end), target: $arc_target_ver },
           windows_arm64: { phase: "AP-2", status: (if $arc_arm64_url == "" then "ci_artifact" else "shipped" end) },
-          macos: { phase: "AP-3", status: "planned" },
+          macos: { phase: "AP-3", status: (if $arc_dmg_url == "" then "ci_artifact" else "shipped" end) },
           linux: { phase: "AP-4", status: "planned" },
           mobile: { phase: "AP-5", status: "planned" },
           store: { phase: "AP-6", status: "planned" }

@@ -337,6 +337,8 @@ fn platform_info() -> PlatformInfo {
         os: std::env::consts::OS.into(),
         explorer_context_menu: if cfg!(target_os = "windows") {
             "NSIS: aç/buraya aç · sıkıştır/şifreli · çoklu seçim · Win32 parola"
+        } else if cfg!(target_os = "macos") {
+            "macOS: Finder dosya ilişkileri (ZIP · .wlrt · RAR · 7z) · sağ tık menüsü Windows kurulumuna özgü"
         } else {
             "Yalnızca Windows kurulumunda"
         },
