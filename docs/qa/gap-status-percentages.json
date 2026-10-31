@@ -1,11 +1,11 @@
 {
   "updated": "2026-10-31",
-  "note": "Sertifika/Play/App Store/Lerta prod ertelenmis; G5 all_pass Zip saha signoff bekliyor.",
+  "note": "Lerta prod bearer ertelenmis; Zip kurumsal saha signoff bekliyor.",
   "layers": {
     "repo_ci": 100,
-    "product_excluding_external": 66,
-    "product_full": 45,
-    "program_weighted": 80
+    "product_excluding_external": 69,
+    "product_full": 48,
+    "program_weighted": 81
   },
   "phases": {
     "G1": { "repo": 100, "product": 92, "combined": 96 },
@@ -15,9 +15,9 @@
     "G5": { "repo": 92, "product": 28, "combined": 52 },
     "G6": { "repo": 100, "product": 10, "combined": 37 },
     "G7": { "repo": 100, "product": 5, "combined": 43 },
-    "G8": { "repo": 85, "product": 25, "combined": 49 },
+    "G8": { "repo": 95, "product": 42, "combined": 58 },
     "G9": { "repo": 100, "product": 55, "combined": 68 },
     "G10": { "repo": 100, "product": 30, "combined": 58 }
   },
-  "next_sequence": ["G8", "G1", "G4-saha", "G5-saha-zip"]
+  "next_sequence": ["G1", "G4-saha", "G5-saha-zip", "G8-prod-bearer"]
 }

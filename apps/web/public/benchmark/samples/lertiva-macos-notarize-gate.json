@@ -1,6 +1,6 @@
 {
   "product": "Lertiva Zip macOS",
-  "generated_at": "2026-10-31T09:00Z",
+  "generated_at": "2026-10-31T09:07Z",
   "disclaimer": "Notarize: APPLE_* secret sonrasi flag dosyasi.",
   "gates": {
     "macos_build_w14": {

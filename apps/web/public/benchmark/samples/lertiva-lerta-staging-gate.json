@@ -1,0 +1,47 @@
+{
+  "product": "Lertiva Zip ↔ Lerta (G8)",
+  "generated_at": "2026-10-31T09:07Z",
+  "disclaimer": "repo_pass=staging W28–W31; all_pass=LERTA_API_BEARER prod + dry-run kapali (IT).",
+  "integration_json": "/benchmark/samples/lertiva-zip-lerta-integration-v1.json",
+  "gates": {
+    "madde_w28_mail": {
+      "pass": true
+    },
+    "madde_w29_api": {
+      "pass": true
+    },
+    "madde_w30_message": {
+      "pass": true
+    },
+    "madde_w31_integration": {
+      "pass": true
+    },
+    "json_schemas": {
+      "pass": true
+    },
+    "vitrin_samples": {
+      "pass": true
+    },
+    "staging_gate_pass": {
+      "pass": true
+    },
+    "g8_runbook": {
+      "pass": true
+    },
+    "audit_documentation": {
+      "pass": true
+    },
+    "prod_config_example": {
+      "pass": true
+    },
+    "bearer_configured_vitrin": {
+      "pass": false
+    },
+    "live_submit_allowed": {
+      "pass": false,
+      "deferred": true
+    }
+  },
+  "repo_pass": true,
+  "all_pass": false
+}

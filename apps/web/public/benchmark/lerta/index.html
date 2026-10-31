@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lerta entegrasyon — staging</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css?v=5" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="logo" href="/">Lertiva</a>
+        <nav class="nav">
+          <a href="/benchmark/gap/">Gap</a>
+          <a href="https://www.lerta.com.tr">lerta.com.tr</a>
+        </nav>
+      </div>
+    </header>
+    <main class="section">
+      <div class="container">
+        <h1>G8 — Lerta staging</h1>
+        <p id="meta" class="meta">Yükleniyor…</p>
+        <ul id="channels"></ul>
+        <p class="meta">
+          <a href="/benchmark/samples/lertiva-lerta-staging-gate.json">G8 gate</a> ·
+          <a href="/benchmark/samples/lertiva-zip-lerta-integration-v1.json">Integration JSON</a>
+        </p>
+      </div>
+    </main>
+    <script>
+      Promise.all([
+        fetch("/benchmark/samples/lertiva-lerta-staging-gate.json", { cache: "no-store" }),
+        fetch("/benchmark/samples/lertiva-zip-lerta-integration-v1.json", { cache: "no-store" }),
+      ])
+        .then(([g, i]) => Promise.all([g.json(), i.json()]))
+        .then(([gate, st]) => {
+          document.getElementById("meta").textContent =
+            `Gate repo_pass: ${gate.repo_pass} · staging_gate_pass: ${st.staging_gate_pass} · dry_run: ${st.dry_run}`;
+          const ul = document.getElementById("channels");
+          (st.channels || []).forEach((c) => {
+            const li = document.createElement("li");
+            li.innerHTML = `<strong>${c.id}</strong> (${c.madde}) · ${c.register_url}`;
+            ul.appendChild(li);
+          });
+        })
+        .catch(() => {
+          document.getElementById("meta").textContent = "JSON yüklenemedi.";
+        });
+    </script>
+  </body>
+</html>

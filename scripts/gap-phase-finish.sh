@@ -35,6 +35,7 @@ bash "$ROOT/scripts/verify-faz-g${PHASE}.sh"
 case "$PHASE" in
   4) bash "$ROOT/scripts/evaluate-lertiva-desktop-maturity-gate.sh" ;;
   5) bash "$ROOT/scripts/evaluate-lertiva-corporate-gate.sh" ;;
+  8) bash "$ROOT/scripts/evaluate-lertiva-lerta-staging-gate.sh" ;;
   9) bash "$ROOT/scripts/evaluate-lertiva-motor-advanced-gate.sh" ;;
 esac
 bash "$ROOT/scripts/evaluate-gap-status-report.sh"

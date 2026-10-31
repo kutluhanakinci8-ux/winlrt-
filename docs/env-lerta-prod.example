@@ -1,0 +1,10 @@
+# Prod Lerta (G8) — kopyalamayın repoya; secret manager / .env.lerta.local (gitignore)
+# Staging CI: WINLRT_LERTA_API_DRY_RUN=1 ve LERTA_API_BEARER bos
+
+LERTA_API_BASE=https://u88.lerta.com.tr/api/v1
+LERTA_API_BEARER=
+WINLRT_LERTA_API_DRY_RUN=1
+
+# Prod acilis (IT onayi sonrasi):
+# WINLRT_LERTA_API_DRY_RUN=0
+# LERTA_API_BEARER=<secret>
