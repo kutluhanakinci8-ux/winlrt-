@@ -19,6 +19,14 @@ Imzalı kurulum: Actions → **Lertiva Zip Windows beta build** → artifact `wi
 
 ## 3) Vitrin
 
+Agent / CI (Chrome headless, geliştirme imzası metinleri):
+
+```bash
+bash scripts/render-g2-incoming-screenshots.sh
+```
+
+Manuel kopya sonrası:
+
 ```bash
 bash scripts/import-real-installer-screenshots.sh
 npm run build:web

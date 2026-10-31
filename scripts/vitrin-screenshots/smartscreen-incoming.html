@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Windows SmartScreen</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0078d4
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath fill='%23ffffff12' d='M0 0h40v40H0zm40 40h40v40H40z'/%3E%3C/svg%3E");
+        font-family: "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+        display: grid;
+        place-items: center;
+      }
+      .dlg {
+        width: 448px;
+        background: #fff;
+        border: 1px solid #8a8886;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+      }
+      .hdr {
+        padding: 20px 24px 10px;
+        font-size: 20px;
+        font-weight: 600;
+        color: #201f1e;
+      }
+      .body {
+        padding: 0 24px 20px;
+        font-size: 14px;
+        color: #323130;
+        line-height: 1.55;
+      }
+      .app {
+        font-weight: 600;
+        color: #201f1e;
+      }
+      .publisher {
+        font-size: 13px;
+        color: #605e5c;
+        margin-top: 12px;
+      }
+      .shield {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        margin-bottom: 12px;
+      }
+      .shield svg {
+        flex-shrink: 0;
+      }
+      .foot {
+        background: #f3f2f1;
+        padding: 14px 16px;
+        text-align: right;
+        border-top: 1px solid #edebe9;
+      }
+      button {
+        padding: 6px 22px;
+        margin-left: 8px;
+        font-size: 14px;
+        font-family: inherit;
+        border: 1px solid #8a8886;
+        background: #fff;
+        border-radius: 2px;
+      }
+      .link {
+        border: none;
+        background: transparent;
+        color: #0078d4;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dlg">
+      <div class="hdr">Windows bilgisayarınızı korudu</div>
+      <div class="body">
+        <div class="shield">
+          <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+            <path fill="#c50f1f" d="M16 2L4 6v8c0 7.2 5.1 13.9 12 15 6.9-1.1 12-7.8 12-15V6L16 2z" />
+            <path fill="#fff" d="M14 10h4v10h-4zm0 12h4v4h-4z" />
+          </svg>
+          <div>
+            <p style="margin: 0 0 8px; font-weight: 600; color: #c50f1f">
+              Microsoft Defender SmartScreen tanınmayan bir uygulamayı engelledi
+            </p>
+            <p style="margin: 0">
+              <span class="app">Lertiva Zip_0.1.0_x64-setup.exe</span> çalıştırılırsa bilgisayarınıza
+              zarar verebilir.
+            </p>
+          </div>
+        </div>
+        <p class="publisher">
+          Yayıncı: <strong>Lertiva Dev Codesign (self-signed)</strong> · Geliştirme imzası — kurumsal
+          dağıtımda EV/OV Authenticode kullanın.
+        </p>
+      </div>
+      <div class="foot">
+        <button>Çalıştırma</button>
+        <button class="link">Daha fazla bilgi</button>
+      </div>
+    </div>
+  </body>
+</html>

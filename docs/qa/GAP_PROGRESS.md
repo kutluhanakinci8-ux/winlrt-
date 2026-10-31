@@ -3,7 +3,7 @@
 | Faz | Repo kapısı | Ürün / insan | Doğrulama |
 |-----|-------------|--------------|-----------|
 | **G1** | P0 ✅ W33 ✅ W34 ✅ | — | `verify-faz-g1.sh` |
-| **G2** | Imza CI ✅ vitrin JSON ✅ | SmartScreen PNG, EV/OV | `verify-faz-g2.sh` |
+| **G2** | Imza CI ✅ vitrin PNG ✅ (incoming) | EV/OV prod imza | `verify-faz-g2.sh` |
 | **G3** | W14 ✅ W34 ✅ | APPLE_* notarize | `verify-faz-g3.sh` |
 | **G4** | Signoff şablonları ✅ | Dış kullanıcı oturumu | `verify-faz-g4.sh` |
 | **G5** | Kurumsal repo ✅ | IT saha | `verify-faz-g5.sh` |
