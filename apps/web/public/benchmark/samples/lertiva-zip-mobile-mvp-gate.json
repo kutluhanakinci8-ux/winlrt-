@@ -1,0 +1,20 @@
+{
+  "product": "Lertiva Zip",
+  "generated_at": "2026-10-31T07:04Z",
+  "disclaimer": "G6 repo: W26 okuyucu; native apk/ipa mağaza sprinti ayrı.",
+  "gates": {
+    "w26_mobile_reader": {
+      "pass": true,
+      "note": "verify-madde-w26.sh"
+    },
+    "bundle_id_com_lertiva_zip": {
+      "pass": true
+    },
+    "mobile_poc_readme": {
+      "pass": true,
+      "path": "apps/mobile/README.md"
+    }
+  },
+  "store_next": "Play internal / TestFlight (G7)",
+  "all_pass": true
+}

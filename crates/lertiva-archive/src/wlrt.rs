@@ -209,6 +209,48 @@ pub fn extract(archive: &Path, dest: &Path, password: Option<&str>) -> Result<()
     Ok(())
 }
 
+/// Tek dosyayı tam arşiv çıkarmadan hedefe yazar (G9 akışlı açma MVP).
+pub fn extract_one(
+    archive: &Path,
+    entry_path: &str,
+    dest_file: &Path,
+    password: Option<&str>,
+) -> Result<()> {
+    let mut file = File::open(archive)?;
+    let header = read_header(&mut file)?;
+    if header.salt.is_some() && password.is_none_or(|p| p.is_empty()) {
+        return Err(ArchiveError::Wlrt("parola gerekli (şifreli .wlrt)".into()));
+    }
+    let want = entry_path.replace('\\', "/");
+    let mut matched = false;
+    for _ in 0..header.file_count {
+        let entry = read_entry(
+            &mut file,
+            header.version,
+            header.salt.as_ref(),
+            password,
+        )?;
+        if entry.path != want {
+            continue;
+        }
+        matched = true;
+        if let Some(parent) = dest_file.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+        let mut dec = Decoder::new(&entry.payload[..])
+            .map_err(|e| ArchiveError::Wlrt(format!("zstd: {e}")))?;
+        let out = File::create(dest_file)?;
+        let mut buf = BufWriter::with_capacity(64 * 1024, out);
+        std::io::copy(&mut dec, &mut buf)?;
+        buf.flush()?;
+    }
+    if !matched {
+        return Err(ArchiveError::Wlrt(format!("dosya bulunamadı: {want}")));
+    }
+    read_footer(&mut file)?;
+    Ok(())
+}
+
 fn prepare_extract_dirs(dest: &Path, entries: &[ParsedEntry]) -> Result<()> {
     use std::collections::HashSet;
     let mut dirs = HashSet::new();
@@ -581,6 +623,21 @@ mod tests {
         extract(&archive, &out, None).unwrap();
         let got = std::fs::read(out.join("a.txt")).unwrap();
         assert_eq!(got, b"winlrt wlrt test");
+    }
+
+    #[test]
+    fn wlrt_extract_one() {
+        let dir = tempdir().unwrap();
+        let src = dir.path().join("src");
+        std::fs::create_dir_all(&src).unwrap();
+        std::fs::write(src.join("a.txt"), b"aaa").unwrap();
+        std::fs::write(src.join("b.txt"), b"bbb").unwrap();
+        let archive = dir.path().join("t.wlrt");
+        create(&src, &archive, CompressionProfile::Fast, None).unwrap();
+        let single = dir.path().join("only-b.txt");
+        extract_one(&archive, "b.txt", &single, None).unwrap();
+        assert_eq!(std::fs::read(&single).unwrap(), b"bbb");
+        assert!(!dir.path().join("a.txt").exists());
     }
 
     #[test]

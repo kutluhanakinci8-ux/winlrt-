@@ -1,0 +1,15 @@
+# Faz G7 — Mağaza listing (repo kapısı)
+
+| Kapı | Doğrulama |
+|------|-----------|
+| W27 mağaza ön koşul | `verify-madde-w27.sh` |
+| W32 pilot hazırlık | `verify-madde-w32.sh` |
+| Data safety şablon | `WINLRTZIP_STORE_DATA_SAFETY.md` |
+| Listing URL (opsiyonel) | `apps/web/public/benchmark/samples/lertiva-store-listing-url.txt` |
+
+```bash
+bash scripts/evaluate-lertiva-store-listing-gate.sh
+bash scripts/verify-faz-g7.sh
+```
+
+**Ürün:** Play Console / App Store Connect internal track + inceleme gönderimi.

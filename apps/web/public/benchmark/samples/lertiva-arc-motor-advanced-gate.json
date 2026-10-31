@@ -1,0 +1,34 @@
+{
+  "product": "Lertiva Arc",
+  "generated_at": "2026-10-31T07:04Z",
+  "disclaimer": "G9 repo MVP: P0+Q2+codec matrisi+extract_one; solid/dedup R&D.",
+  "mvp_selected": [
+    "extract_one",
+    "codec_matrix",
+    "zip_entries_preview"
+  ],
+  "gates": {
+    "g1_p0_regression": {
+      "pass": true,
+      "note": "lertiva-zip-p0-gate.json"
+    },
+    "q2_bench_perf": {
+      "pass": true
+    },
+    "codec_matrix_doc": {
+      "pass": true,
+      "path": "docs/qa/WINLRTRAR_CODEC_MATRIX.md"
+    },
+    "wlrt_extract_one_api": {
+      "pass": true
+    },
+    "zip_mobile_entries_preview": {
+      "pass": true
+    },
+    "solid_dedup_planned": {
+      "pass": true,
+      "note": "plan maddesi; implementasyon yok"
+    }
+  },
+  "all_pass": true
+}

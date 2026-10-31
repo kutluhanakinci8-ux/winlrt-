@@ -1,0 +1,21 @@
+{
+  "product": "Lertiva Zip",
+  "generated_at": "2026-10-31T07:04Z",
+  "disclaimer": "G7 repo: W27+W32+Data safety; Play/App URL vitrin dosyasi ile tamamlanir.",
+  "gates": {
+    "w27_store_gate": {
+      "pass": true
+    },
+    "w32_store_pilot": {
+      "pass": true
+    },
+    "data_safety_doc": {
+      "pass": true
+    },
+    "listing_url_set": {
+      "pass": false,
+      "url": null
+    }
+  },
+  "all_pass": true
+}

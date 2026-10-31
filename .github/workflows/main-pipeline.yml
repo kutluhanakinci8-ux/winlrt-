@@ -167,6 +167,22 @@ jobs:
       - name: Lertiva Zip mağaza/mobil pilot hazırlık (W32)
         run: bash scripts/verify-madde-w32.sh
 
+      - name: Lertiva Zip mobil MVP repo kapısı (W36 / G6)
+        run: bash scripts/verify-madde-w36.sh
+
+      - name: G7 mağaza listing repo kapısı
+        run: |
+          chmod +x scripts/evaluate-lertiva-store-listing-gate.sh
+          bash scripts/verify-madde-w27.sh
+          bash scripts/evaluate-lertiva-store-listing-gate.sh
+          jq -e '.all_pass == true' apps/web/public/benchmark/samples/lertiva-zip-store-listing-gate.json
+
+      - name: G9 motor ileri repo MVP
+        run: bash scripts/verify-madde-g9.sh
+
+      - name: G10 marka + suite repo
+        run: bash scripts/verify-madde-g10.sh
+
       - name: Lertiva Zip v1.0 GA kapı (W33)
         run: bash scripts/verify-madde-w33.sh
 
