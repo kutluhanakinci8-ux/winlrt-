@@ -8,6 +8,22 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+
+function Install-LertivaDevTrust {
+    param([string]$CerPath)
+    if (-not (Test-Path $CerPath)) { return $false }
+    Write-Host "Dev codesign güveni: $CerPath → LocalMachine Root + TrustedPublisher"
+    Import-Certificate -FilePath $CerPath -CertStoreLocation Cert:\LocalMachine\Root | Out-Null
+    Import-Certificate -FilePath $CerPath -CertStoreLocation Cert:\LocalMachine\TrustedPublisher | Out-Null
+    return $true
+}
+
+$trustDev = $env:WINLRT_TRUST_DEV_CODESIGN -ne "0"
+$devCer = Join-Path $PSScriptRoot ".." ".github" "signing" "lertiva-dev-codesign.cer" | Resolve-Path -ErrorAction SilentlyContinue
+if ($trustDev -and $devCer) {
+    Install-LertivaDevTrust -CerPath $devCer | Out-Null
+}
+
 $signtool = "${env:ProgramFiles(x86)}\Windows Kits\10\bin\*\x64\signtool.exe"
 $resolved = Get-Item $signtool -ErrorAction SilentlyContinue | Sort-Object FullName -Descending | Select-Object -First 1
 if (-not $resolved) {

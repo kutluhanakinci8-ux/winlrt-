@@ -62,6 +62,8 @@ jobs:
       - name: Verify Authenticode (secret varsa)
         if: steps.signing.outputs.present == 'true'
         shell: pwsh
+        env:
+          WINLRT_TRUST_DEV_CODESIGN: "1"
         run: ./scripts/verify-windows-signature.ps1
 
       - name: Upload Windows bundle (artifact)

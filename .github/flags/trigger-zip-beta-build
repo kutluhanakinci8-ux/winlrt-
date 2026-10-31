@@ -3,3 +3,5 @@
 # madde-w5 password + secure explorer 2026-10-30T18:15Z
 # TAURI_SIGNING secrets 2026-10-31T09:16Z
 # WINDOWS_CERTIFICATE env fix 2026-10-31T09:20Z
+# signtool post-build 2026-10-31T09:33Z
+# dev cer trust verify 2026-10-31T09:38Z
