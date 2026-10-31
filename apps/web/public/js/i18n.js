@@ -46,7 +46,7 @@ window.WINLRT_I18N = {
     "page.products.title": "Ürünler — Lertiva",
     "page.products.h1": "Arşiv ihtiyacınıza göre doğru Lertiva",
     "page.products.lead":
-      "WinZip ve WinRAR sınıfı iş akışları için iki masaüstü ürün — ortak motor, kurumsal dağıtım ve şeffaf KPI.",
+      "Kurumsal ve bireysel arşiv iş akışları için iki masaüstü ürün — ortak motor, kurumsal dağıtım ve şeffaf KPI.",
     "page.features.title": "Özellikler — Lertiva",
     "page.features.h1": "Günlük iş akışınızı güvenle hızlandırın",
     "page.features.lead":
@@ -116,7 +116,7 @@ window.WINLRT_I18N = {
     "home.workflows.lead":
       "Pilot dalgaları, KPI vitrin ve GPO paketleri — abonelik bağımlılığı olmadan yerli alternatif.",
     "home.workflows.quote":
-      "Lertiva, WinRAR / WinZip sınıfı ihtiyaçları KPI kapıları ve KVKK odaklı denetimle karşılamak için tasarlandı.",
+      "Lertiva, günlük arşiv ve dağıtım ihtiyaçlarını KPI kapıları ve KVKK odaklı denetimle karşılamak için tasarlandı.",
     "home.hub.label": "Keşfet",
     "home.hub.title": "Çözümler, galeri ve güven merkezi",
     "home.hub.lead":
@@ -166,7 +166,7 @@ window.WINLRT_I18N = {
       "Parola ve anahtar materyali denetim günlüğüne yazılmaz; politika GPO ile yönetilir.",
     "page.guven.card.crypto.title": "Şifreleme",
     "page.guven.card.crypto.body":
-      "ZIP AES-256 (WinZip AE-2) · .wlrt Argon2id v2 + AES-GCM · ZipCrypto uyarı etiketi.",
+      "ZIP AES-256 (AE-2) · .wlrt Argon2id v2 + AES-GCM · ZipCrypto uyarı etiketi.",
     "page.guven.card.audit.title": "Denetim (KVKK)",
     "page.guven.card.audit.body":
       "audit.jsonl olayları · isteğe bağlı SIEM forward · Lerta metadata-only API.",
@@ -186,7 +186,7 @@ window.WINLRT_I18N = {
     "hero.tagline":
       "Enterprise archive software — built in Türkiye, measured on Windows KPI gates.",
     "hero.lead":
-      "Lertiva Arc resmi Windows sürümü yayında. Lertiva Zip, WinZip sınıfı ZIP/ZIP64 için Explorer, kurumsal GPO, imzalı arşiv ve Lerta metadata entegrasyonunu kapsar. Ortak motor: lertiva-archive.",
+      "Lertiva Arc resmi Windows sürümü yayında. Lertiva Zip, ZIP/ZIP64 odaklı Explorer, kurumsal GPO, imzalı arşiv ve Lerta metadata entegrasyonunu kapsar. Ortak motor: lertiva-archive.",
     "hero.cta.download": "İndirme merkezi",
     "hero.cta.kpi": "KPI vitrin",
     "hero.trust.p0": "Sıkıştırma · hız · güven kapıları",
@@ -203,7 +203,7 @@ window.WINLRT_I18N = {
     "products.label": "Ürün ailesi",
     "products.title": "İki masaüstü ürün, ortak güven modeli",
     "products.lead":
-      "Lertiva Zip ZIP odaklı; Lertiva Arc WinRAR sınıfı deneyim. İkisi de aynı motoru ve kurumsal denetim hattını paylaşır.",
+      "Lertiva Zip ZIP odaklı; Lertiva Arc çoklu format ve kurumsal arşiv deneyimi. İkisi de aynı motoru ve kurumsal denetim hattını paylaşır.",
     "gallery.label": "Ürün vitrini",
     "gallery.title": "Arayüz ve kurumsal kanıt önizlemeleri",
     "gallery.lead":
@@ -349,7 +349,7 @@ window.WINLRT_I18N = {
     "page.benchmark.title": "KPI ve benchmark merkezi — Lertiva",
     "page.benchmark.h1": "KPI ve benchmark merkezi",
     "page.benchmark.lead":
-      "Linux CI ve Windows resmi workflow: ZIP, .wlrt, 7-Zip, WinRAR (ZIP) ve opsiyonel WinZip referansı. Lertiva Zip satırı zip_kpi ile ölçülür.",
+      "Linux CI ve Windows resmi workflow ile ZIP ve .wlrt performans kapıları ölçülür. Lertiva Zip satırı zip_kpi ile vitrine aktarılır.",
     "page.benchmark.p0heading": "Lertiva Zip P0×3 kapı özeti",
     "page.benchmark.liveKpi": "Canlı KPI özeti (referans)",
     "page.benchmark.lertaHeading": "Lertiva Zip — Lerta ve mağaza örnekleri",
@@ -465,7 +465,7 @@ window.WINLRT_I18N = {
     "page.products.title": "Products — Lertiva",
     "page.products.h1": "The right Lertiva for your archive workflow",
     "page.products.lead":
-      "Two desktop products for WinZip / WinRAR-class workflows — shared engine, enterprise deployment, transparent KPI.",
+      "Two desktop products for enterprise and personal archive workflows — shared engine, enterprise deployment, transparent KPI.",
     "page.features.title": "Features — Lertiva",
     "page.features.h1": "Secure and speed up daily file workflows",
     "page.features.lead":
@@ -535,7 +535,7 @@ window.WINLRT_I18N = {
     "home.workflows.lead":
       "Pilot waves, KPI site, and GPO packs — a domestic alternative without subscription lock-in.",
     "home.workflows.quote":
-      "Lertiva is built to meet WinRAR / WinZip-class needs with KPI gates and KVKK-oriented audit.",
+      "Lertiva is built for everyday archive and distribution needs with KPI gates and privacy-oriented audit.",
     "home.hub.label": "Explore",
     "home.hub.title": "Solutions, gallery, and trust hub",
     "home.hub.lead":
@@ -585,7 +585,7 @@ window.WINLRT_I18N = {
       "Passwords and key material are not written to audit logs; policy is managed via GPO.",
     "page.guven.card.crypto.title": "Encryption",
     "page.guven.card.crypto.body":
-      "ZIP AES-256 (WinZip AE-2) · .wlrt Argon2id v2 + AES-GCM · ZipCrypto warning label.",
+      "ZIP AES-256 (AE-2) · .wlrt Argon2id v2 + AES-GCM · ZipCrypto warning label.",
     "page.guven.card.audit.title": "Audit (KVKK)",
     "page.guven.card.audit.body":
       "audit.jsonl events · optional SIEM forward · Lerta metadata-only API.",
@@ -605,7 +605,7 @@ window.WINLRT_I18N = {
     "hero.tagline":
       "Enterprise archive software — built in Türkiye, measured on Windows KPI gates.",
     "hero.lead":
-      "Lertiva Arc official Windows release is live; Lertiva Zip covers WinZip-class ZIP/ZIP64 with CLI, Tauri, Explorer, corporate GPO, split ZIP, signed archives, and Lerta mail/message/staging metadata through Post-v3 (W0–W31). Shared engine: lertiva-archive.",
+      "Lertiva Arc official Windows release is live; Lertiva Zip covers ZIP/ZIP64 with Explorer, corporate GPO, split ZIP, signed archives, and Lerta mail/message/staging metadata through Post-v3 (W0–W31). Shared engine: lertiva-archive.",
     "hero.cta.download": "Download center",
     "hero.cta.kpi": "KPI dashboard",
     "hero.trust.p0": "Compression · speed · security gates",
@@ -622,7 +622,7 @@ window.WINLRT_I18N = {
     "products.label": "Product family",
     "products.title": "Two desktop products, one trust model",
     "products.lead":
-      "Lertiva Zip is ZIP-first; Lertiva Arc targets WinRAR-class workflows. Both share the engine and corporate audit pipeline.",
+      "Lertiva Zip is ZIP-first; Lertiva Arc focuses on multi-format enterprise archiving. Both share the engine and corporate audit pipeline.",
     "gallery.label": "Product gallery",
     "gallery.title": "UI and enterprise evidence previews",
     "gallery.lead":
@@ -768,7 +768,7 @@ window.WINLRT_I18N = {
     "page.benchmark.title": "KPI and benchmark hub — Lertiva",
     "page.benchmark.h1": "KPI and benchmark hub",
     "page.benchmark.lead":
-      "Linux CI and official Windows workflow: ZIP, .wlrt, 7-Zip, WinRAR (ZIP), optional WinZip. Lertiva Zip row uses zip_kpi.",
+      "Linux CI and official Windows workflows measure ZIP and .wlrt performance gates. The Lertiva Zip row is exported to the vitrin via zip_kpi.",
     "page.benchmark.p0heading": "Lertiva Zip P0×3 gate summary",
     "page.benchmark.liveKpi": "Live KPI summary (reference)",
     "page.benchmark.lertaHeading": "Lertiva Zip — Lerta and store samples",

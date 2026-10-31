@@ -37,7 +37,7 @@
       }
     ],
     "notes": [
-      "Sıkıştırma (P0): .wlrt en az %10 daha küçük veya eşit boyutta daha hızlı oluşturma (ZIP referans).",
+      "Sıkıştırma (P0): .wlrt en az %10 daha küçük veya eşit boyutta daha hızlı oluşturma (Balanced profil).",
       "Hız KPI yalnız `--profile fast` ile ölçülür; bu koşuda değerlendirilmedi.",
       "Kurumsal güven KPI’si bench dışı (AES-GCM, imza) — bkz. WINLRTRAR_PHASE0.md."
     ]

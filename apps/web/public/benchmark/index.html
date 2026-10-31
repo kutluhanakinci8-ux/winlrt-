@@ -30,7 +30,7 @@
           </tr>
           <tr>
             <td><code>Fast</code></td>
-            <td>Hız (P0): .wlrt açma, en hızlı referanstan ≥ %30 hızlı</td>
+            <td>Hız (P0): .wlrt açma, hedef eşiğe göre ≥ %30 hızlı</td>
             <td><code>bench-report-windows-fast.json</code>, <code>BENCH_REPORT_FAST.md</code></td>
           </tr>
         </tbody>
@@ -98,7 +98,7 @@
       <h2 class="section-label">Kurumsal güven KPI (bench dışı)</h2>
       <ul>
         <li>Yeni şifreli <code>.wlrt</code> → v2 <strong>Argon2id</strong> + AES-GCM</li>
-        <li>Şifreli ZIP → <strong>AES-256</strong> (WinZip AE-2)</li>
+        <li>Şifreli ZIP → <strong>AES-256</strong> (AE-2)</li>
         <li>Denetim: <code>audit.jsonl</code> (parolasız) · GPO / ADMX</li>
         <li>v1.0 kapısı: Authenticode imzalı kurulum — bkz. aşağı</li>
       </ul>
@@ -109,7 +109,7 @@ cargo run -p lertiva-archive -- bench --all --profile fast --json --zip-kpi</cod
       <p>
         Fixture seti: <code>benchmarks/fixtures/</code> (6 set; büyük
         <code>mixed/</code> → <code>bash benchmarks/fixtures/mixed/prepare.sh</code>) · Detay:
-        <code>docs/COMPETITOR_MATRIX.md</code> · Hedefler:
+        Hedefler:
         <code>docs/WINLRTRAR_PHASE0.md</code>
       </p>
 
@@ -410,7 +410,7 @@ cargo run -p lertiva-archive -- bench --all --profile fast --json --zip-kpi</cod
     <footer class="site-footer" data-site-footer></footer>
     <script src="/js/header.js?v=11"></script>
     <script src="/js/footer.js?v=11"></script>
-    <script src="/js/i18n.js?v=11"></script>
+    <script src="/js/i18n.js?v=14"></script>
     <script src="/js/site.js?v=11"></script>
   </body>
 </html>

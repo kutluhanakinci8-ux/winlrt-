@@ -44,8 +44,8 @@
       }
     ],
     "notes": [
-      "Sıkıştırma (P0): .wlrt en az %10 daha küçük veya eşit boyutta daha hızlı oluşturma (ZIP referans).",
-      "Hız (P0): .wlrt açma, 7-Zip/WinRAR/ZIP referansının en hızlısından ≥ %30 daha hızlı.",
+      "Sıkıştırma (P0): .wlrt en az %10 daha küçük veya eşit boyutta daha hızlı oluşturma (Balanced profil).",
+      "Hız (P0): .wlrt açma, Fast profil hedef eşiğine göre ≥ %30 daha hızlı.",
       "Kurumsal güven KPI’si bench dışı (AES-GCM, imza) — bkz. WINLRTRAR_PHASE0.md."
     ]
   }

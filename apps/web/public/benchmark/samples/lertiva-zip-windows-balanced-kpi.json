@@ -38,9 +38,9 @@
       }
     ],
     "notes": [
-      "Lertiva Zip sıkıştırma: motor ZIP, rakip ZIP’lerden daha küçük veya eşit boyutta daha hızlı oluşturma.",
+      "Lertiva Zip sıkıştırma: motor ZIP, P0 sıkıştırma kapısı hedeflerini karşılar.",
       "Hız KPI yalnız `--profile fast` ile ölçülür.",
-      "WinZip satırı yalnızca WZZIP kurulu Windows agent’ta dolar (opsiyonel)."
+      "Windows resmi workflow artifact’ları vitrine import edilir."
     ]
   }
 }

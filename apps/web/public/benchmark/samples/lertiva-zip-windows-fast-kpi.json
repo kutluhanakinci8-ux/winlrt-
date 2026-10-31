@@ -45,9 +45,9 @@
       }
     ],
     "notes": [
-      "Lertiva Zip sıkıştırma: motor ZIP, rakip ZIP’lerden daha küçük veya eşit boyutta daha hızlı oluşturma.",
-      "Lertiva Zip hız: motor ZIP açma, 7-Zip/WinZip/WinRAR-ZIP referansının en hızlısından ≥ %30 hızlı.",
-      "WinZip satırı yalnızca WZZIP kurulu Windows agent’ta dolar (opsiyonel)."
+      "Lertiva Zip sıkıştırma: motor ZIP, P0 sıkıştırma kapısı hedeflerini karşılar.",
+      "Lertiva Zip hız: motor ZIP açma, Fast profil hız kapısı hedeflerini karşılar.",
+      "Windows resmi workflow artifact’ları vitrine import edilir."
     ]
   }
 }
