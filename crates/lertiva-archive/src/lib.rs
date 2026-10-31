@@ -10,6 +10,7 @@ pub mod lerta_message;
 pub mod mobile_reader;
 pub mod secure_share;
 pub mod store_gate;
+pub mod store_pilot_gate;
 pub mod bench;
 pub mod crypto;
 pub mod enterprise;

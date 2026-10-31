@@ -828,6 +828,16 @@ fn w30_lerta_message_attachment_metadata_dry_run() {
 }
 
 #[test]
+fn w32_store_pilot_gate_all_pass_in_repo() {
+    std::env::remove_var("LERTA_API_BEARER");
+    std::env::set_var("WINLRT_LERTA_API_DRY_RUN", "1");
+    let root = lertiva_archive::store_gate::default_workspace_root();
+    let report = lertiva_archive::store_pilot_gate::evaluate_store_pilot_gate(&root).unwrap();
+    assert!(report.all_pass, "pilot gate: {:?}", report.items);
+    std::env::remove_var("WINLRT_LERTA_API_DRY_RUN");
+}
+
+#[test]
 fn w31_lerta_integration_staging_gate() {
     std::env::remove_var("LERTA_API_BEARER");
     std::env::set_var("WINLRT_LERTA_API_DRY_RUN", "1");

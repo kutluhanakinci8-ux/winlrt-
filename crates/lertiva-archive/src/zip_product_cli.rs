@@ -15,6 +15,7 @@ use crate::lerta_message;
 use crate::mobile_reader;
 use crate::secure_share;
 use crate::store_gate;
+use crate::store_pilot_gate;
 use crate::{zip_io, Result};
 
 #[derive(Parser)]
@@ -72,6 +73,10 @@ pub enum ZipCommands {
     MobileCapabilities,
     MobileInspect { archive: PathBuf },
     StoreGate {
+        #[arg(long)]
+        workspace: Option<PathBuf>,
+    },
+    StorePilotGate {
         #[arg(long)]
         workspace: Option<PathBuf>,
     },
@@ -421,6 +426,27 @@ pub fn run() -> Result<()> {
             if !report.all_pass {
                 return Err(crate::ArchiveError::Zip(
                     "magaza kapisi: eksik maddeler var".into(),
+                ));
+            }
+        }
+        ZipCommands::StorePilotGate { workspace } => {
+            let root = workspace.unwrap_or_else(store_gate::default_workspace_root);
+            let report = store_pilot_gate::evaluate_store_pilot_gate(&root)?;
+            if !json_out {
+                println!(
+                    "pilot gate: all_pass={} store={} lerta={} mobile={} vitrin={}",
+                    report.all_pass,
+                    report.store_gate_pass,
+                    report.lerta_staging_pass,
+                    report.mobile_reader_ready,
+                    report.vitrin_brand_pass
+                );
+            } else {
+                print_json(&report)?;
+            }
+            if !report.all_pass {
+                return Err(crate::ArchiveError::Zip(
+                    "magaza/mobil pilot kapisi: eksik maddeler var".into(),
                 ));
             }
         }

@@ -1,0 +1,56 @@
+{
+  "v": 1,
+  "product": "Lertiva Zip",
+  "all_pass": true,
+  "store_gate_pass": true,
+  "lerta_staging_pass": true,
+  "mobile_reader_ready": true,
+  "vitrin_brand_pass": true,
+  "items": [
+    {
+      "id": "store_gate_w27",
+      "pass": true,
+      "note": "Mağaza ön koşul checklist (W27)"
+    },
+    {
+      "id": "lerta_staging_w31",
+      "pass": true,
+      "note": "Lerta birleşik staging kapısı (W31)"
+    },
+    {
+      "id": "mobile_reader_w26",
+      "pass": true,
+      "note": "Mobil okuyucu salt-okuma + Lerta intent (W26)"
+    },
+    {
+      "id": "vitrin_brand",
+      "pass": true,
+      "note": "Vitrin Lertiva dosya adları ve metin"
+    },
+    {
+      "id": "vitrin_index_product",
+      "pass": true,
+      "note": "Ana vitrin Lertiva Zip (winlrtZIP yok)"
+    },
+    {
+      "id": "vitrin_sample_lertiva-zip-store-gate.json",
+      "pass": true,
+      "note": "Benchmark örneği mevcut"
+    },
+    {
+      "id": "vitrin_sample_lertiva-zip-lerta-integration-v1.json",
+      "pass": true,
+      "note": "Benchmark örneği mevcut"
+    },
+    {
+      "id": "vitrin_sample_lertiva-zip-p0-gate.json",
+      "pass": true,
+      "note": "Benchmark örneği mevcut"
+    },
+    {
+      "id": "vitrin_benchmark_index",
+      "pass": true,
+      "note": "Benchmark sayfası lertiva-zip store gate referansı"
+    }
+  ]
+}

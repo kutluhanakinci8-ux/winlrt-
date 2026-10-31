@@ -34,5 +34,6 @@
 | **W29** | Lerta üretim API (metadata kaydı) | **%100** ✅ | [MADDE_W29](./MADDE_W29_WINLRTZIP_LERTA_API.md) |
 | **W30** | Lerta mesaj eki (`.wlrt` / AES-ZIP) | **%100** ✅ | [MADDE_W30](./MADDE_W30_WINLRTZIP_LERTA_MESSAGE.md) |
 | **W31** | Lerta birleşik staging kapısı (canlı API ön koşulu) | **%100** ✅ | [MADDE_W31](./MADDE_W31_WINLRTZIP_LERTA_INTEGRATION.md) |
+| **W32** | Mağaza + mobil pilot hazırlık (birleşik kapı) | **%100** ✅ | [MADDE_W32](./MADDE_W32_WINLRTZIP_STORE_PILOT.md) |
 
 RAR hattı: [POST_V2_SIRA.md](./POST_V2_SIRA.md) (Q2 tamam).

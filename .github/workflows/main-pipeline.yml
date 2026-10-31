@@ -164,6 +164,9 @@ jobs:
       - name: Lertiva Zip Lerta birleşik staging (W31)
         run: bash scripts/verify-madde-w31.sh
 
+      - name: Lertiva Zip mağaza/mobil pilot hazırlık (W32)
+        run: bash scripts/verify-madde-w32.sh
+
       - name: Lertiva marka kalıntı taraması
         run: bash scripts/verify-lertiva-brand.sh
 
