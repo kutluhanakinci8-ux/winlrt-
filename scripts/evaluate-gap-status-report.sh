@@ -11,7 +11,7 @@ for s in evaluate-lertiva-windows-signing-gate evaluate-lertiva-ev-ov-signing-ga
   evaluate-lertiva-mobile-mvp-gate evaluate-lertiva-motor-advanced-gate \
   evaluate-lertiva-brand-suite-gate evaluate-lertiva-desktop-maturity-gate \
   evaluate-lertiva-corporate-gate evaluate-lertiva-lerta-staging-gate \
-  evaluate-lertiva-g1-platform-gate; do
+  evaluate-lertiva-g1-platform-gate evaluate-lertiva-arc-code-structure-gate; do
   bash "$ROOT/scripts/${s}.sh" >/dev/null 2>&1 || true
 done
 

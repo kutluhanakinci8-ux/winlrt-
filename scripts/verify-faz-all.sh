@@ -7,4 +7,5 @@ cd "$ROOT"
 for n in 1 2 3 4 5 6 7 8 9 10; do
   bash "$ROOT/scripts/verify-faz-g${n}.sh"
 done
-echo "OK: Faz G1–G10 repo kapıları"
+bash "$ROOT/scripts/verify-lertiva-arc-code-structure-100.sh"
+echo "OK: Faz G1–G10 repo kapıları + Lertiva Arc kod yapısı"

@@ -10,6 +10,8 @@ shortcuts_ui=false
 preview_cmd=false
 zip_one=false
 wlrt_one=false
+rar_one=false
+tree_ui=false
 checklist=false
 
 grep -q 'entryQuery' "$ROOT/apps/lertiva-arc/src/App.tsx" && search_ui=true
@@ -18,11 +20,14 @@ grep -q 'SHORTCUTS' "$ROOT/apps/lertiva-arc/src/App.tsx" && shortcuts_ui=true
 grep -q 'fn preview_entry_text' "$ROOT/apps/lertiva-arc/src-tauri/src/lib.rs" && preview_cmd=true
 grep -q 'pub fn extract_one' "$ROOT/crates/lertiva-archive/src/zip_io.rs" && zip_one=true
 grep -q 'pub fn extract_one' "$ROOT/crates/lertiva-archive/src/wlrt.rs" && wlrt_one=true
+grep -q 'pub fn extract_one' "$ROOT/crates/lertiva-archive/src/rar/mod.rs" && rar_one=true
+grep -q 'entryTree' "$ROOT/apps/lertiva-arc/src/App.tsx" && tree_ui=true
 test -f "$ROOT/docs/qa/G4_EXTERNAL_USER_SESSION_CHECKLIST.md" && checklist=true
 
 all_pass=false
 if [[ "$search_ui" == true && "$shortcuts_doc" == true && "$shortcuts_ui" == true \
-  && "$preview_cmd" == true && "$zip_one" == true && "$wlrt_one" == true && "$checklist" == true ]]; then
+  && "$preview_cmd" == true && "$zip_one" == true && "$wlrt_one" == true && "$rar_one" == true \
+  && "$tree_ui" == true && "$checklist" == true ]]; then
   all_pass=true
 fi
 
@@ -34,6 +39,8 @@ jq -n \
   --argjson preview "$([[ "$preview_cmd" == true ]] && echo true || echo false)" \
   --argjson zip_one "$([[ "$zip_one" == true ]] && echo true || echo false)" \
   --argjson wlrt_one "$([[ "$wlrt_one" == true ]] && echo true || echo false)" \
+  --argjson rar_one "$([[ "$rar_one" == true ]] && echo true || echo false)" \
+  --argjson tree_ui "$([[ "$tree_ui" == true ]] && echo true || echo false)" \
   --argjson checklist "$([[ "$checklist" == true ]] && echo true || echo false)" \
   '{
     product: "Lertiva Arc desktop maturity (G4 repo MVP)",
@@ -46,6 +53,8 @@ jq -n \
       preview_entry_text: { pass: $preview },
       zip_extract_one: { pass: $zip_one },
       wlrt_extract_one: { pass: $wlrt_one },
+      rar_extract_one: { pass: $rar_one },
+      entry_tree_ui: { pass: $tree_ui },
       external_session_checklist: { pass: $checklist }
     }
   }' >"$OUT"

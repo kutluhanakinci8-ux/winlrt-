@@ -64,6 +64,19 @@ enum Commands {
         #[arg(long, value_enum, default_value_t = FormatArg::Rar)]
         format: FormatArg,
     },
+    /// ZIP kısmi çıkarma (bozuk girdileri atla)
+    RecoverPartial {
+        archive: PathBuf,
+        dest: PathBuf,
+    },
+    /// Tek girdiyi hedef dosyaya çıkar
+    ExtractOne {
+        archive: PathBuf,
+        entry: String,
+        dest_file: PathBuf,
+        #[arg(long, value_enum, default_value_t = FormatArg::Zip)]
+        format: FormatArg,
+    },
     /// ZIP vs `.wlrt` süre ve boyut (Faz 1 KPI hazırlığı)
     Bench {
         #[arg(long)]
@@ -237,6 +250,40 @@ fn run() -> Result<()> {
                 })?;
             } else {
                 println!("Onarım OK → {}", dest.display());
+            }
+        }
+        Commands::RecoverPartial { archive, dest } => {
+            let report = lertiva_archive::recovery::recover_partial_zip(&archive, &dest, pw)?;
+            if json_out {
+                print_json(&report)?;
+            } else {
+                println!(
+                    "Kısmi: {} OK · {} hata",
+                    report.extracted.len(),
+                    report.failed.len()
+                );
+            }
+        }
+        Commands::ExtractOne {
+            archive,
+            entry,
+            dest_file,
+            format,
+        } => {
+            let fmt = match format {
+                FormatArg::Zip => "zip",
+                FormatArg::Wlrt => "wlrt",
+                FormatArg::Rar => "rar",
+                FormatArg::SevenZ => "7z",
+            };
+            lertiva_archive::recovery::extract_one_any(fmt, &archive, &entry, &dest_file, pw)?;
+            if json_out {
+                print_json(&OkJson {
+                    ok: true,
+                    action: "extract_one",
+                })?;
+            } else {
+                println!("OK → {}", dest_file.display());
             }
         }
         Commands::Bench {

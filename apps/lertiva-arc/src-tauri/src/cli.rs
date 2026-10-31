@@ -195,7 +195,7 @@ mod tests {
 
     #[test]
     fn suggested_archive_path_sibling() {
-        let base = std::env::temp_dir().join(format!("winlrt-cli-test-{}", std::process::id()));
+        let base = std::env::temp_dir().join(format!("lertiva-cli-test-{}", std::process::id()));
         let _ = fs::remove_dir_all(&base);
         fs::create_dir_all(&base).unwrap();
         let sub = base.join("Projem");
@@ -207,7 +207,7 @@ mod tests {
 
     #[test]
     fn suggested_selection_multi_default_name() {
-        let base = std::env::temp_dir().join(format!("winlrt-cli-sel-{}", std::process::id()));
+        let base = std::env::temp_dir().join(format!("lertiva-cli-sel-{}", std::process::id()));
         let _ = fs::remove_dir_all(&base);
         fs::create_dir_all(&base).unwrap();
         let a = base.join("a.txt");
@@ -225,7 +225,7 @@ mod tests {
 
     #[test]
     fn parse_compress_selection_flag() {
-        let base = std::env::temp_dir().join(format!("winlrt-cli-flag-{}", std::process::id()));
+        let base = std::env::temp_dir().join(format!("lertiva-cli-flag-{}", std::process::id()));
         let _ = fs::remove_dir_all(&base);
         fs::create_dir_all(&base).unwrap();
         let a = base.join("a.txt");

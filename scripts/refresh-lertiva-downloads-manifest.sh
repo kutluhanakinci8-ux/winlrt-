@@ -44,7 +44,11 @@ fi
 zip_exe_url=""
 [[ -n "$zip_tag" && -n "$zip_exe" ]] && zip_exe_url="https://github.com/${REPO}/releases/download/${zip_tag}/${zip_exe// /%20}"
 
-arc_exe="Lertiva Arc_0.1.0_x64-setup.exe"
+arc_exe=""
+if [[ -n "$arc_tag" ]]; then
+  arc_exe="$(gh release view "$arc_tag" --repo "$REPO" --json assets -q '.assets[].name' 2>/dev/null | grep -iE 'setup\.exe$' | head -1 || true)"
+fi
+[[ -z "$arc_exe" ]] && arc_exe="Lertiva Arc_0.1.0_x64-setup.exe"
 arc_exe_url="https://github.com/${REPO}/releases/download/${arc_tag}/${arc_exe// /%20}"
 
 jq -n \

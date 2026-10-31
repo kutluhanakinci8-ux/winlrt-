@@ -1,4 +1,4 @@
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 use sevenz_rust::{decompress_file, Password, SevenZReader};
 
@@ -63,6 +63,72 @@ pub fn test(archive: &Path, password: Option<&str>) -> Result<()> {
     let temp = tempfile::tempdir()?;
     extract(archive, temp.path(), password)?;
     Ok(())
+}
+
+pub fn extract_one(
+    archive: &Path,
+    entry_name: &str,
+    dest_file: &Path,
+    password: Option<&str>,
+) -> Result<()> {
+    let want = entry_name.replace('\\', "/");
+    let names = list(archive, password)?;
+    if !names.iter().any(|n| n.replace('\\', "/") == want) {
+        return Err(ArchiveError::SevenZ(format!("dosya bulunamadı: {want}")));
+    }
+    let temp = tempfile::tempdir()?;
+    extract(archive, temp.path(), password)?;
+    let found = find_entry_in_dir(temp.path(), &want)?;
+    if let Some(parent) = dest_file.parent() {
+        std::fs::create_dir_all(parent)?;
+    }
+    std::fs::copy(&found, dest_file).map_err(|e| ArchiveError::SevenZ(e.to_string()))?;
+    Ok(())
+}
+
+fn find_entry_in_dir(root: &Path, want: &str) -> Result<PathBuf> {
+    let direct = root.join(want);
+    if direct.is_file() {
+        return Ok(direct);
+    }
+    let leaf = want.rsplit('/').next().unwrap_or(want);
+    for entry in walkdir::WalkDir::new(root)
+        .into_iter()
+        .filter_map(|e| e.ok())
+        .filter(|e| e.file_type().is_file())
+    {
+        let p = entry.path();
+        let rel = p
+            .strip_prefix(root)
+            .unwrap_or(p)
+            .to_string_lossy()
+            .replace('\\', "/");
+        if rel == want || rel.ends_with(want) || p.file_name().and_then(|s| s.to_str()) == Some(leaf) {
+            return Ok(p.to_path_buf());
+        }
+    }
+    Err(ArchiveError::SevenZ(format!("çıkarılan dosya bulunamadı: {want}")))
+}
+
+const SEVENZ_PREVIEW_MAX: usize = 65_536;
+
+pub fn preview_entry_bytes(
+    archive: &Path,
+    entry_name: &str,
+    password: Option<&str>,
+    max_bytes: usize,
+) -> Result<(Vec<u8>, u64, bool)> {
+    let cap = max_bytes.min(SEVENZ_PREVIEW_MAX);
+    let temp = tempfile::tempdir()?;
+    let preview_path = temp.path().join("preview.bin");
+    extract_one(archive, entry_name, &preview_path, password)?;
+    let size = std::fs::metadata(&preview_path)?.len();
+    let mut file = std::fs::File::open(&preview_path)?;
+    let mut buf = vec![0u8; cap.min(size as usize)];
+    use std::io::Read;
+    let read = file.read(&mut buf)?;
+    buf.truncate(read);
+    Ok((buf, size, size > cap as u64))
 }
 
 #[cfg(test)]

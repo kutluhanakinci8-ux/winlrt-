@@ -1,6 +1,6 @@
 {
   "product": "Lertiva Arc",
-  "generated_at": "2026-10-31T09:15Z",
+  "generated_at": "2026-10-31T09:40Z",
   "disclaimer": "G9 sprint2: ZIP kısmi açma + dedup tarama + MVP kapılar.",
   "mvp_selected": [
     "extract_one",
@@ -20,7 +20,7 @@
       "note": "lertiva-zip-p0-gate.json"
     },
     "q2_bench_perf": {
-      "pass": true
+      "pass": false
     },
     "codec_matrix_doc": {
       "pass": true,
@@ -48,12 +48,18 @@
     "zip_mobile_entries_preview": {
       "pass": true
     },
-    "solid_dedup_planned": {
+    "wlrt_dedup_on_create": {
       "pass": true,
-      "note": "solid arşiv R&D devam"
+      "note": "LERTIVA_WLRT_DEDUP=1"
+    },
+    "rar_extract_one_api": {
+      "pass": true
+    },
+    "recovery_module": {
+      "pass": true
     }
   },
-  "mvp_pass": true,
-  "sprint2_pass": true,
-  "all_pass": true
+  "mvp_pass": false,
+  "sprint2_pass": false,
+  "all_pass": false
 }

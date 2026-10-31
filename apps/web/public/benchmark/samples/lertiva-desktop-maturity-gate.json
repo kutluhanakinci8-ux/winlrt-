@@ -21,6 +21,12 @@
     "wlrt_extract_one": {
       "pass": true
     },
+    "rar_extract_one": {
+      "pass": true
+    },
+    "entry_tree_ui": {
+      "pass": true
+    },
     "external_session_checklist": {
       "pass": true
     }

@@ -59,6 +59,23 @@ pub fn scan_duplicate_files(root: &Path, min_size: u64) -> Result<Vec<DuplicateG
     Ok(groups)
 }
 
+/// `.wlrt` oluştururken aynı içerik hash'ini tek girdi olarak bırakır (`LERTIVA_WLRT_DEDUP=1`).
+pub fn dedup_file_list(files: &[(std::path::PathBuf, String)]) -> Result<Vec<(std::path::PathBuf, String)>> {
+    if std::env::var("LERTIVA_WLRT_DEDUP").ok().as_deref() != Some("1") {
+        return Ok(files.to_vec());
+    }
+    use std::collections::HashSet;
+    let mut seen = HashSet::new();
+    let mut out = Vec::with_capacity(files.len());
+    for (path, rel) in files {
+        let hash = hash_file(path)?;
+        if seen.insert(hash) {
+            out.push((path.clone(), rel.clone()));
+        }
+    }
+    Ok(out)
+}
+
 fn hash_file(path: &Path) -> Result<[u8; 32]> {
     let file = File::open(path)?;
     let mut reader = BufReader::new(file);

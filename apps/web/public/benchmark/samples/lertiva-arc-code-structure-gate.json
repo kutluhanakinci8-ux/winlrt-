@@ -1,0 +1,40 @@
+{
+  "product": "Lertiva Arc code structure (F0-F10 repo)",
+  "all_pass": true,
+  "layers": {
+    "motor": {
+      "target_pct": 100,
+      "gates": {
+        "rar_extract_one": true,
+        "sevenz_extract_one": true,
+        "recovery_module": true,
+        "wlrt_dedup_create": true
+      }
+    },
+    "arc_shell": {
+      "target_pct": 100,
+      "gates": {
+        "entry_tree": true,
+        "rar_extract_one_ui": true
+      }
+    },
+    "explorer": {
+      "target_pct": 100,
+      "gates": {
+        "arc_explorer_preflight": true
+      }
+    },
+    "brand": {
+      "target_pct": 100,
+      "gates": {
+        "scan_clean": true
+      }
+    },
+    "vitrin_manifest": {
+      "target_pct": 100,
+      "gates": {
+        "dynamic_arc_exe": true
+      }
+    }
+  }
+}

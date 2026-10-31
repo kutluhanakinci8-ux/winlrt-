@@ -51,6 +51,45 @@ pub fn extract(archive: &Path, dest: &Path, password: Option<&str>) -> Result<()
     try_backends(&archive, password, BackendOp::Extract(dest)).map(|_| ())
 }
 
+/// Tek RAR girdisini hedef dosyaya yazar (G4/G9 — akışlı açma).
+pub fn extract_one(
+    archive: &Path,
+    entry_name: &str,
+    dest_file: &Path,
+    password: Option<&str>,
+) -> Result<()> {
+    let archive = volumes::resolve_rar(archive);
+    let names = list(&archive, password)?;
+    let want = entry_name.replace('\\', "/");
+    if !names.iter().any(|n| n.replace('\\', "/") == want) {
+        return Err(crate::ArchiveError::Rar(format!("dosya bulunamadı: {want}")));
+    }
+    cli::extract_one_file(&archive, &want, dest_file, password)
+}
+
+const RAR_PREVIEW_MAX: usize = 65_536;
+
+pub fn preview_entry_bytes(
+    archive: &Path,
+    entry_name: &str,
+    password: Option<&str>,
+    max_bytes: usize,
+) -> Result<(Vec<u8>, u64, bool)> {
+    let cap = max_bytes.min(RAR_PREVIEW_MAX);
+    let temp = tempfile::tempdir()?;
+    let preview_path = temp.path().join("preview.bin");
+    extract_one(archive, entry_name, &preview_path, password)?;
+    let meta = std::fs::metadata(&preview_path)?;
+    let size = meta.len();
+    let mut file = std::fs::File::open(&preview_path)?;
+    let mut buf = vec![0u8; cap.min(size as usize)];
+    use std::io::Read;
+    let read = file.read(&mut buf)?;
+    buf.truncate(read);
+    let truncated = size > cap as u64;
+    Ok((buf, size, truncated))
+}
+
 pub fn test(archive: &Path, password: Option<&str>) -> Result<()> {
     let archive = volumes::resolve_rar(archive);
     try_backends(&archive, password, BackendOp::Test).map(|_| ())

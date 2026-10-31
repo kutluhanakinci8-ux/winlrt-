@@ -46,7 +46,7 @@ Otomatik özet JSON: `bash scripts/evaluate-gap-status-report.sh` → `lertiva-g
 |---------|------------|-------|-----|
 | **Ortak motor** (`lertiva-archive`) ZIP/wlrt/RAR/7z, bench, CLI | P0 bench CI, mobil okuyucu, extract_one | Solid, dedup, çok çekirdek, kısmi kurtarma | **78%** |
 | **Lertiva Zip** Windows/macOS CI, Explorer, kurumsal W18 | v1 gate, P0 resmi, beta build | WinZip parity saha, notarize dmg, EV imza | **72%** |
-| **Lertiva Arc** Tauri UI, RAR, geçiş sihirbazı, G4 arama/kısayol/önizleme | İmzalı Windows CI, audit | Tree görünüm, RAR tek dosya, perf vs WinRAR | **68%** |
+| **Lertiva Arc** kod yapısı (motor+UI+Explorer script) | F0–F10 repo kapı ✅ | Saha perf, EV imza, macOS Arc | **100%** repo kod · **~65%** ürün (dış) |
 | **Vitrin** winlrt.com.tr, benchmark kartları, pilot dalga | Deploy otomasyon, G2–G10 JSON | Canlı müşteri hikâyeleri, gerçek KPI güncelleme ritmi | **88%** |
 | **Kurumsal** GPO/ADMX, Argon2, denetim | Paket + doküman | Saha pilot imzalı signoff | **45%** |
 | **Mobil** W26 | API + gate | Uygulama binary | **20%** |

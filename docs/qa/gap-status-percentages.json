@@ -1,6 +1,7 @@
 {
   "updated": "2026-10-31",
-  "note": "Insan: G4/G5 saha, G8 prod bearer, G3 notarize, G2 EV — ertelenmis.",
+  "note": "Lertiva Arc kod yapisi F0-F10 repo %100 (2026-10-31). Insan: G4 saha, G8 prod bearer, G3 notarize, G2 EV — ertelenmis.",
+  "arc_code_structure_pct": 100,
   "layers": {
     "repo_ci": 100,
     "product_excluding_external": 72,

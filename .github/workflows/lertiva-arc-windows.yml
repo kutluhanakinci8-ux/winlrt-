@@ -82,7 +82,7 @@ jobs:
       - name: Upload Windows bundle (artifact)
         uses: actions/upload-artifact@v4
         with:
-          name: winlrt-rar-windows-bundle
+          name: lertiva-arc-windows-bundle
           path: target/release/bundle/nsis/*-setup.exe
           if-no-files-found: error
 

@@ -170,6 +170,56 @@ function App() {
     return entries.filter((name) => name.toLowerCase().includes(q));
   }, [entries, entryQuery]);
 
+  type EntryTreeNode = {
+    name: string;
+    path: string;
+    isFile: boolean;
+    children: EntryTreeNode[];
+  };
+
+  const entryTree = useMemo((): EntryTreeNode[] => {
+    type Inner = { children: Map<string, Inner>; filePath?: string };
+    const root: Inner = { children: new Map() };
+    for (const full of filteredEntries) {
+      const parts = full.split(/[/\\]/).filter(Boolean);
+      if (parts.length === 0) continue;
+      let cur = root;
+      for (let i = 0; i < parts.length; i++) {
+        const part = parts[i];
+        if (!cur.children.has(part)) {
+          cur.children.set(part, { children: new Map() });
+        }
+        cur = cur.children.get(part)!;
+        if (i === parts.length - 1) {
+          cur.filePath = full;
+        }
+      }
+    }
+    const toNodes = (map: Map<string, Inner>, prefix: string): EntryTreeNode[] => {
+      const out: EntryTreeNode[] = [];
+      for (const [name, inner] of map) {
+        const path = prefix ? `${prefix}/${name}` : name;
+        const children = toNodes(inner.children, path);
+        const isFile = Boolean(inner.filePath) && children.length === 0;
+        out.push({
+          name,
+          path: inner.filePath ?? path,
+          isFile,
+          children,
+        });
+      }
+      out.sort((a, b) => {
+        if (a.isFile !== b.isFile) return a.isFile ? 1 : -1;
+        return a.name.localeCompare(b.name);
+      });
+      return out;
+    };
+    return toNodes(root.children, "");
+  }, [filteredEntries]);
+
+  const [treeExpanded, setTreeExpanded] = useState<Record<string, boolean>>({});
+  const [entryView, setEntryView] = useState<"list" | "tree">("tree");
+
   const pushJob = useCallback((label: string, status: JobStatus = "running") => {
     const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     setJobs((prev) => [{ id, label, status }, ...prev].slice(0, 12));
@@ -349,7 +399,7 @@ function App() {
   useEffect(() => {
     setEntryPreview(null);
     if (!archivePath || !selectedEntry) return;
-    if (format !== "zip" && format !== "wlrt") return;
+    if (!["zip", "wlrt", "rar", "7z"].includes(format)) return;
     let cancelled = false;
     invoke<EntryPreviewResult>("preview_entry_text", {
       path: archivePath,
@@ -429,7 +479,7 @@ function App() {
     const selected = await save({
       title: "Arşiv kaydet",
       filters: [{ name: createFormat.toUpperCase(), extensions: [ext] }],
-      defaultPath: `winlrt.${ext}`,
+      defaultPath: `lertiva-arc.${ext}`,
     });
     if (selected) {
       setCreateOutput(selected);
@@ -519,8 +569,8 @@ function App() {
       setError("Önce listele ve bir dosya seçin.");
       return;
     }
-    if (format !== "wlrt" && format !== "zip") {
-      setError("Tek dosya çıkarma şimdilik ZIP ve .wlrt arşivlerinde.");
+    if (!["wlrt", "zip", "rar", "7z"].includes(format)) {
+      setError("Tek dosya çıkarma desteklenmeyen format.");
       return;
     }
     const base = selectedEntry.split(/[/\\]/).pop() ?? "dosya";
@@ -749,8 +799,47 @@ function App() {
     return () => window.removeEventListener("keydown", onKey);
   });
 
+  function renderEntryTree(nodes: EntryTreeNode[], depth: number): JSX.Element[] {
+    return nodes.map((node) => {
+      const hasKids = node.children.length > 0;
+      const expanded = treeExpanded[node.path] ?? depth < 1;
+      return (
+        <li key={node.path} className="entry-tree-item" style={{ paddingLeft: `${depth * 0.65}rem` }}>
+          {hasKids ? (
+            <button
+              type="button"
+              className="tree-toggle"
+              aria-label={expanded ? "Daralt" : "Genişlet"}
+              onClick={() =>
+                setTreeExpanded((prev) => ({ ...prev, [node.path]: !expanded }))
+              }
+            >
+              {expanded ? "▾" : "▸"}
+            </button>
+          ) : (
+            <span className="tree-spacer" aria-hidden="true" />
+          )}
+          <button
+            type="button"
+            className={`entry-btn ${selectedEntry === node.path && node.isFile ? "selected" : ""}`}
+            disabled={!node.isFile}
+            onClick={() => {
+              if (node.isFile) setSelectedEntry(node.path);
+            }}
+          >
+            {node.name}
+            {!node.isFile ? " /" : ""}
+          </button>
+          {hasKids && expanded ? (
+            <ul className="entry-tree">{renderEntryTree(node.children, depth + 1)}</ul>
+          ) : null}
+        </li>
+      );
+    });
+  }
+
   const transitionSteps = [
-    "Beta kurulumu (winlrt.com.tr → İndir → GitHub Releases).",
+    "Kurulum (winlrt.com.tr → İndir → Lertiva Arc).",
     "Kurulumu tamamlayın; Explorer’da arşive sağ tık → Lertiva Arc menüleri görünür.",
     "Varsayılan uygulama: ZIP/RAR için Lertiva Arc’ı seçin (isteğe bağlı).",
     "Çift tık veya «buraya aç» ile günlük iş akışını test edin.",
@@ -761,7 +850,7 @@ function App() {
     <main className="app">
       <header className="header">
         <div>
-          <p className="eyebrow">winlrt · Faz 3 geçiş</p>
+          <p className="eyebrow">Lertiva Arc · geçiş</p>
           <h1>Lertiva Arc</h1>
           <p className="sub">
             Açma: ZIP, .wlrt, RAR, 7z · Oluşturma: ZIP / .wlrt · Explorer sağ
@@ -1001,28 +1090,37 @@ function App() {
       <div className="split">
         <section className="panel list">
           <h2>İçerik</h2>
-          {(format === "wlrt" || format === "zip") && entries.length > 0 && (
+          {entries.length > 0 && (
             <p className="muted entry-hint">
-              G4/G9 akışlı açma: dosyaya tıklayın · Ctrl+F ara · Ctrl+E tek dosya çıkar
+              Tree/liste · Ctrl+F ara · Ctrl+E tek dosya · önizleme (ZIP/.wlrt/RAR/7z)
             </p>
           )}
           {entries.length > 0 && (
-            <label className="entry-search">
-              Ara (Ctrl+F)
-              <input
-                ref={searchInputRef}
-                type="search"
-                value={entryQuery}
-                onChange={(e) => setEntryQuery(e.target.value)}
-                placeholder="Dosya adı…"
-              />
-            </label>
+            <div className="row entry-toolbar">
+              <label className="entry-search grow">
+                Ara (Ctrl+F)
+                <input
+                  ref={searchInputRef}
+                  type="search"
+                  value={entryQuery}
+                  onChange={(e) => setEntryQuery(e.target.value)}
+                  placeholder="Dosya adı…"
+                />
+              </label>
+              <button
+                type="button"
+                className="btn tiny"
+                onClick={() => setEntryView((v) => (v === "tree" ? "list" : "tree"))}
+              >
+                {entryView === "tree" ? "Liste" : "Ağaç"}
+              </button>
+            </div>
           )}
           {entries.length === 0 ? (
             <p className="muted">Henüz girdi yok.</p>
           ) : filteredEntries.length === 0 ? (
             <p className="muted">Eşleşen girdi yok.</p>
-          ) : (
+          ) : entryView === "list" ? (
             <ul className="entries">
               {filteredEntries.map((name) => (
                 <li key={name}>
@@ -1036,8 +1134,12 @@ function App() {
                 </li>
               ))}
             </ul>
+          ) : (
+            <ul className="entry-tree">
+              {renderEntryTree(entryTree, 0)}
+            </ul>
           )}
-          {(format === "wlrt" || format === "zip") && selectedEntry && (
+          {selectedEntry && (
             <button
               type="button"
               className="btn primary extract-one"

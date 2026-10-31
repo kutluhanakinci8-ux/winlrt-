@@ -15,6 +15,8 @@ arc_ui_extract=false
 arc_partial_ui=false
 zip_preview=false
 solid_dedup=false
+rar_extract_one=false
+recovery_mod=false
 
 if jq -e '.all_pass == true' "$ROOT/apps/web/public/benchmark/samples/lertiva-zip-p0-gate.json" >/dev/null 2>&1; then
   g1_ok=true
@@ -29,7 +31,9 @@ grep -q 'extract_one_entry' "$ROOT/apps/lertiva-arc/src-tauri/src/lib.rs" \
   && grep -q 'Tek dosyayı çıkar' "$ROOT/apps/lertiva-arc/src/App.tsx" && arc_ui_extract=true
 grep -q 'Kısmi aç' "$ROOT/apps/lertiva-arc/src/App.tsx" && arc_partial_ui=true
 grep -q 'entries_preview' "$ROOT/crates/lertiva-archive/src/mobile_reader.rs" && zip_preview=true
-grep -q 'Solid + deduplication' "$ROOT/docs/WINLRTRAR_PLAN.md" && solid_dedup=true
+grep -q 'dedup_file_list' "$ROOT/crates/lertiva-archive/src/dedup.rs" && solid_dedup=true
+grep -q 'pub fn extract_one' "$ROOT/crates/lertiva-archive/src/rar/mod.rs" && rar_extract_one=true
+test -f "$ROOT/crates/lertiva-archive/src/recovery.rs" && recovery_mod=true
 
 mvp_pass=false
 if [[ "$g1_ok" == true && "$q2_ok" == true && "$codec_doc" == true && "$extract_one_api" == true && "$arc_ui_extract" == true && "$zip_preview" == true ]]; then
@@ -37,7 +41,8 @@ if [[ "$g1_ok" == true && "$q2_ok" == true && "$codec_doc" == true && "$extract_
 fi
 
 sprint2_pass=false
-if [[ "$mvp_pass" == true && "$zip_extract_one" == true && "$partial_extract" == true && "$dedup_scan" == true && "$arc_partial_ui" == true ]]; then
+if [[ "$mvp_pass" == true && "$zip_extract_one" == true && "$partial_extract" == true && "$dedup_scan" == true \
+  && "$arc_partial_ui" == true && "$rar_extract_one" == true && "$solid_dedup" == true && "$recovery_mod" == true ]]; then
   sprint2_pass=true
 fi
 
@@ -58,6 +63,8 @@ jq -n \
   --argjson arc_partial_ui "$([[ "$arc_partial_ui" == true ]] && echo true || echo false)" \
   --argjson zip_preview "$([[ "$zip_preview" == true ]] && echo true || echo false)" \
   --argjson solid_dedup "$([[ "$solid_dedup" == true ]] && echo true || echo false)" \
+  --argjson rar_extract_one "$([[ "$rar_extract_one" == true ]] && echo true || echo false)" \
+  --argjson recovery_mod "$([[ "$recovery_mod" == true ]] && echo true || echo false)" \
   --argjson mvp_pass "$([[ "$mvp_pass" == true ]] && echo true || echo false)" \
   --argjson sprint2_pass "$([[ "$sprint2_pass" == true ]] && echo true || echo false)" \
   --argjson all_pass "$([[ "$all_pass" == true ]] && echo true || echo false)" \
@@ -78,7 +85,9 @@ jq -n \
       arc_ui_extract_one: { pass: $arc_ui, app: "apps/lertiva-arc" },
       arc_ui_partial_extract: { pass: $arc_partial_ui },
       zip_mobile_entries_preview: { pass: $zip_preview },
-      solid_dedup_planned: { pass: $solid_dedup, note: "solid arşiv R&D devam" }
+      wlrt_dedup_on_create: { pass: $solid_dedup, note: "LERTIVA_WLRT_DEDUP=1" },
+      rar_extract_one_api: { pass: $rar_extract_one },
+      recovery_module: { pass: $recovery_mod }
     },
     mvp_pass: $mvp_pass,
     sprint2_pass: $sprint2_pass,

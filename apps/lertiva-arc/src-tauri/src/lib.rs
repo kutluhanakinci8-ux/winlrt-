@@ -525,11 +525,9 @@ fn extract_one_entry(
     match format.as_str() {
         "wlrt" => wlrt::extract_one(&archive, &entry, &dest, pw).map_err(|e| e.to_string())?,
         "zip" => zip_io::extract_one(&archive, &entry, &dest, pw).map_err(|e| e.to_string())?,
-        _ => {
-            return Err(
-                "Tek dosya çıkarma şimdilik ZIP ve .wlrt (G4/G9 akışlı açma)".into(),
-            )
-        }
+        "rar" => rar::extract_one(&archive, &entry, &dest, pw).map_err(|e| e.to_string())?,
+        "7z" => sevenz::extract_one(&archive, &entry, &dest, pw).map_err(|e| e.to_string())?,
+        _ => return Err("Desteklenmeyen format".into()),
     }
     audit::event_extract("ui-one", true, &path, &format);
     Ok(ActionResult {
@@ -561,7 +559,11 @@ fn preview_entry_text(
         "zip" => {
             zip_io::preview_entry_bytes(&archive, &entry, pw, MAX).map_err(|e| e.to_string())?
         }
-        _ => return Err("Önizleme şimdilik ZIP ve .wlrt".into()),
+        "rar" => rar::preview_entry_bytes(&archive, &entry, pw, MAX).map_err(|e| e.to_string())?,
+        "7z" => {
+            sevenz::preview_entry_bytes(&archive, &entry, pw, MAX).map_err(|e| e.to_string())?
+        }
+        _ => return Err("Desteklenmeyen format".into()),
     };
     let sample = &bytes[..bytes.len().min(8192)];
     let binary = sample.contains(&0);

@@ -19,6 +19,7 @@ pub mod naming;
 pub mod password_policy;
 pub mod error;
 pub mod profile;
+pub mod recovery;
 pub mod rar;
 pub mod volumes;
 pub mod sevenz;

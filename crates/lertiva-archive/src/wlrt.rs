@@ -7,6 +7,7 @@ use walkdir::WalkDir;
 use zstd::stream::{read::Decoder, write::Encoder};
 
 use crate::crypto::{self, random_salt};
+use crate::dedup;
 use crate::profile::CompressionProfile;
 use crate::{ArchiveError, Result};
 
@@ -68,7 +69,7 @@ pub fn create(
         }
     }
     let level = profile.zstd_level();
-    let files = collect_files(source)?;
+    let files = dedup::dedup_file_list(&collect_files(source)?)?;
     let salt = if encrypt {
         Some(random_salt())
     } else {
@@ -137,7 +138,7 @@ pub fn create_from_paths(
         }
     }
     let level = profile.zstd_level();
-    let files = collect_selection_files(sources)?;
+    let files = dedup::dedup_file_list(&collect_selection_files(sources)?)?;
     let salt = if encrypt {
         Some(random_salt())
     } else {
