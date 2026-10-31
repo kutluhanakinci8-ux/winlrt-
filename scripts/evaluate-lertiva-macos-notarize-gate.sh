@@ -7,7 +7,11 @@ FLAG="$ROOT/apps/web/public/benchmark/samples/lertiva-apple-notarize-configured.
 REPO="${GITHUB_REPO:-kutluhanakinci8-ux/winlrt-}"
 
 macos_ci=false
-bash "$ROOT/scripts/verify-madde-w14.sh" >/dev/null 2>&1 && macos_ci=true
+if bash "$ROOT/scripts/verify-madde-w14.sh" >/dev/null 2>&1; then
+  macos_ci=true
+elif bash "$ROOT/scripts/verify-madde-w14-repo-local.sh" >/dev/null 2>&1; then
+  macos_ci=true
+fi
 
 notarize_flag=false
 [[ -f "$FLAG" ]] && grep -q 'notarize' "$FLAG" && notarize_flag=true

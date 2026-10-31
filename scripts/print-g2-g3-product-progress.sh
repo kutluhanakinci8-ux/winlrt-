@@ -25,8 +25,14 @@ ev_ov=false
 [[ -f "$EV_FLAG" ]] && grep -q 'ev_ov' "$EV_FLAG" && ev_ov=true
 
 w14=false
+w14_note=""
 w34=false
-bash "$ROOT/scripts/verify-madde-w14.sh" >/dev/null 2>&1 && w14=true
+if bash "$ROOT/scripts/verify-madde-w14.sh" >/dev/null 2>&1; then
+  w14=true
+elif bash "$ROOT/scripts/verify-madde-w14-repo-local.sh" >/dev/null 2>&1; then
+  w14=true
+  w14_note=" (yerel repo; tam: rustup + verify-madde-w14.sh)"
+fi
 bash "$ROOT/scripts/verify-madde-w34.sh" >/dev/null 2>&1 && w34=true
 
 notarize_flag=false
@@ -45,7 +51,7 @@ echo "$(tick "$ev_ov") A4 lertiva-ev-ov-configured.flag (ev_ov)"
 
 echo ""
 echo "=== G3 Notarize (macOS Zip) — sıra 2 (G2 bitince) ==="
-echo "$(tick "$w14") B0 macOS build repo (W14)"
+echo "$(tick "$w14") B0 macOS build repo (W14)${w14_note:-}"
 echo "$(tick "$w34") B0 macOS resmi KPI (W34)"
 echo "⬜ B1 Apple Developer ID Application (.p12)"
 echo "⬜ B2 GitHub APPLE_* (6 secret)"

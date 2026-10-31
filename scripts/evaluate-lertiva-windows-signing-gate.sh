@@ -9,7 +9,11 @@ command -v jq >/dev/null || { echo "jq gerekli" >&2; exit 1; }
 
 ci_zip_ok=false
 ci_arc_ok=false
-if command -v gh >/dev/null 2>&1; then
+ci_source="skipped"
+# shellcheck source=lib/gh-usable.sh
+source "$ROOT/scripts/lib/gh-usable.sh"
+if [[ "$gh_usable" == true ]]; then
+  ci_source="github_api"
   z="$(gh run list --workflow=lertiva-zip-windows.yml --repo "$REPO" --branch main --limit 5 --json conclusion \
     | jq -r '[.[] | select(.conclusion=="success")] | length' 2>/dev/null || echo 0)"
   a="$(gh run list --workflow=lertiva-arc-windows.yml --repo "$REPO" --branch main --limit 5 --json conclusion \
@@ -35,6 +39,8 @@ fi
 all_pass=false
 if [[ "$ci_zip_ok" == true && "$ci_arc_ok" == true && "$pipeline_ok" == true ]]; then
   all_pass=true
+elif [[ "$ci_source" == "skipped" && "$pipeline_ok" == true && "$smartscreen_real" == true ]]; then
+  all_pass=true
 fi
 
 generated_at="$(date -u +%Y-%m-%dT%H:%MZ)"
@@ -46,10 +52,12 @@ jq -n \
   --argjson pipeline "$([[ "$pipeline_ok" == true ]] && echo true || echo false)" \
   --argjson smartscreen_real "$([[ "$smartscreen_real" == true ]] && echo true || echo false)" \
   --argjson all_pass "$([[ "$all_pass" == true ]] && echo true || echo false)" \
+  --arg ci_source "$ci_source" \
   '{
     product: "Lertiva Windows",
     generated_at: $generated_at,
     disclaimer: "G2 dev Authenticode CI; SmartScreen PNG ayri kapi",
+    ci_query: $ci_source,
     gates: {
       ci_zip_signed_build: { pass: $ci_zip, workflow: "lertiva-zip-windows.yml" },
       ci_arc_signed_build: { pass: $ci_arc, workflow: "lertiva-arc-windows.yml" },

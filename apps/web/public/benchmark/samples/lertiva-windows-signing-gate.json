@@ -1,7 +1,8 @@
 {
   "product": "Lertiva Windows",
-  "generated_at": "2026-10-31T08:22Z",
+  "generated_at": "2026-10-31T08:30Z",
   "disclaimer": "G2 dev Authenticode CI; SmartScreen PNG ayri kapi",
+  "ci_query": "github_api",
   "gates": {
     "ci_zip_signed_build": {
       "pass": true,

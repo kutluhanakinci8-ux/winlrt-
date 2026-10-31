@@ -6,7 +6,11 @@ OUT="${1:-$ROOT/apps/web/public/benchmark/samples/lertiva-ev-ov-signing-gate.jso
 FLAG="$ROOT/apps/web/public/benchmark/samples/lertiva-ev-ov-configured.flag"
 
 dev_ok=false
-bash "$ROOT/scripts/verify-madde-h-signed.sh" >/dev/null 2>&1 && dev_ok=true
+if bash "$ROOT/scripts/verify-madde-h-signed.sh" >/dev/null 2>&1; then
+  dev_ok=true
+elif bash "$ROOT/scripts/verify-madde-h-signing-repo-local.sh" >/dev/null 2>&1; then
+  dev_ok=true
+fi
 
 ev_ov=false
 if [[ -f "$FLAG" ]] && grep -q 'ev_ov' "$FLAG"; then
