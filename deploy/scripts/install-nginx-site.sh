@@ -14,6 +14,16 @@ if [[ ! -f "$TEMPLATE" ]]; then
 fi
 
 mkdir -p "$WEB_ROOT"
+SNIP_SRC="${REPO_ROOT}/deploy/nginx/winlrt-basic-auth.disabled"
+if [[ -f "$SNIP_SRC" ]]; then
+  if [[ "${EUID:-$(id -u)}" -ne 0 ]]; then
+    sudo install -d -m 755 /etc/nginx/snippets
+    sudo cp "$SNIP_SRC" /etc/nginx/snippets/winlrt-basic-auth.conf
+  else
+    install -d -m 755 /etc/nginx/snippets
+    cp "$SNIP_SRC" /etc/nginx/snippets/winlrt-basic-auth.conf
+  fi
+fi
 sed -e "s|__WINLRT_DOMAIN__|${DOMAIN}|g" -e "s|__WINLRT_WEB_ROOT__|${WEB_ROOT}|g" \
   "$TEMPLATE" > /tmp/winlrt.nginx.conf
 

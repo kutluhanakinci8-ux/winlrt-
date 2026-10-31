@@ -4,3 +4,9 @@ VPS_PORT=23422
 VPS_USER=root
 VPS_WEB_ROOT=/var/www/winlrt/apps/web/dist
 VPS_SSH_PASSWORD=
+
+# Canlı vitrin erken erişim (nginx basic auth — yalnızca winlrt.com.tr)
+# Yerel build / public/ geliştirme etkilenmez. Şifre repoya gitmez.
+VITRIN_BASIC_AUTH_USER=lertiva
+VITRIN_BASIC_AUTH_PASSWORD=
+# Kapatmak için: VITRIN_BASIC_AUTH_DISABLE=1 bash scripts/vps-sync-vitrin-basic-auth.sh

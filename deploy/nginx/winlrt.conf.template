@@ -12,6 +12,8 @@ server {
     access_log /var/log/nginx/winlrt.access.log;
     error_log /var/log/nginx/winlrt.error.log;
 
+    include /etc/nginx/snippets/winlrt-basic-auth.conf;
+
     location / {
         try_files $uri $uri/ =404;
     }
