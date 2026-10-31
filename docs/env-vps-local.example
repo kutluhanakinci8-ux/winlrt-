@@ -1,0 +1,6 @@
+# Mac/agent: cp docs/env-vps-local.example .env.vps.local  (gitignore — repoya gitmez)
+VPS_HOST=37.230.105.99
+VPS_PORT=23422
+VPS_USER=root
+VPS_WEB_ROOT=/var/www/winlrt/apps/web/dist
+VPS_SSH_PASSWORD=
