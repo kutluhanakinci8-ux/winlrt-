@@ -1,6 +1,6 @@
 {
   "product": "Lertiva Windows",
-  "generated_at": "2026-10-31T08:30Z",
+  "generated_at": "2026-10-31T08:39Z",
   "disclaimer": "EV/OV: kurumsal PFX + flag; dev TAURI/WINDOWS secret EV sayilmaz.",
   "certificate_tier": "dev_self_signed",
   "certificate_subject": "subject=CN = Lertiva Dev Code Signing, O = Lertiva, C = TR",

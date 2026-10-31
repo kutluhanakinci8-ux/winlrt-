@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::{copy, Write};
+use std::io::{copy, Read, Write};
 use std::path::{Path, PathBuf};
 
 use tempfile::NamedTempFile;
@@ -79,6 +79,71 @@ pub fn list(archive: &Path, password: Option<&str>) -> Result<Vec<String>> {
         names.push(entry.name().to_string());
     }
     Ok(names)
+}
+
+pub fn extract_one(
+    archive: &Path,
+    entry_name: &str,
+    dest_file: &Path,
+    password: Option<&str>,
+) -> Result<()> {
+    enforce_archive_signature_policy(archive)?;
+    let opened = SplitZipOpen::resolve(archive)?;
+    let file = File::open(&opened.path)?;
+    let mut zip = ZipArchive::new(file).map_err(map_zip_err)?;
+    let pw = password_bytes(password);
+    let want = entry_name.replace('\\', "/");
+    for i in 0..zip.len() {
+        let mut entry = open_zip_entry(&mut zip, i, pw)?;
+        let name = entry.name().to_string();
+        if name.replace('\\', "/") != want {
+            continue;
+        }
+        if entry.is_dir() {
+            return Err(ArchiveError::Zip(format!("girdi klasör: {want}")));
+        }
+        if let Some(parent) = dest_file.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+        let mut out = File::create(dest_file)?;
+        copy(&mut entry, &mut out).map_err(map_read_err)?;
+        return Ok(());
+    }
+    Err(ArchiveError::Zip(format!("dosya bulunamadı: {want}")))
+}
+
+const ZIP_PREVIEW_MAX_BYTES: usize = 65_536;
+
+pub fn preview_entry_bytes(
+    archive: &Path,
+    entry_name: &str,
+    password: Option<&str>,
+    max_bytes: usize,
+) -> Result<(Vec<u8>, u64, bool)> {
+    enforce_archive_signature_policy(archive)?;
+    let opened = SplitZipOpen::resolve(archive)?;
+    let file = File::open(&opened.path)?;
+    let mut zip = ZipArchive::new(file).map_err(map_zip_err)?;
+    let pw = password_bytes(password);
+    let want = entry_name.replace('\\', "/");
+    let cap = max_bytes.min(ZIP_PREVIEW_MAX_BYTES);
+    for i in 0..zip.len() {
+        let mut entry = open_zip_entry(&mut zip, i, pw)?;
+        let name = entry.name().to_string();
+        if name.replace('\\', "/") != want {
+            continue;
+        }
+        if entry.is_dir() {
+            return Err(ArchiveError::Zip(format!("girdi klasör: {want}")));
+        }
+        let size = entry.size();
+        let mut buf = Vec::new();
+        let mut limited = (&mut entry).take(cap as u64);
+        copy(&mut limited, &mut buf).map_err(map_read_err)?;
+        let truncated = size > cap as u64 || buf.len() >= cap;
+        return Ok((buf, size, truncated));
+    }
+    Err(ArchiveError::Zip(format!("dosya bulunamadı: {want}")))
 }
 
 pub fn extract(archive: &Path, dest: &Path, password: Option<&str>) -> Result<()> {
@@ -685,6 +750,25 @@ mod tests {
             err.contains(ZIP_INTEGRITY_CRC_MSG),
             "beklenen CRC mesaji, alinan: {err}"
         );
+    }
+
+    #[test]
+    fn zip_extract_one_single_file() {
+        let dir = tempdir().unwrap();
+        let src = dir.path().join("src");
+        std::fs::create_dir_all(&src).unwrap();
+        std::fs::write(src.join("a.txt"), b"aaa").unwrap();
+        std::fs::write(src.join("b.txt"), b"bbb").unwrap();
+        let archive = dir.path().join("t.zip");
+        create_with_profile(&src, &archive, CompressionProfile::Fast, None).unwrap();
+        let names = list(&archive, None).unwrap();
+        let b_name = names
+            .into_iter()
+            .find(|n| n.ends_with("b.txt"))
+            .expect("b.txt entry");
+        let single = dir.path().join("only-b.txt");
+        extract_one(&archive, &b_name, &single, None).unwrap();
+        assert_eq!(std::fs::read(&single).unwrap(), b"bbb");
     }
 
     #[test]

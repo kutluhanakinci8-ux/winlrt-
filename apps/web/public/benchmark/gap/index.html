@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gap durum — Lertiva vitrin</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css?v=5" />
+    <style>
+      .gap-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        margin-top: 1.5rem;
+      }
+      .gap-card {
+        background: var(--surface, #111827);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+      }
+      .gap-card h3 {
+        margin: 0 0 0.5rem;
+        font-size: 1rem;
+      }
+      .pct {
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 1.1;
+      }
+      .pct small {
+        font-size: 0.9rem;
+        font-weight: 400;
+        opacity: 0.75;
+      }
+      table.gap-phases {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+        font-size: 0.9rem;
+      }
+      table.gap-phases th,
+      table.gap-phases td {
+        text-align: left;
+        padding: 0.45rem 0.6rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .bar {
+        height: 6px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 999px;
+        overflow: hidden;
+        margin-top: 0.35rem;
+      }
+      .bar > span {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, #6366f1, #22c55e);
+      }
+      .deferred {
+        margin-top: 1.5rem;
+        font-size: 0.88rem;
+        opacity: 0.85;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="logo" href="/">Lertiva</a>
+        <nav class="nav">
+          <a href="/benchmark/">KPI</a>
+          <a href="/downloads/">İndir</a>
+        </nav>
+      </div>
+    </header>
+    <main class="section">
+      <div class="container">
+        <h1>Gap → %100 durum panosu</h1>
+        <p class="lead">
+          Repo kapıları otomatik; sertifika ve mağaza kayıtları bilinçli olarak ertelendi. Sıradaki:
+          <strong id="next-seq">—</strong>
+        </p>
+        <p class="meta" id="generated">Yükleniyor…</p>
+        <div class="gap-grid" id="layer-cards"></div>
+        <h2>Faz G1–G10</h2>
+        <div class="corp-table-wrap">
+          <table class="gap-phases" id="phase-table">
+            <thead>
+              <tr>
+                <th>Faz</th>
+                <th>Repo</th>
+                <th>Ürün</th>
+                <th>Birleşik</th>
+                <th>İlerleme</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="deferred" id="deferred"></p>
+        <p class="meta">
+          Kaynak:
+          <a href="/benchmark/samples/lertiva-gap-status-report.json">gap-status-report.json</a>
+          ·
+          <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/GAP_STATUS_RAPOR.md"
+            >GAP_STATUS_RAPOR.md</a
+          >
+        </p>
+      </div>
+    </main>
+    <script>
+      async function load() {
+        const res = await fetch("/benchmark/samples/lertiva-gap-status-report.json", {
+          cache: "no-store",
+        });
+        const data = await res.json();
+        document.getElementById("generated").textContent =
+          "Güncelleme: " + (data.generated_at || "—") + " · " + (data.disclaimer || "");
+        const layers = data.summary?.layers || {};
+        const cards = [
+          ["Repo & CI (G1–G10)", layers.repo_ci],
+          ["Ürün (cert/mağaza hariç)", layers.product_excluding_external],
+          ["Program (ağırlıklı)", layers.program_weighted],
+        ];
+        const root = document.getElementById("layer-cards");
+        root.innerHTML = "";
+        for (const [title, val] of cards) {
+          const n = val != null ? val : "—";
+          root.insertAdjacentHTML(
+            "beforeend",
+            `<article class="gap-card"><h3>${title}</h3><div class="pct">${n}<small>%</small></div><div class="bar"><span style="width:${n}%"></span></div></article>`
+          );
+        }
+        const tbody = document.querySelector("#phase-table tbody");
+        tbody.innerHTML = "";
+        const phases = data.summary?.phases || {};
+        for (const [id, row] of Object.entries(phases)) {
+          const c = row.combined ?? 0;
+          tbody.insertAdjacentHTML(
+            "beforeend",
+            `<tr><td>${id}</td><td>${row.repo ?? "—"}%</td><td>${row.product ?? "—"}%</td><td><strong>${c}%</strong></td><td><div class="bar" style="max-width:120px"><span style="width:${c}%"></span></div></td></tr>`
+          );
+        }
+        document.getElementById("next-seq").textContent = (data.summary?.next_sequence || []).join(
+          " → "
+        );
+        document.getElementById("deferred").textContent =
+          "Ertelenen: " + (data.deferred_external || []).join(" · ");
+        const g4 = data.gates_snapshot?.g4_desktop_maturity;
+        if (g4 != null) {
+          root.insertAdjacentHTML(
+            "beforeend",
+            `<article class="gap-card"><h3>G4 masaüstü MVP gate</h3><div class="pct">${g4 ? "PASS" : "—"}</div></article>`
+          );
+        }
+      }
+      load().catch(() => {
+        document.getElementById("generated").textContent = "Rapor yüklenemedi.";
+      });
+    </script>
+  </body>
+</html>

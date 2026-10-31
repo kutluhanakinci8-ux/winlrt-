@@ -19,5 +19,6 @@ grep -q '\[x\] PASS' "$ROOT/docs/qa/EXPLORER_QA_SIGNOFF.md" || {
 cargo check -p lertiva-zip --quiet
 cargo check -p lertiva-arc --quiet
 bash "$ROOT/scripts/check-v1-gate-ready.sh"
+bash "$ROOT/scripts/evaluate-lertiva-desktop-maturity-gate.sh" >/dev/null
 
 echo "OK: Faz G4 — repo masaüstü kapıları (saha oturumu ayrı)"

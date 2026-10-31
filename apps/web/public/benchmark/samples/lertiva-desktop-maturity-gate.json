@@ -1,0 +1,28 @@
+{
+  "product": "Lertiva Arc desktop maturity (G4 repo MVP)",
+  "all_pass": true,
+  "disclaimer": "Dış kullanıcı oturumu insan adımı; repo UX MVP bu JSON.",
+  "gates": {
+    "entry_search_ui": {
+      "pass": true
+    },
+    "shortcuts_doc": {
+      "pass": true
+    },
+    "shortcuts_ui": {
+      "pass": true
+    },
+    "preview_entry_text": {
+      "pass": true
+    },
+    "zip_extract_one": {
+      "pass": true
+    },
+    "wlrt_extract_one": {
+      "pass": true
+    },
+    "external_session_checklist": {
+      "pass": true
+    }
+  }
+}

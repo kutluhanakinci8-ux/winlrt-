@@ -251,6 +251,44 @@ pub fn extract_one(
     Ok(())
 }
 
+const PREVIEW_MAX_BYTES: usize = 65_536;
+
+/// Küçük metin önizlemesi için tek girdinin ham baytlarını okur (G4/G9).
+pub fn preview_entry_bytes(
+    archive: &Path,
+    entry_path: &str,
+    password: Option<&str>,
+    max_bytes: usize,
+) -> Result<(Vec<u8>, u64, bool)> {
+    let cap = max_bytes.min(PREVIEW_MAX_BYTES);
+    let mut file = File::open(archive)?;
+    let header = read_header(&mut file)?;
+    if header.salt.is_some() && password.is_none_or(|p| p.is_empty()) {
+        return Err(ArchiveError::Wlrt("parola gerekli (şifreli .wlrt)".into()));
+    }
+    let want = entry_path.replace('\\', "/");
+    for _ in 0..header.file_count {
+        let entry = read_entry(
+            &mut file,
+            header.version,
+            header.salt.as_ref(),
+            password,
+        )?;
+        if entry.path != want {
+            continue;
+        }
+        let raw_len = entry.payload.len() as u64;
+        let dec = Decoder::new(&entry.payload[..])
+            .map_err(|e| ArchiveError::Wlrt(format!("zstd: {e}")))?;
+        let mut buf = Vec::new();
+        let mut take = dec.take(cap as u64);
+        std::io::copy(&mut take, &mut buf).map_err(|e| ArchiveError::Wlrt(e.to_string()))?;
+        let truncated = raw_len > cap as u64 || buf.len() >= cap;
+        return Ok((buf, raw_len, truncated));
+    }
+    Err(ArchiveError::Wlrt(format!("dosya bulunamadı: {want}")))
+}
+
 fn prepare_extract_dirs(dest: &Path, entries: &[ParsedEntry]) -> Result<()> {
     use std::collections::HashSet;
     let mut dirs = HashSet::new();
@@ -638,6 +676,20 @@ mod tests {
         extract_one(&archive, "b.txt", &single, None).unwrap();
         assert_eq!(std::fs::read(&single).unwrap(), b"bbb");
         assert!(!dir.path().join("a.txt").exists());
+    }
+
+    #[test]
+    fn wlrt_preview_entry_bytes() {
+        let dir = tempdir().unwrap();
+        let src = dir.path().join("src");
+        std::fs::create_dir_all(&src).unwrap();
+        std::fs::write(src.join("note.txt"), b"preview-me").unwrap();
+        let archive = dir.path().join("t.wlrt");
+        create(&src, &archive, CompressionProfile::Fast, None).unwrap();
+        let (bytes, _size, truncated) =
+            preview_entry_bytes(&archive, "note.txt", None, 4096).unwrap();
+        assert_eq!(bytes, b"preview-me");
+        assert!(!truncated);
     }
 
     #[test]

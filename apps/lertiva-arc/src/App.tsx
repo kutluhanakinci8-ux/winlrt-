@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
 import { getCurrentWindow } from "@tauri-apps/api/window";
@@ -86,7 +86,25 @@ interface VolumeInfo {
   can_repair: boolean;
 }
 
+interface EntryPreviewResult {
+  text: string | null;
+  binary: boolean;
+  truncated: boolean;
+  size_bytes: number;
+}
+
 type AppTab = "archive" | "transition";
+
+const SHORTCUTS: { keys: string; action: string }[] = [
+  { keys: "Ctrl+O", action: "Arşiv seç" },
+  { keys: "Ctrl+L", action: "Listele" },
+  { keys: "Ctrl+T", action: "Bütünlük testi" },
+  { keys: "Ctrl+E", action: "Seçili girdiyi çıkar (ZIP/.wlrt)" },
+  { keys: "Ctrl+F", action: "İçerikte ara" },
+  { keys: "Ctrl+1 / Ctrl+2", action: "Arşiv / Geçiş sekmesi" },
+  { keys: "?", action: "Kısayol listesi" },
+  { keys: "Esc", action: "Kısayol penceresini kapat" },
+];
 
 const CREATE_FORMATS: Format[] = ["zip", "wlrt"];
 
@@ -139,6 +157,18 @@ function App() {
   const [wizardFeedback, setWizardFeedback] = useState<PasswordFeedback | null>(
     null,
   );
+  const [entryQuery, setEntryQuery] = useState("");
+  const [showShortcuts, setShowShortcuts] = useState(false);
+  const [entryPreview, setEntryPreview] = useState<EntryPreviewResult | null>(
+    null,
+  );
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const filteredEntries = useMemo(() => {
+    const q = entryQuery.trim().toLowerCase();
+    if (!q) return entries;
+    return entries.filter((name) => name.toLowerCase().includes(q));
+  }, [entries, entryQuery]);
 
   const pushJob = useCallback((label: string, status: JobStatus = "running") => {
     const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -317,6 +347,28 @@ function App() {
   }, [archivePath, format]);
 
   useEffect(() => {
+    setEntryPreview(null);
+    if (!archivePath || !selectedEntry) return;
+    if (format !== "zip" && format !== "wlrt") return;
+    let cancelled = false;
+    invoke<EntryPreviewResult>("preview_entry_text", {
+      path: archivePath,
+      entry: selectedEntry,
+      format,
+      password: openPassword || null,
+    })
+      .then((res) => {
+        if (!cancelled) setEntryPreview(res);
+      })
+      .catch(() => {
+        if (!cancelled) setEntryPreview(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [archivePath, selectedEntry, format, openPassword]);
+
+  useEffect(() => {
     let unlisten: (() => void) | undefined;
     getCurrentWindow()
       .onDragDropEvent((event) => {
@@ -467,8 +519,8 @@ function App() {
       setError("Önce listele ve bir dosya seçin.");
       return;
     }
-    if (format !== "wlrt") {
-      setError("Tek dosya çıkarma şimdilik yalnızca .wlrt arşivlerinde.");
+    if (format !== "wlrt" && format !== "zip") {
+      setError("Tek dosya çıkarma şimdilik ZIP ve .wlrt arşivlerinde.");
       return;
     }
     const base = selectedEntry.split(/[/\\]/).pop() ?? "dosya";
@@ -624,6 +676,47 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    const onKey = (ev: KeyboardEvent) => {
+      const mod = ev.ctrlKey || ev.metaKey;
+      if (ev.key === "?" && !mod) {
+        ev.preventDefault();
+        setShowShortcuts(true);
+        return;
+      }
+      if (ev.key === "Escape") {
+        setShowShortcuts(false);
+        return;
+      }
+      if (!mod) return;
+      const key = ev.key.toLowerCase();
+      if (key === "o") {
+        ev.preventDefault();
+        void pickArchive();
+      } else if (key === "l") {
+        ev.preventDefault();
+        void listArchive();
+      } else if (key === "t") {
+        ev.preventDefault();
+        void testArchive();
+      } else if (key === "e") {
+        ev.preventDefault();
+        void extractOneEntry();
+      } else if (key === "f") {
+        ev.preventDefault();
+        searchInputRef.current?.focus();
+      } else if (key === "1") {
+        ev.preventDefault();
+        setTab("archive");
+      } else if (key === "2") {
+        ev.preventDefault();
+        setTab("transition");
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
+
   const transitionSteps = [
     "Beta kurulumu (winlrt.com.tr → İndir → GitHub Releases).",
     "Kurulumu tamamlayın; Explorer’da arşive sağ tık → Lertiva Arc menüleri görünür.",
@@ -656,6 +749,14 @@ function App() {
               onClick={() => setTab("transition")}
             >
               Geçiş sihirbazı
+            </button>
+            <button
+              type="button"
+              className="tab tab-muted"
+              onClick={() => setShowShortcuts(true)}
+              title="Klavye kısayolları"
+            >
+              Kısayollar (?)
             </button>
           </nav>
         </div>
@@ -863,17 +964,30 @@ function App() {
       <div className="split">
         <section className="panel list">
           <h2>İçerik</h2>
-          {format === "wlrt" && entries.length > 0 && (
+          {(format === "wlrt" || format === "zip") && entries.length > 0 && (
             <p className="muted entry-hint">
-              G9 akışlı açma: dosyaya tıklayın, «Tek dosyayı çıkar…» ile tam arşiv
-              açmadan kaydedin.
+              G4/G9 akışlı açma: dosyaya tıklayın · Ctrl+F ara · Ctrl+E tek dosya çıkar
             </p>
+          )}
+          {entries.length > 0 && (
+            <label className="entry-search">
+              Ara (Ctrl+F)
+              <input
+                ref={searchInputRef}
+                type="search"
+                value={entryQuery}
+                onChange={(e) => setEntryQuery(e.target.value)}
+                placeholder="Dosya adı…"
+              />
+            </label>
           )}
           {entries.length === 0 ? (
             <p className="muted">Henüz girdi yok.</p>
+          ) : filteredEntries.length === 0 ? (
+            <p className="muted">Eşleşen girdi yok.</p>
           ) : (
             <ul className="entries">
-              {entries.map((name) => (
+              {filteredEntries.map((name) => (
                 <li key={name}>
                   <button
                     type="button"
@@ -886,14 +1000,29 @@ function App() {
               ))}
             </ul>
           )}
-          {format === "wlrt" && selectedEntry && (
+          {(format === "wlrt" || format === "zip") && selectedEntry && (
             <button
               type="button"
               className="btn primary extract-one"
               onClick={() => void extractOneEntry()}
             >
-              Tek dosyayı çıkar…
+              Tek dosyayı çıkar… (Ctrl+E)
             </button>
+          )}
+          {selectedEntry && entryPreview && (
+            <div className="entry-preview">
+              <h3 className="preview-title">Önizleme</h3>
+              {entryPreview.binary ? (
+                <p className="muted">
+                  İkili dosya ({entryPreview.size_bytes} B) — önizleme yok
+                </p>
+              ) : (
+                <pre className="preview-text">
+                  {entryPreview.text}
+                  {entryPreview.truncated ? "\n… (kısaltıldı)" : ""}
+                </pre>
+              )}
+            </div>
           )}
         </section>
 
@@ -912,6 +1041,53 @@ function App() {
           )}
         </section>
       </div>
+      )}
+
+      {showShortcuts && (
+        <div
+          className="modal-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="shortcuts-title"
+          onClick={() => setShowShortcuts(false)}
+        >
+          <div
+            className="modal shortcuts-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 id="shortcuts-title">Klavye kısayolları (WinRAR tarzı)</h2>
+            <p className="muted">
+              Detay: docs/WINLRTRAR_SHORTCUTS.md · Geçiş sihirbazı Explorer adımları için
+            </p>
+            <table className="shortcuts-table">
+              <thead>
+                <tr>
+                  <th>Tuş</th>
+                  <th>İşlem</th>
+                </tr>
+              </thead>
+              <tbody>
+                {SHORTCUTS.map((row) => (
+                  <tr key={row.keys}>
+                    <td>
+                      <kbd>{row.keys}</kbd>
+                    </td>
+                    <td>{row.action}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="row modal-actions">
+              <button
+                type="button"
+                className="btn primary"
+                onClick={() => setShowShortcuts(false)}
+              >
+                Kapat (Esc)
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {secureWizard && (

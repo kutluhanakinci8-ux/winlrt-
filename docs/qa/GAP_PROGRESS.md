@@ -15,4 +15,6 @@
 
 Ürün sırası: [GAP_PRODUCT_SIRA.md](./GAP_PRODUCT_SIRA.md) · `verify-product-gap-all.sh`
 
-Son güncelleme: G9 Arc UI + G2/G3 ürün gate JSON; G2 vitrin PNG ✅.
+**Durum raporu (%):** [GAP_STATUS_RAPOR.md](./GAP_STATUS_RAPOR.md) · `bash scripts/evaluate-gap-status-report.sh`
+
+Son güncelleme: G4 masaüstü MVP (arama, kısayol, önizleme) · `/benchmark/gap/` · `gap-phase-finish.sh`.

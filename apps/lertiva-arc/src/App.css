@@ -296,6 +296,78 @@ select {
   list-style: none;
 }
 
+.tab-muted {
+  opacity: 0.85;
+  font-size: 0.85rem;
+}
+
+.entry-search {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.entry-search input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.entry-preview {
+  margin-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 0.5rem;
+}
+
+.preview-title {
+  margin: 0 0 0.35rem;
+  font-size: 0.9rem;
+}
+
+.preview-text {
+  margin: 0;
+  max-height: 140px;
+  overflow: auto;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 0.5rem;
+  border-radius: 8px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.shortcuts-modal {
+  width: min(480px, 100%);
+  background: #121a28;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+}
+
+.shortcuts-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  margin: 0.5rem 0;
+}
+
+.shortcuts-table th,
+.shortcuts-table td {
+  text-align: left;
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.shortcuts-table kbd {
+  font-family: ui-monospace, monospace;
+  font-size: 0.8rem;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+}
+
 .entry-hint {
   font-size: 0.8rem;
   margin: 0 0 0.5rem;

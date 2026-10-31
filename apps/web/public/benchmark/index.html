@@ -370,13 +370,21 @@ cargo run -p lertiva-archive -- bench --all --profile fast --json --zip-kpi</cod
             url: "/benchmark/samples/lertiva-brand-suite-gate.json",
             title: "Marka + suite (G10)",
           },
+          {
+            url: "/benchmark/samples/lertiva-gap-status-report.json",
+            title: "Gap durum raporu (özet)",
+          },
+          {
+            url: "/benchmark/samples/lertiva-desktop-maturity-gate.json",
+            title: "Masaüstü olgunluk (G4)",
+          },
         ];
         for (const it of items) {
           try {
             const res = await fetch(it.url, { cache: "no-store" });
             if (!res.ok) throw new Error(res.statusText);
             const data = await res.json();
-            const summary =
+            let summary =
               data.all_pass != null
                 ? `all_pass: ${data.all_pass}`
                 : data.dry_run != null
@@ -384,6 +392,9 @@ cargo run -p lertiva-archive -- bench --all --profile fast --json --zip-kpi</cod
                   : data.tier
                     ? `tier: ${data.tier} · ${data.size_bytes || ""} B`
                     : JSON.stringify(data).slice(0, 120);
+            if (data.summary?.layers?.program_weighted != null) {
+              summary = `program: ${data.summary.layers.program_weighted}% · repo: ${data.summary.layers.repo_ci}% · <a href="/benchmark/gap/">pano</a>`;
+            }
             root.insertAdjacentHTML(
               "beforeend",
               `<article class="card"><h3>${it.title}</h3><p class="meta">${summary}</p><p class="meta"><a href="${it.url}">JSON</a></p></article>`

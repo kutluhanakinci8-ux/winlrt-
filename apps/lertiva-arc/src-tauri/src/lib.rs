@@ -480,12 +480,57 @@ fn extract_one_entry(
     let pw = password.as_deref();
     match format.as_str() {
         "wlrt" => wlrt::extract_one(&archive, &entry, &dest, pw).map_err(|e| e.to_string())?,
-        _ => return Err("Tek dosya çıkarma şimdilik yalnızca .wlrt (G9 akışlı açma)".into()),
+        "zip" => zip_io::extract_one(&archive, &entry, &dest, pw).map_err(|e| e.to_string())?,
+        _ => {
+            return Err(
+                "Tek dosya çıkarma şimdilik ZIP ve .wlrt (G4/G9 akışlı açma)".into(),
+            )
+        }
     }
     audit::event_extract("ui-one", true, &path, &format);
     Ok(ActionResult {
         ok: true,
         message: format!("Tek dosya çıkarıldı: {}", dest.display()),
+    })
+}
+
+#[derive(serde::Serialize)]
+struct EntryPreviewResult {
+    text: Option<String>,
+    binary: bool,
+    truncated: bool,
+    size_bytes: u64,
+}
+
+#[tauri::command]
+fn preview_entry_text(
+    path: String,
+    entry: String,
+    format: String,
+    password: Option<String>,
+) -> Result<EntryPreviewResult, String> {
+    const MAX: usize = 65_536;
+    let archive = std::path::PathBuf::from(&path);
+    let pw = password.as_deref();
+    let (bytes, size, truncated) = match format.as_str() {
+        "wlrt" => wlrt::preview_entry_bytes(&archive, &entry, pw, MAX).map_err(|e| e.to_string())?,
+        "zip" => {
+            zip_io::preview_entry_bytes(&archive, &entry, pw, MAX).map_err(|e| e.to_string())?
+        }
+        _ => return Err("Önizleme şimdilik ZIP ve .wlrt".into()),
+    };
+    let sample = &bytes[..bytes.len().min(8192)];
+    let binary = sample.contains(&0);
+    let text = if binary {
+        None
+    } else {
+        Some(String::from_utf8_lossy(&bytes).into_owned())
+    };
+    Ok(EntryPreviewResult {
+        text,
+        binary,
+        truncated,
+        size_bytes: size,
     })
 }
 
@@ -741,6 +786,7 @@ pub fn run() {
             test_archive,
             extract_archive,
             extract_one_entry,
+            preview_entry_text,
             create_archive,
             create_archive_from_paths
         ])
