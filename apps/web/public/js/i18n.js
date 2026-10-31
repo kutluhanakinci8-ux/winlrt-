@@ -40,7 +40,7 @@ window.WINLRT_I18N = {
     "preview.platform": "Lertiva platform",
     "preview.maturity": "Ürün olgunluğu (repo)",
     "preview.zip.sub": "Post-v3 W0–W31 · beta Windows/macOS CI",
-    "preview.rar.sub": "Post-v2 · v1.0.0 Windows resmi",
+    "preview.rar.sub": "Post-v2 · v1.0.1 Windows resmi",
     "status.label": "Senkronizasyon",
     "status.title": "Vitrin ↔ geliştirme durumu",
     "status.lead":
@@ -215,7 +215,7 @@ window.WINLRT_I18N = {
     "preview.platform": "Lertiva platform",
     "preview.maturity": "Product maturity (repo)",
     "preview.zip.sub": "Post-v3 W0–W31 · beta Windows/macOS CI",
-    "preview.rar.sub": "Post-v2 · v1.0.0 Windows GA",
+    "preview.rar.sub": "Post-v2 · v1.0.1 Windows GA",
     "status.label": "Synchronization",
     "status.title": "Site ↔ engineering status",
     "status.lead":

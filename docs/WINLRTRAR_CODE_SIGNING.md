@@ -29,7 +29,7 @@ Alternatif (CI): GitHub Secrets
 - `TAURI_SIGNING_PRIVATE_KEY` — `.pfx` base64 veya minisign format (Tauri dokümantasyonu)
 - `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`
 
-Workflow: `.github/workflows/lertiva-arc-windows.yml` — secret tanımlıysa `npm run tauri build` otomatik imzalar.
+Workflow: `.github/workflows/lertiva-arc-windows.yml` (beta) ve `.github/workflows/lertiva-arc-windows-stable.yml` (tag `v1.0.*`) — secret tanımlıysa build + `sign-windows-nsis-bundle.ps1` imzalar. Pistler: [LERTIVA_ARC_RELEASE_TRACKS.md](./qa/LERTIVA_ARC_RELEASE_TRACKS.md).
 
 Mac (yapıştırma yok):
 

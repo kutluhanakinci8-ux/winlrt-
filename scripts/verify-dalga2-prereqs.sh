@@ -3,7 +3,7 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 ARC_TAG="v1.0.1"
-# Vitrin: manifest tabanlı indirme veya doğrudan v1.0.0 release linki.
+# Vitrin: manifest tabanlı indirme (varsayılan v1.0.1 Lertiva Arc installer).
 
 for f in \
   docs/qa/DALGA2_EXPLORER_QA_KOPYA.md \
@@ -19,7 +19,7 @@ do
   test -f "$ROOT/$f" || { echo "Eksik: $f" >&2; exit 1; }
 done
 
-if ! grep -qE 'lertiva-downloads-manifest|releases/tag/v1\.0\.0|Lertiva Arc' "$ROOT/apps/web/public/downloads/index.html"; then
+if ! grep -qE 'lertiva-downloads-manifest|releases/tag/v1\.0\.(0|1)|Lertiva Arc' "$ROOT/apps/web/public/downloads/index.html"; then
   echo "Eksik: downloads/index.html Lertiva Arc / manifest referansı" >&2
   exit 1
 fi

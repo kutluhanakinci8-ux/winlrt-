@@ -1,10 +1,9 @@
-# Lertiva Arc v1.0.0 — resmi sürüm (imzasız)
+# Lertiva Arc v1.0.0 — arşiv (legacy installer adı)
 
-**Cloud Agent otomasyonu** — ekstra kullanıcı adımı yok.
+**Geçmiş sürüm** — vitrin varsayılanı artık **v1.0.1** ([V1_0_1_UNSIGNED_RELEASE.md](./V1_0_1_UNSIGNED_RELEASE.md)).
 
+- Kurulum dosyası: `winlrtRAR_0.1.0_x64-setup.exe` (Tauri 0.1.0 / eski marka)
 - Explorer + kurumsal signoff: PASS ([EXPLORER_QA_SIGNOFF.md](./EXPLORER_QA_SIGNOFF.md), [KURUMSAL_PILOT_SIGNOFF.md](./KURUMSAL_PILOT_SIGNOFF.md))
-- Kurulum: `Lertiva Arc_0.1.0_x64-setup.exe` (NSIS, beta build artifact ile aynı SHA256 kapısı)
-- **Authenticode yok** — `TAURI_SIGNING_*` GitHub secret tanımlı değil; SmartScreen uyarısı beklenir
-- İmza eklendiğinde: aynı tag üzerine yeni imzalı asset veya `v1.0.1` yol haritası
+- **Authenticode yok** — SmartScreen uyarısı beklenir (EV/OV ayrı track: [LERTIVA_ARC_RELEASE_TRACKS.md](./LERTIVA_ARC_RELEASE_TRACKS.md))
 
-Vitrin: https://winlrt.com.tr/downloads/
+Vitrin: https://winlrt.com.tr/downloads/#lertiva-arc

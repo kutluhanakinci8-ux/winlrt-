@@ -78,9 +78,9 @@ jobs:
           tag_name: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
           name: Lertiva Arc ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }} (Windows)
           body: |
-            Resmi Lertiva Arc Windows kurulumu — **Lertiva Arc_*_x64-setup.exe** adıyla.
-            Authenticode: secret varsa dev/EV imza; yoksa imzasız (SmartScreen bilgilendirme).
-            Bkz. docs/qa/V1_0_1_UNSIGNED_RELEASE.md
+            Resmi Lertiva Arc Windows kurulumu — **Lertiva Arc_*_x64-setup.exe** (GitHub URL: `Lertiva.Arc_*`).
+            **Track A:** imzasız → SmartScreen bilgilendirme. **Track B:** EV/OV → `WINDOWS_CERTIFICATE*` / `TAURI_SIGNING_*`.
+            Bkz. docs/qa/LERTIVA_ARC_RELEASE_TRACKS.md
           draft: false
           prerelease: false
           files: target/release/bundle/nsis/Lertiva Arc_*_x64-setup.exe
