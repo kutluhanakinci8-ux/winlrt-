@@ -1,6 +1,6 @@
 {
   "product": "Lertiva Zip",
-  "generated_at": "2026-10-30T18:30Z",
+  "generated_at": "2026-10-31T05:37Z",
   "disclaimer": "P0×3: sıkıştırma (Balanced zip_kpi), hız (Fast zip_kpi), güven (AES I4). Resmi Windows: import-windows-zip-kpi-to-vitrin.sh",
   "p0": {
     "compression": {
@@ -9,7 +9,7 @@
       "platform": "windows / x86_64"
     },
     "speed": {
-      "gate": false,
+      "gate": true,
       "profile": "Fast",
       "platform": "windows / x86_64"
     },
@@ -21,9 +21,10 @@
       ]
     }
   },
-  "all_pass": false,
+  "all_pass": true,
   "sources": {
-    "balanced_json": "/tmp/tmp.pnCHym52u8/bench-report-windows.json",
-    "fast_json": "/tmp/tmp.pnCHym52u8/bench-report-windows-fast.json"
+    "balanced_json": "bench-report-windows.json (CI)",
+    "fast_json": "bench-report-windows-fast.json (CI)",
+    "run_id": "41172989749"
   }
 }
