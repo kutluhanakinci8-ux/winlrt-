@@ -1,7 +1,9 @@
 {
   "product": "Lertiva Windows",
-  "generated_at": "2026-10-31T07:38Z",
-  "disclaimer": "EV/OV: vitrin-ev-ov-configured.flag ile isaretlenir.",
+  "generated_at": "2026-10-31T08:22Z",
+  "disclaimer": "EV/OV: kurumsal PFX + flag; dev TAURI/WINDOWS secret EV sayilmaz.",
+  "certificate_tier": "dev_self_signed",
+  "certificate_subject": "subject=CN = Lertiva Dev Code Signing, O = Lertiva, C = TR",
   "gates": {
     "dev_authenticode_ci": {
       "pass": true

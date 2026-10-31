@@ -131,6 +131,15 @@ KPI job (`macos-zip-kpi`) notarize **gerektirmez** — W34 ayrı.
 
 ---
 
+## Senaryo testleri (agent)
+
+```bash
+bash scripts/test-g2-g3-scenarios.sh
+```
+
+Beklenen (dev PFX, EV/OV henüz yok): G2-S5 `ev_ov` false, G2-S3 CI yeşil, G3-S2 notarize false.  
+**A3 workflow dispatch:** Cloud agent `403` — siz Actions → Run workflow.
+
 ## Hızlı komutlar
 
 ```bash

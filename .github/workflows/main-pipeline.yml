@@ -183,6 +183,9 @@ jobs:
       - name: G10 marka + suite repo
         run: bash scripts/verify-madde-g10.sh
 
+      - name: G2/G3 senaryo testleri (dev + gate)
+        run: bash scripts/test-g2-g3-scenarios.sh
+
       - name: Lertiva Zip v1.0 GA kapı (W33)
         run: bash scripts/verify-madde-w33.sh
 
