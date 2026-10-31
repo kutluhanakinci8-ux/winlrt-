@@ -264,7 +264,6 @@
 
       (function () {
         var el = document.getElementById("kpi-hero-strip");
-        var top = document.getElementById("topbar-kpi");
         if (!el) return;
 
         Promise.all([
@@ -323,11 +322,8 @@
               ' — <a href="/benchmark/">' +
               detail +
               "</a>";
-            if (top) top.textContent = parts[0];
           })
-          .catch(function () {
-            if (top && window.WinlrtSite) top.textContent = WinlrtSite.t("topbar.kpi.fallback");
-          });
+          .catch(function () {});
       })();
     </script>
   </body>

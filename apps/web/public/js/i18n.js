@@ -257,10 +257,67 @@ window.WINLRT_I18N = {
     "kpi.summary.prefix": "Canlı KPI özeti:",
     "kpi.detail": "detay",
     "page.about.title": "Hakkımızda",
+    "page.about.h1": "Yerli arşiv platformu — Antalya’dan dünyaya",
+    "page.about.heroLead":
+      "Lertiva, Antalya merkezli, Türkiye’de doğmuş bir arşiv ve belge platformudur. Kurumsal şirketlerden sendikalara, derneklerden bireysel kullanıcılara kadar günlük sıkıştırma, dağıtım ve arşivleme ihtiyaçlarını yerli mühendislik ve ölçülebilir güven standartlarıyla karşılamak üzere kurulmuştur.",
+    "page.about.hqBadge": "Merkez: Antalya, Türkiye",
+    "page.about.story.label": "Hikâyemiz",
+    "page.about.story.title": "Lertiva nedir?",
+    "page.about.story.body":
+      "Günümüzde veri arşivleme, güvenli paylaşım ve kurumsal dağıtım her ölçekte kritik hale geldi. Lertiva; masaüstü ürünleri, kurumsal paketleme ve açık KPI vitriniyle bu ihtiyacı tek çatı altında toplar. İlk aşamada Türkiye pazarına odaklanır; altyapı ve süreçlerimiz küresel ölçekte hizmet verecek biçimde tasarlanır. Resmi vitrin ve indirme kanalı winlrt.com.tr’dir.",
+    "page.about.mission.label": "Misyon",
+    "page.about.mission.title": "Ölçülebilir, yerli, erişilebilir arşiv",
+    "page.about.mission.body":
+      "Kurumsal ve bireysel kullanıcıların arşiv, sıkıştırma ve güvenli dağıtım ihtiyaçlarını abonelik tuzağı olmadan, şeffaf performans ölçümleri ve KVKK odaklı güven kapılarıyla karşılamak. Yerli yazılım olarak geliştirmeyi sürdürülebilir kılmak; kurumsal pilot, GPO dağıtımı ve destek süreçlerini erişilebilir tutmak.",
+    "page.about.vision.label": "Vizyon",
+    "page.about.vision.title": "Türkiye’den küresel güven standardı",
+    "page.about.vision.body":
+      "Türkiye’de kurumsal arşiv ve belge yönetiminde güvenilir yerli referans olmak; ardından aynı şeffaflık ve ölçüm disipliniyle uluslararası pazarlarda hizmet vermek. Kullanıcıların “ne indiriyorum, ne kadar hızlı, ne kadar güvenli?” sorularına açık yanıtlar sunan bir platform ekosistemi inşa etmek.",
+    "page.about.values.label": "Değerler",
+    "page.about.values.title": "Kurumsal duruşumuz",
+    "page.about.values.v1.title": "Yerli mühendislik",
+    "page.about.values.v1.body":
+      "Ürün ve motor geliştirme Türkiye’de yürütülür; kritik yollar açık vitrin ve denetlenebilir süreçlerle desteklenir.",
+    "page.about.values.v2.title": "Şeffaf KPI",
+    "page.about.values.v2.body":
+      "Performans ve güven göstergeleri vitrinde yayımlanır; kurumsal alıcılar karar vermeden önce ölçülebilir veri görür.",
+    "page.about.values.v3.title": "KVKK odaklı güven",
+    "page.about.values.v3.body":
+      "Kişisel veri, imza durumu ve kurumsal dağıtım politikaları aydınlatma metinleri ve güven merkeziyle uyumlu anlatılır.",
+    "page.about.audience.label": "Kime hizmet ediyoruz",
+    "page.about.audience.title": "Kurumsal ölçekten bireysel kullanıma",
+    "page.about.audience.lead":
+      "Aynı platform; farklı ölçek ve uyumluluk beklentilerine göre paketlenir — pilot süreçlerden toplu lisans dağıtımına kadar.",
+    "page.about.audience.corp": "Kurumsal şirketler",
+    "page.about.audience.public": "Kamu benzeri yapılar",
+    "page.about.audience.bank": "Finans & bankacılık",
+    "page.about.audience.union": "Sendikalar",
+    "page.about.audience.ngo": "Dernekler & STK",
+    "page.about.audience.sme": "KOBİ",
+    "page.about.audience.edu": "Eğitim kurumları",
+    "page.about.audience.pro": "Bireysel profesyoneller",
+    "page.about.platform.label": "Platform",
+    "page.about.platform.title": "Lertiva Arc & Lertiva Zip",
+    "page.about.platform.body":
+      "Lertiva Arc ve Lertiva Zip, ortak arşiv motoru üzerinde çalışır: hızlı sıkıştırma, kurumsal dağıtım paketleri, Explorer entegrasyonu ve güven vitrini. Ürün yol haritası, galeri ve çözüm senaryoları sitede ayrı hub’larda toplanır.",
+    "page.about.media.caption": "Lertiva Arc masaüstü arayüzü — ekran görüntüsü galeride daha fazla örnek.",
+    "page.about.media.link": "Galeriye git →",
+    "page.about.stat1.value": "Antalya",
+    "page.about.stat1.label": "Merkez",
+    "page.about.stat2.label": "Yayılım stratejisi",
+    "page.about.stat3.label": "Masaüstü ürün hattı",
+    "page.about.stat4.label": "Açık ölçüm vitrini",
+    "page.about.antalya.label": "Türkiye merkezli",
+    "page.about.antalya.title": "Antalya’da tasarlanır, kurumsal standartla sunulur",
+    "page.about.antalya.body":
+      "Antalya’daki merkezimizden ürün tasarımı, vitrin ve kurumsal iletişim yönetilir. Türkiye’de yerleşik destek ve pilot süreçleri; global genişleme için aynı kalite çizgisini korur.",
+    "page.about.cta.title": "Kurumsal pilot veya basın",
+    "page.about.cta.body":
+      "Toplu dağıtım, imza durumu, KPI raporları veya basın kiti için ekibimizle iletişime geçin. Pilot programı ve indirme merkezi sitede hazırdır.",
     "page.about.lead":
-      "Lertiva, Türkiye merkezli yerli arşiv ve belge yazılımı platformudur. Lertiva Arc ve Lertiva Zip ortak lertiva-archive motorunu kullanır; KPI vitrin, kurumsal GPO ve KVKK odaklı denetim şeffaf biçimde yayımlanır.",
+      "Lertiva, Antalya merkezli yerli arşiv ve belge yazılımı platformudur.",
     "page.about.body":
-      "Misyonumuz: kurumsal ve bireysel kullanıcıların WinRAR / WinZip sınıfı ihtiyaçlarını abonelik bağımlılığı olmadan, ölçülebilir performans ve güven kapılarıyla karşılamak. Geliştirme açık repoda izlenebilir; resmi vitrin ve indirme kanalı winlrt.com.tr.",
+      "Misyon ve vizyon: ölçülebilir performans, şeffaf güven ve Türkiye’den küresel ölçeğe hizmet.",
     "page.contact.title": "İletişim",
     "page.contact.lead": "Kurumsal pilot, basın ve teknik sorular için aşağıdaki kanalları kullanın.",
     "page.contact.web": "Resmi vitrin ve indirme:",
@@ -619,10 +676,67 @@ window.WINLRT_I18N = {
     "kpi.summary.prefix": "Live KPI summary:",
     "kpi.detail": "details",
     "page.about.title": "About us",
+    "page.about.h1": "Domestic archive platform — from Antalya to the world",
+    "page.about.heroLead":
+      "Lertiva is an archive and document platform born in Türkiye, headquartered in Antalya. We serve enterprises, unions, associations, and individual users with domestic engineering and measurable trust standards for everyday compression, distribution, and archiving.",
+    "page.about.hqBadge": "HQ: Antalya, Türkiye",
+    "page.about.story.label": "Our story",
+    "page.about.story.title": "What is Lertiva?",
+    "page.about.story.body":
+      "Archiving, secure sharing, and enterprise distribution matter at every scale. Lertiva brings desktop products, corporate packaging, and an open KPI showcase under one roof. We focus on Türkiye first; our processes and infrastructure are designed to scale globally. The official site and downloads are at winlrt.com.tr.",
+    "page.about.mission.label": "Mission",
+    "page.about.mission.title": "Measurable, domestic, accessible archiving",
+    "page.about.mission.body":
+      "Meet archive, compression, and secure distribution needs for organizations and individuals—without subscription traps—using transparent performance metrics and privacy-oriented security gates. Keep domestic software development sustainable with accessible pilots, GPO rollout, and support.",
+    "page.about.vision.label": "Vision",
+    "page.about.vision.title": "A global trust standard from Türkiye",
+    "page.about.vision.body":
+      "Become the trusted domestic reference for enterprise archiving in Türkiye, then serve international markets with the same transparency and measurement discipline. Build an ecosystem that answers clearly: what am I installing, how fast is it, and how secure is it?",
+    "page.about.values.label": "Values",
+    "page.about.values.title": "How we operate",
+    "page.about.values.v1.title": "Domestic engineering",
+    "page.about.values.v1.body":
+      "Product and engine work runs in Türkiye; critical paths are backed by public status pages and auditable processes.",
+    "page.about.values.v2.title": "Transparent KPIs",
+    "page.about.values.v2.body":
+      "Performance and security indicators are published on the vitrin so buyers can decide on measurable data.",
+    "page.about.values.v3.title": "Privacy-first trust",
+    "page.about.values.v3.body":
+      "Personal data, signing status, and enterprise rollout policies are explained consistently with our privacy notice and trust hub.",
+    "page.about.audience.label": "Who we serve",
+    "page.about.audience.title": "From enterprise scale to individual use",
+    "page.about.audience.lead":
+      "One platform, packaged for different compliance and scale expectations—from pilots to mass deployment.",
+    "page.about.audience.corp": "Enterprises",
+    "page.about.audience.public": "Public-sector-like organizations",
+    "page.about.audience.bank": "Finance & banking",
+    "page.about.audience.union": "Trade unions",
+    "page.about.audience.ngo": "Associations & NGOs",
+    "page.about.audience.sme": "SMBs",
+    "page.about.audience.edu": "Educational institutions",
+    "page.about.audience.pro": "Individual professionals",
+    "page.about.platform.label": "Platform",
+    "page.about.platform.title": "Lertiva Arc & Lertiva Zip",
+    "page.about.platform.body":
+      "Lertiva Arc and Lertiva Zip share one archive engine: fast compression, corporate deployment packs, Explorer integration, and a public trust vitrin. Roadmap, gallery, and solution scenarios live in dedicated hubs on this site.",
+    "page.about.media.caption": "Lertiva Arc desktop UI — more screenshots in the gallery.",
+    "page.about.media.link": "Open gallery →",
+    "page.about.stat1.value": "Antalya",
+    "page.about.stat1.label": "Headquarters",
+    "page.about.stat2.label": "Rollout strategy",
+    "page.about.stat3.label": "Desktop product line",
+    "page.about.stat4.label": "Open measurement vitrin",
+    "page.about.antalya.label": "Türkiye-based",
+    "page.about.antalya.title": "Designed in Antalya, delivered to enterprise standards",
+    "page.about.antalya.body":
+      "From Antalya we drive product design, the public vitrin, and corporate communications. In-country pilots and support keep the same quality bar as we expand globally.",
+    "page.about.cta.title": "Enterprise pilot or press",
+    "page.about.cta.body":
+      "Contact us for mass deployment, signing status, KPI reports, or press materials. Pilot program and download center are ready on this site.",
     "page.about.lead":
-      "Lertiva is a Türkiye-based domestic archive and document software platform. Lertiva Arc and Lertiva Zip share the lertiva-archive engine; KPI site, corporate GPO, and KVKK-oriented audit are published transparently.",
+      "Lertiva is a domestic archive and document software platform headquartered in Antalya, Türkiye.",
     "page.about.body":
-      "Our mission is to meet WinRAR / WinZip-class needs without subscription lock-in, with measurable performance and security gates. Development is visible in the open repository; winlrt.com.tr is the official download and status site.",
+      "Mission and vision: measurable performance, transparent trust, and service from Türkiye to global scale.",
     "page.contact.title": "Contact",
     "page.contact.lead": "Use the channels below for enterprise pilots, press, and technical questions.",
     "page.contact.web": "Official site and downloads:",
