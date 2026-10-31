@@ -12,6 +12,39 @@ CONF="/etc/nginx/sites-enabled/winlrt.conf"
 
 install -d -m 755 /etc/nginx/snippets
 
+ensure_video_public() {
+  if [ ! -f "$CONF" ]; then
+    return 0
+  fi
+  if grep -q 'location \^~ /assets/video/' "$CONF"; then
+    return 0
+  fi
+  python3 - "$CONF" <<'PY'
+import sys
+path = sys.argv[1]
+mark = "    location ^~ /assets/video/"
+block = """
+    # Demo videolar — basic auth altında <video> oynatıcı için
+    location ^~ /assets/video/ {
+        auth_basic off;
+        expires 7d;
+        add_header Cache-Control "public";
+        try_files $uri =404;
+    }
+
+"""
+text = open(path, encoding="utf-8").read()
+if mark.strip() in text:
+    sys.exit(0)
+needle = "    location / {"
+if needle not in text:
+    print("nginx: location / bulunamadı, video bloğu eklenemedi", file=sys.stderr)
+    sys.exit(1)
+open(path, "w", encoding="utf-8").write(text.replace(needle, block + needle, 1))
+print("nginx: /assets/video/ public location eklendi")
+PY
+}
+
 ensure_include() {
   if [ ! -f "$CONF" ]; then
     echo "nginx site yok: $CONF" >&2
@@ -74,6 +107,7 @@ if [ "$MODE" = "disable" ]; then
   printf '%s\n' "# Vitrin basic auth kapalı" >"$SNIP"
   rm -f "$HTPASS"
   ensure_include
+  ensure_video_public
   nginx -t
   systemctl reload nginx
   echo "OK: vitrin basic auth kapalı"
@@ -94,6 +128,7 @@ auth_basic "Lertiva — erken erişim";
 auth_basic_user_file ${HTPASS};
 EOF
 ensure_include
+ensure_video_public
 nginx -t
 systemctl reload nginx
 echo "OK: vitrin basic auth açık (kullanıcı: ${AUTH_USER})"

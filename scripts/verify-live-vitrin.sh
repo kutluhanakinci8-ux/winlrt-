@@ -24,5 +24,7 @@ curl -fsSL "${CURL_AUTH[@]}" "${BASE}/pilot/status.json" | grep -q '"blocker":'
 curl -fsSIL "${CURL_AUTH[@]}" -o /dev/null "${BASE}/downloads/lertiva-arc-corporate-gpo.zip"
 curl -fsSL "${CURL_AUTH[@]}" "${BASE}/benchmark/samples/windows-balanced-kpi.json" | grep -q '"compression'
 curl -fsSL "${CURL_AUTH[@]}" "${BASE}/benchmark/samples/windows-fast-kpi.json" | grep -q speed_gate
+# Arc demo videosu basic auth dışında (tarayıcı <video> uyumu)
+curl -fsSIL -o /dev/null "${BASE}/assets/video/lertiva-arc-demo.mp4?v=2"
 
 echo "OK: canlı vitrin (${BASE})"

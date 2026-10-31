@@ -27,3 +27,5 @@ VITRIN_BASIC_AUTH_DISABLE=1 bash scripts/vps-sync-vitrin-basic-auth.sh
 ```
 
 Tarayıcıda site kullanıcı adı/şifre sorar; oturum tarayıcı oturumu boyunca hatırlanır.
+
+`/assets/video/` yolu nginx’te auth dışı bırakılır; aksi halde Lertiva Arc sayfasındaki `<video>` oynatıcı boş kalabilir (alt isteklerde kimlik bilgisi gitmez).

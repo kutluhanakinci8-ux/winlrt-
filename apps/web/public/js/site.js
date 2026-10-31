@@ -147,6 +147,33 @@
     });
   }
 
+  function initArcDemoVideo() {
+    var video = document.querySelector("video.arc-demo-video");
+    if (!video) return;
+    var source = video.querySelector("source");
+    var src = (source && source.getAttribute("src")) || video.getAttribute("src");
+    if (!src) return;
+
+    function loadViaFetch() {
+      fetch(src, { credentials: "same-origin" })
+        .then(function (r) {
+          if (!r.ok) throw new Error(String(r.status));
+          return r.blob();
+        })
+        .then(function (blob) {
+          var objectUrl = URL.createObjectURL(blob);
+          video.src = objectUrl;
+          video.load();
+        })
+        .catch(function () {});
+    }
+
+    video.addEventListener("error", loadViaFetch, { once: true });
+    if (video.readyState === 0 && video.networkState === video.NETWORK_NO_SOURCE) {
+      video.load();
+    }
+  }
+
   function loadLegalEntity() {
     var block = document.getElementById("legal-entity-block");
     if (!block) return;
@@ -208,5 +235,6 @@
     initTheme();
     initLang();
     loadLegalEntity();
+    initArcDemoVideo();
   });
 })();
