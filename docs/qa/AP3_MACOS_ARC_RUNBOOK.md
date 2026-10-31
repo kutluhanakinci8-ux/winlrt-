@@ -4,7 +4,7 @@
 
 ## CI
 
-- Workflow: `.github/workflows/lertiva-arc-macos.yml` (`macos-14`)
+- Workflow: `.github/workflows/lertiva-arc-macos.yml` (`macos-15`)
 - Tetik: `.github/flags/trigger-arc-macos-build` push, tag `v1.0.*`, Actions → Run workflow
 - Build: `--target universal-apple-darwin --bundles dmg`; önce `unrar-embedded`, olmazsa gömülü RAR olmadan yeniden dener
 - Doğrulama: `lipo -archs` çıktısında `arm64` ve `x86_64`
