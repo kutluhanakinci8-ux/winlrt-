@@ -34,19 +34,20 @@ jobs:
 
       - name: Build Lertiva Zip (Tauri NSIS)
         env:
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          # Authenticode (NSIS): Tauri v2 → WINDOWS_* — TAURI_* yalnızca updater imzası
+          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE || secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD || secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: npm run tauri build -w @lertiva/zip -- --bundles nsis
 
       - name: İmza durumu
         id: signing
         shell: bash
         env:
-          TAURI_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          WIN_CERT: ${{ secrets.WINDOWS_CERTIFICATE || secrets.TAURI_SIGNING_PRIVATE_KEY }}
         run: |
-          if [ -z "${TAURI_KEY}" ]; then
+          if [ -z "${WIN_CERT}" ]; then
             echo "present=false" >> "$GITHUB_OUTPUT"
-            echo "::warning::TAURI_SIGNING_PRIVATE_KEY tanımlı değil — kurulum imzasız."
+            echo "::warning::WINDOWS_CERTIFICATE (veya TAURI_SIGNING_PRIVATE_KEY) tanımlı değil — kurulum imzasız."
           else
             echo "present=true" >> "$GITHUB_OUTPUT"
           fi
