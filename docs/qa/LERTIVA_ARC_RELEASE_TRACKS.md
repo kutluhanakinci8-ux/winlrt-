@@ -35,3 +35,9 @@ Yayın: `bash scripts/publish-lertiva-arc-stable-tag.sh` (tag + push) veya tag p
 - Release: https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.1
 - Asset: `Lertiva.Arc_1.0.1_x64-setup.exe` (label: `Lertiva Arc_1.0.1_x64-setup.exe`)
 - Detay: [V1_0_1_UNSIGNED_RELEASE.md](./V1_0_1_UNSIGNED_RELEASE.md)
+
+## v1.0.2 durumu (Track B — AP-1 imzalı)
+
+- Repo sürümü: **1.0.2** (`tauri.conf.json`)
+- Yayın: secret sonrası `bash scripts/agent-arc-ap1-publish.sh v1.0.2`
+- Detay: [V1_0_2_SIGNED_RELEASE.md](./V1_0_2_SIGNED_RELEASE.md) · [AP1_WINDOWS_SIGNED_RUNBOOK.md](./AP1_WINDOWS_SIGNED_RUNBOOK.md)

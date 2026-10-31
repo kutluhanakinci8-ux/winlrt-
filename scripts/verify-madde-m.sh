@@ -14,4 +14,7 @@ else
   echo "NOT: TAURI secret yok (beklenen) — prep OK, imzalı build için panel/Mac script"
 fi
 
-echo "OK: Madde M prep — v1.0.1 pisti hazır"
+grep -q "Verify Authenticode" "$ROOT/.github/workflows/lertiva-arc-windows-stable.yml"
+test -f "$ROOT/docs/qa/AP1_WINDOWS_SIGNED_RUNBOOK.md"
+
+echo "OK: Madde M prep — v1.0.2 / AP-1 pisti hazır (tag: bash scripts/agent-arc-ap1-publish.sh)"

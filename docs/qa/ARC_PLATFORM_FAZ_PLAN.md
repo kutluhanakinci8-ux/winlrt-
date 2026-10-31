@@ -203,4 +203,4 @@ bash scripts/verify-faz-all.sh
 bash scripts/verify-product-gap-all.sh
 ```
 
-**Son güncelleme:** 2026-10-31 — Arc yalnız Windows x64 GA; bu plan onaylandığında faz AP-1 ile uygulamaya geçilir.
+**Son güncelleme:** 2026-10-31 — **AP-0 ✅** (`verify-arc-platform-ap0.sh`) · **AP-1 prep ✅** (tauri 1.0.2, runbook) · **AP-1 ship** → EV secret + `agent-arc-ap1-publish.sh`.

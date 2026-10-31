@@ -1,0 +1,42 @@
+{
+  "product": "Lertiva Arc platforms",
+  "generated_at": "2026-10-31T13:54Z",
+  "plan_doc": "docs/qa/ARC_PLATFORM_FAZ_PLAN.md",
+  "tauri_version": "1.0.2",
+  "latest_stable_release": "v1.0.1",
+  "phases": {
+    "AP-0": {
+      "pass": true,
+      "note": "manifest platform_roadmap + CI pistleri + faz planı"
+    },
+    "AP-1": {
+      "pass": false,
+      "prep": true,
+      "target_tag": "v1.0.2",
+      "ev_ov_flag": false,
+      "note": "Imzalı stable release + EV/OV flag"
+    },
+    "AP-2": {
+      "pass": false,
+      "note": "Windows ARM64 — bekliyor"
+    },
+    "AP-3": {
+      "pass": false,
+      "note": "macOS dmg — bekliyor"
+    },
+    "AP-4": {
+      "pass": false,
+      "note": "Linux AppImage — bekliyor"
+    },
+    "AP-5": {
+      "pass": false,
+      "note": "Mobil Arc — bekliyor"
+    },
+    "AP-6": {
+      "pass": false,
+      "note": "Microsoft Store — bekliyor"
+    }
+  },
+  "all_pass": false,
+  "current_milestone": "AP-1-prep"
+}

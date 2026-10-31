@@ -53,6 +53,13 @@ arc_ver="${arc_tag#v}"
 [[ -z "$arc_exe" ]] && arc_exe="Lertiva Arc_${arc_ver}_x64-setup.exe"
 arc_exe_url="https://github.com/${REPO}/releases/download/${arc_tag}/${arc_exe// /%20}"
 
+arc_target_ver="$(grep -E '"version"' "$ROOT/apps/lertiva-arc/src-tauri/tauri.conf.json" | head -1 | sed 's/.*"\([0-9.]*\)".*/\1/')"
+arc_signed=false
+FLAG_EV="$ROOT/apps/web/public/benchmark/samples/lertiva-ev-ov-configured.flag"
+if [[ -f "$FLAG_EV" ]] && grep -q 'ev_ov' "$FLAG_EV" 2>/dev/null && [[ "$arc_tag" == "v${arc_target_ver}" ]]; then
+  arc_signed=true
+fi
+
 jq -n \
   --arg generated_at "$(date -u +%Y-%m-%dT%H:%MZ)" \
   --arg zip_label "$zip_label" \
@@ -63,6 +70,8 @@ jq -n \
   --arg arc_tag "$arc_tag" \
   --arg arc_release_url "https://github.com/${REPO}/releases/tag/${arc_tag}" \
   --arg arc_exe_url "$arc_exe_url" \
+  --arg arc_target_ver "$arc_target_ver" \
+  --argjson arc_signed "$arc_signed" \
   --argjson macos "$MACOS" \
   '{
     generated_at: $generated_at,
@@ -83,9 +92,20 @@ jq -n \
         name: "Lertiva Arc",
         channel: "stable",
         display_label: $arc_label,
+        target_version: $arc_target_ver,
         windows: {
+          arch: "x64",
           installer_url: $arc_exe_url,
-          release_page: $arc_release_url
+          release_page: $arc_release_url,
+          authenticode_signed: $arc_signed
+        },
+        platform_roadmap: {
+          windows_x64_signed: { phase: "AP-1", status: (if $arc_signed then "shipped" else "prep" end), target: $arc_target_ver },
+          windows_arm64: { phase: "AP-2", status: "planned" },
+          macos: { phase: "AP-3", status: "planned" },
+          linux: { phase: "AP-4", status: "planned" },
+          mobile: { phase: "AP-5", status: "planned" },
+          store: { phase: "AP-6", status: "planned" }
         },
         corporate_gpo: "/downloads/lertiva-arc-corporate-gpo.zip"
       }

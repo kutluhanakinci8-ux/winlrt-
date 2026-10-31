@@ -178,7 +178,12 @@
             if (at) at.textContent = `${arc.name} — Windows (${arc.display_label})`;
             const inst = arc.windows?.installer_url;
             const rel = arc.windows?.release_page;
-            aw.innerHTML = `<a href="${inst}">Installer indir</a> · <a href="${rel}">Sürüm notları</a> · <a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/V1_0_0_UNSIGNED_RELEASE.md">İmza notu</a>`;
+            const signed = arc.windows?.authenticode_signed === true;
+            const target = arc.target_version ? ` · hedef v${arc.target_version}` : "";
+            const signNote = signed
+              ? `<span class="status status-live">Authenticode imzalı</span>`
+              : `<a href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/AP1_WINDOWS_SIGNED_RUNBOOK.md">AP-1 imza runbook</a>`;
+            aw.innerHTML = `<a href="${inst}">Installer indir</a> · <a href="${rel}">Sürüm notları</a>${target} · ${signNote}`;
           }
         })
         .catch(() => {});

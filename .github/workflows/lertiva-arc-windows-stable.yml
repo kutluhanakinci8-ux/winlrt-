@@ -9,7 +9,7 @@ on:
       tag:
         description: Git tag (ör. v1.0.1 — repoda mevcut olmalı)
         required: true
-        default: v1.0.1
+        default: v1.0.2
 
 permissions:
   contents: write
@@ -56,6 +56,26 @@ jobs:
           WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE || secrets.TAURI_SIGNING_PRIVATE_KEY }}
           WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD || secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: ./scripts/sign-windows-nsis-bundle.ps1
+
+      - name: İmza durumu
+        id: signing
+        shell: bash
+        env:
+          WIN_CERT: ${{ secrets.WINDOWS_CERTIFICATE || secrets.TAURI_SIGNING_PRIVATE_KEY }}
+        run: |
+          if [ -z "${WIN_CERT}" ]; then
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::WINDOWS_CERTIFICATE yok — kurulum imzasız (AP-1: EV/OV secret ekleyin)."
+          else
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Verify Authenticode (secret tanımlıysa)
+        if: steps.signing.outputs.present == 'true'
+        shell: pwsh
+        env:
+          WINLRT_TRUST_DEV_CODESIGN: "1"
+        run: ./scripts/verify-windows-signature.ps1
 
       - name: Kurulum adı (Lertiva Arc)
         shell: pwsh

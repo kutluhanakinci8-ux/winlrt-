@@ -1,6 +1,6 @@
 [package]
 name = "lertiva-arc"
-version = "1.0.1"
+version = "1.0.2"
 description = "Lertiva Arc — Tauri kabuk"
 authors = ["Lertiva"]
 edition = "2021"
