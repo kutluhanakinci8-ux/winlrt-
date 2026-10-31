@@ -1043,6 +1043,10 @@ h1 .gradient-text {
   border: 0;
 }
 
+[data-site-footer]:empty {
+  min-height: 12rem;
+}
+
 .site-footer {
   border-top: 1px solid var(--border);
   padding: 3.75rem 0 2.25rem;

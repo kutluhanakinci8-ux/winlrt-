@@ -190,4 +190,9 @@
   }
 
   window.mountSiteFooter = mountSiteFooter;
+
+  /* Script body sonunda hemen çiz — site.js i18n ile metinleri doldurur. */
+  if (document.querySelector("[data-site-footer]")) {
+    mountSiteFooter();
+  }
 })();
