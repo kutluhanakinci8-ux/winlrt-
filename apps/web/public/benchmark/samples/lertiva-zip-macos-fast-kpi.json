@@ -1,47 +1,47 @@
 {
   "product": "Lertiva Zip",
   "profile": "Fast",
-  "platform": "macos / CI-placeholder (motor Linux proxy; resmi macOS bench W15+)",
-  "generated_at": "1793384973 UTC",
-  "source": "local-refresh",
-  "disclaimer": "Resmi macOS zip_kpi: lertiva-zip-macos workflow artifact veya Mac agent bench --zip-kpi.",
+  "platform": "macos / aarch64",
+  "generated_at": "1793429342 UTC",
+  "source": "macos-official-ci",
+  "disclaimer": "Resmi macOS Fast — lertiva-zip-macos workflow.",
   "kpi": {
-    "compression_gate": true,
-    "speed_gate": false,
-    "compression_pass_count": 6,
+    "compression_gate": false,
+    "speed_gate": true,
+    "compression_pass_count": 3,
     "compression_total": 6,
-    "speed_pass_count": 0,
+    "speed_pass_count": 6,
     "speed_total": 6,
     "rows": [
       {
         "fixture": "binary",
-        "compression_ok": true,
-        "speed_ok": false
+        "compression_ok": false,
+        "speed_ok": true
       },
       {
         "fixture": "mixed",
-        "compression_ok": true,
-        "speed_ok": false
+        "compression_ok": false,
+        "speed_ok": true
       },
       {
         "fixture": "office",
         "compression_ok": true,
-        "speed_ok": false
+        "speed_ok": true
       },
       {
         "fixture": "rar",
         "compression_ok": true,
-        "speed_ok": false
+        "speed_ok": true
       },
       {
         "fixture": "sevenz",
         "compression_ok": true,
-        "speed_ok": false
+        "speed_ok": true
       },
       {
         "fixture": "text",
-        "compression_ok": true,
-        "speed_ok": false
+        "compression_ok": false,
+        "speed_ok": true
       }
     ],
     "notes": [

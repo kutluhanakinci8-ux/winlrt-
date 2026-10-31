@@ -1,10 +1,10 @@
 {
   "product": "Lertiva Zip",
   "profile": "Balanced",
-  "platform": "macos / CI-placeholder (motor Linux proxy; resmi macOS bench W15+)",
-  "generated_at": "1793384973 UTC",
-  "source": "local-refresh",
-  "disclaimer": "Resmi macOS zip_kpi: lertiva-zip-macos workflow artifact veya Mac agent bench --zip-kpi.",
+  "platform": "macos / aarch64",
+  "generated_at": "1793429340 UTC",
+  "source": "macos-official-ci",
+  "disclaimer": "Resmi macOS Balanced — lertiva-zip-macos workflow.",
   "kpi": {
     "compression_gate": true,
     "compression_pass_count": 6,

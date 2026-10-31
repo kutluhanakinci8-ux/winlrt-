@@ -14,28 +14,29 @@ for f in "$BALANCED" "$FAST"; do
 done
 
 mkdir -p "$OUT"
-jq --slurpfile b "$BALANCED" --slurpfile f "$FAST" -n \
-  --argjson bal "${b[0]}" --argjson fst "${f[0]}" \
+B_JSON="$(cat "$BALANCED")"
+F_JSON="$(cat "$FAST")"
+
+jq -n --argjson data "$B_JSON" \
   '{
     product: "Lertiva Zip",
-    profile: $bal.profile,
-    platform: $bal.platform,
-    generated_at: $bal.generated_at,
+    profile: $data.profile,
+    platform: $data.platform,
+    generated_at: $data.generated_at,
     source: "macos-official-ci",
     disclaimer: "Resmi macOS Balanced — lertiva-zip-macos workflow.",
-    kpi: $bal.zip_kpi
+    kpi: $data.zip_kpi
   }' >"$OUT/lertiva-zip-macos-balanced-kpi.json"
 
-jq --slurpfile f "$FAST" -n \
-  --argjson fst "${f[0]}" \
+jq -n --argjson data "$F_JSON" \
   '{
     product: "Lertiva Zip",
-    profile: $fst.profile,
-    platform: $fst.platform,
-    generated_at: $fst.generated_at,
+    profile: $data.profile,
+    platform: $data.platform,
+    generated_at: $data.generated_at,
     source: "macos-official-ci",
     disclaimer: "Resmi macOS Fast — lertiva-zip-macos workflow.",
-    kpi: $fst.zip_kpi
+    kpi: $data.zip_kpi
   }' >"$OUT/lertiva-zip-macos-fast-kpi.json"
 
 echo "Yazıldı: lertiva-zip-macos-{balanced,fast}-kpi.json"
