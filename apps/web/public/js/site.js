@@ -49,9 +49,14 @@
     document.querySelectorAll("[data-i18n-title]").forEach(function (el) {
       el.setAttribute("title", t(el.getAttribute("data-i18n-title"), lang));
     });
+    document.querySelectorAll("[data-i18n-alt]").forEach(function (el) {
+      el.setAttribute("alt", t(el.getAttribute("data-i18n-alt"), lang));
+    });
     var metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc && t("meta.description", lang)) {
-      metaDesc.setAttribute("content", t("meta.description", lang));
+    var metaKey =
+      (document.body && document.body.dataset.metaDescKey) || "meta.description";
+    if (metaDesc && t(metaKey, lang) && t(metaKey, lang) !== metaKey) {
+      metaDesc.setAttribute("content", t(metaKey, lang));
     }
     if (document.title && document.body.dataset.pageTitleKey) {
       document.title = t(document.body.dataset.pageTitleKey, lang);

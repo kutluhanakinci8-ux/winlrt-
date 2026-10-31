@@ -866,6 +866,11 @@ a.card.hub-teaser:hover {
   color: #eab308;
 }
 
+.signing-track-planned {
+  margin: 0 0 0.5rem;
+  font-size: 0.82rem;
+}
+
 .signing-track-card h3 {
   font-family: var(--font-display);
   font-size: 1.35rem;
