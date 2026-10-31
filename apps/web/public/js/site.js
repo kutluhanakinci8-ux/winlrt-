@@ -154,6 +154,16 @@
     var src = (source && source.getAttribute("src")) || video.getAttribute("src");
     if (!src) return;
 
+    video.muted = true;
+    video.playsInline = true;
+
+    function tryPlay() {
+      var playPromise = video.play();
+      if (playPromise && typeof playPromise.catch === "function") {
+        playPromise.catch(function () {});
+      }
+    }
+
     function loadViaFetch() {
       fetch(src, { credentials: "same-origin" })
         .then(function (r) {
@@ -161,17 +171,16 @@
           return r.blob();
         })
         .then(function (blob) {
-          var objectUrl = URL.createObjectURL(blob);
-          video.src = objectUrl;
+          video.src = URL.createObjectURL(blob);
           video.load();
+          tryPlay();
         })
         .catch(function () {});
     }
 
     video.addEventListener("error", loadViaFetch, { once: true });
-    if (video.readyState === 0 && video.networkState === video.NETWORK_NO_SOURCE) {
-      video.load();
-    }
+    video.addEventListener("loadeddata", tryPlay, { once: true });
+    tryPlay();
   }
 
   function loadLegalEntity() {

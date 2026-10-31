@@ -6,7 +6,7 @@
     <title>Lertiva Arc — Lertiva</title>
     <meta name="description" content="Lertiva Arc — Windows kurumsal arşiv, çoklu format, Explorer ve GPO." />
     <link rel="icon" href="/favicon.svg?v=11" type="image/svg+xml" />
-    <link rel="stylesheet" href="/styles.css?v=17" />
+    <link rel="stylesheet" href="/styles.css?v=18" />
   </head>
   <body data-page-title-key="page.arc.title" data-meta-desc-key="page.arc.metaDescription">
     <div data-site-header></div>
@@ -31,12 +31,32 @@
 
     <main class="page-shell">
       <section class="section">
-        <div class="container" style="max-width: 52rem">
-          <div class="section-head">
-            <span class="section-label" data-i18n="page.arc.overview.label"></span>
-            <h2 data-i18n="page.arc.overview.title"></h2>
+        <div class="container">
+          <div class="feature-split">
+            <div>
+              <span class="section-label" data-i18n="page.arc.overview.label"></span>
+              <h2 data-i18n="page.arc.overview.title"></h2>
+              <p class="lead" data-i18n="page.arc.overview.body"></p>
+            </div>
+            <figure class="arc-demo-video-wrap">
+              <video
+                class="arc-demo-video"
+                autoplay
+                loop
+                muted
+                playsinline
+                preload="auto"
+                width="640"
+                height="360"
+                data-i18n-alt="page.arc.overview.videoAlt"
+              >
+                <source src="/assets/video/lertiva-arc-demo.mp4?v=3" type="video/mp4" />
+              </video>
+              <figcaption class="about-media-caption">
+                <span data-i18n="page.arc.overview.videoCaption"></span>
+              </figcaption>
+            </figure>
           </div>
-          <p class="lead" data-i18n="page.arc.overview.body"></p>
         </div>
       </section>
 
@@ -107,30 +127,6 @@
       <section class="section section-alt">
         <div class="container">
           <div class="feature-split">
-            <div>
-              <span class="section-label" data-i18n="page.arc.demo.label"></span>
-              <h2 data-i18n="page.arc.demo.title"></h2>
-              <p data-i18n="page.arc.demo.body"></p>
-            </div>
-            <figure class="arc-demo-video-wrap">
-              <video
-                class="arc-demo-video"
-                controls
-                playsinline
-                preload="metadata"
-                poster="/assets/gallery/tauri-lertiva-arc-main.png"
-                width="640"
-                height="360"
-                data-i18n-alt="page.arc.demo.videoAlt"
-              >
-                <source src="/assets/video/lertiva-arc-demo.mp4?v=2" type="video/mp4" />
-              </video>
-              <figcaption class="about-media-caption">
-                <span data-i18n="page.arc.demo.caption"></span>
-              </figcaption>
-            </figure>
-          </div>
-          <div class="feature-split" style="margin-top: 2.5rem">
             <div>
               <span class="section-label" data-i18n="page.arc.ui.label"></span>
               <h2 data-i18n="page.arc.ui.title"></h2>
@@ -262,7 +258,7 @@
     <footer class="site-footer" data-site-footer></footer>
     <script src="/js/header.js?v=11"></script>
     <script src="/js/footer.js?v=11"></script>
-    <script src="/js/i18n.js?v=19"></script>
-    <script src="/js/site.js?v=13"></script>
+    <script src="/js/i18n.js?v=20"></script>
+    <script src="/js/site.js?v=14"></script>
   </body>
 </html>
