@@ -13,8 +13,8 @@ zip_rel="$(gh release list --repo "$REPO" --limit 25 --json tagName,name \
 if [[ "$zip_rel" == "empty" || -z "$zip_rel" ]]; then
   zip_rel=""
 fi
-arc_rel="$(gh release list --repo "$REPO" --limit 10 --json tagName,name \
-  --jq '[.[] | select(.tagName == "v1.0.0")][0] // empty' 2>/dev/null || echo empty)"
+arc_rel="$(gh release list --repo "$REPO" --limit 20 --json tagName,name,isPrerelease \
+  --jq '[.[] | select(.tagName | test("^v1\\.0\\.[0-9]+$")) | select(.isPrerelease == false)][0] // empty' 2>/dev/null || echo empty)"
 
 zip_tag="" zip_name="" zip_exe=""
 if [[ "$zip_rel" != "empty" && -n "$zip_rel" ]]; then
@@ -25,12 +25,13 @@ if [[ "$zip_rel" != "empty" && -n "$zip_rel" ]]; then
   fi
 fi
 
-arc_tag="v1.0.0"
-arc_name="Lertiva Arc v1.0.0"
+arc_tag="v1.0.1"
+arc_name="Lertiva Arc v1.0.1"
 if [[ "$arc_rel" != "empty" && -n "$arc_rel" ]]; then
-  arc_tag="$(echo "$arc_rel" | jq -r '.tagName // "v1.0.0"')"
-  arc_name="$(echo "$arc_rel" | jq -r '.name // "Lertiva Arc v1.0.0"')"
+  arc_tag="$(echo "$arc_rel" | jq -r '.tagName // "v1.0.1"')"
+  arc_name="$(echo "$arc_rel" | jq -r '.name // "Lertiva Arc v1.0.1"')"
 fi
+[[ "$arc_name" == *winlrt* ]] && arc_name="Lertiva Arc ${arc_tag#v}"
 
 zip_label="$zip_name"
 if [[ -z "$zip_label" || "$zip_label" == *winlrt* || "$zip_label" == *ZIP* && "$zip_label" == winlrt* ]]; then
@@ -48,7 +49,8 @@ arc_exe=""
 if [[ -n "$arc_tag" ]]; then
   arc_exe="$(gh release view "$arc_tag" --repo "$REPO" --json assets -q '.assets[].name' 2>/dev/null | grep -iE 'setup\.exe$' | head -1 || true)"
 fi
-[[ -z "$arc_exe" ]] && arc_exe="Lertiva Arc_0.1.0_x64-setup.exe"
+arc_ver="${arc_tag#v}"
+[[ -z "$arc_exe" ]] && arc_exe="Lertiva Arc_${arc_ver}_x64-setup.exe"
 arc_exe_url="https://github.com/${REPO}/releases/download/${arc_tag}/${arc_exe// /%20}"
 
 jq -n \

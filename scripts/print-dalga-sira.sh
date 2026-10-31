@@ -12,8 +12,10 @@ corp_pass() {
 }
 
 echo "=== Lertiva Arc dalga sırası ==="
-if git -C "$ROOT" rev-parse v1.0.0 >/dev/null 2>&1; then
-  echo "→ TAMAM: v1.0.0 (imzasız resmi) — https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.0"
+if git -C "$ROOT" rev-parse v1.0.1 >/dev/null 2>&1; then
+  echo "→ TAMAM: v1.0.1 (Lertiva Arc installer) — https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.1"
+elif git -C "$ROOT" rev-parse v1.0.0 >/dev/null 2>&1; then
+  echo "→ TAMAM: v1.0.0 (legacy winlrtRAR adı) — https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.0"
   echo "   İsteğe bağlı: TAURI_SIGNING_* → imzalı v1.0.1"
 elif ! explorer_pass; then
   echo "→ AKTİF: Dalga 2 — Windows Explorer QA"

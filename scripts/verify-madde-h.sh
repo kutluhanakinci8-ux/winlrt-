@@ -18,6 +18,11 @@ if [[ -z "$RUN" ]]; then
 fi
 test -n "$RUN"
 
-gh release view v1.0.0 --repo "$REPO" >/dev/null
+if gh release view v1.0.1 --repo "$REPO" >/dev/null 2>&1; then
+  ARC_TAG=v1.0.1
+else
+  ARC_TAG=v1.0.0
+fi
+gh release view "$ARC_TAG" --repo "$REPO" >/dev/null
 
 echo "OK: Madde H — imza hattı + imzasız v1.0.0 (beta workflow run=$RUN)"

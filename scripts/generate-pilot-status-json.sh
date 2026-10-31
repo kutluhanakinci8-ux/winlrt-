@@ -21,7 +21,10 @@ if [ "$explorer" = "pass" ] && [ "$corp" = "pass" ]; then
   wave=4
   blocker="v1_signing_optional"
   v1_state="rc1"
-  if git -C "$ROOT" rev-parse "v1.0.0" >/dev/null 2>&1; then
+  if git -C "$ROOT" rev-parse "v1.0.1" >/dev/null 2>&1; then
+    v1_state="pass"
+    blocker="none"
+  elif git -C "$ROOT" rev-parse "v1.0.0" >/dev/null 2>&1; then
     v1_state="pass"
     blocker="none"
   fi
@@ -44,7 +47,7 @@ cat >"$OUT" <<EOF
     "4_v1": "${v1_state}"
   },
   "links": {
-    "beta_release": "https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.0",
+    "beta_release": "https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.1",
     "dalga2_doc": "https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/DALGA2_PILOT_OTURUM.md",
     "corporate_zip": "/downloads/lertiva-arc-corporate-gpo.zip",
     "chat_templates": "https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/PILOT_CHAT_SABLONLARI.md",

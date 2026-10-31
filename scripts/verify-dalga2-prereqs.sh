@@ -2,7 +2,7 @@
 # Dalga 2: repo + vitrin kaynağı beta/QA hazır (Linux CI / agent).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-ARC_TAG="v1.0.0"
+ARC_TAG="v1.0.1"
 # Vitrin: manifest tabanlı indirme veya doğrudan v1.0.0 release linki.
 
 for f in \
@@ -26,8 +26,12 @@ fi
 test -f "$ROOT/apps/web/public/downloads/lertiva-downloads-manifest.json"
 
 if command -v curl >/dev/null 2>&1; then
-  curl -fsSL -o /dev/null -w '' \
-    "https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/${ARC_TAG}"
+  if ! curl -fsSL -o /dev/null -w '' \
+    "https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/${ARC_TAG}" 2>/dev/null; then
+    ARC_TAG="v1.0.0"
+    curl -fsSL -o /dev/null -w '' \
+      "https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/${ARC_TAG}"
+  fi
 fi
 
 echo "OK: Dalga 2 önkoşullar (docs + vitrin link + release erişilebilir)"

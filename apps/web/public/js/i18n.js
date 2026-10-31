@@ -3,9 +3,9 @@ window.WINLRT_I18N = {
   tr: {
     "meta.title": "Lertiva — Kurumsal arşiv ve belge platformu",
     "meta.description":
-      "Lertiva Arc v1.0.0 ve Lertiva Zip beta — yerli arşiv motoru, KVKK odaklı denetim, kurumsal GPO ve Lerta entegrasyonu.",
+      "Lertiva Arc v1.0.1 ve Lertiva Zip beta — yerli arşiv motoru, KVKK odaklı denetim, kurumsal GPO ve Lerta entegrasyonu.",
     "topbar.live": "Canlı vitrin",
-    "topbar.sync": "Lertiva Arc v1.0.0 · Lertiva Zip beta · repo ile senkron",
+    "topbar.sync": "Lertiva Arc v1.0.1 · Lertiva Zip beta · repo ile senkron",
     "topbar.kpi.loading": "KPI yükleniyor…",
     "topbar.kpi.fallback": "KPI örnekleri /benchmark/ sayfasında",
     "nav.menu": "Menü",
@@ -25,7 +25,7 @@ window.WINLRT_I18N = {
     "nav.home": "Ana sayfa",
     "theme.light": "Açık tema",
     "theme.dark": "Koyu tema",
-    "hero.badge": "Lertiva Arc v1.0.0 · Lertiva Zip beta (Post-v3)",
+    "hero.badge": "Lertiva Arc v1.0.1 · Lertiva Zip beta (Post-v3)",
     "hero.title": "Kurumsal arşiv",
     "hero.titleAccent": "tek yerli motor",
     "hero.tagline":
@@ -66,7 +66,7 @@ window.WINLRT_I18N = {
     "footer.region": "Türkiye · KPI vitrin repo ile senkron",
     "cta.title": "Resmi indirme ve kurumsal paketler",
     "cta.lead":
-      "Lertiva Arc v1.0.0 ve Lertiva Zip beta installer’ları, GPO zip dosyaları ve pilot rehberleri indirme merkezinde.",
+      "Lertiva Arc v1.0.1 ve Lertiva Zip beta installer’ları, GPO zip dosyaları ve pilot rehberleri indirme merkezinde.",
     "kpi.summary.prefix": "Canlı KPI özeti:",
     "kpi.detail": "detay",
     "page.about.title": "Hakkımızda",
@@ -92,7 +92,7 @@ window.WINLRT_I18N = {
     "page.downloads.label": "İndirme merkezi",
     "page.downloads.h1": "Resmi sürümler ve kurumsal paketler",
     "page.downloads.lead":
-      "Lertiva Arc v1.0.0 Windows resmi sürümü yayında. Lertiva Zip beta (Post-v3 W0–W31) Windows installer ve macOS CI build hattında.",
+      "Lertiva Arc v1.0.1 Windows resmi sürümü yayında. Lertiva Zip beta (Post-v3 W0–W31) Windows installer ve macOS CI build hattında.",
     "page.downloads.topbar":
       "İmzasız paketler SmartScreen uyarısı verebilir · dev Authenticode CI aktif",
     "page.downloads.zipIntro":
@@ -141,7 +141,7 @@ window.WINLRT_I18N = {
     "page.downloads.installerHeading": "Kurulum ekranları (Windows)",
     "page.downloads.installerLead":
       "NSIS/Tauri installer düzenine uygun vitrin render’ları. Gerçek makine ekran görüntüsü sürüm duyurusuyla değiştirilebilir.",
-    "gallery.caption.installerRar": "Lertiva Arc v1.0.0 — kurulum sihirbazı (vitrin render)",
+    "gallery.caption.installerRar": "Lertiva Arc v1.0.1 — kurulum sihirbazı (vitrin render)",
     "gallery.caption.installerZip": "Lertiva Zip beta — kurulum sihirbazı (vitrin render)",
     "gallery.caption.smartscreen": "Windows SmartScreen — imzasız beta bilgilendirme (vitrin mock)",
     "page.kvkk.s4.title": "İşlenen veri kategorileri (vitrin)",
@@ -178,9 +178,9 @@ window.WINLRT_I18N = {
   en: {
     "meta.title": "Lertiva — Enterprise archive platform",
     "meta.description":
-      "Lertiva Arc v1.0.0 and Lertiva Zip beta — domestic archive engine, GDPR/KVKK-oriented audit, corporate GPO, Lerta integration.",
+      "Lertiva Arc v1.0.1 and Lertiva Zip beta — domestic archive engine, GDPR/KVKK-oriented audit, corporate GPO, Lerta integration.",
     "topbar.live": "Live site",
-    "topbar.sync": "Lertiva Arc v1.0.0 · Lertiva Zip beta · in sync with repo",
+    "topbar.sync": "Lertiva Arc v1.0.1 · Lertiva Zip beta · in sync with repo",
     "topbar.kpi.loading": "Loading KPI…",
     "topbar.kpi.fallback": "KPI samples on /benchmark/",
     "nav.menu": "Menu",
@@ -200,7 +200,7 @@ window.WINLRT_I18N = {
     "nav.home": "Home",
     "theme.light": "Light theme",
     "theme.dark": "Dark theme",
-    "hero.badge": "Lertiva Arc v1.0.0 · Lertiva Zip beta (Post-v3)",
+    "hero.badge": "Lertiva Arc v1.0.1 · Lertiva Zip beta (Post-v3)",
     "hero.title": "Enterprise archive",
     "hero.titleAccent": "one domestic engine",
     "hero.tagline":
@@ -241,7 +241,7 @@ window.WINLRT_I18N = {
     "footer.region": "Türkiye · KPI site synced with repo",
     "cta.title": "Official downloads and corporate packs",
     "cta.lead":
-      "Lertiva Arc v1.0.0 and Lertiva Zip beta installers, GPO zip files, and pilot guides are in the download center.",
+      "Lertiva Arc v1.0.1 and Lertiva Zip beta installers, GPO zip files, and pilot guides are in the download center.",
     "kpi.summary.prefix": "Live KPI summary:",
     "kpi.detail": "details",
     "page.about.title": "About us",
@@ -267,7 +267,7 @@ window.WINLRT_I18N = {
     "page.downloads.label": "Download center",
     "page.downloads.h1": "Official releases and corporate packs",
     "page.downloads.lead":
-      "Lertiva Arc v1.0.0 Windows GA is live. Lertiva Zip beta (Post-v3 W0–W31) on Windows installer and macOS CI pipeline.",
+      "Lertiva Arc v1.0.1 Windows GA is live. Lertiva Zip beta (Post-v3 W0–W31) on Windows installer and macOS CI pipeline.",
     "page.downloads.topbar":
       "Unsigned packages may trigger SmartScreen · dev Authenticode CI on",
     "page.downloads.zipIntro":
@@ -316,7 +316,7 @@ window.WINLRT_I18N = {
     "page.downloads.installerHeading": "Setup screens (Windows)",
     "page.downloads.installerLead":
       "Vitrin renders matching NSIS/Tauri installer layout. Replace with real machine captures per release.",
-    "gallery.caption.installerRar": "Lertiva Arc v1.0.0 — setup wizard (vitrin render)",
+    "gallery.caption.installerRar": "Lertiva Arc v1.0.1 — setup wizard (vitrin render)",
     "gallery.caption.installerZip": "Lertiva Zip beta — setup wizard (vitrin render)",
     "gallery.caption.smartscreen": "Windows SmartScreen — unsigned beta notice (vitrin mock)",
     "page.kvkk.s4.title": "Data categories (site)",

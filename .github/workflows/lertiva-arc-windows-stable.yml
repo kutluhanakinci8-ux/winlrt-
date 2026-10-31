@@ -1,0 +1,86 @@
+name: Lertiva Arc Windows stable release
+
+on:
+  push:
+    tags:
+      - "v1.0.*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Git tag (ör. v1.0.1 — repoda mevcut olmalı)
+        required: true
+        default: v1.0.1
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows-stable:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - run: npm ci
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Sürüm doğrula (tauri.conf)
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}"
+          VER="${TAG#v}"
+          CONF="$(grep -E '"version"' apps/lertiva-arc/src-tauri/tauri.conf.json | head -1 | sed 's/.*"\([0-9.]*\)".*/\1/')"
+          echo "Tag=$TAG tauri=$CONF"
+          if [ "$CONF" != "$VER" ]; then
+            echo "::error::tauri.conf version ($CONF) tag ($VER) ile uyumsuz"
+            exit 1
+          fi
+
+      - name: Build Lertiva Arc (Tauri + libunrar)
+        env:
+          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE || secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD || secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: npm run tauri build -w @lertiva/arc -- --features unrar-embedded --bundles nsis
+
+      - name: Authenticode imza (PFX → NSIS)
+        shell: pwsh
+        env:
+          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE || secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD || secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: ./scripts/sign-windows-nsis-bundle.ps1
+
+      - name: Kurulum adı (Lertiva Arc)
+        shell: pwsh
+        env:
+          RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
+        run: |
+          $setup = Get-ChildItem -Path target/release/bundle/nsis -Filter '*-setup.exe' -File | Select-Object -First 1
+          if (-not $setup) { throw 'NSIS setup.exe yok' }
+          $ver = $env:RELEASE_TAG -replace '^v',''
+          $want = "Lertiva Arc_${ver}_x64-setup.exe"
+          $dest = Join-Path $setup.DirectoryName $want
+          if ($setup.FullName -ne $dest) {
+            Move-Item -Force -Path $setup.FullName -Destination $dest
+          }
+          Write-Host "Installer: $dest"
+
+      - name: GitHub Release (stable)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
+          name: Lertiva Arc ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }} (Windows)
+          body: |
+            Resmi Lertiva Arc Windows kurulumu — **Lertiva Arc_*_x64-setup.exe** adıyla.
+            Authenticode: secret varsa dev/EV imza; yoksa imzasız (SmartScreen bilgilendirme).
+            Bkz. docs/qa/V1_0_1_UNSIGNED_RELEASE.md
+          draft: false
+          prerelease: false
+          files: target/release/bundle/nsis/Lertiva Arc_*_x64-setup.exe
