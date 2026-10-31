@@ -52,6 +52,20 @@ fi
 
 ap1_pass="$arc_signed_shipped"
 
+ap2_prep=false
+[[ -f "$ROOT/.github/workflows/lertiva-arc-windows-arm64.yml" ]] \
+  && grep -q "aarch64-pc-windows-msvc" "$ROOT/.github/workflows/lertiva-arc-windows-arm64.yml" \
+  && [[ -f "$ROOT/docs/qa/AP2_WINDOWS_ARM64_RUNBOOK.md" ]] \
+  && ap2_prep=true
+
+ap2_ci_ok=false
+if [[ "$gh_usable" == true ]]; then
+  n="$(gh run list --workflow=lertiva-arc-windows-arm64.yml --repo "$REPO" --limit 10 --json conclusion \
+    | jq -r '[.[] | select(.conclusion=="success")] | length' 2>/dev/null || echo 0)"
+  [[ "${n:-0}" -gt 0 ]] && ap2_ci_ok=true
+fi
+ap2_pass="$ap2_ci_ok"
+
 generated_at="$(date -u +%Y-%m-%dT%H:%MZ)"
 mkdir -p "$(dirname "$OUT")"
 jq -n \
@@ -62,6 +76,8 @@ jq -n \
   --argjson ap1_prep "$([[ "$ap1_prep" == true ]] && echo true || echo false)" \
   --argjson ap1_pass "$([[ "$ap1_pass" == true ]] && echo true || echo false)" \
   --argjson ev_ov "$([[ "$ev_ov" == true ]] && echo true || echo false)" \
+  --argjson ap2_prep "$([[ "$ap2_prep" == true ]] && echo true || echo false)" \
+  --argjson ap2_pass "$([[ "$ap2_pass" == true ]] && echo true || echo false)" \
   '{
     product: "Lertiva Arc platforms",
     generated_at: $generated_at,
@@ -80,15 +96,26 @@ jq -n \
         ev_ov_flag: $ev_ov,
         note: "Imzalı stable release + EV/OV flag"
       },
-      "AP-2": { pass: false, note: "Windows ARM64 — bekliyor" },
+      "AP-2": {
+        pass: $ap2_pass,
+        prep: $ap2_prep,
+        workflow: "lertiva-arc-windows-arm64.yml",
+        note: "Windows ARM64 NSIS — CI yeşil artifact (imza AP-1 ile)"
+      },
       "AP-3": { pass: false, note: "macOS dmg — bekliyor" },
       "AP-4": { pass: false, note: "Linux AppImage — bekliyor" },
       "AP-5": { pass: false, note: "Mobil Arc — bekliyor" },
       "AP-6": { pass: false, note: "Microsoft Store — bekliyor" }
     },
-    all_pass: $ap1_pass,
-    current_milestone: (if $ap1_pass then "AP-1" elif $ap0_pass then "AP-1-prep" else "AP-0" end)
+    all_pass: ($ap1_pass and $ap2_pass),
+    current_milestone: (
+      if $ap2_pass then "AP-2"
+      elif $ap1_pass then "AP-2-prep"
+      elif $ap2_prep then "AP-1-prep+AP-2-prep"
+      elif $ap0_pass then "AP-1-prep"
+      else "AP-0" end
+    )
   }' >"$OUT"
 
-echo "Arc platform — AP-0: $ap0_pass · AP-1 prep: $ap1_prep · AP-1 shipped: $ap1_pass · release: ${arc_release_tag:-—}"
+echo "Arc platform — AP-0: $ap0_pass · AP-1 prep: $ap1_prep · AP-1: $ap1_pass · AP-2 prep: $ap2_prep · AP-2 CI: $ap2_pass · release: ${arc_release_tag:-—}"
 echo "Yazıldı: $OUT"

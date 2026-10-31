@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-31T13:54Z",
+  "generated_at": "2026-10-31T14:08Z",
   "brand": "Lertiva",
   "products": {
     "zip": {
@@ -12,7 +12,7 @@
       },
       "macos": {
         "product": "Lertiva Zip macOS",
-        "generated_at": "2026-10-31T13:54Z",
+        "generated_at": "2026-10-31T14:08Z",
         "display_release_label": "Lertiva Zip Beta 6 (macOS)",
         "release_tag": "winlrt-zip-beta.6",
         "dmg_download_url": null,
@@ -35,6 +35,12 @@
         "release_page": "https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/v1.0.1",
         "authenticode_signed": false
       },
+      "windows_arm64": {
+        "arch": "arm64",
+        "installer_url": null,
+        "workflow": "https://github.com/kutluhanakinci8-ux/winlrt-/actions/workflows/lertiva-arc-windows-arm64.yml",
+        "status": "ci_artifact"
+      },
       "platform_roadmap": {
         "windows_x64_signed": {
           "phase": "AP-1",
@@ -43,7 +49,7 @@
         },
         "windows_arm64": {
           "phase": "AP-2",
-          "status": "planned"
+          "status": "ci_artifact"
         },
         "macos": {
           "phase": "AP-3",
