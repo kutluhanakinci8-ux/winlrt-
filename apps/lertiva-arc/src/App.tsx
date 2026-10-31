@@ -799,7 +799,7 @@ function App() {
     return () => window.removeEventListener("keydown", onKey);
   });
 
-  function renderEntryTree(nodes: EntryTreeNode[], depth: number): JSX.Element[] {
+  function renderEntryTree(nodes: EntryTreeNode[], depth: number) {
     return nodes.map((node) => {
       const hasKids = node.children.length > 0;
       const expanded = treeExpanded[node.path] ?? depth < 1;
