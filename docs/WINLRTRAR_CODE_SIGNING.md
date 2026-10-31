@@ -2,6 +2,20 @@
 
 Beta `.exe` SmartScreen uyarısı verir; **v1.0 kapısı** Authenticode imzalı MSI/NSIS.
 
+## Geliştirme imzası (self-signed — gerçek sertifika gelene kadar)
+
+Kendi **Lertiva Dev Code Signing** sertifikamız; CI’da `TAURI_SIGNING_*` ile NSIS imzalanır. SmartScreen hâlâ “bilinmeyen yayıncı” diyebilir; **signtool verify /pa** geçer.
+
+| Adım | Komut |
+|------|--------|
+| Sertifika üret (OpenSSL) | `LERTIVA_DEV_CODESIGN_PASSWORD='…' bash scripts/generate-lertiva-dev-codesign.sh` |
+| Windows alternatif | `scripts/windows/new-lertiva-dev-codesign-cert.ps1` |
+| GitHub Secrets | `bash scripts/push-lertiva-dev-signing-secrets.sh` veya [mac-set-github-tauri-signing-secrets.sh](./scripts/mac-set-github-tauri-signing-secrets.sh) `.pfx` ile |
+| Public sertifika (repoda) | [.github/signing/lertiva-dev-codesign.cer](./.github/signing/lertiva-dev-codesign.cer) |
+| Doğrulama | `bash scripts/verify-lertiva-dev-codesign.sh` |
+
+Gerçek **EV/OV** alındığında: aynı secret adlarına kurumsal PFX yüklenir; geliştirme `.cer` isteğe bağlı kalır.
+
 ## Tauri / Windows
 
 `apps/lertiva-arc/src-tauri/tauri.conf.json` → `bundle.windows`:

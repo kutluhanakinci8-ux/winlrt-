@@ -7,6 +7,10 @@ target/
 .env
 .env.*
 !.env.example
+.signing-local/
+*.pfx
+*.p12
+!.github/signing/*.cer
 .DS_Store
 Thumbs.db
 *.exe

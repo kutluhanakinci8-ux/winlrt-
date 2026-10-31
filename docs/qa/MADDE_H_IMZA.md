@@ -2,7 +2,7 @@
 
 ## Neden “0%” görünüyordu?
 
-GitHub’da **`TAURI_SIGNING_*` secret yok** (agent `gh secret set` → 403). Gerçek EV/OV sertifikası panelden eklenene kadar **Authenticode yok**.
+**Geliştirme:** self-signed PFX → `TAURI_SIGNING_*` ([WINLRTRAR_CODE_SIGNING.md](../WINLRTRAR_CODE_SIGNING.md), `scripts/generate-lertiva-dev-codesign.sh`). **Prod:** EV/OV sertifikası aynı secret adlarına geçer.
 
 ## H %100 tanımı (bu repo — v1.0.0 imzasız)
 

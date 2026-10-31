@@ -170,6 +170,9 @@ jobs:
       - name: Lertiva marka kalıntı taraması
         run: bash scripts/verify-lertiva-brand.sh
 
+      - name: Lertiva dev kod imzası (self-signed altyapı)
+        run: bash scripts/verify-lertiva-dev-codesign.sh
+
       - name: Faz 1 benchmark raporu
         run: |
           cargo run -p lertiva-archive --release -- bench --all --json > bench-report.json
