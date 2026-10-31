@@ -12,4 +12,4 @@ Rehber: [WINLRTZIP_CORPORATE_PILOT_KOPYA.md](./WINLRTZIP_CORPORATE_PILOT_KOPYA.m
 
 **Durum:** [ ] PASS · [ ] FAIL
 
-> Repo kapısı (W19): `verify-madde-w19.sh` + `enterprise_policy_info` + audit testleri. Saha PASS tablo doldurulunca güncellenir.
+> Repo kapısı (W19): `verify-madde-w19.sh` + `enterprise_policy_info` + audit testleri. Saha: [G5_SAHA_SIGNOFF_REHBERI.md](./G5_SAHA_SIGNOFF_REHBERI.md) → `[x] PASS` → `bash scripts/gap-phase-finish.sh 5`.

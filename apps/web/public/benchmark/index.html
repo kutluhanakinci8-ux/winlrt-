@@ -378,6 +378,10 @@ cargo run -p lertiva-archive -- bench --all --profile fast --json --zip-kpi</cod
             url: "/benchmark/samples/lertiva-desktop-maturity-gate.json",
             title: "Masaüstü olgunluk (G4)",
           },
+          {
+            url: "/benchmark/samples/lertiva-corporate-pilot-gate.json",
+            title: "Kurumsal pilot (G5)",
+          },
         ];
         for (const it of items) {
           try {
@@ -385,7 +389,9 @@ cargo run -p lertiva-archive -- bench --all --profile fast --json --zip-kpi</cod
             if (!res.ok) throw new Error(res.statusText);
             const data = await res.json();
             let summary =
-              data.all_pass != null
+              data.repo_pass != null
+                ? `repo_pass: ${data.repo_pass} · all_pass: ${data.all_pass} · <a href="/benchmark/corporate/">pano</a>`
+                : data.all_pass != null
                 ? `all_pass: ${data.all_pass}`
                 : data.dry_run != null
                   ? `dry_run: ${data.dry_run} · ${data.register_url || ""}`

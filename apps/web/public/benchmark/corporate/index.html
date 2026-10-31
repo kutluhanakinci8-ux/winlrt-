@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kurumsal pilot — Lertiva</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css?v=5" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="logo" href="/">Lertiva</a>
+        <nav class="nav">
+          <a href="/benchmark/gap/">Gap panosu</a>
+          <a href="/downloads/">İndir</a>
+        </nav>
+      </div>
+    </header>
+    <main class="section">
+      <div class="container">
+        <h1>G5 — Kurumsal pilot durumu</h1>
+        <p class="lead">Arc + Zip GPO paketleri, denetim testleri ve saha signoff kapıları.</p>
+        <p id="meta" class="meta">Yükleniyor…</p>
+        <div class="actions" style="margin: 1rem 0">
+          <a class="btn btn-primary" href="/downloads/lertiva-arc-corporate-gpo.zip">Arc GPO ZIP</a>
+          <a class="btn btn-ghost" href="/downloads/lertiva-zip-corporate-gpo.zip">Zip GPO ZIP</a>
+        </div>
+        <ul id="gates"></ul>
+        <p class="meta">
+          Runbook:
+          <a
+            href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/G5_KURUMSAL_PILOT_RUNBOOK.md"
+            >G5_KURUMSAL_PILOT_RUNBOOK.md</a
+          >
+          · JSON:
+          <a href="/benchmark/samples/lertiva-corporate-pilot-gate.json">gate</a>
+        </p>
+      </div>
+    </main>
+    <script>
+      fetch("/benchmark/samples/lertiva-corporate-pilot-gate.json", { cache: "no-store" })
+        .then((r) => r.json())
+        .then((d) => {
+          document.getElementById("meta").textContent =
+            `Güncelleme: ${d.generated_at || "—"} · repo_pass: ${d.repo_pass} · all_pass: ${d.all_pass}`;
+          const ul = document.getElementById("gates");
+          const g = d.gates || {};
+          for (const [k, v] of Object.entries(g)) {
+            const li = document.createElement("li");
+            li.textContent = `${k}: ${v.pass ? "PASS" : "bekliyor"}`;
+            ul.appendChild(li);
+          }
+        })
+        .catch(() => {
+          document.getElementById("meta").textContent = "Gate JSON yüklenemedi.";
+        });
+    </script>
+  </body>
+</html>

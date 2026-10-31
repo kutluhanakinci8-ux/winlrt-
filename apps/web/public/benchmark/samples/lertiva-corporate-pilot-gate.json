@@ -1,0 +1,40 @@
+{
+  "product": "Lertiva kurumsal pilot (G5)",
+  "generated_at": "2026-10-31T09:00Z",
+  "disclaimer": "repo_pass=IT paketleri+Arc signoff; all_pass=Zip saha signoff da PASS.",
+  "downloads": {
+    "arc_gpo_zip": "/downloads/lertiva-arc-corporate-gpo.zip",
+    "zip_gpo_zip": "/downloads/lertiva-zip-corporate-gpo.zip"
+  },
+  "gates": {
+    "arc_gpo_package": {
+      "pass": true
+    },
+    "zip_gpo_package": {
+      "pass": true
+    },
+    "w19_repo_capisi": {
+      "pass": true
+    },
+    "audit_unit_tests": {
+      "pass": true
+    },
+    "g5_runbook": {
+      "pass": true,
+      "path": "docs/qa/G5_KURUMSAL_PILOT_RUNBOOK.md"
+    },
+    "saha_signoff_rehberi": {
+      "pass": true
+    },
+    "arc_pilot_signoff": {
+      "pass": true,
+      "doc": "KURUMSAL_PILOT_SIGNOFF.md"
+    },
+    "zip_field_signoff": {
+      "pass": true,
+      "doc": "WINLRTZIP_CORPORATE_PILOT_SIGNOFF.md"
+    }
+  },
+  "repo_pass": true,
+  "all_pass": true
+}

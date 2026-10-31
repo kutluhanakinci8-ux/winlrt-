@@ -1,23 +1,23 @@
 {
   "updated": "2026-10-31",
-  "note": "Sertifika/Play/App Store/Lerta prod ertelenmis; insan saha adimlari ayri.",
+  "note": "Sertifika/Play/App Store/Lerta prod ertelenmis; G5 all_pass Zip saha signoff bekliyor.",
   "layers": {
     "repo_ci": 100,
-    "product_excluding_external": 63,
-    "product_full": 43,
-    "program_weighted": 78
+    "product_excluding_external": 66,
+    "product_full": 45,
+    "program_weighted": 80
   },
   "phases": {
     "G1": { "repo": 100, "product": 92, "combined": 96 },
     "G2": { "repo": 100, "product": 72, "combined": 83 },
     "G3": { "repo": 95, "product": 45, "combined": 65 },
     "G4": { "repo": 75, "product": 48, "combined": 58 },
-    "G5": { "repo": 80, "product": 15, "combined": 41 },
+    "G5": { "repo": 92, "product": 28, "combined": 52 },
     "G6": { "repo": 100, "product": 10, "combined": 37 },
     "G7": { "repo": 100, "product": 5, "combined": 43 },
     "G8": { "repo": 85, "product": 25, "combined": 49 },
     "G9": { "repo": 100, "product": 55, "combined": 68 },
     "G10": { "repo": 100, "product": 30, "combined": 58 }
   },
-  "next_sequence": ["G5", "G8", "G1", "G4-saha"]
+  "next_sequence": ["G8", "G1", "G4-saha", "G5-saha-zip"]
 }

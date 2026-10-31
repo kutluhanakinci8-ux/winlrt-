@@ -9,7 +9,8 @@ bash "$ROOT/scripts/evaluate-lertiva-zip-p0-gate.sh" >/dev/null 2>&1 || true
 for s in evaluate-lertiva-windows-signing-gate evaluate-lertiva-ev-ov-signing-gate \
   evaluate-lertiva-macos-notarize-gate evaluate-lertiva-store-listing-gate \
   evaluate-lertiva-mobile-mvp-gate evaluate-lertiva-motor-advanced-gate \
-  evaluate-lertiva-brand-suite-gate evaluate-lertiva-desktop-maturity-gate; do
+  evaluate-lertiva-brand-suite-gate evaluate-lertiva-desktop-maturity-gate \
+  evaluate-lertiva-corporate-gate; do
   bash "$ROOT/scripts/${s}.sh" >/dev/null 2>&1 || true
 done
 
@@ -30,6 +31,8 @@ jq -n \
   --argjson g9 "$(jq -r '.all_pass' "$ROOT/apps/web/public/benchmark/samples/lertiva-arc-motor-advanced-gate.json" 2>/dev/null || echo false)" \
   --argjson g10 "$(jq -r '.all_pass' "$ROOT/apps/web/public/benchmark/samples/lertiva-brand-suite-gate.json" 2>/dev/null || echo false)" \
   --argjson g4_desktop "$(jq -r '.all_pass' "$ROOT/apps/web/public/benchmark/samples/lertiva-desktop-maturity-gate.json" 2>/dev/null || echo false)" \
+  --argjson g5_corporate_repo "$(jq -r '.repo_pass' "$ROOT/apps/web/public/benchmark/samples/lertiva-corporate-pilot-gate.json" 2>/dev/null || echo false)" \
+  --argjson g5_corporate_all "$(jq -r '.all_pass' "$ROOT/apps/web/public/benchmark/samples/lertiva-corporate-pilot-gate.json" 2>/dev/null || echo false)" \
   --argjson summary "$summary" \
   '{
     product: "Lertiva suite",
@@ -44,6 +47,8 @@ jq -n \
       g2_ev_ov_product: $g2_ev,
       g3_notarize_product: $g3,
       g4_desktop_maturity: $g4_desktop,
+      g5_corporate_repo_pass: $g5_corporate_repo,
+      g5_corporate_all_pass: $g5_corporate_all,
       g7_play_listing_url: $g7_listing,
       g9_motor_mvp: $g9,
       g10_brand_repo: $g10

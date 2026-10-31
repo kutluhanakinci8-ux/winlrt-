@@ -1,13 +1,13 @@
 {
   "product": "Lertiva suite",
-  "generated_at": "2026-10-31T08:54Z",
+  "generated_at": "2026-10-31T09:00Z",
   "disclaimer": "Yuzdeler docs/qa/gap-status-percentages.json + GAP_STATUS_RAPOR.md; sertifika/Play/App Store ertelenmis.",
   "summary": {
     "layers": {
       "repo_ci": 100,
-      "product_excluding_external": 63,
-      "product_full": 43,
-      "program_weighted": 78
+      "product_excluding_external": 66,
+      "product_full": 45,
+      "program_weighted": 80
     },
     "phases": {
       "G1": {
@@ -31,9 +31,9 @@
         "combined": 58
       },
       "G5": {
-        "repo": 80,
-        "product": 15,
-        "combined": 41
+        "repo": 92,
+        "product": 28,
+        "combined": 52
       },
       "G6": {
         "repo": 100,
@@ -62,10 +62,10 @@
       }
     },
     "next_sequence": [
-      "G5",
       "G8",
       "G1",
-      "G4-saha"
+      "G4-saha",
+      "G5-saha-zip"
     ]
   },
   "gates_snapshot": {
@@ -76,6 +76,8 @@
     "g2_ev_ov_product": false,
     "g3_notarize_product": false,
     "g4_desktop_maturity": true,
+    "g5_corporate_repo_pass": true,
+    "g5_corporate_all_pass": true,
     "g7_play_listing_url": false,
     "g9_motor_mvp": true,
     "g10_brand_repo": true

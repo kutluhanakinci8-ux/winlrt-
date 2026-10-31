@@ -17,4 +17,4 @@
 
 **Durum raporu (%):** [GAP_STATUS_RAPOR.md](./GAP_STATUS_RAPOR.md) · `bash scripts/evaluate-gap-status-report.sh`
 
-Son güncelleme: G9 sprint2 (ZIP kısmi aç, dedup tarama) · sırada **G5** kurumsal.
+Son güncelleme: G5 runbook + corporate gate + `/benchmark/corporate/` · sırada **G8** Lerta.
