@@ -5,31 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Lertiva — Benchmark özeti (Faz 3)</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/styles.css?v=7" />
+    <link rel="stylesheet" href="/styles.css?v=8" />
   </head>
   <body data-page-title-key="page.benchmark.title">
-    <header class="site-header">
-      <div class="site-header-inner">
-        <a class="logo" href="/">
-          <img class="logo-img" src="/assets/logo-mark.svg" width="36" height="36" alt="" />
-          Lertiva
-        </a>
-        <div class="header-tools">
-          <button type="button" class="tool-btn" id="theme-toggle" aria-label="Tema">◐</button>
-          <div class="lang-switch" role="group" aria-label="Dil">
-            <button type="button" data-lang-btn="tr">TR</button>
-            <button type="button" data-lang-btn="en">EN</button>
-          </div>
-        </div>
-        <nav class="nav" aria-label="Ana menü">
-          <a href="/">Vitrin</a>
-          <a href="/#durum">Durum</a>
-          <a href="/downloads/">İndir</a>
-          <a class="nav-cta nav-active" href="/benchmark/">KPI</a>
-        </nav>
-      </div>
-    </header>
-    <main class="container" style="padding: 2rem 1rem 4rem">
+    <div data-site-header></div>
+<main class="container" style="padding: 2rem 1rem 4rem">
       <h1 data-i18n="page.benchmark.h1">KPI ve benchmark merkezi</h1>
       <p class="lead" data-i18n="page.benchmark.lead"></p>
 
@@ -428,8 +408,9 @@ cargo run -p lertiva-archive -- bench --all --profile fast --json --zip-kpi</cod
       loadIntegrationSamples();
     </script>
     <footer class="site-footer" data-site-footer></footer>
-    <script src="/js/footer.js?v=7"></script>
-    <script src="/js/i18n.js?v=7"></script>
-    <script src="/js/site.js?v=7"></script>
+    <script src="/js/header.js?v=8"></script>
+    <script src="/js/footer.js?v=8"></script>
+    <script src="/js/i18n.js?v=8"></script>
+    <script src="/js/site.js?v=8"></script>
   </body>
 </html>
