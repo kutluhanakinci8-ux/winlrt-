@@ -122,4 +122,4 @@ bash scripts/evaluate-gap-status-report.sh
 bash scripts/print-g2-g3-product-progress.sh   # Mac
 ```
 
-**Sonuç cümlesi:** Repo gap **%100**; program **~%75**; vitrin panosu: [/benchmark/gap/](/benchmark/gap/). Sıradaki: **G4 saha oturumu → G9 → G5 → G8** (`bash scripts/gap-phase-finish.sh 4 --deploy`).
+**Sonuç cümlesi:** Repo gap **%100**; program **~%75**; vitrin panosu: [/benchmark/gap/](/benchmark/gap/). Faz sonu: `bash scripts/gap-phase-finish.sh 4` — VPS kimliği varsa **deploy otomatik** (`.env.vps.local` veya `VPS_SSH_PASSWORD`; CI için GitHub Secret aynı ad).

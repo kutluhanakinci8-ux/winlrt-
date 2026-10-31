@@ -4,6 +4,8 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
+# shellcheck source=scripts/lib/load-vps-deploy-env.sh
+source "$ROOT/scripts/lib/load-vps-deploy-env.sh"
 
 VPS_HOST="${VPS_HOST:-37.230.105.99}"
 VPS_PORT="${VPS_PORT:-23422}"
