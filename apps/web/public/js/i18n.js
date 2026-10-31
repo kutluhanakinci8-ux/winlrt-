@@ -357,7 +357,7 @@ window.WINLRT_I18N = {
     "page.brand.colors": "Renkler",
     "page.brand.logo": "Logo kullanımı",
     "page.brand.logo.body":
-      "Birincil: logo-mark (kare). Minimum boşluk: x yüksekliği kadar. Arka plan koyu veya açık tema ile kontrast korunmalıdır.",
+      "Birincil: altın logo-mark (512×512, kanat + zarf + arşiv fermuarı). Minimum boşluk: x yüksekliği kadar. Mavi klasik sürüm: logo-mark-classic.svg.",
     "page.brand.products": "Ürün ikonları",
     "page.brand.products.body":
       "Lertiva Zip (mavi) ve Lertiva Arc (mor) — indirme merkezi, ürün kartları ve marka materyallerinde kullanın.",
@@ -719,7 +719,7 @@ window.WINLRT_I18N = {
     "page.brand.colors": "Colors",
     "page.brand.logo": "Logo usage",
     "page.brand.logo.body":
-      "Primary: logo-mark (square). Clear space: height of the x mark. Maintain contrast on light and dark themes.",
+      "Primary: gold logo-mark (512×512, wings + envelope + archive zip). Clear space: height of the mark. Classic blue: logo-mark-classic.svg.",
     "page.brand.products": "Product icons",
     "page.brand.products.body":
       "Lertiva Zip (blue) and Lertiva Arc (purple) — use on download center, product cards, and brand assets.",
