@@ -29,7 +29,7 @@ Otomatik özet JSON: `bash scripts/evaluate-gap-status-report.sh` → `lertiva-g
 | **G2** Windows imza | 100% | 72%* | **83%** | Dev Authenticode CI ✅, NSIS imza ✅, vitrin PNG ✅ | *EV/OV SmartScreen (ertelendi); Arc/Zip UX polish (G4) |
 | **G3** macOS | 95% | 45%* | **65%** | W14 workflow ✅, W34 resmi KPI ✅ | *Notarize + geçerli `.p12` (ertelendi); dmg CI secret düzeltme |
 | **G4** Masaüstü olgunluk | 75% | 48% | **58%** | Ctrl+F arama, kısayollar (?), önizleme, ZIP/.wlrt tek dosya | [Dış kullanıcı checklist](./G4_EXTERNAL_USER_SESSION_CHECKLIST.md); Zip migration saha |
-| **G5** Kurumsal | 80% | 15% | **41%** | ADMX/GPO ZIP, kurumsal gate, QA şablonları | Banka/sendika **saha signoff**; gerçek AD GPO import kanıtı |
+| **G5** Kurumsal | 92% | 28% | **52%** | Arc+Zip GPO, runbook, `repo_pass` gate, vitrin `/benchmark/corporate/` | [Zip saha signoff](./G5_SAHA_SIGNOFF_REHBERI.md) → `all_pass` |
 | **G6** Mobil | 100% | 10% | **37%** | W26 API, W36 gate, `mobile-inspect` | Native **AAB** kabuk (Play ertelendi) |
 | **G7** Mağaza | 100% | 5%* | **43%** | W27/W32, Data safety doc ✅ | *Play internal URL (ertelendi); strateji: [G7_DESKTOP_FIRST](./G7_DESKTOP_FIRST_PLAY_INTERNAL.md) |
 | **G8** Lerta | 85% | 25% | **49%** | W28–W31 staging, API JSON vitrin | Prod `LERTA_API_BEARER`, canlı submit IT onayı |
