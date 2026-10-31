@@ -50,6 +50,8 @@
     ]);
     var resources = dropGroup("nav.drop.resources", [
       { href: "/kaynaklar/", key: "nav.drop.allResources" },
+      { href: "/kaynaklar/#yol-haritasi", key: "nav.drop.roadmapShort" },
+      { href: "/kaynaklar/#lerta", key: "nav.drop.lertaHub" },
       { href: "/benchmark/", key: "nav.kpi" },
       { href: "/pilot/", key: "nav.pilot" },
       { href: "/marka/", key: "nav.brand" },

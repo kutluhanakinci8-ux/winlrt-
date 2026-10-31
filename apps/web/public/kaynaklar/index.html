@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kaynaklar — Lertiva</title>
+    <meta name="description" content="KPI, pilot, yol haritası, Lerta entegrasyonu ve açık kaynak kaynakları." />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css?v=8" />
   </head>
@@ -17,39 +18,124 @@
         <p class="lead" data-i18n="page.resources.lead"></p>
       </div>
     </section>
-    <main class="page-shell container">
-      <div class="hub-card-grid hub-card-grid--3">
-        <article class="card">
-          <h3 data-i18n="nav.kpi">KPI vitrin</h3>
-          <p>P0 kapıları, benchmark örnekleri, imza ve gap raporları.</p>
-          <a href="/benchmark/">Benchmark merkezi →</a>
-        </article>
-        <article class="card">
-          <h3 data-i18n="nav.pilot">Pilot</h3>
-          <p>Dalga 1–4 kabul durumu ve Windows script rehberleri.</p>
-          <a href="/pilot/">Pilot durumu →</a>
-        </article>
-        <article class="card">
-          <h3 data-i18n="nav.brand">Marka kiti</h3>
-          <p>Logo, renkler ve ürün ikonları.</p>
-          <a href="/marka/">Marka →</a>
-        </article>
-        <article class="card">
-          <h3>Gap &amp; platform</h3>
-          <p>G1–G10 repo durumu, macOS dağıtım JSON.</p>
-          <a href="/benchmark/gap/">Gap panosu →</a>
-        </article>
-        <article class="card">
-          <h3>Lerta örnekleri</h3>
-          <p>Staging, mesaj webhook ve API durum JSON.</p>
-          <a href="/benchmark/lerta/">Lerta pano →</a>
-        </article>
-        <article class="card">
-          <h3>GitHub</h3>
-          <p>Açık kaynak geliştirme, Issues ve sürümler.</p>
-          <a href="https://github.com/kutluhanakinci8-ux/winlrt-" rel="noopener">Depo →</a>
-        </article>
+    <main class="page-shell">
+      <div class="container">
+        <div class="hub-card-grid hub-card-grid--3" style="margin-bottom: 3rem">
+          <article class="card">
+            <h3 data-i18n="nav.kpi">KPI vitrin</h3>
+            <p data-i18n="page.resources.card.kpi.body"></p>
+            <a href="/benchmark/" data-i18n="page.resources.card.kpi.link">Benchmark merkezi →</a>
+          </article>
+          <article class="card">
+            <h3 data-i18n="nav.pilot">Pilot</h3>
+            <p data-i18n="page.resources.card.pilot.body"></p>
+            <a href="/pilot/" data-i18n="page.resources.card.pilot.link">Pilot durumu →</a>
+          </article>
+          <article class="card">
+            <h3 data-i18n="nav.brand">Marka kiti</h3>
+            <p data-i18n="page.resources.card.brand.body"></p>
+            <a href="/marka/" data-i18n="page.resources.card.brand.link">Marka →</a>
+          </article>
+          <article class="card">
+            <h3 data-i18n="page.resources.card.gap.title">Gap &amp; platform</h3>
+            <p data-i18n="page.resources.card.gap.body"></p>
+            <a href="/benchmark/gap/" data-i18n="page.resources.card.gap.link">Gap panosu →</a>
+          </article>
+          <article class="card">
+            <h3 data-i18n="page.resources.card.lertaSamples.title">Lerta örnekleri</h3>
+            <p data-i18n="page.resources.card.lertaSamples.body"></p>
+            <a href="/benchmark/lerta/" data-i18n="page.resources.card.lertaSamples.link">Lerta pano →</a>
+          </article>
+          <article class="card">
+            <h3 data-i18n="page.resources.card.github.title">GitHub</h3>
+            <p data-i18n="page.resources.card.github.body"></p>
+            <a href="https://github.com/kutluhanakinci8-ux/winlrt-" rel="noopener" data-i18n="page.resources.card.github.link"
+              >Depo →</a
+            >
+          </article>
+        </div>
       </div>
+
+      <section class="section section-alt" id="yol-haritasi">
+        <div class="container">
+          <div class="section-head">
+            <span class="section-label" data-i18n="page.roadmap.label">Strateji</span>
+            <h2 data-i18n="page.roadmap.title">Yol haritası (güncel)</h2>
+            <p data-i18n="page.roadmap.lead"></p>
+          </div>
+          <div class="roadmap-track">
+            <div class="roadmap-step">
+              <div class="roadmap-num">1</div>
+              <h3 data-i18n="page.roadmap.step1.title">Masaüstü</h3>
+              <p data-i18n="page.roadmap.step1.body"></p>
+            </div>
+            <div class="roadmap-step">
+              <div class="roadmap-num">2</div>
+              <h3 data-i18n="page.roadmap.step2.title">KPI &amp; pilot</h3>
+              <p data-i18n="page.roadmap.step2.body"></p>
+            </div>
+            <div class="roadmap-step">
+              <div class="roadmap-num">3</div>
+              <h3 data-i18n="page.roadmap.step3.title">Mobil</h3>
+              <p data-i18n="page.roadmap.step3.body"></p>
+            </div>
+            <div class="roadmap-step">
+              <div class="roadmap-num">4</div>
+              <h3 data-i18n="page.roadmap.step4.title">Lerta</h3>
+              <p data-i18n="page.roadmap.step4.body"></p>
+            </div>
+          </div>
+          <p class="meta" style="margin-top: 1.5rem">
+            <a
+              href="https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/POST_V3_WINLRTZIP_SIRA.md"
+              rel="noopener"
+              data-i18n="nav.drop.roadmap"
+              >Post-v3 yol haritası (GitHub)</a
+            >
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="lerta">
+        <div class="container">
+          <div class="section-head">
+            <span class="section-label" data-i18n="page.lerta.label">Ekosistem</span>
+            <h2 data-i18n="page.lerta.title">Lerta entegrasyonu</h2>
+            <p data-i18n="page.lerta.lead"></p>
+          </div>
+          <div class="grid-2">
+            <article class="card">
+              <h3 data-i18n="page.lerta.w28.title">Posta eki (W28)</h3>
+              <p data-i18n="page.lerta.w28.body"></p>
+              <p class="meta">
+                <a href="/benchmark/samples/lertiva-zip-lerta-mail-v1.json" data-i18n="page.lerta.w28.sample">Örnek JSON</a>
+              </p>
+            </article>
+            <article class="card">
+              <h3 data-i18n="page.lerta.w29.title">Üretim API (W29)</h3>
+              <p data-i18n="page.lerta.w29.body"></p>
+              <p class="meta">
+                <a href="/benchmark/samples/lertiva-zip-lerta-api-v1.json" data-i18n="page.lerta.w29.sample">API durum örneği</a>
+              </p>
+            </article>
+          </div>
+          <article class="card" style="margin-top: 1.5rem">
+            <h3 data-i18n="page.lerta.w30.title">Mesaj eki (W30) · Staging kapısı (W31)</h3>
+            <p data-i18n="page.lerta.w30.body"></p>
+            <p class="meta">
+              <a href="/benchmark/samples/lertiva-zip-lerta-integration-v1.json" data-i18n="page.lerta.w30.staging"
+                >Birleşik staging örneği</a
+              >
+              ·
+              <a href="/benchmark/samples/lertiva-zip-lerta-message-v1.json" data-i18n="page.lerta.w30.message">Mesaj webhook</a>
+            </p>
+          </article>
+          <p class="meta" style="margin-top: 2rem; text-align: center">
+            <a href="/" data-i18n="nav.home">Ana sayfa</a> ·
+            <a href="/ozellikler/#lerta" data-i18n="nav.drop.lerta">Lerta özellikleri</a>
+          </p>
+        </div>
+      </section>
     </main>
     <footer class="site-footer" data-site-footer></footer>
     <script src="/js/header.js?v=8"></script>

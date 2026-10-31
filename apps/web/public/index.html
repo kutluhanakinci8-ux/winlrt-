@@ -192,7 +192,7 @@
           <h2 data-i18n="home.hub.title">Çözümler, galeri ve güven merkezi</h2>
           <p data-i18n="home.hub.lead"></p>
         </div>
-        <div class="grid-2 hub-teaser-grid">
+        <div class="hub-card-grid hub-card-grid--3 hub-teaser-grid">
           <a class="card hub-teaser" href="/cozumler/">
             <span class="section-label" data-i18n="nav.solutions">Çözümler</span>
             <h3 data-i18n="home.hub.cozumler.title">Sektörel çözümler &amp; galeri</h3>
@@ -205,83 +205,25 @@
             <p data-i18n="home.hub.guven.body"></p>
             <span class="hub-teaser-cta" data-i18n="home.hub.cta">Sayfaya git →</span>
           </a>
+          <a class="card hub-teaser" href="/kaynaklar/#yol-haritasi">
+            <span class="section-label" data-i18n="page.roadmap.label">Strateji</span>
+            <h3 data-i18n="home.hub.roadmap.title">Yol haritası</h3>
+            <p data-i18n="home.hub.roadmap.body"></p>
+            <span class="hub-teaser-cta" data-i18n="home.hub.cta">Kaynaklar →</span>
+          </a>
+          <a class="card hub-teaser" href="/kaynaklar/#lerta">
+            <span class="section-label" data-i18n="nav.lerta">Lerta</span>
+            <h3 data-i18n="home.hub.lerta.title">Lerta entegrasyonu</h3>
+            <p data-i18n="home.hub.lerta.body"></p>
+            <span class="hub-teaser-cta" data-i18n="home.hub.cta">Kaynaklar →</span>
+          </a>
+          <a class="card hub-teaser" href="/kaynaklar/">
+            <span class="section-label" data-i18n="nav.drop.resources">Kaynaklar</span>
+            <h3 data-i18n="home.hub.resources.title">Kaynak merkezi</h3>
+            <p data-i18n="home.hub.resources.body"></p>
+            <span class="hub-teaser-cta" data-i18n="home.hub.cta">Sayfaya git →</span>
+          </a>
         </div>
-      </div>
-    </section>
-
-    <section class="section section-alt" id="yol-haritasi">
-      <div class="container">
-        <div class="section-head">
-          <span class="section-label">Strateji</span>
-          <h2>Yol haritası (güncel)</h2>
-          <p>Masaüstü olgunluğu öncelikli; mobil mağaza yükleme sıradaki kapı (Lerta canlı gönderim IT onayı ile).</p>
-        </div>
-        <div class="roadmap-track">
-          <div class="roadmap-step">
-            <div class="roadmap-num">1</div>
-            <h3>Masaüstü</h3>
-            <p><strong>Lertiva Arc</strong> v1.0 · <strong>Lertiva Zip</strong> beta + Post-v3</p>
-          </div>
-          <div class="roadmap-step">
-            <div class="roadmap-num">2</div>
-            <h3>KPI &amp; pilot</h3>
-            <p>Windows P0 vitrin · Dalga 2–4 kurumsal kabul</p>
-          </div>
-          <div class="roadmap-step">
-            <div class="roadmap-num">3</div>
-            <h3>Mobil</h3>
-            <p>Okuyucu sözleşmesi hazır · Play/App yükleme bekliyor</p>
-          </div>
-          <div class="roadmap-step">
-            <div class="roadmap-num">4</div>
-            <h3>Lerta</h3>
-            <p>Posta + API smoke · canlı lerta.com.tr bağlantısı</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="lerta">
-      <div class="container">
-        <div class="section-head">
-          <span class="section-label">Ekosistem</span>
-          <h2>Lerta entegrasyonu</h2>
-          <p>
-            <a href="https://www.lerta.com.tr">lerta.com.tr</a> mesajlaşma ve posta altyapısı.
-            Lertiva modülleri bağımsız olgunlaştı; posta metadata hattı vitrinde doğrulanır.
-          </p>
-        </div>
-        <div class="grid-2">
-          <article class="card">
-            <h3>Posta eki (W28)</h3>
-            <p>10 / 25 MiB tier, SHA-256, webhook JSON — ZIP içeriği cihazda kalır.</p>
-            <p class="meta">
-              <a href="/benchmark/samples/lertiva-zip-lerta-mail-v1.json">Örnek JSON</a>
-            </p>
-          </article>
-          <article class="card">
-            <h3>Üretim API (W29)</h3>
-            <p>
-              <code>LERTA_API_BASE</code> + Bearer; CI ve dry-run varsayılan — canlı gönderim IT
-              onayı ile.
-            </p>
-            <p class="meta">
-              <a href="/benchmark/samples/lertiva-zip-lerta-api-v1.json">API durum örneği</a>
-            </p>
-          </article>
-        </div>
-        <article class="card" style="margin-top: 1.5rem">
-          <h3>Mesaj eki (W30) · Staging kapısı (W31)</h3>
-          <p>
-            Mesaj kanalı: <code>.wlrt</code> veya AES-ZIP (16 MiB). W31 birleşik durum JSON’u posta +
-            mesaj URL’lerini ve canlı Bearer ön koşulunu özetler — içerik yüklenmez.
-          </p>
-          <p class="meta">
-            <a href="/benchmark/samples/lertiva-zip-lerta-integration-v1.json">Birleşik staging örneği</a>
-            ·
-            <a href="/benchmark/samples/lertiva-zip-lerta-message-v1.json">Mesaj webhook</a>
-          </p>
-        </article>
       </div>
     </section>
 

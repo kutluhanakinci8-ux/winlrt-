@@ -63,6 +63,8 @@
           link("https://github.com/kutluhanakinci8-ux/winlrt-", "footer.link.github", true) +
           link("/iletisim/", "footer.link.contact") +
           link("/marka/", "footer.link.brand") +
+          link("/kaynaklar/#yol-haritasi", "nav.drop.roadmapShort") +
+          link("/kaynaklar/#lerta", "nav.drop.lertaHub") +
           link(
             "https://github.com/kutluhanakinci8-ux/winlrt-/blob/main/docs/qa/POST_V3_WINLRTZIP_SIRA.md",
             "footer.link.roadmap",
