@@ -60,6 +60,10 @@
       <p class="meta" id="p0-gate-meta">P0 özeti yükleniyor…</p>
       <article class="card" id="p0-gate-card" style="margin-bottom: 1.5rem"></article>
 
+      <h2 class="section-label">Lertiva Zip v1.0 kapı (W33)</h2>
+      <p class="meta" id="v1-gate-meta">v1 özeti yükleniyor…</p>
+      <article class="card" id="v1-gate-card" style="margin-bottom: 1.5rem"></article>
+
       <h2 class="section-label" data-i18n="page.benchmark.liveKpi">Canlı KPI özeti (referans)</h2>
       <p class="meta" id="kpi-sample-meta">
         Repo örnekleri yükleniyor… (Linux CI referans; resmi kapı Windows workflow artifact).
@@ -150,6 +154,30 @@ cargo run -p lertiva-archive -- bench --all --profile fast --json --zip-kpi</cod
         const cls = ok ? "status-dev" : "status-dev";
         const text = passed === null || passed === undefined ? "ölçülmedi" : ok ? "GEÇTİ" : "henüz değil";
         return `<span class="status ${cls}" style="margin-left:0.5rem">${label}: ${text}</span>`;
+      }
+      async function loadV1Gate() {
+        const meta = document.getElementById("v1-gate-meta");
+        const card = document.getElementById("v1-gate-card");
+        try {
+          const res = await fetch("/benchmark/samples/lertiva-zip-v1-gate.json", {
+            cache: "no-store",
+          });
+          if (!res.ok) throw new Error(res.statusText);
+          const data = await res.json();
+          const g = data.gates || {};
+          card.innerHTML = `<p>${gateBadge(g.p0_kpi?.pass, "P0×3")}${gateBadge(
+            g.store_pilot?.pass,
+            "W32 pilot"
+          )}${gateBadge(g.signing_pipeline?.pass, "İmza hattı (dev)")}</p>
+          <p class="meta">${data.disclaimer || ""}</p>
+          <p class="meta">Vitrin durumu: <strong>${data.vitrin_status || "—"}</strong> · Tümü: <strong>${
+            data.all_pass ? "GEÇTİ" : "izleniyor"
+          }</strong> · ${data.generated_at || ""}</p>`;
+          meta.textContent = "Kaynak: lertiva-zip-v1-gate.json (W33).";
+        } catch (e) {
+          meta.textContent = "v1 kapı özeti yüklenemedi.";
+          card.innerHTML = `<p class="meta">${e}</p>`;
+        }
       }
       async function loadP0Gate() {
         const meta = document.getElementById("p0-gate-meta");
@@ -283,6 +311,10 @@ cargo run -p lertiva-archive -- bench --all --profile fast --json --zip-kpi</cod
             url: "/benchmark/samples/lertiva-zip-store-pilot-gate.json",
             title: "Mağaza/mobil pilot (W32)",
           },
+          {
+            url: "/benchmark/samples/lertiva-zip-v1-gate.json",
+            title: "v1.0 GA kapı (W33)",
+          },
         ];
         for (const it of items) {
           try {
@@ -310,6 +342,7 @@ cargo run -p lertiva-archive -- bench --all --profile fast --json --zip-kpi</cod
         }
       }
       loadP0Gate();
+      loadV1Gate();
       loadKpiSamples();
       loadIntegrationSamples();
     </script>

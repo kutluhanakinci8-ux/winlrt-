@@ -1,0 +1,22 @@
+{
+  "product": "Lertiva Zip",
+  "version_target": "1.0.0",
+  "generated_at": "2026-10-31T05:45Z",
+  "disclaimer": "W33: P0×3 resmi Windows + W32 pilot hazırlık. EV/OV imzalı release ayrı (G2).",
+  "gates": {
+    "p0_kpi": {
+      "pass": true,
+      "source": "lertiva-zip-p0-gate.json"
+    },
+    "store_pilot": {
+      "pass": true,
+      "source": "lertiva-zip-store-pilot-gate.json"
+    },
+    "signing_pipeline": {
+      "pass": true,
+      "note": "Dev self-signed .cer + TAURI_SIGNING_* (SmartScreen EV/OV değil)"
+    }
+  },
+  "vitrin_status": "v1.0.0 (kapı)",
+  "all_pass": true
+}
