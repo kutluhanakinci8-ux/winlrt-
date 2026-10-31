@@ -5,6 +5,9 @@ VPS_USER=root
 VPS_WEB_ROOT=/var/www/winlrt/apps/web/dist
 VPS_SSH_PASSWORD=
 
+# (Opsiyonel) Dev PFX şifresi — yerelde decrypt / imza test; GitHub secret agent 403 ise panelden LERTIVA_DEV_CODESIGN_PASSWORD
+# LERTIVA_DEV_CODESIGN_PASSWORD=
+
 # Canlı vitrin erken erişim (nginx basic auth — yalnızca winlrt.com.tr)
 # Yerel build / public/ geliştirme etkilenmez. Şifre repoya gitmez.
 VITRIN_BASIC_AUTH_USER=lertiva
