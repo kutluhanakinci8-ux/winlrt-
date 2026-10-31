@@ -227,9 +227,9 @@ window.WINLRT_I18N = {
     "page.arc.overview.title": "Lertiva Arc nedir?",
     "page.arc.overview.body":
       "Lertiva Arc, günlük sıkıştırma ve arşiv iş akışlarını Windows masaüstünde toplar: sürükle-bırak, Explorer menüleri, geçiş sihirbazı ve kurumsal politika. Zip odaklı hafif dağıtım için kardeş ürün Lertiva Zip; Arc çoklu format ve kurumsal arşiv senaryolarına odaklanır.",
-    "page.arc.overview.videoAlt": "Lertiva Arc masaüstü arayüzü kısa döngü demosu",
+    "page.arc.overview.videoAlt": "Lertiva Arc tanıtım videosu",
     "page.arc.overview.videoCaption":
-      "Ürün arayüzü — sessiz, otomatik döngü (yaklaşık 4 sn).",
+      "Gönderdiğiniz tanıtım kaydı — sessiz, otomatik döngü (~3 sn).",
     "page.arc.formats.label": "Formatlar",
     "page.arc.formats.title": "Desteklenen arşiv türleri",
     "page.arc.formats.lead": "Tek motor (Rust lertiva-archive) — format yetenekleri sürüm notlarında güncellenir.",
@@ -831,9 +831,9 @@ window.WINLRT_I18N = {
     "page.arc.overview.title": "What is Lertiva Arc?",
     "page.arc.overview.body":
       "Lertiva Arc brings daily archive workflows to Windows: drag-and-drop, Explorer menus, migration wizard, and policy. Sibling Lertiva Zip is ZIP-first; Arc focuses on multi-format and enterprise archive scenarios.",
-    "page.arc.overview.videoAlt": "Lertiva Arc desktop UI short looping demo",
+    "page.arc.overview.videoAlt": "Lertiva Arc preview video",
     "page.arc.overview.videoCaption":
-      "Product UI — silent autoplay loop (~4 s).",
+      "Your uploaded preview — silent autoplay loop (~3 s).",
     "page.arc.formats.label": "Formats",
     "page.arc.formats.title": "Supported archive types",
     "page.arc.formats.lead": "One engine (Rust lertiva-archive) — capabilities updated in release notes.",
