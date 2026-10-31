@@ -5,10 +5,22 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 EV_FLAG="$ROOT/apps/web/public/benchmark/samples/lertiva-ev-ov-configured.flag"
 APPLE_FLAG="$ROOT/apps/web/public/benchmark/samples/lertiva-apple-notarize-configured.flag"
 
+if ! command -v jq >/dev/null 2>&1; then
+  echo "jq gerekli — Mac: brew install jq" >&2
+  exit 1
+fi
+
 tick() { [[ "$1" == true ]] && echo "✅" || echo "⬜"; }
 
 dev_ok=false
-bash "$ROOT/scripts/verify-madde-h-signed.sh" >/dev/null 2>&1 && dev_ok=true
+if bash "$ROOT/scripts/verify-madde-h-signed.sh" >/dev/null 2>&1; then
+  dev_ok=true
+elif bash "$ROOT/scripts/verify-madde-h-signing-repo-local.sh" >/dev/null 2>&1; then
+  dev_ok=true
+  dev_note=" (yerel repo; tam CI: gh auth login)"
+else
+  dev_note=""
+fi
 
 ev_ov=false
 [[ -f "$EV_FLAG" ]] && grep -q 'ev_ov' "$EV_FLAG" && ev_ov=true
@@ -25,7 +37,7 @@ smartscreen=false
 [[ -f "$ROOT/apps/web/public/assets/gallery/incoming/smartscreen-lertiva.png" ]] && smartscreen=true
 
 echo "=== G2 EV/OV (Windows) — sıra 1 ==="
-echo "$(tick "$dev_ok") A0 Dev Authenticode CI (verify-madde-h-signed)"
+echo "$(tick "$dev_ok") A0 Dev Authenticode CI (verify-madde-h-signed)${dev_note:-}"
 echo "$(tick "$smartscreen") Vitrin SmartScreen PNG (incoming/)"
 echo "⬜ A1 Kurumsal EV/OV PFX (CA — insan)"
 echo "⬜ A2 GitHub WINDOWS_CERTIFICATE + PASSWORD (insan)"

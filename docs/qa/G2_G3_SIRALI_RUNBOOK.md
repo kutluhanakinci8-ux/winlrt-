@@ -131,6 +131,18 @@ KPI job (`macos-zip-kpi`) notarize **gerektirmez** — W34 ayrı.
 
 ---
 
+## Mac geliştirici kurulumu
+
+```bash
+brew install jq gh
+gh auth login
+bash scripts/check-g2-g3-prerequisites.sh
+cd ~/winlrt-   # repo kökü
+bash scripts/test-g2-g3-scenarios.sh
+```
+
+`jq` olmadan scriptler çalışmaz. `gh` yoksa yerel repo testleri ⚠️ ile devam eder; CI satırları atlanır.
+
 ## Senaryo testleri (agent)
 
 ```bash

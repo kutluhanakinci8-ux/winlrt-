@@ -6,6 +6,16 @@ cd "$ROOT"
 REPO="${GITHUB_REPO:-kutluhanakinci8-ux/winlrt-}"
 FAIL=0
 
+if ! command -v jq >/dev/null 2>&1; then
+  echo "jq gerekli — Mac: brew install jq" >&2
+  exit 1
+fi
+
+gh_ok=false
+if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
+  gh_ok=true
+fi
+
 pass() { echo "✅ $1"; }
 fail() { echo "❌ $1"; FAIL=1; }
 warn() { echo "⚠️  $1"; }
@@ -15,8 +25,14 @@ echo "========== G2 senaryolari =========="
 # G2-S1 Dev imza hatti (A0)
 if bash "$ROOT/scripts/verify-madde-h-signed.sh" >/dev/null 2>&1; then
   pass "G2-S1 A0 — dev Authenticode CI hatti (verify-madde-h-signed)"
+elif bash "$ROOT/scripts/verify-madde-h-signing-repo-local.sh" >/dev/null 2>&1; then
+  if [[ "$gh_ok" == true ]]; then
+    fail "G2-S1 A0 — repo OK ama CI verify-madde-h-signed basarisiz"
+  else
+    warn "G2-S1 A0 — yerel repo hatti OK (tam CI: gh auth login + verify-madde-h-signed.sh)"
+  fi
 else
-  fail "G2-S1 A0 — dev imza hatti"
+  fail "G2-S1 A0 — imza hatti"
 fi
 
 # G2-S2 Sertifika tier = dev (A1 henuz EV degil)
@@ -29,20 +45,20 @@ else
 fi
 
 # G2-S3 Son basarili Windows CI (A3 referans)
-if command -v gh >/dev/null 2>&1; then
+if [[ "$gh_ok" == true ]]; then
   zid="$(gh run list --workflow=lertiva-zip-windows.yml --repo "$REPO" --branch main -L 1 --json databaseId,conclusion \
     | jq -r '.[0] | select(.conclusion=="success") | .databaseId' 2>/dev/null || true)"
   aid="$(gh run list --workflow=lertiva-arc-windows.yml --repo "$REPO" --branch main -L 1 --json databaseId,conclusion \
     | jq -r '.[0] | select(.conclusion=="success") | .databaseId' 2>/dev/null || true)"
   if [[ -n "$zid" && -n "$aid" ]]; then
     pass "G2-S3 A3 — son Zip/Arc Windows run success (Zip=$zid Arc=$aid)"
-    log_snip="$(gh run view "$zid" --repo "$REPO" --log 2>/dev/null | rg 'Successfully signed|imzalar ge' | head -5 || true)"
-    if echo "$log_snip" | rg -q 'Successfully signed'; then
+    log_snip="$(gh run view "$zid" --repo "$REPO" --log 2>/dev/null | grep -E 'Successfully signed|imzalar ge' | head -5 || true)"
+    if echo "$log_snip" | grep -q 'Successfully signed'; then
       pass "G2-S3b — Zip log: Successfully signed"
     else
       warn "G2-S3b — Zip log imza satiri bulunamadi (log erisimi/truncation?)"
     fi
-    if echo "$log_snip" | rg -q 'imzalar ge'; then
+    if echo "$log_snip" | grep -q 'imzalar ge'; then
       pass "G2-S3c — Zip log: signtool verify gecti"
     else
       warn "G2-S3c — verify satiri bulunamadi"
@@ -50,11 +66,8 @@ if command -v gh >/dev/null 2>&1; then
   else
     fail "G2-S3 A3 — Zip veya Arc son run success degil"
   fi
-  if gh workflow run lertiva-zip-windows.yml --repo "$REPO" --ref main 2>&1 | rg -q '403'; then
-    warn "G2-S3d — agent workflow dispatch 403 (A3 manuel tetikleme sizde)"
-  fi
 else
-  warn "G2-S3 — gh yok, CI atlandi"
+  warn "G2-S3 — atlandi (brew install gh && gh auth login)"
 fi
 
 # G2-S4 Dev G2 vitrin kapisi
@@ -99,7 +112,7 @@ else
   fail "G3-S2 — macOS notarize gate"
 fi
 
-if command -v gh >/dev/null 2>&1; then
+if [[ "$gh_ok" == true ]]; then
   mid="$(gh run list --workflow=lertiva-zip-macos.yml --repo "$REPO" --branch main -L 1 --json conclusion \
     | jq -r '.[0].conclusion' 2>/dev/null || true)"
   if [[ "$mid" == "success" ]]; then
