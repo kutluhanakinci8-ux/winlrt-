@@ -1053,6 +1053,23 @@ a.card.hub-teaser:hover {
   max-width: 40rem;
 }
 
+.arc-demo-video-wrap {
+  margin: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-glow);
+  background: #000;
+}
+
+.arc-demo-video {
+  width: 100%;
+  display: block;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #0a0f18;
+}
+
 /* —— Hero —— */
 .hero {
   padding: 4.5rem 0 5rem;

@@ -50,7 +50,11 @@
       el.setAttribute("title", t(el.getAttribute("data-i18n-title"), lang));
     });
     document.querySelectorAll("[data-i18n-alt]").forEach(function (el) {
-      el.setAttribute("alt", t(el.getAttribute("data-i18n-alt"), lang));
+      var alt = t(el.getAttribute("data-i18n-alt"), lang);
+      el.setAttribute("alt", alt);
+      if (el.tagName === "VIDEO") {
+        el.setAttribute("aria-label", alt);
+      }
     });
     var metaDesc = document.querySelector('meta[name="description"]');
     var metaKey =
