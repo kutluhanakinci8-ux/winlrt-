@@ -9,7 +9,9 @@ test -f "$ROOT/docs/qa/WINLRTRAR_CODEC_MATRIX.md"
 grep -q 'pub fn extract_one' "$ROOT/crates/lertiva-archive/src/wlrt.rs"
 grep -q 'extract_one_entry' "$ROOT/apps/lertiva-arc/src-tauri/src/lib.rs"
 grep -q 'Tek dosyayı çıkar' "$ROOT/apps/lertiva-arc/src/App.tsx"
-cargo test -p lertiva-archive wlrt_extract_one --quiet
+cargo test -p lertiva-archive extract_one --quiet
+cargo test -p lertiva-archive dedup_finds --quiet
+cargo test -p lertiva-archive zip_extract_partial --quiet
 bash "$ROOT/scripts/evaluate-lertiva-motor-advanced-gate.sh"
 jq -e '.all_pass == true' "$ROOT/apps/web/public/benchmark/samples/lertiva-arc-motor-advanced-gate.json" >/dev/null
 

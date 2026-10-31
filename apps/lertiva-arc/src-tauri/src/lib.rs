@@ -14,7 +14,7 @@ use tauri_plugin_opener::OpenerExt;
 use lertiva_archive::profile::CompressionProfile;
 use lertiva_archive::crypto::{self, PasswordFeedback};
 use lertiva_archive::password_policy::{self, PasswordPolicy};
-use lertiva_archive::{audit, rar, sevenz, volumes, wlrt, zip_io};
+use lertiva_archive::{audit, dedup, rar, sevenz, volumes, wlrt, zip_io};
 
 use cli::{
     compress_folder_quick, compress_selection_quick, extract_here, is_archive_path,
@@ -467,6 +467,50 @@ fn extract_archive(
     }
 }
 
+#[derive(Serialize)]
+struct PartialExtractView {
+    report: zip_io::PartialExtractReport,
+    message: String,
+}
+
+#[tauri::command]
+fn extract_archive_partial(
+    path: String,
+    dest: String,
+    format: String,
+    password: Option<String>,
+) -> Result<PartialExtractView, String> {
+    let archive = std::path::PathBuf::from(&path);
+    let dest = std::path::PathBuf::from(&dest);
+    let pw = password.as_deref();
+    let report = match format.as_str() {
+        "zip" => zip_io::extract_partial(&archive, &dest, pw).map_err(|e| e.to_string())?,
+        _ => return Err("Kısmi açma şimdilik yalnızca ZIP".into()),
+    };
+    let message = format!(
+        "Kısmi açma: {} OK, {} hata",
+        report.extracted.len(),
+        report.failed.len()
+    );
+    audit::event_extract("ui-partial", !report.extracted.is_empty(), &path, &format);
+    Ok(PartialExtractView { report, message })
+}
+
+#[derive(Serialize)]
+struct DuplicateScanView {
+    groups: Vec<dedup::DuplicateGroup>,
+    message: String,
+}
+
+#[tauri::command]
+fn scan_create_duplicates(source: String, min_size: Option<u64>) -> Result<DuplicateScanView, String> {
+    let root = std::path::PathBuf::from(&source);
+    let min = min_size.unwrap_or(1);
+    let groups = dedup::scan_duplicate_files(&root, min).map_err(|e| e.to_string())?;
+    let message = format!("{} yinelenen grup", groups.len());
+    Ok(DuplicateScanView { groups, message })
+}
+
 #[tauri::command]
 fn extract_one_entry(
     path: String,
@@ -785,6 +829,8 @@ pub fn run() {
             list_archive,
             test_archive,
             extract_archive,
+            extract_archive_partial,
+            scan_create_duplicates,
             extract_one_entry,
             preview_entry_text,
             create_archive,

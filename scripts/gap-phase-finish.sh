@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Faz sonu: verify → gate JSON → gap raporu → commit (ops.) → vitrin deploy (VPS varsa otomatik).
 # Kullanım: bash scripts/gap-phase-finish.sh 4 [--commit "mesaj"] [--deploy] [--no-deploy]
-# VPS: VPS_SSH_PASSWORD / VPS_SSH_KEY* ortamda veya .env.vps.local (bkz. .env.vps.local.example)
+# VPS: VPS_SSH_PASSWORD / VPS_SSH_KEY* ortamda veya .env.vps.local (bkz. docs/env-vps-local.example)
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
@@ -34,6 +34,7 @@ fi
 bash "$ROOT/scripts/verify-faz-g${PHASE}.sh"
 case "$PHASE" in
   4) bash "$ROOT/scripts/evaluate-lertiva-desktop-maturity-gate.sh" ;;
+  5) bash "$ROOT/scripts/evaluate-lertiva-zip-corporate-gate.sh" 2>/dev/null || true ;;
   9) bash "$ROOT/scripts/evaluate-lertiva-motor-advanced-gate.sh" ;;
 esac
 bash "$ROOT/scripts/evaluate-gap-status-report.sh"

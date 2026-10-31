@@ -1,12 +1,18 @@
 {
   "product": "Lertiva Arc",
-  "generated_at": "2026-10-31T08:47Z",
-  "disclaimer": "G9 repo MVP: P0+Q2+codec matrisi+extract_one; solid/dedup R&D.",
+  "generated_at": "2026-10-31T08:54Z",
+  "disclaimer": "G9 sprint2: ZIP kısmi açma + dedup tarama + MVP kapılar.",
   "mvp_selected": [
     "extract_one",
     "arc_ui_single_extract",
     "codec_matrix",
     "zip_entries_preview"
+  ],
+  "sprint2": [
+    "zip_extract_one",
+    "partial_extract",
+    "dedup_scan",
+    "arc_partial_ui"
   ],
   "gates": {
     "g1_p0_regression": {
@@ -23,17 +29,31 @@
     "wlrt_extract_one_api": {
       "pass": true
     },
+    "zip_extract_one_api": {
+      "pass": true
+    },
+    "zip_partial_extract_api": {
+      "pass": true
+    },
+    "dedup_scan_api": {
+      "pass": true
+    },
     "arc_ui_extract_one": {
       "pass": true,
       "app": "apps/lertiva-arc"
+    },
+    "arc_ui_partial_extract": {
+      "pass": true
     },
     "zip_mobile_entries_preview": {
       "pass": true
     },
     "solid_dedup_planned": {
       "pass": true,
-      "note": "plan maddesi; implementasyon yok"
+      "note": "solid arşiv R&D devam"
     }
   },
+  "mvp_pass": true,
+  "sprint2_pass": true,
   "all_pass": true
 }

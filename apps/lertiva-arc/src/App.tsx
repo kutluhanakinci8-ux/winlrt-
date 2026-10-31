@@ -546,6 +546,38 @@ function App() {
     }
   }
 
+  async function extractArchivePartial() {
+    setError("");
+    setStatus("");
+    if (!archivePath || !extractDir) {
+      setError("Arşiv ve hedef klasör gerekli.");
+      return;
+    }
+    if (format !== "zip") {
+      setError("Kısmi açma şimdilik yalnızca ZIP.");
+      return;
+    }
+    const jobId = pushJob(`Kısmi aç: ${archivePath.split(/[/\\]/).pop()}`);
+    try {
+      const res = await invoke<{ message: string; report: { extracted: string[]; failed: { name: string; error: string }[] } }>(
+        "extract_archive_partial",
+        {
+          path: archivePath,
+          dest: extractDir,
+          format,
+          password: openPassword || null,
+        },
+      );
+      setStatus(
+        `${res.message}${res.report.failed.length ? ` · hatalar: ${res.report.failed.map((f) => f.name).join(", ")}` : ""}`,
+      );
+      finishJob(jobId, res.report.extracted.length > 0);
+    } catch (e) {
+      setError(String(e));
+      finishJob(jobId, false);
+    }
+  }
+
   async function extractArchive() {
     setError("");
     setStatus("");
@@ -860,6 +892,11 @@ function App() {
           <button type="button" className="btn" onClick={extractArchive}>
             Aç
           </button>
+          {format === "zip" && (
+            <button type="button" className="btn" onClick={extractArchivePartial}>
+              Kısmi aç (ZIP)
+            </button>
+          )}
         </div>
         {archivePath && <p className="path">Arşiv: {archivePath}</p>}
         {extractDir && <p className="path">Aç hedefi: {extractDir}</p>}

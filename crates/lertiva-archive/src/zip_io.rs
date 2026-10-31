@@ -146,6 +146,82 @@ pub fn preview_entry_bytes(
     Err(ArchiveError::Zip(format!("dosya bulunamadı: {want}")))
 }
 
+#[derive(Debug, Clone, serde::Serialize)]
+pub struct PartialExtractFailure {
+    pub name: String,
+    pub error: String,
+}
+
+#[derive(Debug, Clone, serde::Serialize)]
+pub struct PartialExtractReport {
+    pub extracted: Vec<String>,
+    pub failed: Vec<PartialExtractFailure>,
+}
+
+/// Bozuk girdileri atlayarak mümkün olan dosyaları çıkarır (G9 kısmi kurtarma MVP).
+pub fn extract_partial(
+    archive: &Path,
+    dest: &Path,
+    password: Option<&str>,
+) -> Result<PartialExtractReport> {
+    enforce_archive_signature_policy(archive)?;
+    let opened = SplitZipOpen::resolve(archive)?;
+    let file = File::open(&opened.path)?;
+    let mut zip = ZipArchive::new(file).map_err(map_zip_err)?;
+    let pw = password_bytes(password);
+    let mut extracted = Vec::new();
+    let mut failed = Vec::new();
+    for i in 0..zip.len() {
+        let mut entry = match open_zip_entry(&mut zip, i, pw) {
+            Ok(e) => e,
+            Err(e) => {
+                failed.push(PartialExtractFailure {
+                    name: format!("#{}", i),
+                    error: e.to_string(),
+                });
+                continue;
+            }
+        };
+        let name = entry.name().to_string();
+        let out_path = dest.join(sanitize_path(&name));
+        if entry.is_dir() {
+            if let Err(e) = std::fs::create_dir_all(&out_path) {
+                failed.push(PartialExtractFailure {
+                    name: name.clone(),
+                    error: e.to_string(),
+                });
+            } else {
+                extracted.push(name);
+            }
+            continue;
+        }
+        if let Some(parent) = out_path.parent() {
+            let _ = std::fs::create_dir_all(parent);
+        }
+        let mut out = match File::create(&out_path) {
+            Ok(f) => f,
+            Err(e) => {
+                failed.push(PartialExtractFailure {
+                    name,
+                    error: e.to_string(),
+                });
+                continue;
+            }
+        };
+        match copy(&mut entry, &mut out).map_err(map_read_err) {
+            Ok(_) => extracted.push(name),
+            Err(e) => failed.push(PartialExtractFailure {
+                name,
+                error: e.to_string(),
+            }),
+        }
+    }
+    Ok(PartialExtractReport {
+        extracted,
+        failed,
+    })
+}
+
 pub fn extract(archive: &Path, dest: &Path, password: Option<&str>) -> Result<()> {
     enforce_archive_signature_policy(archive)?;
     let opened = SplitZipOpen::resolve(archive)?;
@@ -749,6 +825,26 @@ mod tests {
         assert!(
             err.contains(ZIP_INTEGRITY_CRC_MSG),
             "beklenen CRC mesaji, alinan: {err}"
+        );
+    }
+
+    #[test]
+    fn zip_extract_partial_skips_bad_entry() {
+        let dir = tempdir().unwrap();
+        let src = dir.path().join("src");
+        std::fs::create_dir_all(&src).unwrap();
+        std::fs::write(src.join("good.txt"), b"ok").unwrap();
+        std::fs::write(src.join("bad.txt"), b"bad").unwrap();
+        let archive = dir.path().join("mix.zip");
+        create_with_profile(&src, &archive, CompressionProfile::Fast, None).unwrap();
+        corrupt_first_local_crc_for_test(&archive).unwrap();
+        let out = dir.path().join("out");
+        std::fs::create_dir_all(&out).unwrap();
+        let report = extract_partial(&archive, &out, None).unwrap();
+        assert!(
+            report.extracted.iter().any(|n| n.contains("good.txt")),
+            "good file should extract: {:?}",
+            report
         );
     }
 

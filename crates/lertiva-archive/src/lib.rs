@@ -13,6 +13,7 @@ pub mod store_gate;
 pub mod store_pilot_gate;
 pub mod bench;
 pub mod crypto;
+pub mod dedup;
 pub mod enterprise;
 pub mod naming;
 pub mod password_policy;

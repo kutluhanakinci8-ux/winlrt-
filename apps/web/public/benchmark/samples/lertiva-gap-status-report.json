@@ -1,13 +1,13 @@
 {
   "product": "Lertiva suite",
-  "generated_at": "2026-10-31T08:47Z",
+  "generated_at": "2026-10-31T08:54Z",
   "disclaimer": "Yuzdeler docs/qa/gap-status-percentages.json + GAP_STATUS_RAPOR.md; sertifika/Play/App Store ertelenmis.",
   "summary": {
     "layers": {
       "repo_ci": 100,
-      "product_excluding_external": 58,
-      "product_full": 40,
-      "program_weighted": 75
+      "product_excluding_external": 63,
+      "product_full": 43,
+      "program_weighted": 78
     },
     "phases": {
       "G1": {
@@ -52,8 +52,8 @@
       },
       "G9": {
         "repo": 100,
-        "product": 42,
-        "combined": 58
+        "product": 55,
+        "combined": 68
       },
       "G10": {
         "repo": 100,
@@ -62,11 +62,10 @@
       }
     },
     "next_sequence": [
-      "G4",
-      "G9",
       "G5",
       "G8",
-      "G1"
+      "G1",
+      "G4-saha"
     ]
   },
   "gates_snapshot": {

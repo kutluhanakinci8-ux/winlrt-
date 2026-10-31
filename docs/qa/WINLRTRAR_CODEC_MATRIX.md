@@ -26,10 +26,11 @@ P0 kapı: [MADDE_W16](./MADDE_W16_WINLRTZIP_P0_KPI.md) · G1: `lertiva-zip-p0-ga
 
 | Madde | Durum | Referans |
 |-------|--------|----------|
-| Akışlı tek dosya (`.wlrt`) | MVP API `wlrt::extract_one` | [WINLRTRAR_PLAN.md](../WINLRTRAR_PLAN.md) |
-| ZIP önizleme (mobil okuyucu) | `mobile_reader` `entries_preview` | W26 |
-| Solid + deduplication | R&D | Faz 5 |
-| Kısmi kurtarma | R&D | Faz 5 |
-| Arc UI tek dosya önizleme | Ürün sprint | apps/lertiva-arc |
+| Akışlı tek dosya (`.wlrt` / ZIP) | ✅ `extract_one` | G9 |
+| ZIP önizleme (mobil okuyucu) | ✅ `entries_preview` | W26 |
+| Kısmi kurtarma (ZIP) | ✅ `extract_partial` | G9 sprint2 |
+| Dedup tarama (kaynak klasör) | ✅ `dedup::scan_duplicate_files` | G9 spike |
+| Solid + deduplication (sıkıştırma) | R&D | Faz 5 |
+| Arc UI önizleme / tek dosya | ✅ | G4/G9 |
 
 Doğrulama: `bash scripts/verify-madde-g9.sh`
