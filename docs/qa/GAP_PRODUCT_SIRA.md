@@ -5,8 +5,8 @@ Repo kapıları: `bash scripts/verify-faz-all.sh` ✅
 
 | Sıra | Faz | Agent / repo | İnsan |
 |------|-----|--------------|--------|
-| 1 | **G2 prod** | `lertiva-ev-ov-signing-gate.json` | EV/OV PFX → `WINDOWS_CERTIFICATE` |
-| 2 | **G3 notarize** | `lertiva-macos-notarize-gate.json` | `APPLE_*` GitHub secrets |
+| 1 | **G2 prod** | `lertiva-ev-ov-signing-gate.json` | EV/OV PFX → `WINDOWS_CERTIFICATE` · **[G2_G3_SIRALI_RUNBOOK.md](./G2_G3_SIRALI_RUNBOOK.md)** |
+| 2 | **G3 notarize** | `lertiva-macos-notarize-gate.json` | `APPLE_*` (G2 sonrası) · aynı runbook Bölüm B |
 | 3 | **G4** | signoff şablonları ✅ | Dış kullanıcı QA oturumu |
 | 4 | **G5** | kurumsal paket ✅ | IT saha signoff |
 | 5 | **G6** | mobil MVP ✅ (W26) | Android AAB sprint; **iOS ertele** |
