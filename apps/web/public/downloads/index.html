@@ -87,15 +87,12 @@
           </div>
           <span class="status status-beta">Beta</span>
         </li>
-        <li>
+        <li id="macos-zip-download-row">
           <div>
             <strong>macOS 12+ — beta CI</strong>
-            <div class="meta">
-              Workflow:
-              <a href="https://github.com/kutluhanakinci8-ux/winlrt-/actions/workflows/lertiva-zip-macos.yml"
-                >lertiva-zip-macos</a
-              >
-              · imzasız dmg (notarize secret sonrası)
+            <div class="meta" id="macos-zip-distribution-meta">
+              Manifest yükleniyor…
+              <a href="/downloads/lertiva-zip-macos-distribution.json">JSON</a>
             </div>
           </div>
           <span class="status status-beta">Beta CI</span>
@@ -251,6 +248,24 @@
           } · vitrin PNG ${g.vitrin_smartscreen_real?.pass ? "✓" : "bekleniyor"}`;
         })
         .catch(() => {});
+      fetch("/downloads/lertiva-zip-macos-distribution.json", { cache: "no-store" })
+        .then((r) => r.json())
+        .then((d) => {
+          const el = document.getElementById("macos-zip-distribution-meta");
+          if (!el) return;
+          const tag = d.release_tag
+            ? `<a href="https://github.com/kutluhanakinci8-ux/winlrt-/releases/tag/${d.release_tag}">${d.release_tag}</a>`
+            : "—";
+          const wf = `<a href="${d.ci_workflow_url}">lertiva-zip-macos</a>`;
+          const dmg = d.dmg_download_url
+            ? `<a href="${d.dmg_download_url}">dmg indir</a>`
+            : `dmg: ${d.artifact_hint || "CI artifact"}`;
+          el.innerHTML = `Sürüm ${tag} · ${wf} · ${dmg} · <a href="/benchmark/platform/">G1 pano</a>`;
+        })
+        .catch(() => {
+          const el = document.getElementById("macos-zip-distribution-meta");
+          if (el) el.textContent = "Dağıtım manifesti yüklenemedi.";
+        });
     </script>
   </body>
 </html>

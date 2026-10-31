@@ -10,7 +10,8 @@ for s in evaluate-lertiva-windows-signing-gate evaluate-lertiva-ev-ov-signing-ga
   evaluate-lertiva-macos-notarize-gate evaluate-lertiva-store-listing-gate \
   evaluate-lertiva-mobile-mvp-gate evaluate-lertiva-motor-advanced-gate \
   evaluate-lertiva-brand-suite-gate evaluate-lertiva-desktop-maturity-gate \
-  evaluate-lertiva-corporate-gate evaluate-lertiva-lerta-staging-gate; do
+  evaluate-lertiva-corporate-gate evaluate-lertiva-lerta-staging-gate \
+  evaluate-lertiva-g1-platform-gate; do
   bash "$ROOT/scripts/${s}.sh" >/dev/null 2>&1 || true
 done
 
@@ -35,6 +36,7 @@ jq -n \
   --argjson g5_corporate_all "$(jq -r '.all_pass' "$ROOT/apps/web/public/benchmark/samples/lertiva-corporate-pilot-gate.json" 2>/dev/null || echo false)" \
   --argjson g8_lerta_repo "$(jq -r '.repo_pass' "$ROOT/apps/web/public/benchmark/samples/lertiva-lerta-staging-gate.json" 2>/dev/null || echo false)" \
   --argjson g8_lerta_all "$(jq -r '.all_pass' "$ROOT/apps/web/public/benchmark/samples/lertiva-lerta-staging-gate.json" 2>/dev/null || echo false)" \
+  --argjson g1_polish "$(jq -r '.repo_pass' "$ROOT/apps/web/public/benchmark/samples/lertiva-g1-platform-polish-gate.json" 2>/dev/null || echo false)" \
   --argjson summary "$summary" \
   '{
     product: "Lertiva suite",
@@ -53,6 +55,7 @@ jq -n \
       g5_corporate_all_pass: $g5_corporate_all,
       g8_lerta_repo_pass: $g8_lerta_repo,
       g8_lerta_all_pass: $g8_lerta_all,
+      g1_platform_polish: $g1_polish,
       g7_play_listing_url: $g7_listing,
       g9_motor_mvp: $g9,
       g10_brand_repo: $g10

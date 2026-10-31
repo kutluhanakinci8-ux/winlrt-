@@ -1,14 +1,14 @@
 {
   "updated": "2026-10-31",
-  "note": "Lerta prod bearer ertelenmis; Zip kurumsal saha signoff bekliyor.",
+  "note": "Insan: G4/G5 saha, G8 prod bearer, G3 notarize, G2 EV — ertelenmis.",
   "layers": {
     "repo_ci": 100,
-    "product_excluding_external": 69,
-    "product_full": 48,
-    "program_weighted": 81
+    "product_excluding_external": 72,
+    "product_full": 50,
+    "program_weighted": 83
   },
   "phases": {
-    "G1": { "repo": 100, "product": 92, "combined": 96 },
+    "G1": { "repo": 100, "product": 94, "combined": 98 },
     "G2": { "repo": 100, "product": 72, "combined": 83 },
     "G3": { "repo": 95, "product": 45, "combined": 65 },
     "G4": { "repo": 75, "product": 48, "combined": 58 },
@@ -19,5 +19,5 @@
     "G9": { "repo": 100, "product": 55, "combined": 68 },
     "G10": { "repo": 100, "product": 30, "combined": 58 }
   },
-  "next_sequence": ["G1", "G4-saha", "G5-saha-zip", "G8-prod-bearer"]
+  "next_sequence": ["G10", "G4-saha", "G5-saha-zip", "G3-notarize", "G2-EV"]
 }

@@ -1,0 +1,28 @@
+{
+  "product": "Lertiva Zip platform (G1 polish)",
+  "generated_at": "2026-10-31T09:14Z",
+  "disclaimer": "repo_pass=KPI+manifest+runbook; dmg_release=GitHub Release .dmg (G3 ile gelir).",
+  "gates": {
+    "zip_p0": {
+      "pass": true
+    },
+    "zip_v1": {
+      "pass": true
+    },
+    "w34_macos_kpi": {
+      "pass": true
+    },
+    "kpi_import_runbook": {
+      "pass": true
+    },
+    "macos_distribution_manifest": {
+      "pass": true
+    },
+    "dmg_on_github_release": {
+      "pass": false,
+      "note": "optional until macOS release uploads dmg"
+    }
+  },
+  "repo_pass": true,
+  "all_pass": true
+}

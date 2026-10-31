@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Platform G1 — KPI & dağıtım</title>
+    <link rel="stylesheet" href="/styles.css?v=5" />
+  </head>
+  <body>
+    <main class="section container">
+      <h1>G1 — Platform polish</h1>
+      <p id="g1" class="meta">…</p>
+      <h2>macOS dağıtım</h2>
+      <p id="mac" class="meta">…</p>
+      <p>
+        <a href="/downloads/">İndirme merkezi</a> ·
+        <a href="/benchmark/samples/lertiva-g1-platform-polish-gate.json">G1 gate JSON</a>
+      </p>
+    </main>
+    <script>
+      Promise.all([
+        fetch("/benchmark/samples/lertiva-g1-platform-polish-gate.json"),
+        fetch("/downloads/lertiva-zip-macos-distribution.json"),
+      ])
+        .then(([a, b]) => Promise.all([a.json(), b.json()]))
+        .then(([g1, mac]) => {
+          document.getElementById("g1").textContent =
+            `repo_pass: ${g1.repo_pass} · P0: ${g1.gates.zip_p0.pass} · W34: ${g1.gates.w34_macos_kpi.pass}`;
+          const dmg = mac.dmg_download_url
+            ? `dmg: ${mac.dmg_download_url}`
+            : `dmg: CI artifact (${mac.artifact_hint})`;
+          document.getElementById("mac").textContent =
+            `tag ${mac.release_tag || "—"} · ${dmg}`;
+        });
+    </script>
+  </body>
+</html>

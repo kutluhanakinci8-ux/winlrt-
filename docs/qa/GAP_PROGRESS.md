@@ -17,4 +17,4 @@
 
 **Durum raporu (%):** [GAP_STATUS_RAPOR.md](./GAP_STATUS_RAPOR.md) · `bash scripts/evaluate-gap-status-report.sh`
 
-Son güncelleme: G8 Lerta staging gate + `/benchmark/lerta/` · sırada **G1 polish**.
+Son güncelleme: G1 platform polish (KPI runbook, macOS manifest) · sırada **G10** suite / kalan insan adımları.

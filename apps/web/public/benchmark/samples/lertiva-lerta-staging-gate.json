@@ -1,6 +1,6 @@
 {
   "product": "Lertiva Zip ↔ Lerta (G8)",
-  "generated_at": "2026-10-31T09:07Z",
+  "generated_at": "2026-10-31T09:15Z",
   "disclaimer": "repo_pass=staging W28–W31; all_pass=LERTA_API_BEARER prod + dry-run kapali (IT).",
   "integration_json": "/benchmark/samples/lertiva-zip-lerta-integration-v1.json",
   "gates": {

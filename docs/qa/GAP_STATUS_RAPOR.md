@@ -25,7 +25,7 @@ Otomatik özet JSON: `bash scripts/evaluate-gap-status-report.sh` → `lertiva-g
 
 | Faz | Repo / CI | Ürün | Birleşik ≈ | Tamamlanan (özet) | Eksik / sıradaki (sertifika/mağaza hariç öncelik) |
 |-----|-----------|------|------------|-------------------|--------------------------------------------------|
-| **G1** Zip P0 + v1 | 100% | 92% | **96%** | Windows resmi P0×3 ✅, v1 gate ✅, macOS KPI vitrin ✅ | Linux CI proxy uyarıları; macOS dmg dağıtım kanalı vitrin |
+| **G1** Zip P0 + v1 | 100% | 94% | **98%** | P0/v1 ✅, W34 ✅, KPI import runbook, macOS manifest + indirme merkezi | Release’e `.dmg` (G3 notarize sonrası) |
 | **G2** Windows imza | 100% | 72%* | **83%** | Dev Authenticode CI ✅, NSIS imza ✅, vitrin PNG ✅ | *EV/OV SmartScreen (ertelendi); Arc/Zip UX polish (G4) |
 | **G3** macOS | 95% | 45%* | **65%** | W14 workflow ✅, W34 resmi KPI ✅ | *Notarize + geçerli `.p12` (ertelendi); dmg CI secret düzeltme |
 | **G4** Masaüstü olgunluk | 75% | 48% | **58%** | Ctrl+F arama, kısayollar (?), önizleme, ZIP/.wlrt tek dosya | [Dış kullanıcı checklist](./G4_EXTERNAL_USER_SESSION_CHECKLIST.md); Zip migration saha |

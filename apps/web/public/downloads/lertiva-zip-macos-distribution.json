@@ -1,0 +1,11 @@
+{
+  "product": "Lertiva Zip macOS",
+  "generated_at": "2026-10-31T09:14Z",
+  "release_tag": "winlrt-zip-beta.6",
+  "dmg_download_url": null,
+  "windows_exe_on_same_tag": "https://github.com/kutluhanakinci8-ux/winlrt-/releases/download/winlrt-zip-beta.6/Lertiva.Zip_0.1.0_x64-setup.exe",
+  "ci_workflow_url": "https://github.com/kutluhanakinci8-ux/winlrt-/actions/workflows/lertiva-zip-macos.yml",
+  "artifact_hint": "Actions run → lertiva-zip-macos-build (dmg) veya lertiva-zip-macos-bench (KPI)",
+  "notarize_deferred": true,
+  "note": "dmg GitHub Release yoksa workflow artifact kullanın (G3 notarize sonrası release)."
+}
