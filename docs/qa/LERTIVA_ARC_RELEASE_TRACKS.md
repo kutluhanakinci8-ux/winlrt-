@@ -2,6 +2,8 @@
 
 İki paralel hat: **resmi Lertiva adlı kurulum** (şu an imzasız) ve **EV/OV Authenticode** (secret hazır olunca aynı CI, ayrı operasyon).
 
+Çoklu platform yol haritası (ARM64, macOS, Linux, mobil, mağaza): [ARC_PLATFORM_FAZ_PLAN.md](./ARC_PLATFORM_FAZ_PLAN.md).
+
 ## Track A — Resmi Windows (SmartScreen bilgilendirme)
 
 | Alan | Değer |

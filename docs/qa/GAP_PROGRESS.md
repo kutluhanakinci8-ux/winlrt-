@@ -15,6 +15,8 @@
 
 Ürün sırası: [GAP_PRODUCT_SIRA.md](./GAP_PRODUCT_SIRA.md) · `verify-product-gap-all.sh`
 
+**Lertiva Arc çoklu platform (henüz yapılmayan):** [ARC_PLATFORM_FAZ_PLAN.md](./ARC_PLATFORM_FAZ_PLAN.md) (AP-1 … AP-6).
+
 **Durum raporu (%):** [GAP_STATUS_RAPOR.md](./GAP_STATUS_RAPOR.md) · `bash scripts/evaluate-gap-status-report.sh`
 
 Son güncelleme: G1 platform polish (KPI runbook, macOS manifest) · sırada **G10** suite / kalan insan adımları.
