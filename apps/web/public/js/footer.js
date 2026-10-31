@@ -46,6 +46,8 @@
       col(
         "footer.features",
         link("/ozellikler/#motor", "footer.link.engine") +
+          link("/cozumler/", "footer.link.cozumler") +
+          link("/guven/", "footer.link.guvenStatus") +
           link("/pilot/", "footer.link.explorer") +
           link("/benchmark/corporate/", "footer.link.corporate") +
           link("/kvkk/", "footer.link.audit") +

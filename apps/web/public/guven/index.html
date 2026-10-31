@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Güven &amp; durum — Lertiva</title>
+    <meta name="description" content="Lertiva vitrin durumu, KPI senkronizasyonu ve kurumsal güven / KVKK." />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css?v=8" />
+  </head>
+  <body data-page-title-key="page.guven.title">
+    <div data-site-header></div>
+    <section class="page-banner">
+      <div class="page-banner-bg" style="background-image: url(/assets/stock/feature-security.jpg)"></div>
+      <div class="container">
+        <span class="section-label" data-i18n="nav.trust">Güven</span>
+        <h1 data-i18n="page.guven.h1">Kurumsal güven ve vitrin durumu</h1>
+        <p class="lead" data-i18n="page.guven.lead"></p>
+      </div>
+    </section>
+    <main class="page-shell">
+      <section class="section section-alt" id="durum">
+        <div class="container">
+          <div class="section-head">
+            <span class="section-label" data-i18n="status.label">Senkronizasyon</span>
+            <h2 data-i18n="status.title">Vitrin ↔ geliştirme durumu</h2>
+            <p data-i18n="status.lead"></p>
+          </div>
+          <div class="corp-table-wrap">
+            <table class="corp-table">
+              <thead>
+                <tr>
+                  <th data-i18n="page.guven.table.product">Ürün</th>
+                  <th data-i18n="page.guven.table.channel">Sürüm / hat</th>
+                  <th data-i18n="page.guven.table.ready">Ne hazır?</th>
+                  <th data-i18n="page.guven.table.proof">Vitrin kanıtı</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Lertiva Arc</td>
+                  <td><span class="status status-live">v1.0.1</span></td>
+                  <td data-i18n="page.guven.row.arc.ready"></td>
+                  <td>
+                    <a href="/downloads/">İndir</a> ·
+                    <a href="/benchmark/samples/windows-balanced-kpi.json">KPI JSON</a> ·
+                    <a href="/pilot/">Pilot</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Lertiva Zip</td>
+                  <td><span class="status status-live">v1.0.0 (kapı)</span></td>
+                  <td data-i18n="page.guven.row.zip.ready"></td>
+                  <td>
+                    <a href="/downloads/#lertiva-zip">İndir</a>
+                    · <a href="/benchmark/samples/lertiva-zip-p0-gate.json">P0 KPI</a> ·
+                    <a href="/benchmark/lerta/">Lerta</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Lerta</td>
+                  <td><span class="status status-beta">Entegrasyon smoke</span></td>
+                  <td data-i18n="page.guven.row.lerta.ready"></td>
+                  <td>
+                    <a href="/benchmark/lerta/">Lerta pano</a> ·
+                    <a href="/benchmark/samples/lertiva-zip-lerta-integration-v1.json">Staging JSON</a> ·
+                    <a href="/benchmark/samples/lertiva-zip-lerta-message-v1.json">Mesaj eki</a> ·
+                    <a href="/benchmark/samples/lertiva-zip-lerta-api-v1.json">API durum</a> ·
+                    <a href="https://www.lerta.com.tr">lerta.com.tr</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td data-i18n="page.guven.row.store.name">Mobil mağaza</td>
+                  <td><span class="status status-plan">Kapı / pilot</span></td>
+                  <td data-i18n="page.guven.row.store.ready"></td>
+                  <td>
+                    <a href="/benchmark/samples/lertiva-zip-store-gate.json">Store gate JSON</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td data-i18n="page.guven.row.gap.name">Gap programı</td>
+                  <td><span class="status status-live">G1–G10 repo ✅</span></td>
+                  <td data-i18n="page.guven.row.gap.ready"></td>
+                  <td>
+                    <a href="/benchmark/gap/">Gap panosu</a> ·
+                    <a href="/benchmark/corporate/">Kurumsal G5</a> ·
+                    <a href="/benchmark/samples/lertiva-gap-status-report.json">Özet JSON</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="guven">
+        <div class="container">
+          <div class="section-head">
+            <span class="section-label" data-i18n="page.guven.compliance.label">Güven &amp; uyumluluk</span>
+            <h2 data-i18n="page.guven.compliance.title">Kurumsal güven P0 — şeffaf vitrin</h2>
+            <p data-i18n="page.guven.compliance.lead"></p>
+          </div>
+          <div class="compliance-grid">
+            <article class="card">
+              <h3 data-i18n="page.guven.card.crypto.title">Şifreleme</h3>
+              <p data-i18n="page.guven.card.crypto.body"></p>
+            </article>
+            <article class="card">
+              <h3 data-i18n="page.guven.card.audit.title">Denetim (KVKK)</h3>
+              <p data-i18n="page.guven.card.audit.body"></p>
+            </article>
+            <article class="card">
+              <h3 data-i18n="page.guven.card.signed.title">İmzalı arşiv</h3>
+              <p data-i18n="page.guven.card.signed.body"></p>
+            </article>
+            <article class="card">
+              <h3 data-i18n="page.guven.card.share.title">Güvenli paylaşım</h3>
+              <p data-i18n="page.guven.card.share.body"></p>
+            </article>
+          </div>
+          <p class="meta" style="margin-top: 2rem; text-align: center">
+            <a href="/kvkk/" data-i18n="nav.kvkk">KVKK</a> ·
+            <a href="/cozumler/" data-i18n="nav.cozumler">Çözümler &amp; galeri</a> ·
+            <a href="/">← <span data-i18n="nav.home">Ana sayfa</span></a>
+          </p>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer" data-site-footer></footer>
+    <script src="/js/header.js?v=8"></script>
+    <script src="/js/footer.js?v=8"></script>
+    <script src="/js/i18n.js?v=8"></script>
+    <script src="/js/site.js?v=8"></script>
+  </body>
+</html>

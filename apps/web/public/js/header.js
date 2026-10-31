@@ -41,6 +41,8 @@
     ]);
     var features = dropGroup("nav.drop.features", [
       { href: "/ozellikler/", key: "nav.drop.allFeatures" },
+      { href: "/cozumler/", key: "nav.cozumler" },
+      { href: "/guven/", key: "nav.guven" },
       { href: "/ozellikler/#motor", key: "nav.drop.engine" },
       { href: "/ozellikler/#guvenlik", key: "nav.drop.security" },
       { href: "/ozellikler/#explorer", key: "nav.drop.explorer" },
