@@ -121,6 +121,7 @@ function App() {
     null,
   );
   const [entries, setEntries] = useState<string[]>([]);
+  const [selectedEntry, setSelectedEntry] = useState<string | null>(null);
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
   const [dragOver, setDragOver] = useState(false);
@@ -398,6 +399,7 @@ function App() {
         password: openPassword || null,
       });
       setEntries(res.entries);
+      setSelectedEntry(null);
       setStatus(`${res.entries.length} girdi listelendi.`);
       finishJob(jobId, true);
     } catch (e) {
@@ -448,6 +450,40 @@ function App() {
       const res = await invoke<{ message: string }>("repair_archive", {
         path: archivePath,
         dest: repairDir,
+        password: openPassword || null,
+      });
+      setStatus(res.message);
+      finishJob(jobId, true);
+    } catch (e) {
+      setError(String(e));
+      finishJob(jobId, false);
+    }
+  }
+
+  async function extractOneEntry() {
+    setError("");
+    setStatus("");
+    if (!archivePath || !selectedEntry) {
+      setError("Önce listele ve bir dosya seçin.");
+      return;
+    }
+    if (format !== "wlrt") {
+      setError("Tek dosya çıkarma şimdilik yalnızca .wlrt arşivlerinde.");
+      return;
+    }
+    const base = selectedEntry.split(/[/\\]/).pop() ?? "dosya";
+    const selected = await save({
+      title: "Tek dosyayı kaydet",
+      defaultPath: base,
+    });
+    if (!selected) return;
+    const jobId = pushJob(`Tek dosya: ${base}`);
+    try {
+      const res = await invoke<{ message: string }>("extract_one_entry", {
+        path: archivePath,
+        entry: selectedEntry,
+        destFile: selected,
+        format,
         password: openPassword || null,
       });
       setStatus(res.message);
@@ -827,14 +863,37 @@ function App() {
       <div className="split">
         <section className="panel list">
           <h2>İçerik</h2>
+          {format === "wlrt" && entries.length > 0 && (
+            <p className="muted entry-hint">
+              G9 akışlı açma: dosyaya tıklayın, «Tek dosyayı çıkar…» ile tam arşiv
+              açmadan kaydedin.
+            </p>
+          )}
           {entries.length === 0 ? (
             <p className="muted">Henüz girdi yok.</p>
           ) : (
-            <ul>
+            <ul className="entries">
               {entries.map((name) => (
-                <li key={name}>{name}</li>
+                <li key={name}>
+                  <button
+                    type="button"
+                    className={`entry-btn ${selectedEntry === name ? "selected" : ""}`}
+                    onClick={() => setSelectedEntry(name)}
+                  >
+                    {name}
+                  </button>
+                </li>
               ))}
             </ul>
+          )}
+          {format === "wlrt" && selectedEntry && (
+            <button
+              type="button"
+              className="btn primary extract-one"
+              onClick={() => void extractOneEntry()}
+            >
+              Tek dosyayı çıkar…
+            </button>
           )}
         </section>
 

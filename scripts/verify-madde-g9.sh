@@ -7,6 +7,8 @@ cd "$ROOT"
 test -f "$ROOT/docs/qa/MADDE_G9_MOTOR_ADVANCED.md"
 test -f "$ROOT/docs/qa/WINLRTRAR_CODEC_MATRIX.md"
 grep -q 'pub fn extract_one' "$ROOT/crates/lertiva-archive/src/wlrt.rs"
+grep -q 'extract_one_entry' "$ROOT/apps/lertiva-arc/src-tauri/src/lib.rs"
+grep -q 'Tek dosyayı çıkar' "$ROOT/apps/lertiva-arc/src/App.tsx"
 cargo test -p lertiva-archive wlrt_extract_one --quiet
 bash "$ROOT/scripts/evaluate-lertiva-motor-advanced-gate.sh"
 jq -e '.all_pass == true' "$ROOT/apps/web/public/benchmark/samples/lertiva-arc-motor-advanced-gate.json" >/dev/null

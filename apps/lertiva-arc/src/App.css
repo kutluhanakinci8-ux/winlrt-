@@ -290,9 +290,40 @@ select {
 
 .list ul {
   margin: 0;
-  padding-left: 1.2rem;
+  padding-left: 0;
   max-height: 320px;
   overflow: auto;
+  list-style: none;
+}
+
+.entry-hint {
+  font-size: 0.8rem;
+  margin: 0 0 0.5rem;
+}
+
+ul.entries li {
+  margin-bottom: 0.2rem;
+}
+
+.entry-btn {
+  width: 100%;
+  text-align: left;
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.04);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.entry-btn.selected {
+  border-color: #6366f1;
+  background: rgba(99, 102, 241, 0.15);
+}
+
+.extract-one {
+  margin-top: 0.75rem;
 }
 
 ul.jobs {

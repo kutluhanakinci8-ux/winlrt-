@@ -468,6 +468,28 @@ fn extract_archive(
 }
 
 #[tauri::command]
+fn extract_one_entry(
+    path: String,
+    entry: String,
+    dest_file: String,
+    format: String,
+    password: Option<String>,
+) -> Result<ActionResult, String> {
+    let archive = std::path::PathBuf::from(&path);
+    let dest = std::path::PathBuf::from(&dest_file);
+    let pw = password.as_deref();
+    match format.as_str() {
+        "wlrt" => wlrt::extract_one(&archive, &entry, &dest, pw).map_err(|e| e.to_string())?,
+        _ => return Err("Tek dosya çıkarma şimdilik yalnızca .wlrt (G9 akışlı açma)".into()),
+    }
+    audit::event_extract("ui-one", true, &path, &format);
+    Ok(ActionResult {
+        ok: true,
+        message: format!("Tek dosya çıkarıldı: {}", dest.display()),
+    })
+}
+
+#[tauri::command]
 fn evaluate_password(password: String, for_create: bool) -> PasswordFeedback {
     crypto::evaluate_password(&password, for_create)
 }
@@ -718,6 +740,7 @@ pub fn run() {
             list_archive,
             test_archive,
             extract_archive,
+            extract_one_entry,
             create_archive,
             create_archive_from_paths
         ])

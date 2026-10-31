@@ -10,7 +10,9 @@
 | **G6** | W36 ✅ mobil MVP JSON | apk/ipa internal | `verify-faz-g6.sh` |
 | **G7** | W27+W32+Data safety ✅ | listing URL | `verify-faz-g7.sh` |
 | **G8** | W31 staging ✅ | LERTA prod bearer | `verify-faz-g8.sh` |
-| **G9** | Codec matrisi ✅ extract_one ✅ Q2+G1 ✅ | Arc UI akış, solid/dedup | `verify-faz-g9.sh` |
+| **G9** | Codec ✅ extract_one ✅ Arc UI tek dosya ✅ | solid/dedup R&D | `verify-faz-g9.sh` |
 | **G10** | Tur4 policy ✅ brand scan ✅ suite kickoff ✅ | PDF/imza modülü | `verify-faz-g10.sh` |
 
-Son güncelleme: G6–G8 commit + G9 motor MVP + G10 Tur4; `verify-faz-all.sh` G1–G10.
+Ürün sırası: [GAP_PRODUCT_SIRA.md](./GAP_PRODUCT_SIRA.md) · `verify-product-gap-all.sh`
+
+Son güncelleme: G9 Arc UI + G2/G3 ürün gate JSON; G2 vitrin PNG ✅.

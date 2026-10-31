@@ -6,6 +6,7 @@ Gap plan: [GAP_TO_100_FAZ_PLAN.md](./GAP_TO_100_FAZ_PLAN.md) · Plan: [WINLRTRAR
 
 - Codec matrisi: [WINLRTRAR_CODEC_MATRIX.md](./WINLRTRAR_CODEC_MATRIX.md)
 - `.wlrt` tek dosya çıkarma: `wlrt::extract_one` (+ unit test)
+- Lertiva Arc UI: `extract_one_entry` · «Tek dosyayı çıkar…»
 - Perf regresyon: Madde Q2 + G1 P0 kapı
 - Vitrin JSON: `lertiva-arc-motor-advanced-gate.json`
 

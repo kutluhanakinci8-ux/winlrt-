@@ -1,0 +1,15 @@
+{
+  "product": "Lertiva Windows",
+  "generated_at": "2026-10-31T07:38Z",
+  "disclaimer": "EV/OV: vitrin-ev-ov-configured.flag ile isaretlenir.",
+  "gates": {
+    "dev_authenticode_ci": {
+      "pass": true
+    },
+    "ev_ov_pfx_production": {
+      "pass": false,
+      "flag": "lertiva-ev-ov-configured.flag"
+    }
+  },
+  "all_pass": false
+}

@@ -1,9 +1,10 @@
 {
   "product": "Lertiva Arc",
-  "generated_at": "2026-10-31T07:04Z",
+  "generated_at": "2026-10-31T07:38Z",
   "disclaimer": "G9 repo MVP: P0+Q2+codec matrisi+extract_one; solid/dedup R&D.",
   "mvp_selected": [
     "extract_one",
+    "arc_ui_single_extract",
     "codec_matrix",
     "zip_entries_preview"
   ],
@@ -21,6 +22,10 @@
     },
     "wlrt_extract_one_api": {
       "pass": true
+    },
+    "arc_ui_extract_one": {
+      "pass": true,
+      "app": "apps/lertiva-arc"
     },
     "zip_mobile_entries_preview": {
       "pass": true
