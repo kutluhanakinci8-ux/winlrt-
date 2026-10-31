@@ -1,6 +1,6 @@
 {
   "product": "Lertiva Arc platforms",
-  "generated_at": "2026-10-31T14:08Z",
+  "generated_at": "2026-10-31T14:15Z",
   "plan_doc": "docs/qa/ARC_PLATFORM_FAZ_PLAN.md",
   "tauri_version": "1.0.2",
   "latest_stable_release": "v1.0.1",
@@ -17,7 +17,7 @@
       "note": "Imzalı stable release + EV/OV flag"
     },
     "AP-2": {
-      "pass": false,
+      "pass": true,
       "prep": true,
       "workflow": "lertiva-arc-windows-arm64.yml",
       "note": "Windows ARM64 NSIS — CI yeşil artifact (imza AP-1 ile)"
@@ -40,5 +40,5 @@
     }
   },
   "all_pass": false,
-  "current_milestone": "AP-1-prep+AP-2-prep"
+  "current_milestone": "AP-2"
 }

@@ -203,4 +203,4 @@ bash scripts/verify-faz-all.sh
 bash scripts/verify-product-gap-all.sh
 ```
 
-**Son güncelleme:** 2026-10-31 — **AP-0 ✅** (`verify-arc-platform-ap0.sh`) · **AP-1 prep ✅** (tauri 1.0.2, runbook) · **AP-1 ship** → EV secret + `agent-arc-ap1-publish.sh`.
+**Son güncelleme:** 2026-10-31 — **AP-0 ✅** · **AP-1 prep ✅** (EV/OV secret bekliyor) · **AP-2 ✅ CI** (ARM64 NSIS derlendi, PE `0xAA64`, gömülü RAR dahil; imza AP-1 ile) · sıradaki **AP-3 macOS**.

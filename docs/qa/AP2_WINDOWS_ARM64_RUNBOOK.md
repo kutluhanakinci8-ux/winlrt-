@@ -25,3 +25,7 @@ jq '.phases["AP-2"]' apps/web/public/benchmark/samples/lertiva-arc-platform-gate
 - Imzalı yayın AP-1 secret'ına bağlı
 
 Sonraki: [ARC_PLATFORM_FAZ_PLAN.md](./ARC_PLATFORM_FAZ_PLAN.md) AP-3 (macOS).
+
+## Durum (2026-10-31)
+
+CI koşusu **başarılı**: `Lertiva Arc_1.0.2_arm64-setup.exe`, uygulama exe `Machine=0xAA64`, `unrar-embedded` ARM64 için derlendi. Release asset ve imza `v1.0.2` tag + AP-1 secret sonrası.
