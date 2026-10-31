@@ -36,8 +36,8 @@
       "</div></div>" +
       col(
         "footer.products",
-        link("/downloads/#lertiva-arc", "footer.link.arc") +
-          link("/downloads/#lertiva-zip", "footer.link.zip") +
+        link("/urunler/lertiva-arc/", "footer.link.arc") +
+          link("/urunler/lertiva-zip/", "footer.link.zip") +
           link("/downloads/", "footer.link.downloads") +
           link("/downloads/#lertiva-zip", "footer.link.macos") +
           link("/downloads/lertiva-arc-corporate-gpo.zip", "footer.link.gpoArc") +
@@ -45,7 +45,7 @@
       ) +
       col(
         "footer.features",
-        link("/#cozumler", "footer.link.engine") +
+        link("/ozellikler/#motor", "footer.link.engine") +
           link("/pilot/", "footer.link.explorer") +
           link("/benchmark/corporate/", "footer.link.corporate") +
           link("/kvkk/", "footer.link.audit") +
